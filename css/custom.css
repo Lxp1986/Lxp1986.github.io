@@ -1,0 +1,169 @@
+/* 深色科技感主题 */
+:root {
+  --theme-color: #6e48ff;
+  --theme-color-light: #9d65ff;
+  --theme-color-dark: #3713b0;
+  --trans-dark: rgba(15, 15, 25, 0.88);
+  --border-style: 1px solid rgba(110, 72, 255, 0.3);
+  --backdrop-filter: blur(8px) saturate(180%);
+  --neon-glow: 0 0 10px var(--theme-color-light);
+}
+
+/* 全局科技感字体 */
+body {
+  font-family: 'Segoe UI', 'PingFang SC', sans-serif;
+  background-color: #0a0a10;
+  color: #e0e0ff;
+}
+
+/* 导航栏科技感样式 */
+#page-header.nav-fixed #nav {
+  background: rgba(10, 10, 20, 0.9) !important;
+  border-bottom: 1px solid var(--theme-color);
+  box-shadow: var(--neon-glow);
+}
+
+/* 卡片科技感样式 */
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+div#post, div#page, div#archive {
+  background: var(--trans-dark);
+  backdrop-filter: var(--backdrop-filter);
+  border: var(--border-style);
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(110, 72, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* 卡片悬停效果 */
+#recent-posts > .recent-post-item:hover,
+#aside-content .card-widget:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(110, 72, 255, 0.3);
+  border: 1px solid var(--theme-color-light);
+}
+
+/* 标题霓虹效果 */
+#site-title, #site-subtitle, .post-title {
+  text-shadow: var(--neon-glow);
+}
+
+/* 按钮科技感样式 */
+button, .btn {
+  background: linear-gradient(135deg, var(--theme-color), var(--theme-color-dark));
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px var(--theme-color-light);
+  transition: all 0.3s ease;
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--theme-color-light);
+}
+
+/* 链接科技感样式 */
+a {
+  color: var(--theme-color-light);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: white;
+  text-shadow: 0 0 8px var(--theme-color-light);
+}
+
+/* 代码块科技感样式 */
+code, pre {
+  background-color: rgba(30, 30, 50, 0.8);
+  border: 1px solid var(--theme-color);
+  border-radius: 4px;
+  color: #b5e8ff;
+}
+
+/* 夜间模式增强 */
+[data-theme="dark"] {
+  --theme-color: #6e48ff;
+  --theme-color-light: #9d65ff;
+  --trans-dark: rgba(10, 10, 20, 0.95);
+}
+
+/* 鼠标样式增强 */
+#cursor {
+  background: var(--theme-color-light);
+  opacity: 0.3;
+}
+
+#cursor.hover {
+  background: var(--theme-color);
+  opacity: 0.5;
+}
+
+/* 波浪效果科技感 */
+.parallax > use:nth-child(1) {
+  fill: rgba(110, 72, 255, 0.7);
+}
+.parallax > use:nth-child(2) {
+  fill: rgba(110, 72, 255, 0.5);
+}
+.parallax > use:nth-child(3) {
+  fill: rgba(110, 72, 255, 0.3);
+}
+.parallax > use:nth-child(4) {
+  fill: var(--theme-color);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  :root {
+    --backdrop-filter: blur(5px) saturate(160%);
+  }
+  
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget {
+    border-radius: 10px;
+  }
+}
+
+/* 标题风车动画更新为科技感 */
+@keyframes ccc {
+  0% {
+    transform: rotate(0deg);
+    text-shadow: 0 0 5px var(--theme-color);
+  }
+  50% {
+    text-shadow: 0 0 15px var(--theme-color-light);
+  }
+  100% {
+    transform: rotate(-1turn);
+    text-shadow: 0 0 5px var(--theme-color);
+  }
+}
+
+/* 新增科技感加载动画 */
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.loading-animation {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--theme-color);
+  animation: pulse 1.5s infinite ease-in-out;
+  margin: 0 2px;
+}
+
+.loading-animation:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-animation:nth-child(3) {
+  animation-delay: 0.4s;
+}
