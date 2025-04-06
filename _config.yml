@@ -1,22 +1,22 @@
 # Site settings
-title: BING Blog   
-SEOTitle: 志兵的博客 | BING blog
+title: L-xp Blog   
+SEOTitle: L-xp的博客 | L-xp blog
 header-img: img/home-bg.jpg
-email: 349039028@qq.com
-description: "前端与设计 Web & Front-End Engineer，这里是李志兵的博客"
-keyword: "李志兵, zhibing, BING，李志兵的博客 博客, 个人网站, 互联网, 前端, 设计, 产品"
-#url: "http://lizhibing.me"              # your host, for absolute URL
+email: lxp1986@gmail.com
+description: "这里是L-xp的个人博客"
+keyword: "L-xp, lxp, L-xp的博客, 博客, 个人网站"
+url: "https://l-xp.top"              # your host, for absolute URL
 #baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 
 # SNS settings
 RSS: false
-weibo_username:     5131987396
-zhihu_username:     li-zhi-bing-66
-github_username:    Tonnnylee
-#twitter_username:   zhibingpro
-facebook_username:  zhibingpro
+#weibo_username:     
+#zhihu_username:     
+github_username:    Lxp1986
+#twitter_username:   
+#facebook_username:  
 
 
 
@@ -61,8 +61,8 @@ ga_track_id: 'UA-49627206-1'            # Format: UA-xxxxxx-xx
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
-sidebar-about-description: "喜欢视觉设计，喜欢前端工程，未来的时间希望做好自己想做的事~"
-sidebar-avatar: /img/avatar-zhibing.png      # use absolute URL, seeing it's used in both `/` and `/about/`
+sidebar-about-description: "Welcome to my blog"
+sidebar-avatar: /img/avatar-lxp.png      # use absolute URL, seeing it's used in both `/` and `/about/`
 
 
 
