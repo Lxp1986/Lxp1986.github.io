@@ -2,7 +2,7 @@
 title: {{ title }}
 date: {{ date }}
 categories:
-  - 技术
+  - 日记
 tags:
   - 记录
 ---
