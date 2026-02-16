@@ -305,6 +305,16 @@ div#page::before {
     overflow-x: hidden;
   }
 
+  /* iOS/Safari 兼容：禁用会产生竖向遮挡伪影的固定叠加层 */
+  #web_bg::before,
+  #web_bg::after {
+    display: none;
+  }
+
+  #web_bg {
+    background: linear-gradient(135deg, #e7f2e4 0%, #edf7e8 42%, #def0dc 100%) !important;
+  }
+
   #web_bg::before {
     opacity: 0.62;
     background-size:
@@ -385,8 +395,9 @@ div#page::before {
 
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav {
-    backdrop-filter: blur(10px) saturate(1.15);
-    -webkit-backdrop-filter: blur(10px) saturate(1.15);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(233, 248, 229, 0.92);
   }
 
   #aside-content .card-info .avatar-img {
@@ -399,6 +410,20 @@ div#page::before {
   div#archive,
   div#page {
     border-radius: 14px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(236, 248, 234, 0.9);
+  }
+}
+
+@media (max-width: 900px) {
+  /* 强制菜单层级，确保不会被正文卡片盖住 */
+  #menu-mask {
+    z-index: 9998 !important;
+  }
+
+  #sidebar-menus {
+    z-index: 9999 !important;
   }
 }
 
