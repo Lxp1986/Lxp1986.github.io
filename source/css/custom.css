@@ -22,11 +22,15 @@
     linear-gradient(135deg, #e7f2e4 0%, #edf7e8 42%, #def0dc 100%) !important;
 }
 
-#sidebar,
 #body-wrap,
 #rightside {
   position: relative;
   z-index: 1;
+}
+
+/* 保证移动端侧边菜单层级高于正文，避免菜单被页面内容遮挡 */
+#sidebar {
+  z-index: 10000;
 }
 
 #web_bg::before {
@@ -330,6 +334,15 @@ div#page::before {
     border-radius: 16px;
   }
 
+  /* 移动端去掉强高光层，避免出现“竖向白带遮挡” */
+  #recent-posts > .recent-post-item::before,
+  #aside-content .card-widget::before,
+  div#post::before,
+  div#archive::before,
+  div#page::before {
+    display: none;
+  }
+
   #recent-posts > .recent-post-item:hover {
     transform: none;
   }
@@ -346,6 +359,14 @@ div#page::before {
     overflow-x: auto;
     display: block;
     max-width: 100%;
+  }
+
+  /* 提高顶部菜单按钮点击优先级 */
+  #page-header #nav,
+  #toggle-menu,
+  #nav .site-page {
+    position: relative;
+    z-index: 10020;
   }
 }
 
