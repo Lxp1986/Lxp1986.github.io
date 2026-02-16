@@ -1,0 +1,103 @@
+# Site
+
+title: 三色风
+subtitle: 在热爱里记录世界的不同温度
+
+description: 一个可以写旅游、情感、技术和数字货币等多主题内容的个人博客
+keywords:
+  - Hexo
+  - Blog
+  - 前端
+  - 技术
+
+author: Levi
+language: zh-CN
+timezone: Asia/Shanghai
+
+# URL
+url: https://www.lxpyll.top
+root: /
+permalink: posts/:year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: false
+  trailing_html: false
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: true
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+
+# Home page setting
+index_generator:
+  path: ''
+  per_page: 8
+  order_by: -date
+
+# Category & Tag
+default_category: 生活
+category_map:
+tag_map:
+
+# Metadata elements
+meta_generator: true
+
+# Date / Time format
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: 'mtime'
+
+# Pagination
+per_page: 8
+pagination_dir: page
+
+# Include / Exclude file(s)
+include:
+exclude:
+ignore:
+
+# Extensions
+theme: butterfly
+
+# Search
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
+
+# Deployment
+deploy:
+  type: git
+  repo: https://github.com/Lxp1986/Lxp1986.github.io.git
+  branch: gh-pages
