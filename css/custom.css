@@ -1,0 +1,529 @@
+:root {
+  --tri-red: #d73a31;
+  --tri-yellow: #e7b320;
+  --tri-green: #2f8a47;
+  --ink: #27231f;
+  --paper: #eaf3e8;
+  --card-bg: rgba(233, 244, 230, 0.36);
+  --card: rgba(236, 246, 233, 0.38);
+  --glass-border: rgba(240, 255, 238, 0.9);
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+  --glass-shadow: rgba(45, 72, 48, 0.2);
+}
+
+/* 全站网页背景：无开屏图，仅靠网页背景建立视觉风格 */
+#web_bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(80rem 80rem at -10% -12%, rgba(111, 173, 118, 0.22) 0%, rgba(111, 173, 118, 0) 60%),
+    radial-gradient(68rem 68rem at 112% -6%, rgba(175, 220, 166, 0.28) 0%, rgba(175, 220, 166, 0) 58%),
+    radial-gradient(60rem 60rem at 50% 110%, rgba(82, 151, 94, 0.26) 0%, rgba(82, 151, 94, 0) 56%),
+    linear-gradient(135deg, #e7f2e4 0%, #edf7e8 42%, #def0dc 100%) !important;
+}
+
+#body-wrap,
+#rightside {
+  position: relative;
+  z-index: 1;
+}
+
+/* 保证移动端侧边菜单层级高于正文，避免菜单被页面内容遮挡 */
+#sidebar {
+  z-index: 10000;
+}
+
+#web_bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  background-image:
+    url("/img/lychee-rose-bouquet.svg"),
+    linear-gradient(122deg, rgba(118, 176, 109, 0.09), rgba(118, 176, 109, 0) 52%),
+    linear-gradient(320deg, rgba(201, 231, 192, 0.16), rgba(201, 231, 192, 0) 54%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position:
+    right clamp(-120px, -7vw, -36px) bottom clamp(-18px, 0.8vh, 14px),
+    center,
+    center;
+  background-size:
+    clamp(700px, 66vw, 1100px) auto,
+    cover,
+    cover;
+}
+
+#web_bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(240, 255, 240, 0.72) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 255, 240, 0.72) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(circle at 52% 42%, black 30%, transparent 90%);
+}
+
+/* 顶部导航重做成玻璃条，提升设计感 */
+#page-header.nav-fixed #nav,
+#page-header.not-top-img #nav {
+  background: rgba(233, 248, 229, 0.4);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 8px 30px rgba(120, 97, 62, 0.12);
+  backdrop-filter: blur(24px) saturate(1.35);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+}
+
+#nav .site-name {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+#nav .site-page,
+#nav #toggle-menu {
+  font-weight: 600;
+}
+
+#nav .site-page:hover,
+#nav .site-page.active {
+  color: var(--tri-red) !important;
+}
+
+/* 头像动画：替代主题默认旋转，改为悬浮与光环呼吸 */
+#aside-content .card-info .avatar-img {
+  position: relative;
+  width: 132px;
+  margin: 0 auto 14px;
+}
+
+#aside-content .card-info .avatar-img::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--tri-red), var(--tri-yellow), var(--tri-green), var(--tri-red));
+  filter: blur(10px);
+  opacity: 0.38;
+  animation: leviHalo 7.5s linear infinite;
+}
+
+#aside-content .card-info .avatar-img img {
+  position: relative;
+  z-index: 1;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 246, 231, 0.9);
+  box-shadow: 0 14px 28px rgba(79, 62, 35, 0.22);
+  animation: leviFloat 3.4s ease-in-out infinite;
+}
+
+/* 顶部与底部三色细线 */
+#page-header::before,
+#footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--tri-red) 0%, var(--tri-yellow) 50%, var(--tri-green) 100%);
+  z-index: 9;
+}
+
+#page-header,
+#footer {
+  position: relative;
+}
+
+#footer {
+  background: rgba(228, 245, 226, 0.44);
+  backdrop-filter: blur(12px) saturate(1.12);
+  -webkit-backdrop-filter: blur(12px) saturate(1.12);
+}
+
+/* 卡片系统 */
+#recent-posts > .recent-post-item,
+#aside-content .card-widget,
+div#post,
+div#archive,
+div#page {
+  background: var(--card) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow:
+    0 20px 46px var(--glass-shadow),
+    inset 0 1px 0 var(--glass-highlight);
+  backdrop-filter: blur(26px) saturate(1.35);
+  -webkit-backdrop-filter: blur(26px) saturate(1.35);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 修复首页文章区域“外层白卡”：只保留文章项本身的玻璃卡片 */
+#recent-posts {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+}
+
+#recent-posts > .recent-post-item {
+  background: rgba(233, 244, 230, 0.34) !important;
+}
+
+/* 文章卡片内部层统一成和侧边栏同基调，覆盖主题默认白底 */
+#recent-posts > .recent-post-item > .recent-post-info,
+#recent-posts > .recent-post-item > .recent-post-info.no-cover {
+  background: rgba(233, 244, 230, 0.34) !important;
+  border: 1px solid rgba(240, 255, 238, 0.9) !important;
+  box-shadow:
+    0 20px 46px rgba(45, 72, 48, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(24px) saturate(1.28) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.28) !important;
+}
+
+#recent-posts > .recent-post-item > .recent-post-info::before,
+#recent-posts > .recent-post-item > .recent-post-info.no-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.06) 48%, rgba(255, 255, 255, 0.11));
+}
+
+.layout > #recent-posts:first-child {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#recent-posts > .recent-post-item {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+#recent-posts > .recent-post-item:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 30px 62px rgba(70, 59, 38, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+/* 毛玻璃质感补充：让信息卡更像玻璃板 */
+#aside-content .card-info,
+#aside-content .card-announcement,
+#aside-content .card-recent-post {
+  background: rgba(233, 244, 230, 0.34) !important;
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+}
+
+/* 玻璃高光层，增强“毛玻璃”辨识度 */
+#recent-posts > .recent-post-item::before,
+#aside-content .card-widget::before,
+div#post::before,
+div#archive::before,
+div#page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.12));
+}
+
+#recent-posts > .recent-post-item > .recent-post-info > .article-title {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+#recent-posts > .recent-post-item > .recent-post-info > .article-title:hover {
+  color: var(--tri-green) !important;
+}
+
+/* 按钮、标签与强调色 */
+#aside-content .card-info #card-info-btn,
+#pagination .page-number.current,
+#pagination .extend.next,
+#pagination .extend.prev,
+#rightside > div > button {
+  border-radius: 999px;
+}
+
+#article-container a.tag,
+#aside-content .card-tag-cloud a {
+  border-radius: 999px;
+  border: 1px solid rgba(29, 29, 31, 0.08);
+  padding: 0.2rem 0.65rem;
+}
+
+#article-container a:not(.fancybox):hover {
+  color: var(--tri-red);
+}
+
+::selection {
+  background: rgba(239, 184, 31, 0.33);
+  color: var(--ink);
+}
+
+@keyframes leviFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes leviHalo {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.34;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+    opacity: 0.46;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.34;
+  }
+}
+
+@media (max-width: 900px) {
+  /* 移动端统一禁用毛玻璃，避免 iOS 出现竖向遮挡伪影 */
+  #page-header.nav-fixed #nav,
+  #page-header.not-top-img #nav,
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page,
+  #footer {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  #recent-posts > .recent-post-item::before,
+  #aside-content .card-widget::before,
+  div#post::before,
+  div#archive::before,
+  div#page::before,
+  #web_bg::before,
+  #web_bg::after {
+    display: none !important;
+  }
+
+  #web_bg::before {
+    opacity: 0.72;
+    background-size:
+      clamp(300px, 62vw, 430px) auto,
+      cover,
+      cover;
+    background-position:
+      right -40px bottom 6px,
+      center,
+      center;
+  }
+
+  #page-header.nav-fixed #nav,
+  #page-header.not-top-img #nav,
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* iOS/Safari 兼容：禁用会产生竖向遮挡伪影的固定叠加层 */
+  #web_bg {
+    background: linear-gradient(135deg, #e7f2e4 0%, #edf7e8 42%, #def0dc 100%) !important;
+  }
+
+  #nav .site-name {
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+  }
+
+  #aside-content .card-info .avatar-img {
+    width: 104px;
+  }
+
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    border-radius: 16px;
+  }
+
+  /* 移动端去掉强高光层，避免出现“竖向白带遮挡” */
+  #recent-posts > .recent-post-item::before,
+  #aside-content .card-widget::before,
+  div#post::before,
+  div#archive::before,
+  div#page::before {
+    display: none;
+  }
+
+  #recent-posts > .recent-post-item:hover {
+    transform: none;
+  }
+
+  #article-container img,
+  #article-container video,
+  #article-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #article-container pre,
+  #article-container table {
+    overflow-x: auto;
+    display: block;
+    max-width: 100%;
+  }
+
+  /* 提高顶部菜单按钮点击优先级 */
+  #page-header #nav,
+  #toggle-menu,
+  #nav .site-page {
+    position: relative;
+    z-index: 10020;
+  }
+}
+
+@media (max-width: 480px) {
+  #page-header.nav-fixed #nav,
+  #page-header.not-top-img #nav {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(233, 248, 229, 0.92);
+  }
+
+  #aside-content .card-info .avatar-img {
+    width: 92px;
+  }
+
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    border-radius: 14px;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(246, 251, 245, 0.94);
+  }
+}
+
+@media (max-width: 900px) {
+  /* 强制菜单层级，确保不会被正文卡片盖住 */
+  #page-header,
+  #body-wrap,
+  #content-inner,
+  #rightside {
+    z-index: 1 !important;
+  }
+
+  #menu-mask {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 100998 !important;
+  }
+
+  #sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    z-index: 100999 !important;
+  }
+
+  #sidebar-menus {
+    position: fixed !important;
+    z-index: 101000 !important;
+    background: rgba(233, 244, 230, 0.96) !important;
+    backdrop-filter: blur(12px) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(1.15) !important;
+    border-right: 1px solid rgba(240, 255, 238, 0.92) !important;
+  }
+
+  #toggle-menu,
+  #nav .site-page,
+  #search-button {
+    position: relative !important;
+    z-index: 101001 !important;
+  }
+}
+
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  #page-header.nav-fixed #nav,
+  #page-header.not-top-img #nav,
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    background: rgba(248, 239, 223, 0.86);
+  }
+}
+
+/* 深色模式：单独配色，避免被浅色毛玻璃覆盖 */
+[data-theme="dark"] {
+  --ink: #e9e3d8;
+  --card-bg: rgba(24, 24, 22, 0.52);
+  --card: rgba(24, 24, 22, 0.42);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-highlight: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] #web_bg {
+  background:
+    radial-gradient(72rem 72rem at -15% -18%, rgba(170, 44, 38, 0.34) 0%, rgba(170, 44, 38, 0) 58%),
+    radial-gradient(62rem 62rem at 112% -10%, rgba(166, 124, 21, 0.3) 0%, rgba(166, 124, 21, 0) 56%),
+    radial-gradient(56rem 56rem at 50% 113%, rgba(37, 102, 52, 0.34) 0%, rgba(37, 102, 52, 0) 56%),
+    linear-gradient(135deg, #1f1b17 0%, #191612 46%, #141a14 100%) !important;
+}
+
+[data-theme="dark"] #web_bg::before {
+  opacity: 0.38;
+}
+
+[data-theme="dark"] #web_bg::after {
+  opacity: 0.08;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+}
+
+[data-theme="dark"] #page-header.nav-fixed #nav,
+[data-theme="dark"] #page-header.not-top-img #nav {
+  background: rgba(28, 27, 24, 0.5);
+}
+
+[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #aside-content .card-widget,
+[data-theme="dark"] div#post,
+[data-theme="dark"] div#archive,
+[data-theme="dark"] div#page {
+  background: rgba(24, 24, 22, 0.46);
+}
+
+[data-theme="dark"] #footer {
+  background: rgba(20, 19, 18, 0.5);
+}
