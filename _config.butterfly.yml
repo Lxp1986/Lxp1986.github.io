@@ -95,7 +95,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: Levi 的多主题随记
+    description: Levi的Blog
     button:
       enable: true
       icon: fab fa-github

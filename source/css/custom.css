@@ -295,6 +295,92 @@ div#page::before {
   }
 }
 
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  #web_bg::before {
+    opacity: 0.62;
+    background-size:
+      clamp(240px, 66vw, 360px) auto,
+      cover,
+      cover;
+    background-position:
+      right -56px bottom -8px,
+      center,
+      center;
+  }
+
+  #nav .site-name {
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+  }
+
+  #aside-content .card-info .avatar-img {
+    width: 104px;
+  }
+
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    border-radius: 16px;
+  }
+
+  #recent-posts > .recent-post-item:hover {
+    transform: none;
+  }
+
+  #article-container img,
+  #article-container video,
+  #article-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  #article-container pre,
+  #article-container table {
+    overflow-x: auto;
+    display: block;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #web_bg::before {
+    opacity: 0.55;
+    background-size:
+      clamp(190px, 62vw, 260px) auto,
+      cover,
+      cover;
+    background-position:
+      right -66px bottom -14px,
+      center,
+      center;
+  }
+
+  #page-header.nav-fixed #nav,
+  #page-header.not-top-img #nav {
+    backdrop-filter: blur(10px) saturate(1.15);
+    -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  }
+
+  #aside-content .card-info .avatar-img {
+    width: 92px;
+  }
+
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#archive,
+  div#page {
+    border-radius: 14px;
+  }
+}
+
 @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav,
