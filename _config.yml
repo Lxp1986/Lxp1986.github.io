@@ -60,7 +60,7 @@ prismjs:
 
 # Home page setting
 index_generator:
-  path: ''
+  path: /
   per_page: 8
   order_by: -date
 
