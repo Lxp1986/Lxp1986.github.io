@@ -26,7 +26,7 @@ cover:
   aside_enable: false
   archives_enable: false
 
-background: "#eaf3e8"
+background: "#f7f0e4"
 
 subtitle:
   enable: true
@@ -135,21 +135,21 @@ footer:
 
 theme_color:
   enable: true
-  main: "#E53935"
-  paginator: "#43A047"
-  button_hover: "#FBC02D"
-  text_selection: "#FBC02D"
-  link_color: "#C62828"
-  meta_color: "#5f6368"
-  hr_color: "#FDD835"
-  code_foreground: "#2E7D32"
-  code_background: "rgba(251, 192, 45, .12)"
-  toc_color: "#43A047"
-  blockquote_padding_color: "#E53935"
-  blockquote_background_color: "#FBC02D"
-  scrollbar_color: "#43A047"
-  meta_theme_color_light: "#ffffff"
-  meta_theme_color_dark: "#111111"
+  main: "#b85c38"
+  paginator: "#8b7355"
+  button_hover: "#c9a227"
+  text_selection: "#e8d4a8"
+  link_color: "#a84832"
+  meta_color: "#7a6a58"
+  hr_color: "#d4b896"
+  code_foreground: "#5c4a38"
+  code_background: "rgba(201, 162, 39, .12)"
+  toc_color: "#8b7355"
+  blockquote_padding_color: "#b85c38"
+  blockquote_background_color: "rgba(201, 162, 39, .14)"
+  scrollbar_color: "#8b7355"
+  meta_theme_color_light: "#f7f0e4"
+  meta_theme_color_dark: "#231d17"
 
 copy:
   enable: true
@@ -194,4 +194,4 @@ inject:
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     - <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
-    - <link rel="stylesheet" href="/css/custom.css?v=20260217-mobilefix-6">
+    - <link rel="stylesheet" href="/css/custom.css?v=20260625-warm-literary-rose">
