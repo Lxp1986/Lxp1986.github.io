@@ -1,0 +1,19 @@
+- const nav = novel_nav(page)
+if nav
+  nav.novel-chapter-nav(role='navigation' aria-label='章节导航')
+    if nav.prev
+      a.novel-chapter-nav__link.novel-chapter-nav__prev(href=url_for(nav.prev.path))
+        span.novel-chapter-nav__label 上一章
+        span.novel-chapter-nav__title= nav.prev.title
+    else
+      span.novel-chapter-nav__placeholder
+    a.novel-chapter-nav__toc(href=nav.toc)
+      i.fas.fa-list
+      span= nav.tocTitle + ' · 目录'
+      span.novel-chapter-nav__progress 第 #{nav.current} / #{nav.total} 章
+    if nav.next
+      a.novel-chapter-nav__link.novel-chapter-nav__next(href=url_for(nav.next.path))
+        span.novel-chapter-nav__label 下一章
+        span.novel-chapter-nav__title= nav.next.title
+    else
+      span.novel-chapter-nav__placeholder

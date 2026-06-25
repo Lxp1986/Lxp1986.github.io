@@ -5,6 +5,7 @@ nav:
 
 menu:
   首页: / || fas fa-house
+  小说: /novels/ || fas fa-book-open
   归档: /archives/ || fas fa-box-archive
   分类: /categories/ || fas fa-folder-tree
   标签: /tags/ || fas fa-tags
@@ -107,6 +108,12 @@ aside:
   card_recent_post:
     enable: true
     limit: 5
+  card_post_series:
+    enable: true
+    series_title: true
+    orderBy: title
+    order: 1
+    limit: 12
   card_categories:
     enable: true
     limit: 8
@@ -189,9 +196,17 @@ busuanzi:
   site_pv: true
   page_pv: true
 
+series:
+  enable: true
+  orderBy: title
+  order: 1
+  number: true
+
 inject:
+  body:
+    - <script>document.addEventListener('DOMContentLoaded',function(){if(location.pathname.indexOf('/novels/')!==-1&&location.pathname.split('/').length>4){var p=document.getElementById('post');if(p)p.classList.add('novel-chapter')}})</script>
   head:
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     - <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
-    - <link rel="stylesheet" href="/css/custom.css?v=20260625-warm-literary-rose">
+    - <link rel="stylesheet" href="/css/custom.css?v=20260625-novel">

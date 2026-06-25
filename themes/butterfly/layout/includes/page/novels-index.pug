@@ -1,0 +1,30 @@
+- const novels = novel_list()
+- const novelPosts = novel_recent_updates(8)
+
+#article-container
+  .novel-hub
+    p.novel-hub__lead 长篇连载集中放在这里。每本书有独立目录，章节顺序固定，更新后会在下方显示最近更新。
+
+    .novel-hub__section
+      h2.novel-hub__heading 全部小说
+      .novel-card-grid
+        each novel, slug in novels
+          - const latest = novel_latest_chapter(slug)
+          a.novel-card(href=url_for('/novels/' + slug + '/'))
+            .novel-card__badge= novel.status || '连载中'
+            h3.novel-card__title= novel.title
+            p.novel-card__intro= novel.intro
+            if latest
+              p.novel-card__latest
+                span 最新：
+                span= latest.title
+            span.novel-card__cta 进入目录 →
+
+    if novelPosts.length
+      .novel-hub__section
+        h2.novel-hub__heading 最近更新
+        ol.novel-recent-list
+          each item in novelPosts
+            li.novel-recent-list__item
+              a(href=url_for(item.path))= item.novel ? (item.novel + ' · ' + item.title) : item.title
+              time(datetime=item.date)= item.date.format('YYYY-MM-DD')

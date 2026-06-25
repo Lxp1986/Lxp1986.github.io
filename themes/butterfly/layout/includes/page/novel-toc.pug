@@ -1,0 +1,32 @@
+- const novelMeta = novel_meta(page.novel_slug)
+- const chapters = novel_chapters(page.novel_slug)
+- const latest = chapters.length ? chapters[chapters.length - 1] : null
+
+#article-container
+  .novel-toc
+    if novelMeta
+      p.novel-toc__status= novelMeta.status || '连载中'
+      if novelMeta.intro
+        p.novel-toc__intro= novelMeta.intro
+
+    if latest
+      .novel-toc__latest
+        span 最新章节：
+        a(href=url_for(latest.path))= latest.title
+
+    if chapters.length
+      ol.novel-toc__list
+        each item in chapters
+          - const isLatest = latest && item.path === latest.path
+          li.novel-toc__item(class=isLatest ? 'is-latest' : '')
+            a.novel-toc__link(href=url_for(item.path))
+              span.novel-toc__title= item.title
+              if isLatest
+                span.novel-toc__tag 最新
+              if item.description
+                span.novel-toc__desc= item.description
+    else
+      p.novel-toc__empty 暂无章节，敬请期待。
+
+    p.novel-toc__back
+      a(href=url_for('/novels/')) ← 返回小说专栏
