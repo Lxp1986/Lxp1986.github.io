@@ -110,14 +110,21 @@ hexo.extend.filter.register('before_post_render', data => {
 
 hexo.extend.generator.register('index', function (locals) {
   const { config } = this
-  const paginationDir = config.pagination_dir || 'page'
-  const posts = locals.posts.filter(post => !post.novel_slug).sort('-date')
+  const indexConfig = config.index_generator || {}
+  const paginationDir = indexConfig.pagination_dir || config.pagination_dir || 'page'
+  const path = indexConfig.path || ''
+  const posts = locals.posts
+    .filter(post => !post.novel_slug)
+    .sort(indexConfig.order_by || '-date')
   const pagination = require('hexo-pagination')
 
-  return pagination('index', posts, {
-    perPage: config.index_generator.per_page || 10,
-    layout: 'index',
-    path: 'index.html',
-    format: paginationDir === '' ? 'index.html' : `${paginationDir}/%d/`
+  return pagination(path, posts, {
+    perPage: indexConfig.per_page,
+    layout: indexConfig.layout || ['index', 'archive'],
+    path,
+    format: `${paginationDir}/%d/`,
+    data: {
+      __index: true
+    }
   })
 })

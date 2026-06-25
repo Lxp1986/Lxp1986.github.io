@@ -3,7 +3,11 @@
   if globalPageType === 'post'
     - const tocStyle = page.toc_style_simple
     - const tocStyleVal = tocStyle === true || tocStyle === false ? tocStyle : theme.toc.style_simple
-    if showToc && tocStyleVal
+    if page.novel_slug
+      !=partial('includes/widget/card_author', {}, {cache: true})
+      .sticky_layout
+        include ./card_novel_toc.pug
+    else if showToc && tocStyleVal
       .sticky_layout
         include ./card_post_toc.pug
     else

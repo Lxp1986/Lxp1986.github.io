@@ -1,0 +1,16 @@
+if page.novel_slug
+  - const chapters = novel_chapters(page.novel_slug)
+  - const meta = novel_meta(page.novel_slug)
+  - const novelTitle = meta && meta.title || page.novel || page.series
+  if chapters.length
+    .card-widget.card-novel-toc
+      .item-headline
+        i.fas.fa-book-open
+        span= novelTitle + ' · 目录'
+      ol.novel-sidebar-toc
+        each item in chapters
+          - const isCurrent = item.path === page.path
+          li.novel-sidebar-toc__item(class=isCurrent ? 'is-current' : '')
+            a.novel-sidebar-toc__link(href=url_for(item.path) title=item.title)= item.title
+      p.novel-sidebar-toc__back
+        a(href=url_for('/novels/' + page.novel_slug + '/')) 查看完整目录 →

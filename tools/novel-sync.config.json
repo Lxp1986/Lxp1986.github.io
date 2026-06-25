@@ -1,0 +1,13 @@
+{
+  "source": "/Users/levi-macbook/Library/Mobile Documents/iCloud~com~coderforart~One-Markdown/Documents/重生.md",
+  "novel_slug": "chongsheng",
+  "novel": "重生",
+  "series": "重生",
+  "tags": ["重生"],
+  "posts_dir": "source/_posts",
+  "manifest": "source/_data/novel-chongsheng.json",
+  "title_slugs": {
+    "雨夜惊醒": "yuye-jingxing",
+    "深圳的夜": "shenzhen-de-ye"
+  }
+}

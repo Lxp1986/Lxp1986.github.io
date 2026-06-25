@@ -687,12 +687,52 @@ div#page::before {
   text-indent: 2em;
 }
 
-#post.novel-chapter .series-items {
-  margin: 1.25rem 0 1.75rem;
-  padding: 1rem 1.1rem 1rem 2rem;
-  border-radius: 12px;
-  background: rgba(252, 246, 236, 0.72);
-  border: 1px solid var(--glass-border);
+.card-novel-toc {
+  margin-bottom: 0.5rem;
+}
+
+.novel-sidebar-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.novel-sidebar-toc__item {
+  margin: 0.35rem 0;
+}
+
+.novel-sidebar-toc__link {
+  display: block;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  font-family: "Noto Serif SC", serif;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--ink);
+  transition: background 0.2s ease;
+}
+
+.novel-sidebar-toc__link:hover {
+  background: rgba(184, 92, 56, 0.08);
+  color: var(--tri-red);
+}
+
+.novel-sidebar-toc__item.is-current .novel-sidebar-toc__link {
+  background: rgba(184, 92, 56, 0.12);
+  color: var(--tri-red);
+  font-weight: 700;
+}
+
+.novel-sidebar-toc__back {
+  margin: 0.75rem 0 0;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.novel-sidebar-toc__back a {
+  color: var(--tri-red);
 }
 
 .novel-chapter-nav {

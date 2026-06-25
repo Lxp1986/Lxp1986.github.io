@@ -6,7 +6,9 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "novel:sync": "node tools/novel-sync.js",
+    "novel:preview": "npm run novel:sync && npm run build && npm run server"
   },
   "hexo": {
     "version": "8.1.1"
