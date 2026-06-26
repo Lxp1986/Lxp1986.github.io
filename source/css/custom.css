@@ -24,10 +24,15 @@
     linear-gradient(168deg, #f9f3ea 0%, #f5ecdf 38%, #efe4d4 72%, #e8dcc8 100%) !important;
 }
 
-#body-wrap,
-#rightside {
+#body-wrap {
   position: relative;
   z-index: 1;
+}
+
+#rightside {
+  z-index: 101;
+  opacity: 0.92;
+  transform: translate(-58px, 0);
 }
 
 #sidebar {
@@ -438,9 +443,12 @@ div#page::before {
 @media (max-width: 900px) {
   #page-header,
   #body-wrap,
-  #content-inner,
-  #rightside {
+  #content-inner {
     z-index: 1 !important;
+  }
+
+  #rightside {
+    z-index: 101 !important;
   }
 
   #menu-mask {
