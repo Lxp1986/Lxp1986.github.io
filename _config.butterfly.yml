@@ -206,6 +206,8 @@ inject:
   body:
     - <script>document.addEventListener('DOMContentLoaded',function(){if(location.pathname.indexOf('/novels/')!==-1&&location.pathname.split('/').length>4){var p=document.getElementById('post');if(p)p.classList.add('novel-chapter')}})</script>
   head:
+    - <script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script>
+    - <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script>
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     - <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
