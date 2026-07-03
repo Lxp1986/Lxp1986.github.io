@@ -7,61 +7,48 @@ const path = require('path')
 const ROOT = path.join(__dirname, '..')
 const CONFIG_PATH = path.join(__dirname, 'novel-sync.config.json')
 
-const CN_NUM = {
-  零: 0, 〇: 0, 一: 1, 二: 2, 两: 2, 三: 3, 四: 4,
-  五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10
-}
-
-function parseChineseNumber (raw) {
-  if (/^\d+$/.test(raw)) return parseInt(raw, 10)
-  if (raw.length === 1 && CN_NUM[raw] !== undefined) return CN_NUM[raw]
-  if (raw.startsWith('十')) {
-    const tail = raw.slice(1)
-    return 10 + (tail ? (CN_NUM[tail] || 0) : 0)
-  }
-  if (raw.endsWith('十')) {
-    const head = raw.slice(0, -1)
-    return (CN_NUM[head] || 0) * 10
-  }
-  const tenIdx = raw.indexOf('十')
-  if (tenIdx > 0) {
-    const head = raw.slice(0, tenIdx)
-    const tail = raw.slice(tenIdx + 1)
-    return (CN_NUM[head] || 0) * 10 + (CN_NUM[tail] || 0)
-  }
-  return null
+function sanitizeName (name) {
+  return name.replace(/[「」"'""]/g, '').trim()
 }
 
 function chapterSlug (num, chapterName, titleSlugs) {
   const padded = String(num).padStart(2, '0')
-  const slug = titleSlugs[chapterName] || chapterName
+  const clean = sanitizeName(chapterName)
+  const slug = titleSlugs[clean] || titleSlugs[chapterName] || clean
     .toLowerCase()
-    .replace(/[　\s]+/g, '-')
+    .replace(/[　\s·]+/g, '-')
     .replace(/[^a-z0-9\u4e00-\u9fa5-]/gi, '')
     .replace(/^-+|-+$/g, '')
   return `${padded}-${slug || 'chapter'}`
 }
 
 function firstParagraph (body) {
-  const line = body.split('\n').map(s => s.trim()).find(s => s.length > 0) || ''
-  return line.replace(/^　+/, '').slice(0, 80)
+  const line = body.split('\n').map(s => s.trim()).find(s => {
+    if (!s.length) return false
+    if (/^---+$/.test(s)) return false
+    if (/^#{1,6}\s/.test(s)) return false
+    return true
+  }) || ''
+  return line.replace(/^　+/, '').replace(/\*\*/g, '').slice(0, 80)
 }
 
+// # 一级标题 = 独立章节；## 二级标题 = 章内分节，保留在正文中
 function parseChapters (text) {
   const lines = text.replace(/\r\n/g, '\n').split('\n')
-  const headingRe = /^##\s*第([一二三四五六七八九十百千零〇两\d]+)章[　\s]*(.*)$/
+  const partRe = /^#\s*(\d+)\.(.+)$/
   const chapters = []
   let current = null
 
   for (const line of lines) {
-    const match = line.match(headingRe)
+    const match = line.match(partRe)
     if (match) {
       if (current) chapters.push(current)
-      const num = parseChineseNumber(match[1])
-      if (!num) throw new Error(`无法解析章节号：${match[1]}`)
+      const num = parseInt(match[1], 10)
+      const name = sanitizeName(match[2])
       current = {
         num,
-        name: match[2].trim(),
+        name,
+        title: `${match[1]}.${name}`,
         lines: []
       }
       continue
@@ -70,12 +57,14 @@ function parseChapters (text) {
   }
   if (current) chapters.push(current)
 
-  return chapters.map(ch => ({
-    num: ch.num,
-    name: ch.name,
-    title: `第${String(ch.num).padStart(2, '0')}章 ${ch.name}`,
-    body: ch.lines.join('\n').trim()
-  }))
+  return chapters
+    .map(ch => ({
+      num: ch.num,
+      name: ch.name,
+      title: ch.title,
+      body: ch.lines.join('\n').trim().replace(/^(?:---\s*\n)+/, '')
+    }))
+    .sort((a, b) => a.num - b.num)
 }
 
 function readFrontMatter (filePath) {
@@ -118,8 +107,16 @@ function ensureIndent (body) {
   return body.split('\n').map(line => {
     if (!line.trim()) return ''
     if (line.startsWith('　')) return line
-    return `　　${line.trim()}`
+    const trimmed = line.trim()
+    if (/^#{1,6}\s/.test(trimmed)) return trimmed
+    if (/^---+$/.test(trimmed)) return trimmed
+    if (/^\*\*.+\*\*$/.test(trimmed)) return trimmed
+    return `　　${trimmed}`
   }).join('\n')
+}
+
+function filenameFor (chapter) {
+  return `重生-第${String(chapter.num).padStart(2, '0')}章-${chapter.name}.md`
 }
 
 function main () {
@@ -134,35 +131,40 @@ function main () {
     process.exit(1)
   }
 
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  let manifest = {}
+  if (fs.existsSync(manifestPath)) {
+    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  }
+
   const sourceText = fs.readFileSync(sourcePath, 'utf8')
   const chapters = parseChapters(sourceText)
 
   if (!chapters.length) {
-    console.error('未在源文件中找到章节（## 第一章　标题）')
+    console.error('未在源文件中找到章节（# 1.标题）')
     process.exit(1)
   }
 
   const results = { created: [], updated: [], unchanged: [] }
+  const nextManifest = {}
 
   for (const chapter of chapters) {
     const key = String(chapter.num)
     let entry = manifest[key]
 
-    if (!entry) {
+    if (!entry || entry.title !== chapter.title) {
       const slug = chapterSlug(chapter.num, chapter.name, config.title_slugs || {})
       entry = {
-        filename: `重生-第${String(chapter.num).padStart(2, '0')}章-${chapter.name}.md`,
+        filename: filenameFor(chapter),
         permalink: `novels/${config.novel_slug}/${slug}/`,
         title: chapter.title,
-        date: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        date: (entry && entry.date) || new Date().toISOString().slice(0, 19).replace('T', ' ')
       }
-      manifest[key] = entry
-      console.log(`+ 新章节：${chapter.title}`)
-      if (!config.title_slugs || !config.title_slugs[chapter.name]) {
-        console.log(`  提示：可在 scripts/novel-sync.config.json 的 title_slugs 里为「${chapter.name}」设置英文 slug`)
-      }
+      if (!manifest[key]) console.log(`+ 新章节：${chapter.title}`)
+      else console.log(`~ 章节调整：${manifest[key].title} → ${chapter.title}`)
+      console.log(`  链接：/${entry.permalink}`)
     }
+
+    nextManifest[key] = entry
 
     const filePath = path.join(postsDir, entry.filename)
     const body = ensureIndent(chapter.body)
@@ -179,13 +181,24 @@ function main () {
     else results.created.push(entry.filename)
   }
 
-  fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8')
+  fs.writeFileSync(manifestPath, JSON.stringify(nextManifest, null, 2) + '\n', 'utf8')
+
+  const filenames = new Set(Object.values(nextManifest).map(e => e.filename))
+  for (const file of fs.readdirSync(postsDir)) {
+    if (!file.startsWith('重生-') || !file.endsWith('.md')) continue
+    if (!filenames.has(file)) {
+      fs.unlinkSync(path.join(postsDir, file))
+      console.log(`- 移除旧章节：${file}`)
+    }
+  }
 
   console.log('\n同步完成')
   if (results.created.length) console.log(`  新建：${results.created.join('、')}`)
   if (results.updated.length) console.log(`  更新：${results.updated.join('、')}`)
   if (results.unchanged.length) console.log(`  无变化：${results.unchanged.join('、')}`)
-  console.log(`  共 ${chapters.length} 章`)
+  console.log(`  共 ${chapters.length} 章（# 一级标题）`)
+  const sections = (sourceText.match(/^##\s/gm) || []).length
+  if (sections) console.log(`  第2章内含 ${sections} 个分节（## 二级标题，保留在正文中）`)
   console.log('\n本地预览：npm run novel:preview')
 }
 
