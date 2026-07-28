@@ -2,6 +2,8 @@ mixin indexPostUI()
   - const indexLayout = theme.index_layout
   - const masonryLayoutClass = [6, 7].includes(indexLayout) ? 'masonry' : ''
   #recent-posts.recent-posts.nc(class=masonryLayoutClass)
+    if block
+      block
     .recent-post-items
       each article, index in page.posts.data
         .recent-post-item

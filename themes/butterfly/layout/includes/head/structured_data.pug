@@ -5,7 +5,7 @@ if theme.structured_data
 
       const title = page.title
       const url = page.permalink
-      const imageVal = page.cover_type === 'img' ? page.cover : theme.avatar.img
+      const imageVal = page.cover_type === 'img' ? page.cover : (theme.social_preview || theme.avatar.img)
       const image = imageVal ? full_url_for(imageVal) : ''
       const datePublished = page.date.toISOString()
       const dateModified = (page.updated || page.date).toISOString()
@@ -63,5 +63,6 @@ if theme.structured_data
       }
     -
 
-  script(type="application/ld+json").
-    !{jsonLdScript}
+  if jsonLdScript
+    script(type="application/ld+json").
+      !{jsonLdScript}

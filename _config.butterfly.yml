@@ -12,7 +12,9 @@ menu:
   留言板: /message/ || fas fa-message
   关于: /about/ || fas fa-user
 
-favicon: https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/favicon.png
+favicon: /img/levi-avatar.svg
+
+social_preview: /img/og.jpg
 
 avatar:
   img: /img/levi-avatar.svg
@@ -39,6 +41,7 @@ subtitle:
 
 social:
   fab fa-github: https://github.com/Lxp1986 || GitHub || '#24292e'
+  fas fa-rss: /atom.xml || RSS || '#b85c38'
 
 index_layout: 3
 index_post_content:
@@ -186,7 +189,7 @@ font:
   code_font_family: "JetBrains Mono, Menlo, Monaco, Consolas, monospace"
 
 blog_title_font:
-  font_link: https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap
+  font_link: https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap
   font_family: "Noto Serif SC, serif"
 
 search:
@@ -208,12 +211,23 @@ series:
   number: true
 
 inject:
-  body:
-    - <script>document.addEventListener('DOMContentLoaded',function(){if(location.pathname.indexOf('/novels/')!==-1&&location.pathname.split('/').length>4){var p=document.getElementById('post');if(p)p.classList.add('novel-chapter')}})</script>
   head:
     - <script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script>
     - <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script>
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    - <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
-    - <link rel="stylesheet" href="/css/custom.css?v=20260626-darkmode">
+    - <link rel="stylesheet" href="/css/custom.css?v=20260728-literary-v2">
+
+error_404:
+  enable: true
+  subtitle: 这阵风走错了方向，页面没有找到
+  background: /img/lychee-rose-bouquet.jpg
+
+Open_Graph_meta:
+  enable: true
+  option:
+    twitter_card: summary_large_image
+    twitter_image: https://www.lxpyll.top/img/og.jpg
+
+structured_data:
+  enable: true

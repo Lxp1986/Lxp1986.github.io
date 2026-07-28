@@ -1,7 +1,7 @@
 extends includes/layout.pug
 
 block content
-  #post
+  #post(class=page.novel_slug ? 'novel-chapter' : '')
     if top_img === false
       include includes/header/post-info.pug
 
@@ -25,9 +25,9 @@ block content
     if theme.ad && theme.ad.post
       .ads-wrap!=theme.ad.post
 
-    if theme.post_pagination
+    if theme.post_pagination && !page.novel_slug
       include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
+    if theme.related_post && theme.related_post.enable && !page.novel_slug
       != related_posts(page,site.posts)
 
     if page.comments !== false && theme.comments.use

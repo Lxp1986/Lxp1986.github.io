@@ -3,3 +3,40 @@ extends includes/layout.pug
 block content
   include ./includes/mixins/indexPostUI.pug
   +indexPostUI
+    if page.current === 1
+      - const latestNovel = novel_latest_chapter('chongsheng')
+      section.home-hero(aria-labelledby='home-hero-title')
+        .home-hero__content
+          p.home-hero__eyebrow 生活 · 思考 · 小说
+          h1#home-hero-title.home-hero__title 三色风
+          p.home-hero__subtitle 在热爱里，记录世界的不同温度
+          p.home-hero__description
+            | 写路上的风景、关系里的情绪、技术里的秩序，
+            | 也写市场波动中的判断与一部长篇故事。
+          .home-hero__actions
+            a.home-hero__button.home-hero__button--primary(href=url_for('/archives/')) 开始阅读
+            a.home-hero__button.home-hero__button--secondary(href=url_for('/novels/')) 进入小说
+        .home-hero__mark(aria-hidden='true')
+          span.home-hero__mark-letter 风
+          span.home-hero__mark-ring
+        ul.home-hero__topics(aria-label='博客主题')
+          li.home-topic
+            i.fas.fa-pen-nib(aria-hidden='true')
+            span.home-topic__label 随笔
+            span.home-topic__text 诚实记录当下
+          li.home-topic
+            i.fas.fa-compass(aria-hidden='true')
+            span.home-topic__label 见闻
+            span.home-topic__text 保留世界温度
+          li
+            a.home-topic.home-topic--link(href=url_for(latestNovel ? latestNovel.path : '/novels/'))
+              i.fas.fa-book-open(aria-hidden='true')
+              span.home-topic__label 《重生》连载
+              span.home-topic__text= latestNovel ? `更新至第 ${latestNovel.chapter} 章` : '从第一章开始'
+
+    header.home-feed__header
+      p.home-feed__eyebrow= page.current === 1 ? 'RECENT NOTES' : 'KEEP READING'
+      if page.current === 1
+        h2.home-feed__title 最新文章
+      else
+        h1.home-feed__title 更多文章

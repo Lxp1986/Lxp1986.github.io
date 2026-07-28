@@ -1,7 +1,7 @@
 if theme.menu
   #sidebar
     #menu-mask
-    #sidebar-menus
+    #sidebar-menus(aria-hidden='true' inert=true)
       .avatar-img.text-center
         img(src=url_for(theme.avatar.img) onerror=`this.onerror=null;this.src='${url_for(theme.error_img.flink)}'` alt="avatar")
       .site-data.text-center

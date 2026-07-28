@@ -22,8 +22,68 @@ function chapterSlug (num, chapterName, titleSlugs) {
   return `${padded}-${slug || 'chapter'}`
 }
 
+function normalizeBody (body) {
+  const lines = body.replace(/\r\n/g, '\n').split('\n')
+  const output = []
+  let paragraph = []
+  let inFence = false
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return
+    output.push(paragraph.join('').trim())
+    paragraph = []
+  }
+
+  const isStandaloneMarkdown = line => (
+    /^#{1,6}\s/.test(line) ||
+    /^---+$/.test(line) ||
+    /^[-*+]\s+/.test(line) ||
+    /^\d+\.\s+/.test(line) ||
+    /^>\s?/.test(line) ||
+    /^(?:"[^"]*"|“[^”]*”|「[^」]*」|『[^』]*』)$/.test(line)
+  )
+
+  for (const rawLine of lines) {
+    const hasExplicitBreak = / {2,}$/.test(rawLine)
+    const line = rawLine.trim().replace(/^　+/, '')
+
+    if (/^```/.test(line)) {
+      flushParagraph()
+      output.push(line)
+      inFence = !inFence
+      continue
+    }
+
+    if (inFence) {
+      output.push(rawLine)
+      continue
+    }
+
+    if (!line) {
+      flushParagraph()
+      if (output.length && output[output.length - 1] !== '') output.push('')
+      continue
+    }
+
+    if (isStandaloneMarkdown(line)) {
+      flushParagraph()
+      output.push(line)
+      continue
+    }
+
+    paragraph.push(line)
+    if (hasExplicitBreak) {
+      flushParagraph()
+      output[output.length - 1] += '  '
+    }
+  }
+
+  flushParagraph()
+  return output.join('\n').replace(/\n{3,}/g, '\n\n').trim()
+}
+
 function firstParagraph (body) {
-  const line = body.split('\n').map(s => s.trim()).find(s => {
+  const line = normalizeBody(body).split('\n').map(s => s.trim()).find(s => {
     if (!s.length) return false
     if (/^---+$/.test(s)) return false
     if (/^#{1,6}\s/.test(s)) return false
@@ -104,15 +164,7 @@ function buildFrontMatter (config, chapter, manifestEntry) {
 }
 
 function ensureIndent (body) {
-  return body.split('\n').map(line => {
-    if (!line.trim()) return ''
-    if (line.startsWith('　')) return line
-    const trimmed = line.trim()
-    if (/^#{1,6}\s/.test(trimmed)) return trimmed
-    if (/^---+$/.test(trimmed)) return trimmed
-    if (/^\*\*.+\*\*$/.test(trimmed)) return trimmed
-    return `　　${trimmed}`
-  }).join('\n')
+  return normalizeBody(body)
 }
 
 function filenameFor (chapter) {

@@ -27,14 +27,25 @@ document.addEventListener('DOMContentLoaded', () => {
     open: () => {
       btf.overflowPaddingR.add()
       btf.animateIn(document.getElementById('menu-mask'), 'to_show 0.5s')
-      document.getElementById('sidebar-menus').classList.add('open')
+      const sidebarMenus = document.getElementById('sidebar-menus')
+      sidebarMenus.classList.add('open')
+      sidebarMenus.removeAttribute('inert')
+      sidebarMenus.setAttribute('aria-hidden', 'false')
+      document.getElementById('toggle-menu')?.setAttribute('aria-expanded', 'true')
       mobileSidebarOpen = true
+      requestAnimationFrame(() => sidebarMenus.querySelector('.menus_items a')?.focus())
     },
-    close: () => {
+    close: (restoreFocus = true) => {
       btf.overflowPaddingR.remove()
       btf.animateOut(document.getElementById('menu-mask'), 'to_hide 0.5s')
-      document.getElementById('sidebar-menus').classList.remove('open')
+      const sidebarMenus = document.getElementById('sidebar-menus')
+      const toggleMenu = document.getElementById('toggle-menu')
+      sidebarMenus.classList.remove('open')
+      sidebarMenus.setAttribute('inert', '')
+      sidebarMenus.setAttribute('aria-hidden', 'true')
+      toggleMenu?.setAttribute('aria-expanded', 'false')
       mobileSidebarOpen = false
+      if (restoreFocus && toggleMenu && btf.isHidden(toggleMenu) === false) toggleMenu.focus()
     }
   }
 
@@ -747,6 +758,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleMenu = document.getElementById('toggle-menu')
     if (!toggleMenu) return
     btf.addEventListenerPjax(toggleMenu, 'click', () => { sidebarFn.open() })
+    btf.addEventListenerPjax(document.getElementById('sidebar-menus'), 'click', e => {
+      if (e.target.closest('a') && mobileSidebarOpen) sidebarFn.close(false)
+    })
+    btf.addEventListenerPjax(document, 'keydown', e => {
+      if (e.key === 'Escape' && mobileSidebarOpen) sidebarFn.close()
+    })
   }
 
   /**

@@ -1,11 +1,13 @@
 :root {
   --tri-red: #b85c38;
+  --tri-red-text: #8f422b;
   --tri-yellow: #c9a227;
   --tri-green: #6b7f5e;
   --ink: #3d3429;
+  --ink-soft: #756656;
   --paper: #f7f0e4;
-  --card-bg: rgba(252, 246, 236, 0.58);
-  --card: rgba(252, 246, 236, 0.52);
+  --card-bg: rgba(255, 250, 242, 0.9);
+  --card: rgba(255, 250, 242, 0.86);
   --glass-border: rgba(210, 188, 158, 0.42);
   --glass-highlight: rgba(255, 252, 245, 0.72);
   --glass-shadow: rgba(92, 68, 44, 0.14);
@@ -31,8 +33,6 @@
 
 #rightside {
   z-index: 101;
-  opacity: 0.92;
-  transform: translate(-58px, 0);
 }
 
 #sidebar {
@@ -44,7 +44,7 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 1;
+  opacity: 0.58;
   background-image:
     url("/img/lychee-rose-bouquet.svg"),
     linear-gradient(122deg, rgba(184, 140, 96, 0.08), rgba(184, 140, 96, 0) 52%),
@@ -58,6 +58,25 @@
     clamp(700px, 66vw, 1100px) auto,
     cover,
     cover;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200000;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: var(--tri-red);
+  color: #fff;
+  font-weight: 700;
+  transform: translateY(-180%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  color: #fff;
+  transform: translateY(0);
 }
 
 #web_bg::after {
@@ -101,9 +120,23 @@
   font-weight: 600;
 }
 
+#nav button.site-page,
+#nav #toggle-menu {
+  color: var(--font-color);
+  font-family: inherit;
+}
+
+#nav button.site-page:focus-visible,
+#nav #toggle-menu:focus-visible,
+.home-hero a:focus-visible,
+.home-topic--link:focus-visible {
+  outline: 3px solid var(--tri-red-text);
+  outline-offset: 4px;
+}
+
 #nav .site-page:hover,
 #nav .site-page.active {
-  color: var(--tri-red) !important;
+  color: var(--tri-red-text) !important;
 }
 
 #aside-content .card-info .avatar-img {
@@ -155,7 +188,7 @@
   -webkit-backdrop-filter: blur(12px) saturate(1.05);
 }
 
-#recent-posts > .recent-post-item,
+#recent-posts .recent-post-item,
 #aside-content .card-widget,
 div#post,
 div#archive,
@@ -172,6 +205,237 @@ div#page {
   overflow: hidden;
 }
 
+/* 首页品牌首屏 */
+.home-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 2rem;
+  margin-bottom: 2.6rem;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(184, 92, 56, 0.2);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 82% 22%, rgba(201, 162, 39, 0.16), transparent 27%),
+    radial-gradient(circle at 88% 78%, rgba(107, 127, 94, 0.14), transparent 30%),
+    linear-gradient(135deg, rgba(255, 252, 246, 0.97), rgba(247, 237, 222, 0.92));
+  box-shadow: 0 24px 60px rgba(92, 68, 44, 0.13);
+  isolation: isolate;
+}
+
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(184, 154, 118, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 154, 118, 0.04) 1px, transparent 1px);
+  background-size: 100% 2.2rem, 2.2rem 100%;
+  mask-image: linear-gradient(110deg, transparent 10%, black 65%, transparent 100%);
+}
+
+.home-hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero__eyebrow,
+.home-feed__eyebrow {
+  margin: 0 0 0.65rem;
+  color: var(--tri-red-text);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.home-hero__title {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1.08;
+}
+
+.home-hero__title::after {
+  content: "";
+  display: block;
+  width: 5.5rem;
+  height: 4px;
+  margin-top: 1rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--tri-red) 0 33%, var(--tri-yellow) 33% 66%, var(--tri-green) 66%);
+}
+
+.home-hero__subtitle {
+  margin: 1.2rem 0 0;
+  color: var(--ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+  font-weight: 700;
+}
+
+.home-hero__description {
+  max-width: 36rem;
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.home-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.home-hero__button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid rgba(184, 92, 56, 0.35);
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.home-hero__button:hover {
+  transform: translateY(-2px);
+}
+
+.home-hero__button--primary {
+  background: var(--tri-red);
+  box-shadow: 0 10px 24px rgba(184, 92, 56, 0.22);
+  color: #fff;
+}
+
+.home-hero__button--primary:hover {
+  color: #fff;
+}
+
+.home-hero__button--secondary {
+  background: rgba(255, 252, 246, 0.64);
+  color: var(--tri-red-text);
+}
+
+.home-hero__mark {
+  position: relative;
+  align-self: center;
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(184, 92, 56, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 250, 242, 0.5);
+  box-shadow: inset 0 0 0 14px rgba(255, 252, 246, 0.34);
+}
+
+.home-hero__mark::before,
+.home-hero__mark::after,
+.home-hero__mark-ring {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.home-hero__mark::before {
+  inset: 20px;
+  border-top-color: var(--tri-red);
+  border-right-color: var(--tri-yellow);
+  transform: rotate(25deg);
+}
+
+.home-hero__mark::after {
+  inset: 34px;
+  border-right-color: var(--tri-green);
+  border-bottom-color: var(--tri-red);
+  transform: rotate(-18deg);
+}
+
+.home-hero__mark-ring {
+  inset: 48px;
+  border-color: rgba(201, 162, 39, 0.5);
+}
+
+.home-hero__mark-letter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: 4.4rem;
+  font-weight: 900;
+}
+
+.home-hero__topics {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin: 0;
+  padding: 1.3rem 0 0;
+  border-top: 1px solid rgba(184, 92, 56, 0.16);
+  list-style: none;
+}
+
+.home-topic {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.1rem 0.7rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  color: var(--ink);
+}
+
+.home-topic i {
+  grid-row: 1 / 3;
+  color: var(--tri-red-text);
+  font-size: 1.1rem;
+}
+
+.home-topic__label {
+  font-weight: 800;
+}
+
+.home-topic__text {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.home-topic--link {
+  border: 1px solid rgba(184, 92, 56, 0.14);
+  background: rgba(255, 252, 246, 0.55);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-topic--link:hover {
+  background: rgba(255, 252, 246, 0.92);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+.home-feed__header {
+  margin: 0 0 1rem;
+  padding: 0 0.3rem;
+}
+
+.home-feed__title {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.75rem;
+}
+
 #recent-posts {
   background: transparent !important;
   border: 0 !important;
@@ -181,28 +445,22 @@ div#page {
   padding: 0 !important;
 }
 
-#recent-posts > .recent-post-item {
-  background: rgba(252, 246, 236, 0.56) !important;
+#recent-posts .recent-post-item {
+  background: var(--card) !important;
 }
 
-#recent-posts > .recent-post-item > .recent-post-info,
-#recent-posts > .recent-post-item > .recent-post-info.no-cover {
-  background: rgba(252, 246, 236, 0.56) !important;
-  border: 1px solid rgba(210, 188, 158, 0.38) !important;
-  box-shadow:
-    0 16px 38px rgba(92, 68, 44, 0.14),
-    inset 0 1px 0 rgba(255, 252, 245, 0.72) !important;
+#recent-posts .recent-post-item > .recent-post-info,
+#recent-posts .recent-post-item > .recent-post-info.no-cover {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
   backdrop-filter: blur(14px) saturate(1.06) !important;
   -webkit-backdrop-filter: blur(14px) saturate(1.06) !important;
 }
 
-#recent-posts > .recent-post-item > .recent-post-info::before,
-#recent-posts > .recent-post-item > .recent-post-info.no-cover::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(120deg, rgba(255, 252, 245, 0.42), rgba(255, 252, 245, 0.04) 48%, rgba(255, 252, 245, 0.1));
+#recent-posts .recent-post-item > .recent-post-info::before,
+#recent-posts .recent-post-item > .recent-post-info.no-cover::before {
+  display: none;
 }
 
 .layout > #recent-posts:first-child {
@@ -211,11 +469,11 @@ div#page {
   box-shadow: none !important;
 }
 
-#recent-posts > .recent-post-item {
+#recent-posts .recent-post-item {
   transition: transform 0.28s ease, box-shadow 0.28s ease;
 }
 
-#recent-posts > .recent-post-item:hover {
+#recent-posts .recent-post-item:hover {
   transform: translateY(-4px);
   box-shadow:
     0 24px 48px rgba(92, 68, 44, 0.18),
@@ -225,12 +483,12 @@ div#page {
 #aside-content .card-info,
 #aside-content .card-announcement,
 #aside-content .card-recent-post {
-  background: rgba(252, 246, 236, 0.56) !important;
+  background: var(--card) !important;
   backdrop-filter: blur(14px) saturate(1.06);
   -webkit-backdrop-filter: blur(14px) saturate(1.06);
 }
 
-#recent-posts > .recent-post-item::before,
+#recent-posts .recent-post-item::before,
 #aside-content .card-widget::before,
 div#post::before,
 div#archive::before,
@@ -242,14 +500,14 @@ div#page::before {
   background: linear-gradient(120deg, rgba(255, 252, 245, 0.36), rgba(255, 252, 245, 0.03) 45%, rgba(255, 252, 245, 0.08));
 }
 
-#recent-posts > .recent-post-item > .recent-post-info > .article-title {
+#recent-posts .recent-post-item > .recent-post-info > .article-title {
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
 
-#recent-posts > .recent-post-item > .recent-post-info > .article-title:hover {
-  color: var(--tri-red) !important;
+#recent-posts .recent-post-item > .recent-post-info > .article-title:hover {
+  color: var(--tri-red-text) !important;
 }
 
 #aside-content .card-info #card-info-btn,
@@ -268,7 +526,7 @@ div#page::before {
 }
 
 #article-container a:not(.fancybox):hover {
-  color: var(--tri-red);
+  color: var(--tri-red-text);
 }
 
 ::selection {
@@ -304,7 +562,9 @@ div#page::before {
 @media (max-width: 900px) {
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav,
-  #recent-posts > .recent-post-item,
+  #recent-posts .recent-post-item,
+  #recent-posts .recent-post-item > .recent-post-info,
+  #recent-posts .recent-post-item > .recent-post-info.no-cover,
   #aside-content .card-widget,
   div#post,
   div#archive,
@@ -314,7 +574,7 @@ div#page::before {
     -webkit-backdrop-filter: none !important;
   }
 
-  #recent-posts > .recent-post-item::before,
+  #recent-posts .recent-post-item::before,
   #aside-content .card-widget::before,
   div#post::before,
   div#archive::before,
@@ -323,7 +583,7 @@ div#page::before {
   }
 
   #web_bg::before {
-    opacity: 0.92;
+    opacity: 0.42;
     background-image:
       url("/img/lychee-rose-bouquet.svg"),
       linear-gradient(122deg, rgba(184, 140, 96, 0.06), rgba(184, 140, 96, 0) 52%),
@@ -345,7 +605,9 @@ div#page::before {
 
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav,
-  #recent-posts > .recent-post-item,
+  #recent-posts .recent-post-item,
+  #recent-posts .recent-post-item > .recent-post-info,
+  #recent-posts .recent-post-item > .recent-post-info.no-cover,
   #aside-content .card-widget,
   div#post,
   div#archive,
@@ -370,11 +632,53 @@ div#page::before {
     letter-spacing: 0.05em;
   }
 
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+    padding: 2rem 1.3rem 1.3rem;
+    border-radius: 18px;
+  }
+
+  .home-hero__title {
+    font-size: clamp(2.8rem, 16vw, 4.1rem);
+  }
+
+  .home-hero__mark {
+    position: absolute;
+    top: 1rem;
+    right: -2.4rem;
+    width: 132px;
+    height: 132px;
+    opacity: 0.38;
+  }
+
+  .home-hero__mark-letter {
+    font-size: 3.2rem;
+  }
+
+  .home-hero__topics {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .home-topic {
+    padding: 0.65rem 0.7rem;
+  }
+
+  #body-wrap.home-page #aside-content > .card-widget:not(.card-info) {
+    display: none;
+  }
+
+  #body-wrap.home-page #aside-content .sticky_layout .card-widget:not(.card-recent-post):not(.card-categories) {
+    display: none;
+  }
+
   #aside-content .card-info .avatar-img {
     width: 104px;
   }
 
-  #recent-posts > .recent-post-item,
+  #recent-posts .recent-post-item,
   #aside-content .card-widget,
   div#post,
   div#archive,
@@ -382,7 +686,7 @@ div#page::before {
     border-radius: 14px;
   }
 
-  #recent-posts > .recent-post-item::before,
+  #recent-posts .recent-post-item::before,
   #aside-content .card-widget::before,
   div#post::before,
   div#archive::before,
@@ -390,7 +694,7 @@ div#page::before {
     display: none;
   }
 
-  #recent-posts > .recent-post-item:hover {
+  #recent-posts .recent-post-item:hover {
     transform: none;
   }
 
@@ -417,18 +721,28 @@ div#page::before {
 }
 
 @media (max-width: 480px) {
+  :root {
+    --card: rgba(255, 250, 242, 0.96);
+    --card-bg: rgba(255, 250, 242, 0.94);
+  }
+
+  [data-theme="dark"] {
+    --card: rgba(38, 32, 26, 0.94);
+    --card-bg: rgba(38, 32, 26, 0.96);
+  }
+
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(252, 246, 236, 0.94);
+    background: var(--card-bg);
   }
 
   #aside-content .card-info .avatar-img {
     width: 92px;
   }
 
-  #recent-posts > .recent-post-item,
+  #recent-posts .recent-post-item,
   #aside-content .card-widget,
   div#post,
   div#archive,
@@ -436,7 +750,7 @@ div#page::before {
     border-radius: 12px;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: rgba(252, 246, 236, 0.96);
+    background: var(--card);
   }
 }
 
@@ -466,7 +780,7 @@ div#page::before {
   #sidebar-menus {
     position: fixed !important;
     z-index: 101000 !important;
-    background: rgba(252, 246, 236, 0.97) !important;
+    background: var(--card-bg) !important;
     backdrop-filter: blur(10px) saturate(1.05) !important;
     -webkit-backdrop-filter: blur(10px) saturate(1.05) !important;
     border-right: 1px solid rgba(210, 188, 158, 0.42) !important;
@@ -483,17 +797,19 @@ div#page::before {
 @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
   #page-header.nav-fixed #nav,
   #page-header.not-top-img #nav,
-  #recent-posts > .recent-post-item,
+  #recent-posts .recent-post-item,
   #aside-content .card-widget,
   div#post,
   div#archive,
   div#page {
-    background: rgba(252, 246, 236, 0.92);
+    background: var(--card);
   }
 }
 
 [data-theme="dark"] {
+  --tri-red-text: #e4a184;
   --ink: #ece2d4;
+  --ink-soft: #c9baa8;
   --card-bg: rgba(38, 32, 26, 0.62);
   --card: rgba(38, 32, 26, 0.54);
   --glass-border: rgba(220, 196, 164, 0.14);
@@ -528,7 +844,7 @@ div#page::before {
   background: rgba(38, 32, 26, 0.72);
 }
 
-[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #recent-posts .recent-post-item,
 [data-theme="dark"] #aside-content .card-widget,
 [data-theme="dark"] div#post,
 [data-theme="dark"] div#archive,
@@ -538,6 +854,49 @@ div#page::before {
 
 [data-theme="dark"] #footer {
   background: rgba(32, 27, 22, 0.68);
+}
+
+[data-theme="dark"] #recent-posts .recent-post-item::before,
+[data-theme="dark"] #aside-content .card-widget::before,
+[data-theme="dark"] div#post::before,
+[data-theme="dark"] div#archive::before,
+[data-theme="dark"] div#page::before {
+  background: linear-gradient(120deg, rgba(255, 248, 236, 0.045), transparent 48%, rgba(255, 248, 236, 0.02));
+}
+
+[data-theme="dark"] .home-hero {
+  border-color: rgba(220, 196, 164, 0.16);
+  background:
+    radial-gradient(circle at 82% 22%, rgba(201, 162, 39, 0.16), transparent 27%),
+    radial-gradient(circle at 88% 78%, rgba(107, 127, 94, 0.16), transparent 30%),
+    linear-gradient(135deg, rgba(43, 36, 29, 0.97), rgba(31, 26, 21, 0.94));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="dark"] .home-hero__button--secondary,
+[data-theme="dark"] .home-topic--link,
+[data-theme="dark"] .home-hero__mark {
+  border-color: rgba(220, 196, 164, 0.18);
+  background: rgba(255, 248, 236, 0.05);
+}
+
+[data-theme="dark"] .home-topic--link:hover {
+  background: rgba(255, 248, 236, 0.09);
+}
+
+[data-theme="dark"] .novel-toc__link,
+[data-theme="dark"] .novel-chapter-nav__link,
+[data-theme="dark"] .novel-chapter-nav__toc,
+[data-theme="dark"] .novel-chapter-nav__placeholder {
+  border-color: rgba(220, 196, 164, 0.16);
+  background: rgba(255, 248, 236, 0.055);
+}
+
+@media (max-width: 900px) {
+  [data-theme="dark"] #sidebar-menus {
+    border-right-color: rgba(220, 196, 164, 0.16) !important;
+    background: rgba(31, 26, 21, 0.98) !important;
+  }
 }
 
 /* 小说专栏与章节阅读 */
@@ -582,7 +941,7 @@ div#page::before {
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
   background: rgba(201, 162, 39, 0.16);
-  color: var(--tri-red);
+  color: var(--tri-red-text);
   font-size: 0.82rem;
 }
 
@@ -603,7 +962,7 @@ div#page::before {
   display: inline-block;
   margin-top: 0.9rem;
   font-weight: 600;
-  color: var(--tri-red);
+  color: var(--tri-red-text);
 }
 
 .novel-recent-list {
@@ -663,7 +1022,7 @@ div#page::before {
   padding: 0.1rem 0.45rem;
   border-radius: 999px;
   background: rgba(184, 92, 56, 0.14);
-  color: var(--tri-red);
+  color: var(--tri-red-text);
   font-size: 0.78rem;
 }
 
@@ -684,15 +1043,26 @@ div#page::before {
 }
 
 #post.novel-chapter #article-container {
-  font-family: "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
-  font-size: 1.08rem;
-  line-height: 2;
+  font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 2.05;
   letter-spacing: 0.02em;
 }
 
 #post.novel-chapter #article-container p {
   margin: 0 0 1.15rem;
   text-indent: 2em;
+}
+
+#post.novel-chapter #article-container > .novel-chapter-nav {
+  font-family: Manrope, "PingFang SC", sans-serif;
+}
+
+#post.novel-chapter .post-copyright,
+#post.novel-chapter .tag_share {
+  max-width: 42rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .card-novel-toc {
@@ -724,12 +1094,12 @@ div#page::before {
 
 .novel-sidebar-toc__link:hover {
   background: rgba(184, 92, 56, 0.08);
-  color: var(--tri-red);
+  color: var(--tri-red-text);
 }
 
 .novel-sidebar-toc__item.is-current .novel-sidebar-toc__link {
   background: rgba(184, 92, 56, 0.12);
-  color: var(--tri-red);
+  color: var(--tri-red-text);
   font-weight: 700;
 }
 
@@ -740,7 +1110,7 @@ div#page::before {
 }
 
 .novel-sidebar-toc__back a {
-  color: var(--tri-red);
+  color: var(--tri-red-text);
 }
 
 .novel-chapter-nav {
@@ -774,7 +1144,7 @@ div#page::before {
   align-items: center;
   text-align: center;
   font-weight: 700;
-  color: var(--tri-red);
+  color: var(--tri-red-text);
 }
 
 .novel-chapter-nav__label {
@@ -805,7 +1175,17 @@ div#page::before {
 
 @media (max-width: 768px) {
   .novel-chapter-nav {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+  }
+
+  .novel-chapter-nav__toc {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .novel-chapter-nav__placeholder {
+    display: none;
   }
 
   .novel-chapter-nav__next {
@@ -813,7 +1193,22 @@ div#page::before {
   }
 
   #post.novel-chapter #article-container {
-    font-size: 1.02rem;
-    line-height: 1.95;
+    font-size: 1.06rem;
+    line-height: 2;
+  }
+
+  #post.novel-chapter #article-container p {
+    margin-bottom: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
