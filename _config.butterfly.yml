@@ -216,7 +216,7 @@ inject:
     - <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script>
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    - <link rel="stylesheet" href="/css/custom.css?v=20260728-literary-v2">
+    - <link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-2">
 
 error_404:
   enable: true
