@@ -1,0 +1,24 @@
+{
+  "novel": "重生",
+  "novel_slug": "chongsheng",
+  "source_project": "/Users/levi-macbook/小说作品/重生",
+  "vault_graph_entry": "写作题材/小说作品/重生/重生-知识图谱入口.md",
+  "vault_project_summary": "写作题材/重生项目交接摘要.md",
+  "site_novel_index": "source/novels/chongsheng/index.md",
+  "site_posts_dir": "source/_posts",
+  "publication_manifest": "source/_data/novel-chongsheng.json",
+  "publication_mode": "approved-draft-only",
+  "current_source_of_truth": "one-markdown-configured-source",
+  "sync_direction": "source-to-site",
+  "internal_content_never_published": [
+    "outline",
+    "roles",
+    "rules",
+    "research",
+    "voice",
+    "records",
+    "伏笔真相",
+    "审稿记录",
+    "private paths"
+  ]
+}
