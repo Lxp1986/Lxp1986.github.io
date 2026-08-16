@@ -64,28 +64,20 @@ post_copyright:
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 comments:
-  use: Waline
+  use: giscus
   text: true
   lazyload: false
   count: false
   card_post_count: false
 
-waline:
-  # 你部署 Waline 后把地址填在这里（必须）
-  # 示例: https://your-waline-server.vercel.app
-  # 当前先用公共示例服务，建议后续替换为你自己的服务地址
-  serverURL: https://waline-comment.vercel.app
-  pageview: false
-  option:
-    requiredMeta:
-      - nick
-    placeholder: 写下你的想法，欢迎交流
-    avatar: monsterid
-    lang: zh-CN
-    emoji:
-      - https://unpkg.com/@waline/emojis@1.2.0/weibo
-    search: false
-    reaction: false
+# 评论系统：giscus（基于 GitHub Discussions，数据存在本仓库，零成本零维护）
+# 使用前需先在 https://github.com/apps/giscus 授权安装 giscus App 到本仓库
+giscus:
+  repo: Lxp1986/Lxp1986.github.io
+  repo_id: R_kgDOMn0qqg
+  category_id: DIC_kwDOMn0qqs4DDgMy
+  light_theme: light
+  dark_theme: dark
 
 aside:
   enable: true
