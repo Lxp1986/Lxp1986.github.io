@@ -67,7 +67,7 @@ reward:
   enable: true
   text: 打赏
   QR_code:
-    - img: /img/wechat-reward.jpg
+    - img: /img/wechat-reward-qr.jpg
       text: 微信支付
 
 comments:
