@@ -218,6 +218,7 @@ inject:
     - <link rel="preconnect" href="https://fonts.googleapis.com">
     - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     - <link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3">
+    - <meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07">
 
 error_404:
   enable: true
