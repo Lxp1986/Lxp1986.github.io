@@ -12,6 +12,7 @@ if theme.structured_data
       const author = page.copyright_author || config.author
       const authorHrefVal = page.copyright_author_href || theme.post_copyright.author_href || config.url
       const authorHref = full_url_for(authorHrefVal)
+      const description = page.description || ''
 
       const jsonLd = {
         "@context": "https://schema.org",
@@ -28,8 +29,30 @@ if theme.structured_data
         }]
       }
 
+      if (description) jsonLd.description = description
+
       jsonLdScript = JSON.stringify(jsonLd, null, 2)
+
+      // 小说章节：追加 BreadcrumbList（章节导航，帮助搜索引擎理解小说结构）
+      breadcrumbScript = ''
+      if (page.novel && page.novel_slug && page.chapter) {
+        const crumbs = [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": full_url_for('/') },
+          { "@type": "ListItem", "position": 2, "name": "小说", "item": full_url_for('/novels/') },
+          { "@type": "ListItem", "position": 3, "name": page.novel, "item": full_url_for('/novels/' + page.novel_slug + '/') },
+          { "@type": "ListItem", "position": 4, "name": page.title }
+        ]
+        breadcrumbScript = JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": crumbs
+        }, null, 2)
+      }
     -
+
+    if breadcrumbScript
+      script(type="application/ld+json").
+        !{breadcrumbScript}
 
   else if is_home() && (!page.current || page.current === 1)
     -
