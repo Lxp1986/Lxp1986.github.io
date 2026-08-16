@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="880" viewBox="0 0 1200 880" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="us-core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5B8DEF"/>
+      <stop offset="1" stop-color="#7C5CD6"/>
+    </linearGradient>
+    <marker id="us-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94A3B8"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="880" rx="18" fill="#F6F8FB"/>
+  <text x="600" y="46" text-anchor="middle" font-size="30" font-weight="700" fill="#1E2A3B">DeepSeek Harness 使用教程：三个真实任务全流程</text>
+  <text x="600" y="76" text-anchor="middle" font-size="15" fill="#64748B">Web UI（交互）· headless + cron（定时批处理）· schedule 插件（会话内定时）——按场景选姿势</text>
+
+  <!-- ============ 任务一：仓库分析（Web UI） ============ -->
+  <rect x="70" y="100" width="1060" height="222" rx="14" fill="#FFF" stroke="#C7D2FE" stroke-width="2"/>
+  <rect x="70" y="100" width="1060" height="46" rx="14" fill="url(#us-core)"/>
+  <rect x="70" y="124" width="1060" height="22" fill="url(#us-core)"/>
+  <text x="600" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">任务一 · 分析一个代码仓库 —— Web UI 交互姿势</text>
+
+  <rect x="92" y="162" width="186" height="66" rx="10" fill="#EEF2FF"/>
+  <text x="185" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#3B5BC9">① 选工作区</text>
+  <text x="185" y="208" text-anchor="middle" font-size="11.5" fill="#475569">Choose workspace 添加仓库目录（不选则无法输入）</text>
+  <line x1="282" y1="195" x2="312" y2="195" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="318" y="162" width="186" height="66" rx="10" fill="#EEF2FF"/>
+  <text x="411" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#3B5BC9">② 建会话发任务</text>
+  <text x="411" y="208" text-anchor="middle" font-size="11.5" fill="#475569">"总结仓库结构，识别主要包"</text>
+  <line x1="508" y1="195" x2="538" y2="195" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="544" y="162" width="186" height="66" rx="10" fill="#F0FDFA"/>
+  <text x="637" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#0B8E82">③ 规划 + 子代理</text>
+  <text x="637" y="208" text-anchor="middle" font-size="11.5" fill="#475569">Plan 模式列步骤；subagent 并行研究各模块</text>
+  <line x1="734" y1="195" x2="764" y2="195" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="770" y="162" width="186" height="66" rx="10" fill="#FDF2F8"/>
+  <text x="863" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#A21CAF">④ 审批 + 执行</text>
+  <text x="863" y="208" text-anchor="middle" font-size="11.5" fill="#475569">危险操作弹审批；bash / run_code 实际跑</text>
+  <line x1="960" y1="195" x2="990" y2="195" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="996" y="162" width="114" height="66" rx="10" fill="#FEF9C3"/>
+  <text x="1053" y="186" text-anchor="middle" font-size="13" font-weight="700" fill="#854D0E">⑤ 交付报告</text>
+  <text x="1053" y="208" text-anchor="middle" font-size="11.5" fill="#475569">markdown 输出</text>
+
+  <text x="92" y="258" font-size="12" fill="#64748B">全程可观察：会话日志"模型可见即已记录"，任何一步可回放、可 fork、可恢复；会话默认权限 workspace-write，越界操作先问人。</text>
+  <text x="92" y="282" font-size="12" fill="#64748B">并行加速：把"研究模块 A/B/C"分别委派给 3 个 subagent（continuable，默认后台跑），再让主代理汇总——大仓库分析时间可缩短一半以上。</text>
+  <text x="92" y="306" font-size="12" fill="#64748B">长任务：create_goal 建持久目标，跨多轮自主推进；todo_write 维护清单，UI 实时渲染勾选项。</text>
+
+  <!-- ============ 任务二：自动周报（headless + cron） ============ -->
+  <rect x="70" y="342" width="1060" height="222" rx="14" fill="#FFF" stroke="#A7F3D0" stroke-width="2"/>
+  <rect x="70" y="342" width="1060" height="46" rx="14" fill="url(#us-core)"/>
+  <rect x="70" y="366" width="1060" height="22" fill="url(#us-core)"/>
+  <text x="600" y="372" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">任务二 · 自动写周报 —— headless + cron 批处理姿势（无服务器，跑完即退）</text>
+
+  <rect x="92" y="404" width="200" height="66" rx="10" fill="#EEF2FF"/>
+  <text x="192" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#3B5BC9">① git log 采集素材</text>
+  <text x="192" y="450" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">git log --since="1 week"</text>
+  <line x1="296" y1="437" x2="326" y2="437" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="332" y="404" width="200" height="66" rx="10" fill="#F0FDFA"/>
+  <text x="432" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#0B8E82">② headless 生成</text>
+  <text x="432" y="450" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">dsh --profile headless "写周报…"</text>
+  <line x1="536" y1="437" x2="566" y2="437" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="572" y="404" width="200" height="66" rx="10" fill="#FDF2F8"/>
+  <text x="672" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#A21CAF">③ 写入周报文件</text>
+  <text x="672" y="450" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">追加到 weekly-report.md</text>
+  <line x1="776" y1="437" x2="806" y2="437" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="812" y="404" width="200" height="66" rx="10" fill="#FEF9C3"/>
+  <text x="912" y="428" text-anchor="middle" font-size="13" font-weight="700" fill="#854D0E">④ cron 定时触发</text>
+  <text x="912" y="450" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">0 8 * * 1 /opt/dsh/weekly.sh</text>
+
+  <text x="92" y="500" font-size="12" fill="#64748B">headless 语义（CLI 参考文档）：提交任务 → 等待完全停稳 → 输出最后一段非空 assistant 文本；completed 退出码 0，否则 1 —— 适合直接塞进 shell 脚本判断成败。</text>
+  <text x="92" y="524" font-size="12" fill="#64748B">省钱技巧：周报、巡检这类非实时任务排到空闲时段（17 小时半价，见系列第一篇峰谷定价），成本直接砍半。</text>
+  <text x="92" y="548" font-size="12" fill="#64748B">模型切换：DSH_MODEL=deepseek-v4-flash 环境变量；自定义系统提示词用 DSH_SYSTEM_PROMPT；凭据支持 .env 文件。</text>
+
+  <!-- ============ 任务三：定时巡检（schedule 插件） ============ -->
+  <rect x="70" y="584" width="1060" height="222" rx="14" fill="#FFF" stroke="#FBCFE8" stroke-width="2"/>
+  <rect x="70" y="584" width="1060" height="46" rx="14" fill="url(#us-core)"/>
+  <rect x="70" y="608" width="1060" height="22" fill="url(#us-core)"/>
+  <text x="600" y="614" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">任务三 · 定时巡检 —— schedule 插件姿势（会话内持久提醒）</text>
+
+  <rect x="92" y="646" width="200" height="66" rx="10" fill="#EEF2FF"/>
+  <text x="192" y="670" text-anchor="middle" font-size="13" font-weight="700" fill="#3B5BC9">① 启用 schedule</text>
+  <text x="192" y="692" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">dsh web --patch examples/web-schedule/cordis.yml</text>
+  <line x1="296" y1="679" x2="326" y2="679" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="332" y="646" width="200" height="66" rx="10" fill="#F0FDFA"/>
+  <text x="432" y="670" text-anchor="middle" font-size="13" font-weight="700" fill="#0B8E82">② 创建提醒</text>
+  <text x="432" y="692" text-anchor="middle" font-size="11.5" font-family="Menlo,Consolas,monospace" fill="#475569">schedule_create every_seconds=3600</text>
+  <line x1="536" y1="679" x2="566" y2="679" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="572" y="646" width="200" height="66" rx="10" fill="#FDF2F8"/>
+  <text x="672" y="670" text-anchor="middle" font-size="13" font-weight="700" fill="#A21CAF">③ 到点触发</text>
+  <text x="672" y="692" text-anchor="middle" font-size="11.5" fill="#475569">作为后续对话轮次回到原会话（session-local）</text>
+  <line x1="776" y1="679" x2="806" y2="679" stroke="#94A3B8" stroke-width="2" marker-end="url(#us-arrow)"/>
+
+  <rect x="812" y="646" width="200" height="66" rx="10" fill="#FEF9C3"/>
+  <text x="912" y="670" text-anchor="middle" font-size="13" font-weight="700" fill="#854D0E">④ 执行巡检项</text>
+  <text x="912" y="692" text-anchor="middle" font-size="11.5" fill="#475569">磁盘/服务/依赖健康检查，结果留在会话里</text>
+
+  <text x="92" y="742" font-size="12" fill="#64748B">规则三选一：after_seconds 延时一次 / at 绝对时刻 / every_seconds 固定速率（下限 300 秒）。不支持 Cron 表达式、无外部通知渠道。</text>
+  <text x="92" y="766" font-size="12" fill="#64748B">会话必须 live：进程关闭或会话 cold 会停掉内存计时器，但记录不丢；重开会话自动恢复并交付逾期提醒。fork 不继承父会话提醒。</text>
+  <text x="92" y="790" font-size="12" fill="#64748B">提示：真正的"无人值守定时任务"请用任务二的 cron + headless；schedule 适合"我在浏览器里挂着、到点提醒我巡检"的场景。</text>
+</svg>
