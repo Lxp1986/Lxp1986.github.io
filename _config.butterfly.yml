@@ -69,6 +69,8 @@ reward:
   QR_code:
     - img: /img/wechat-reward-qr.jpg
       text: 微信支付
+    - img: /img/alipay-reward-qr.jpg
+      text: 支付宝
 
 comments:
   use: giscus
