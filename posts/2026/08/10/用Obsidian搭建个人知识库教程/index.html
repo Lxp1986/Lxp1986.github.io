@@ -1,0 +1,459 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>用 Obsidian 搭建个人知识库：总体思路与完整过程 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f0e4"><meta name="description" content="从零搭建 Obsidian 知识库的完整教程：先讲清 Obsidian 相比 Notion、印象笔记、语雀、Logseq 的优势在哪，再给分层模型、编号目录、YAML 规范、链接纪律，最后用一个真实使用过程示例演示「一条笔记的一生」。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Obsidian 搭建个人知识库：总体思路与完整过程">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="从零搭建 Obsidian 知识库的完整教程：先讲清 Obsidian 相比 Notion、印象笔记、语雀、Logseq 的优势在哪，再给分层模型、编号目录、YAML 规范、链接纪律，最后用一个真实使用过程示例演示「一条笔记的一生」。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/kb-architecture.svg">
+<meta property="article:published_time" content="2026-08-10T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T14:30:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Obsidian">
+<meta property="article:tag" content="效率工具">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="知识管理">
+<meta property="article:tag" content="笔记系统">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "用 Obsidian 搭建个人知识库：总体思路与完整过程",
+  "url": "https://www.lxpyll.top/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/",
+  "image": "https://www.lxpyll.top/img/kb-architecture.svg",
+  "datePublished": "2026-08-10T02:00:00.000Z",
+  "dateModified": "2026-08-10T14:30:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "从零搭建 Obsidian 知识库的完整教程：先讲清 Obsidian 相比 Notion、印象笔记、语雀、Logseq 的优势在哪，再给分层模型、编号目录、YAML 规范、链接纪律，最后用一个真实使用过程示例演示「一条笔记的一生」。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#231d17')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f0e4')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Noto+Serif+SC:wght@400;500;600;700;900&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '用 Obsidian 搭建个人知识库：总体思路与完整过程',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #f7f0e4;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">用 Obsidian 搭建个人知识库：总体思路与完整过程</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">用 Obsidian 搭建个人知识库：总体思路与完整过程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-10T02:00:00.000Z" title="发表于 2026-08-10 10:00:00">2026-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-10T14:30:00.000Z" title="更新于 2026-08-10 22:30:00">2026-08-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><p>写这篇文章之前，我先回答三个最该先回答的问题：<strong>Obsidian 到底比其他工具强在哪？它适合什么场景、不适合什么场景？用的时候到底怎么操作？</strong>——前两个问题我放在最前面，第三个问题用一个完整的「一条笔记的一生」示例讲透。</p>
+<h1 id="一、为什么需要知识库"><a href="#一、为什么需要知识库" class="headerlink" title="一、为什么需要知识库"></a>一、为什么需要知识库</h1><p>先想清楚问题，再谈工具。我最初的痛点是：</p>
+<ul>
+<li>笔记散落在备忘录、微信收藏、浏览器剪藏、Word 文档里，要用时想不起在哪；</li>
+<li>同一个主题反复记两遍，越记越乱；</li>
+<li>记过的东西「好像知道」，但无法快速引用，等于没记；</li>
+<li>AI 时代出现了新需求：不仅要自己读，还要让多个 AI 智能体<strong>共享同一份长期知识</strong>。</li>
+</ul>
+<p>Obsidian 的答案很朴素：纯 Markdown 文件存在本地，天然可同步、可检索、可被任何工具读写。知识库的架构不需要插件来保证，<strong>目录结构 + 链接纪律</strong>就够了。</p>
+<h1 id="二、Obsidian-的优势到底在哪"><a href="#二、Obsidian-的优势到底在哪" class="headerlink" title="二、Obsidian 的优势到底在哪"></a>二、Obsidian 的优势到底在哪</h1><p>一句话总结：<strong>它是「数据所有权」最强的现代笔记工具，双链图谱 + 插件生态让它能从「记笔记的工具」长成「个人知识系统」</strong>。</p>
+<p>拆开说，五个具体优势：</p>
+<ol>
+<li><strong>本地纯文本，数据永远是你的</strong>。所有笔记是一个个 <code>.md</code> 文件，放在你自己的硬盘&#x2F;iCloud&#x2F;Git 里。厂商关停、改版、涨价都绑架不了你的知识——换任何工具，复制文件就能走。这是 Notion、语雀、印象笔记给不了的。</li>
+<li><strong>双向链接 + 关系图谱</strong>。笔记之间用 <code>[[链接]]</code> 织成网，打开图谱视图能看到知识之间的结构，而不是一堆孤立文件。这是 Obsidian 和 Logseq 这类「第二大脑」工具的看家本领。</li>
+<li><strong>插件生态非常强</strong>。模板、看板、日历、数据库（Dataview）、画布（Canvas）、发布……数千个社区插件，几乎任何工作流都能拼出来。</li>
+<li><strong>AI 时代的独特优势：机器可读</strong>。纯 Markdown + 本地文件，意味着 AI 智能体、脚本、自动化工具可以直接读写同一份知识库。其他工具的私有格式对 AI 是黑盒，Obsidian 的知识库天然就是「接口」。</li>
+<li><strong>离线可用、响应快</strong>。打开就是秒开，不联网也能完整工作，移动端 App 与桌面端同步后同样可用。</li>
+</ol>
+<p>也要客观说缺点，避免吹过头：</p>
+<ul>
+<li>官方云同步（Sync）是付费订阅，免费方案要自己搭 iCloud、Git 或坚果云；</li>
+<li>多人实时协作弱于 Notion &#x2F; 语雀，它是「个人知识库」，不是团队协作平台；</li>
+<li>移动端 App 体验一般，不如印象笔记顺滑；</li>
+<li>插件虽强但要折腾，新手容易迷失在「装插件」而不是「记笔记」里；</li>
+<li>大纲式笔记、数据库式管理，不如 Logseq、Notion 原生顺手。</li>
+</ul>
+<h1 id="三、和其他工具的横评"><a href="#三、和其他工具的横评" class="headerlink" title="三、和其他工具的横评"></a>三、和其他工具的横评</h1><p>我的对比标准不是「哪个最好」，而是「哪个适合什么」。六个主流工具，七个关键维度：</p>
+<p><img src="/img/kb-compare.svg" alt="主流笔记工具横评"></p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>一句话定位</th>
+<th>核心优势</th>
+<th>核心短板</th>
+<th>数据所有权</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Notion</strong></td>
+<td>团队协作 + 数据库</td>
+<td>数据库&#x2F;看板强、协作顺滑、界面现代</td>
+<td>数据在云端、离线弱、体感慢</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>印象笔记</strong></td>
+<td>网页剪藏老牌</td>
+<td>剪藏生态成熟、移动端稳</td>
+<td>格式封闭、编辑器旧、广告&#x2F;会员套娃</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>语雀</strong></td>
+<td>国内团队文档</td>
+<td>中文体验好、知识库分层、文档漂亮</td>
+<td>数据在云端、双链弱、无本地文件</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>OneNote</strong></td>
+<td>微软全家桶</td>
+<td>免费、手写笔记强、Office 联动</td>
+<td>格式封闭、双链无、搜索一般</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>Logseq</strong></td>
+<td>大纲式双链</td>
+<td>大纲记法、双链原生、本地文件</td>
+<td>上手门槛高、非大纲内容别扭</td>
+<td>本地文件</td>
+</tr>
+<tr>
+<td><strong>Obsidian</strong></td>
+<td>本地双链知识库</td>
+<td>本地纯文本、双链图谱、插件生态、AI 可读写</td>
+<td>官方同步收费、多人协作弱、要折腾</td>
+<td><strong>本地文件</strong></td>
+</tr>
+</tbody></table>
+<p><strong>怎么选，按场景对号入座：</strong></p>
+<ul>
+<li>想要<strong>团队协作、项目管理</strong>（多人编辑同一份文档&#x2F;表格）→ Notion 或语雀；</li>
+<li>想要<strong>网页剪藏</strong>为主，随手存文章 → 印象笔记更顺手；</li>
+<li>想要<strong>手写笔记</strong>（平板 + 笔）→ OneNote；</li>
+<li>想要<strong>大纲式思考</strong>（bullet 记法、Roam 风格）→ Logseq；</li>
+<li>想要<strong>长期积累的个人知识库</strong>，数据要自己掌控，还要接 AI → 选 Obsidian，这篇文章就是讲它的搭法。</li>
+</ul>
+<p>如果你不确定，记住这条分界线：<strong>知识是「资产」还是「临时文档」？</strong> 是资产——怕丢、怕被关停、要长期引用——选本地文件方案的 Obsidian；只是临时协同文档，Notion&#x2F;语雀更省心。</p>
+<h1 id="四、总体思路：像「书」一样分层"><a href="#四、总体思路：像「书」一样分层" class="headerlink" title="四、总体思路：像「书」一样分层"></a>四、总体思路：像「书」一样分层</h1><blockquote>
+<p>我的核心设计原则：<strong>不要按「工具」组织，要按「书」组织</strong>。知识库不是收纳盒，而是一本可以不断再版的书。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">首页（封面，唯一顶层）</span><br><span class="line">  └→ 知识地图（总目录：只列索引页/章）</span><br><span class="line">      ├→ 各领域索引 → 章首页 → 正文笔记</span><br><span class="line">      ├→ 来源资料索引 / 模板索引</span><br><span class="line">      └→ 作品集索引 → 作品节点 → 章节</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/kb-architecture.svg" alt="知识库总体架构"></p>
+<p>这套模型解决一个关键问题：<strong>导航层级永远有限</strong>。首页只放 4–7 个链接，知识地图只列索引页和章首页，正文笔记永远不直接挂在顶层。这样无论笔记涨到几百篇还是几千篇，入口都不会膨胀成乱麻。</p>
+<h1 id="五、目录设计：数字编号排序"><a href="#五、目录设计：数字编号排序" class="headerlink" title="五、目录设计：数字编号排序"></a>五、目录设计：数字编号排序</h1><p>分好层之后，用<strong>两位数字前缀</strong>给目录排序。数字既是物理排序，也是阅读顺序：看编号就知道先看什么、再看什么。</p>
+<p><img src="/img/kb-structure.svg" alt="目录结构设计"></p>
+<p>我的实际目录（可参考，不必照抄）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">00-首页与索引/      封面与目录：首页、总规则、知识地图、全部索引</span><br><span class="line">01-智能体知识/      规则、工具链、AI 使用规范、创作系统</span><br><span class="line">02-项目/            工程项目、软件与 AI 项目</span><br><span class="line">03-施工工艺/        可复用工艺、质量控制、验收要点</span><br><span class="line">04-材料与设备/      材料、设备、规格、价格和适用场景</span><br><span class="line">05-报价与成本/      工程量、人工、机械、辅材、报价、结算</span><br><span class="line">06-合同与风险/      合同、付款、变更、索赔、风险</span><br><span class="line">07-法规与规范/      国家、省、市各级文件</span><br><span class="line">08-安全与台风/      安全、应急、恶劣天气和事故复盘</span><br><span class="line">09-来源资料/        网页 / PDF / 文件来源摘要和原始路径</span><br><span class="line">10-收集箱/          尚未整理的临时内容</span><br><span class="line">99-模板/            模板索引（项目、主题、来源、现场、决策模板）</span><br><span class="line">写作题材/           创作区（独立成区，不并入工作区图谱）</span><br></pre></td></tr></table></figure>
+
+<p>几条关键纪律：</p>
+<ol>
+<li><strong>新建笔记必须归章</strong>：内容写进对应章目录，不平铺在根部；</li>
+<li><strong>每章一个章首页</strong>：<code>&lt;章名&gt;章.md</code>，向下链本章节、向上链所属索引；</li>
+<li><strong>索引只列章首页</strong>，不直接列全部正文；</li>
+<li><strong>作品&#x2F;项目按「作品集 → 作品 → 章节」三层</strong>，每部作品一个作品节点；</li>
+<li><strong>空目录也建章首页占位</strong>，避免新笔记无处安放；</li>
+<li><strong>创作区独立</strong>：写作题材允许内部自由链接，不强行并入工作区图谱。</li>
+</ol>
+<h1 id="六、使用过程示例：一条笔记的一生"><a href="#六、使用过程示例：一条笔记的一生" class="headerlink" title="六、使用过程示例：一条笔记的一生"></a>六、使用过程示例：一条笔记的一生</h1><p>光讲架构没用，看一遍实操就懂。举一个真实场景：<strong>记一条工程知识「C25 商品混凝土 2026 年 8 月阳春信息价」</strong>，完整走一遍从捕获到复用的流程。</p>
+<p><img src="/img/kb-workflow.svg" alt="一条笔记的一生"></p>
+<p><strong>第 1 步 · 捕获（30 秒，无脑完成）</strong></p>
+<p>在手机上看到供应商报价，随手记到 <code>10-收集箱/</code>，一个文件，几句话，不加任何格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C25砼 8月价 阳春 380/方 参考</span><br><span class="line">供应商报价截图（手机拍）</span><br><span class="line">要查：跟7月比涨没涨</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 2 步 · 整理（2 分钟，标准动作）</strong></p>
+<p>周末统一整理：重命名清晰标题 → 补 YAML → 移动到章目录 → 加链接：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: C25商品砼2026年8月阳春信息价</span><br><span class="line">type: source</span><br><span class="line">status: verified</span><br><span class="line">created: 2026-08-10</span><br><span class="line">updated: 2026-08-10</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  -</span> 报价</span><br><span class="line"><span class="bullet">  -</span> 混凝土</span><br><span class="line"><span class="bullet">  -</span> 信息价</span><br><span class="line">source: XX商砼8月报价单</span><br><span class="line">source<span class="emphasis">_date: 2026-08-10</span></span><br><span class="line"><span class="emphasis">checked_</span>date: 2026-08-10</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">8 月 C25 约 380 元/方，较 7 月 +2.7%，详见 [[2026年7月材料信息价]]。</span><br><span class="line">已挂入 [[报价与成本索引]]，用于 [[XX项目结算]] 的调差依据。</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 3 步 · 检索使用（3 秒）</strong></p>
+<p>需要报价时，三种找法任选：</p>
+<ul>
+<li>全文搜索：输入「C25 信息价」直接命中；</li>
+<li>标签检索：<code>tag:信息价</code> 列出所有信息价笔记；</li>
+<li>关系图谱：从 <code>[[报价与成本索引]]</code> 顺着链接点进来，还能看到它被 <code>XX项目结算</code> 引用了多少次。</li>
+</ul>
+<p><strong>第 4 步 · 沉淀复用</strong></p>
+<p>这篇笔记之后被报价书、结算、下月比价反复引用，状态升级为 <code>active</code>，成为报价体系里的一张「卡」。<strong>笔记的价值在第二次使用时才开始兑现</strong>——第一次是记录，之后每一次都是复利。</p>
+<h1 id="七、笔记统一格式：YAML-属性"><a href="#七、笔记统一格式：YAML-属性" class="headerlink" title="七、笔记统一格式：YAML 属性"></a>七、笔记统一格式：YAML 属性</h1><p>每篇笔记开头放一段 YAML，让「内容」和「元数据」分开。这是知识库可检索、可治理的基础：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">笔记标题</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">project</span> <span class="string">|</span> <span class="string">topic</span> <span class="string">|</span> <span class="string">procedure</span> <span class="string">|</span> <span class="string">decision</span> <span class="string">|</span> <span class="string">source</span> <span class="string">|</span> <span class="string">meeting</span> <span class="string">|</span> <span class="string">incident</span></span><br><span class="line"><span class="attr">status:</span> <span class="string">draft</span> <span class="string">|</span> <span class="string">active</span> <span class="string">|</span> <span class="string">verified</span> <span class="string">|</span> <span class="string">needs-review</span> <span class="string">|</span> <span class="string">archived</span></span><br><span class="line"><span class="attr">created:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">updated:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">主题</span></span><br><span class="line"><span class="attr">related:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;[[相关笔记]]&quot;</span></span><br><span class="line"><span class="attr">source:</span> <span class="string">来源或文件路径</span></span><br><span class="line"><span class="attr">source_date:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">checked_date:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>几个字段的用法：</p>
+<ul>
+<li><code>type</code>：区分笔记性质（项目、主题、流程、决策、来源、会议）；</li>
+<li><code>status</code>：配合生命周期使用，一搜 <code>status:archived</code> 就能找归档；</li>
+<li><code>source</code> &#x2F; <code>source_date</code> &#x2F; <code>checked_date</code>：<strong>易变信息（价格、法规、数据）必须写来源和查询日期</strong>，过时了能重新查；</li>
+<li><code>tags</code>：主题标签，配合检索而不是代替目录。</li>
+</ul>
+<h1 id="八、链接纪律：让图谱是逻辑链"><a href="#八、链接纪律：让图谱是逻辑链" class="headerlink" title="八、链接纪律：让图谱是逻辑链"></a>八、链接纪律：让图谱是逻辑链</h1><p>分类管「笔记放哪」，链接管「怎么找到」。Obsidian 的 <code>[[双向链接]]</code> 按文件名解析、跨目录有效——<strong>物理移动文件不会断链</strong>，这是它能持续重构目录的前提。</p>
+<p><img src="/img/kb-links.svg" alt="链接纪律"></p>
+<ul>
+<li>每个正文笔记至少 <strong>1 条入链 + 1 条出链</strong>：入链保证「从索引可达」（不孤立），出链保证「上下文延续」（可跳转）；</li>
+<li>新笔记创建后必须挂到所属索引；</li>
+<li>链接目标不存在 → 创建占位笔记标 <code>status: needs-content</code>，正文写「待补充」，不要编造内容；</li>
+<li>只是提及的工具&#x2F;命令名用行内代码 <code>`</code>，不用 <code>[[]]</code>，避免产生无意义的图节点；</li>
+<li>删除笔记前先确认无入链，或先改引用；</li>
+<li>定期跑一次断链扫描（可以写个小脚本遍历所有 md 文件），目标：<strong>真实断链 0、导航全连通、无孤立笔记</strong>。</li>
+</ul>
+<h1 id="九、信息生命周期：从捕获到沉淀"><a href="#九、信息生命周期：从捕获到沉淀" class="headerlink" title="九、信息生命周期：从捕获到沉淀"></a>九、信息生命周期：从捕获到沉淀</h1><p>知识库最大的隐性成本是「整理」。我的做法是给信息一条明确的流动路径，让「快速捕获」和「深度整理」解耦：</p>
+<p><img src="/img/kb-lifecycle.svg" alt="信息生命周期"></p>
+<ol>
+<li><strong>收集箱</strong>：碎片、剪藏、灵感先丢进 <code>10-收集箱</code>，无压力，不打断心流；</li>
+<li><strong>整理中</strong>：定期归类到章目录、补 YAML，状态 <code>draft</code>；</li>
+<li><strong>已验证</strong>：标来源、标日期、区分「事实&#x2F;推断&#x2F;估计」，状态 <code>verified</code>；</li>
+<li><strong>可复用</strong>：挂入索引、被多次引用，成为真正沉淀下来的知识；</li>
+<li><strong>归档</strong>：不再活跃但保留来源，不删除。</li>
+</ol>
+<p>旧知识过时或出错时，回到「整理中」修订并保留修订记录，绝不静默删除——历史也是资产。</p>
+<h1 id="十、分类与标签怎么用"><a href="#十、分类与标签怎么用" class="headerlink" title="十、分类与标签怎么用"></a>十、分类与标签怎么用</h1><p>这是最常被问的问题：目录、标签、链接三者到底各管什么？</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>管什么</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>目录（文件夹）</strong></td>
+<td>笔记「放在哪」——物理归属</td>
+<td><code>05-报价与成本/</code></td>
+</tr>
+<tr>
+<td><strong>标签（tags）</strong></td>
+<td>笔记「是什么」——横向主题</td>
+<td><code>#报价</code>、<code>#验收</code>、<code>#待核实</code></td>
+</tr>
+<tr>
+<td><strong>链接（wikilink）</strong></td>
+<td>笔记「和谁相关」——逻辑关系</td>
+<td><code>[[报价与成本索引]]</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>分类（目录）是主结构，标签是辅助检索，链接是逻辑网</strong>。三者不要互相替代：用标签模拟目录会乱，用目录模拟关系会僵；</li>
+<li>标签建议克制：主题标签 + 状态标签（<code>#待核实</code> &#x2F; <code>#已验证</code>）+ 少量流程标签即可，标签越多越难维护；</li>
+<li>同一个主题若内容渐多，就升级：从一篇文章 → 一个章节目录 → 一个章首页 + 多篇笔记。</li>
+</ul>
+<p>发布到博客时同理：<strong>分类用固定维度</strong>（如 技术&#x2F;生活&#x2F;小说），<strong>标签用自由维度</strong>（如 Obsidian、知识管理），一篇文章只归一个主分类、挂 2–5 个精准标签，避免「一篇多分类、标签堆砌」。</p>
+<h1 id="十一、落地过程：从乱麻到书式分层"><a href="#十一、落地过程：从乱麻到书式分层" class="headerlink" title="十一、落地过程：从乱麻到书式分层"></a>十一、落地过程：从乱麻到书式分层</h1><p>我的真实过程，供参考节奏：</p>
+<ol>
+<li><strong>第 1 天：先立规则再搬家</strong>。写下《总规则》：分层模型、目录编号、分章纪律、YAML 规范、禁止事项——规则先行，后面所有操作有据可依；</li>
+<li><strong>第 2 天：搭骨架</strong>。建 00–99 章目录和章首页占位，把首页、知识地图、各领域索引先立起来；</li>
+<li><strong>第 3 天：批量归类</strong>。把散落笔记按主题 <code>mv</code> 进对应章目录（wikilink 按文件名解析，跨目录移动不断链）；</li>
+<li><strong>之后：持续治理</strong>。新笔记必须归章、必须挂索引；每周跑一次断链扫描；发现旧笔记过时就地修订。</li>
+</ol>
+<p>实测效果：首页从 17 条链接收敛到 7 条，知识地图从 29 条收敛到 13 条，断链清零，图谱从「乱麻」变成「清晰的树」。<strong>治理的投入主要在结构，不在内容</strong>——结构对了，内容自然找到位置。</p>
+<h1 id="十二、给新手的最小起步清单"><a href="#十二、给新手的最小起步清单" class="headerlink" title="十二、给新手的最小起步清单"></a>十二、给新手的最小起步清单</h1><p>不要一步到位，按这个顺序做就够：</p>
+<ol>
+<li><strong>建 3 个目录</strong>：<code>00-入口/</code>（放首页和索引）、<code>10-收集箱/</code>、<code>99-模板/</code>，再加 1 个你当前最关心的业务目录；</li>
+<li><strong>写一篇首页</strong>：只放 3–5 个链接，先让它「能导航」；</li>
+<li><strong>定一个笔记模板</strong>：title &#x2F; created &#x2F; tags &#x2F; status 四字段起步；</li>
+<li><strong>从今天开始记</strong>：新笔记一律先落收集箱，每周日花 20 分钟整理；</li>
+<li><strong>只加一个习惯</strong>：每篇笔记至少一个 <code>[[链接]]</code>；</li>
+<li>两周后回头补索引和章首页，再决定要不要加目录。</li>
+</ol>
+<h1 id="十三、什么时候别用-Obsidian"><a href="#十三、什么时候别用-Obsidian" class="headerlink" title="十三、什么时候别用 Obsidian"></a>十三、什么时候别用 Obsidian</h1><p>最后说点泼冷水的，帮你省钱省时间：</p>
+<ul>
+<li>你需要的其实是<strong>团队共享文档</strong>（多人同时编辑、评论、审批）→ 用 Notion 或语雀，Obsidian 的多人协作会让你难受；</li>
+<li>你<strong>讨厌折腾</strong>，只想开箱即用、同步开箱就有 → 印象笔记&#x2F;语雀更省心，Obsidian 的同步要自己搭；</li>
+<li>你主要记<strong>临时信息</strong>（会议随手记、待办清单），不打算长期积累 → 任何工具都行，没必要为 Obsidian 建整套体系；</li>
+<li>你已经有 Notion&#x2F;语雀体系且用得顺手 → <strong>不要为了换而换</strong>，工具迁移成本很高。Obsidian 的核心价值在「长期积累 + 数据自主 + AI 协作」，这三样你都不需要，就别折腾。</li>
+</ul>
+<hr>
+<p><em>这篇文章的架构来自我自己 Obsidian 知识库的实践：<code>00-首页与索引/</code> 下的《智能体知识库总规则》定义了分层模型、目录编号与分章纪律，<code>知识地图.md</code> 是全库总导航。全部正文为纯 Markdown + 双向链接，可被任何工具读写。</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/">https://www.lxpyll.top/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%88%E7%8E%87%E5%B7%A5%E5%85%B7/">效率工具</a><a class="post-meta__tags" href="/tags/%E6%95%99%E7%A8%8B/">教程</a><a class="post-meta__tags" href="/tags/Obsidian/">Obsidian</a><a class="post-meta__tags" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/">知识管理</a><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0%E7%B3%BB%E7%BB%9F/">笔记系统</a></div><div class="post-share"><div class="social-share" data-image="/img/kb-architecture.svg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/novels/chongsheng/01-chongsheng/" title="第一章 重生"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">第一章 重生</div></div><div class="info-2"><div class="info-item-1">重生 · 目录第 1 / 21 章下一章第二章 第一笔  六点四十七分，他醒了。 不是被闹钟叫醒的。是被一股说不清的东西猛地从水底拽上来的，肺里还留着爆裂的余韵，像溺水的人刚冒头，空气呛进喉咙。 彭敬寅睁着眼，盯着头顶发黄的蚊帐。空气里有煤炉子的味道，混着稻草和旧木头。窗外天还是灰蓝的，晨雾从田埂那边漫过来，把岗美镇的老屋裹得严严实实。元旦，早上六点多...</div></div></div></a><a class="pagination-related" href="/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/" title="喧嚣的世界里想有一颗能平静的心"><img class="cover" src="/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">喧嚣的世界里想有一颗能平静的心</div></div><div class="info-2"><div class="info-item-1">这个时代，心好像越来越难安稳了。外面的一切都在加速，信息一刻不停地涌进来，AI把生产和传播变得如此轻易，世界像被按下了快进键。心跟不上，就容易乱。明明周围很热闹，可那份安静却越来越稀薄。  人心本该有自己的节奏，能沉得下去，能专注在一件事上。可现在，它常常被各种声音拉扯着。一会儿被新鲜的东西吸引，一会儿又被比较搅动。快节奏把时间切成碎片，心也跟着碎了。...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/08/16/deepseek-harness-tutorial/" title="把 DeepSeek Harness 跑起来了，安装过程记录"><img class="cover" src="/img/dsh-tutorial.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-16</div><div class="info-item-2">把 DeepSeek Harness 跑起来了，安装过程记录</div></div><div class="info-2"><div class="info-item-1">Harness 开源那天我装了一个，Windows 和 Mac 都试了一遍。过程比想的简单，把记录放这里，给还没动手的人省点时间。 环境就一个 Node.js版本要 22.19 以上，或者 24。官网下 LTS 版装上，终端里跑 node -v 能出数字就行。 安装是一行命令1npx @deepseek-ai/dsh web  第一次跑会自己下载，等几...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="我现在的 vibe coding 工作流"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-21</div><div class="info-item-2">我现在的 vibe coding 工作流</div></div><div class="info-2"><div class="info-item-1">vibe coding 这个词最近在技术社区里出现的频率明显变高了，V2EX 上有个帖子统计大家现在都用什么方案，回复一百多条。简单说，vibe coding 就是用自然语言描述需求，让 AI 把代码写出来，人负责提要求和看结果，不自己一行行敲。 我是被一个小需求逼着开始用的。当时要写个处理表格的小脚本，想着让 AI 全包试试，结果真跑通了。从那以后流...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/16/%E7%94%A8AI-Agent%E8%87%AA%E5%8A%A8%E5%8C%96%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="用 AI Agent 自动化个人博客：从选题到发布全流程零人工"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-16</div><div class="info-item-2">用 AI Agent 自动化个人博客：从选题到发布全流程零人工</div></div><div class="info-2"><div class="info-item-1">个人博客最大的敌人不是写不好，是断更。一开始热情满满，写着写着就停了——因为每篇文章都要自己选题、查资料、排版、发布，太累。 这篇文章不讲”怎么写爆款”，讲一个更实在的问题：怎么让博客的日常更新不再靠意志力，而靠一套能自动运转的系统。 我自己就搭了这么一套，跑了挺久，把它拆开讲清楚。 一、先解决”发布累”：静态站 + 自动部署选 Hexo（静态博客生成...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/19/Mojo-%E6%AD%A3%E5%BC%8F%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E8%A3%85%E5%A5%BD%E8%B7%91%E9%80%9A%E4%BA%86/" title="Mojo 正式开源了，我装好跑通了"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-19</div><div class="info-item-2">Mojo 正式开源了，我装好跑通了</div></div><div class="info-2"><div class="info-item-1">今天 Hacker News 热榜上挂着一条消息：Mojo 语言正式开源了。就是那个宣传语喊了很久的「Python 语法、C 语言速度」的语言，作者是 Chris Lattner——LLVM 和 Swift 的作者，编译器圈子里分量很重的人。以前它只开放 SDK，源码一直捏在手里，这次全放出来了，背后的公司 Modular 现在归高通（Qualcomm...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/17/claude-system-prompts/" title="Claude 把 claude.ai 的系统提示词公开了，我抄了几条到自己的 Agent"><img class="cover" src="/img/claude-sp-copy.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-17</div><div class="info-item-2">Claude 把 claude.ai 的系统提示词公开了，我抄了几条到自己的 Agent</div></div><div class="info-2"><div class="info-item-1">昨晚刷 Hacker News，首页第一名挂着 Anthropic 的链接，五百多分，点进去是 claude.ai 系统提示词的官方文档页。Claude 其实一直把网页版和 App 用的系统提示词公开在文档里，按模型、按日期更新，能一路翻到 2024 年。这次又火一轮，大概是 Opus 5 的新版本被大家拿去逐行分析。 先用人话解释：系统提示词就是每次...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/17/firefox-ios-adblocker/" title="iPhone 上装了个 Firefox，网页广告终于能拦了"><img class="cover" src="/img/ff-ios-adblock.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-17</div><div class="info-item-2">iPhone 上装了个 Firefox，网页广告终于能拦了</div></div><div class="info-2"><div class="info-item-1">iPhone 上去广告这事，一直比安卓麻烦。Safari 要另装内容拦截器 app，Chrome、Edge 在 iOS 上又装不了扩展——苹果规定所有 iOS 浏览器都得用 WebKit 内核，拦截只能靠网络层过滤，这个功能之前没几个浏览器愿意做。 这周 Mozilla 开始给 Firefox for iOS 推内置广告拦截，官方标注 experime...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">Levi的Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%9F%A5%E8%AF%86%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">一、为什么需要知识库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Obsidian-%E7%9A%84%E4%BC%98%E5%8A%BF%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA"><span class="toc-number">2.</span> <span class="toc-text">二、Obsidian 的优势到底在哪</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%92%8C%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7%E7%9A%84%E6%A8%AA%E8%AF%84"><span class="toc-number">3.</span> <span class="toc-text">三、和其他工具的横评</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%80%BB%E4%BD%93%E6%80%9D%E8%B7%AF%EF%BC%9A%E5%83%8F%E3%80%8C%E4%B9%A6%E3%80%8D%E4%B8%80%E6%A0%B7%E5%88%86%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">四、总体思路：像「书」一样分层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%9B%AE%E5%BD%95%E8%AE%BE%E8%AE%A1%EF%BC%9A%E6%95%B0%E5%AD%97%E7%BC%96%E5%8F%B7%E6%8E%92%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">五、目录设计：数字编号排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E7%A4%BA%E4%BE%8B%EF%BC%9A%E4%B8%80%E6%9D%A1%E7%AC%94%E8%AE%B0%E7%9A%84%E4%B8%80%E7%94%9F"><span class="toc-number">6.</span> <span class="toc-text">六、使用过程示例：一条笔记的一生</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E7%AC%94%E8%AE%B0%E7%BB%9F%E4%B8%80%E6%A0%BC%E5%BC%8F%EF%BC%9AYAML-%E5%B1%9E%E6%80%A7"><span class="toc-number">7.</span> <span class="toc-text">七、笔记统一格式：YAML 属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%93%BE%E6%8E%A5%E7%BA%AA%E5%BE%8B%EF%BC%9A%E8%AE%A9%E5%9B%BE%E8%B0%B1%E6%98%AF%E9%80%BB%E8%BE%91%E9%93%BE"><span class="toc-number">8.</span> <span class="toc-text">八、链接纪律：让图谱是逻辑链</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E4%BF%A1%E6%81%AF%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%9A%E4%BB%8E%E6%8D%95%E8%8E%B7%E5%88%B0%E6%B2%89%E6%B7%80"><span class="toc-number">9.</span> <span class="toc-text">九、信息生命周期：从捕获到沉淀</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E5%88%86%E7%B1%BB%E4%B8%8E%E6%A0%87%E7%AD%BE%E6%80%8E%E4%B9%88%E7%94%A8"><span class="toc-number">10.</span> <span class="toc-text">十、分类与标签怎么用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E8%90%BD%E5%9C%B0%E8%BF%87%E7%A8%8B%EF%BC%9A%E4%BB%8E%E4%B9%B1%E9%BA%BB%E5%88%B0%E4%B9%A6%E5%BC%8F%E5%88%86%E5%B1%82"><span class="toc-number">11.</span> <span class="toc-text">十一、落地过程：从乱麻到书式分层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E7%BB%99%E6%96%B0%E6%89%8B%E7%9A%84%E6%9C%80%E5%B0%8F%E8%B5%B7%E6%AD%A5%E6%B8%85%E5%8D%95"><span class="toc-number">12.</span> <span class="toc-text">十二、给新手的最小起步清单</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%88%AB%E7%94%A8-Obsidian"><span class="toc-number">13.</span> <span class="toc-text">十三、什么时候别用 Obsidian</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/21-zhongqiu/" title="第二十一章 中秋">第二十一章 中秋</a><time datetime="2026-08-22T15:18:00.000Z" title="发表于 2026-08-22 23:18:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/" title="Kimi K3 开源了，我把部署门槛摸了一遍">Kimi K3 开源了，我把部署门槛摸了一遍</a><time datetime="2026-08-22T14:30:00.000Z" title="发表于 2026-08-22 22:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="我现在的 vibe coding 工作流">我现在的 vibe coding 工作流</a><time datetime="2026-08-21T14:30:46.000Z" title="发表于 2026-08-21 22:30:46">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/20-qiulaohu/" title="第二十章 秋老虎">第二十章 秋老虎</a><time datetime="2026-08-21T04:30:00.000Z" title="发表于 2026-08-21 12:30:00">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/19-liqiu/" title="第十九章 立秋">第十九章 立秋</a><time datetime="2026-08-20T15:20:00.000Z" title="发表于 2026-08-20 23:20:00">2026-08-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Lxp1986/Lxp1986.github.io',
+      'data-repo-id': 'R_kgDOMn0qqg',
+      'data-category-id': 'DIC_kwDOMn0qqs4DDgMy',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

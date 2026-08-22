@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f0e4"><meta name="description" content="据 TechCrunch 报道，支付巨头 Stripe 将以 70 亿美元以上收购 AI 网关 OpenRouter。这篇写清楚 OpenRouter 是什么、怎么注册怎么调 API、和直接用官方 API 比差在哪，以及这事对普通用户意味着什么。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/08/17/openrouter-stripe-acquisition/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="据 TechCrunch 报道，支付巨头 Stripe 将以 70 亿美元以上收购 AI 网关 OpenRouter。这篇写清楚 OpenRouter 是什么、怎么注册怎么调 API、和直接用官方 API 比差在哪，以及这事对普通用户意味着什么。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/openrouter-stripe.svg">
+<meta property="article:published_time" content="2026-08-17T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-22T15:18:45.263Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="AI API">
+<meta property="article:tag" content="OpenRouter">
+<meta property="article:tag" content="Stripe">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用",
+  "url": "https://www.lxpyll.top/posts/2026/08/17/openrouter-stripe-acquisition/",
+  "image": "https://www.lxpyll.top/img/openrouter-stripe.svg",
+  "datePublished": "2026-08-17T10:00:00.000Z",
+  "dateModified": "2026-08-22T15:18:45.263Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "据 TechCrunch 报道，支付巨头 Stripe 将以 70 亿美元以上收购 AI 网关 OpenRouter。这篇写清楚 OpenRouter 是什么、怎么注册怎么调 API、和直接用官方 API 比差在哪，以及这事对普通用户意味着什么。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/08/17/openrouter-stripe-acquisition/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#231d17')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f0e4')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Noto+Serif+SC:wght@400;500;600;700;900&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #f7f0e4;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-17T10:00:00.000Z" title="发表于 2026-08-17 18:00:00">2026-08-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-22T15:18:45.263Z" title="更新于 2026-08-22 23:18:45">2026-08-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><p>昨晚看到新闻：Stripe（做支付的那家美国公司）据说要花 70 亿美元收购 OpenRouter。消息来自 TechCrunch，报道里标了「reportedly」，也就是说还没官宣，但业内都在传。</p>
+<p>OpenRouter 这名字，不碰 AI 编程的人可能没听过，但跑过 agent（AI 助手）的人基本都绕不开它。写一篇说清楚它是什么、怎么用、被收购对普通用户有什么影响。</p>
+<h2 id="OpenRouter-是什么"><a href="#OpenRouter-是什么" class="headerlink" title="OpenRouter 是什么"></a>OpenRouter 是什么</h2><p>一句话：一个 AI 模型「中转站」，用一个 API key 就能调用几百个模型。</p>
+<p>现在主流大模型有四五家：Anthropic 的 Claude、OpenAI 的 GPT、Google 的 Gemini、DeepSeek、通义千问，接口和计价各搞一套。OpenRouter 把这些都聚合到自己这里，你只需要注册一个账号、充一笔钱、拿一个 key，代码里换一个模型名字就能切模型，不用每家用一家就重新接一次接口。</p>
+<p>官方口径的几个数字：500+ 模型、80+ 供应商、月处理 200 万亿 token、1000 万以上用户。像 Hermes Agent、Replit、Kilo Code 这些 AI 编程工具，背后用的就是它。</p>
+<p>它整体的工作方式是这样一张图：</p>
+<p><img src="/img/openrouter-stripe.svg" alt="OpenRouter 工作原理：一个 key 调几百个模型"></p>
+<h2 id="它解决了什么问题"><a href="#它解决了什么问题" class="headerlink" title="它解决了什么问题"></a>它解决了什么问题</h2><ul>
+<li><strong>模型路由</strong>：同一个问题，它可以帮你自动挑模型。某个供应商挂了，自动切到另一家，服务不中断</li>
+<li><strong>统一计费</strong>：充 credits（点数）按量扣费，不用开一堆订阅。试新模型花几毛钱就行</li>
+<li><strong>OpenAI 兼容</strong>：接口格式跟 OpenAI 一样，代码几乎不用改</li>
+<li><strong>数据策略</strong>：可以设置只把数据发给信任的供应商</li>
+</ul>
+<h2 id="怎么用，三步"><a href="#怎么用，三步" class="headerlink" title="怎么用，三步"></a>怎么用，三步</h2><p><strong>第 1 步，注册。</strong> 打开 openrouter.ai，用 Google 或 GitHub 账号登录。</p>
+<p><strong>第 2 步，充值。</strong> 右上角买 credits，最低充 5 美元（约 36 元）就能玩。注意两点：网站走 Cloudflare，国内直连时好时坏，需要稳定的网络环境；支付要用支持外币的卡（Visa&#x2F;Mastercard）。</p>
+<p><strong>第 3 步，拿 key 调 API。</strong> 拿一个 API key，代码长这样（Python）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;https://openrouter.ai/api/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;sk-or-你的key&quot;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">resp = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;deepseek/deepseek-chat&quot;</span>,   <span class="comment"># 模型名按 厂商/模型 格式</span></span><br><span class="line">    messages=[&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;用一句话解释什么是 KV 缓存&quot;</span>&#125;],</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(resp.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<p>模型列表在官网 Models 页看，想换模型只改 <code>model</code> 那一个字符串。</p>
+<h2 id="和直接用官方-API-比，差在哪"><a href="#和直接用官方-API-比，差在哪" class="headerlink" title="和直接用官方 API 比，差在哪"></a>和直接用官方 API 比，差在哪</h2><p><strong>好的地方：</strong> 一个 key 全搞定，切换模型不用改代码；小模型便宜，很多免费模型可以随便试；供应商出故障能自动切换，稳定性反而好。</p>
+<p><strong>不好的地方：</strong> 中间多了一层，价格通常比官方原价略高（它要抽成）；数据经过第三方，正式业务要注意合规；国内访问不稳定，生产环境用着不踏实。</p>
+<p>我的判断：个人开发者、经常试新模型的人、跑 agent 想省钱的人，适合用。大公司正式业务、对数据敏感的，直接用各家官方 API 更省心。</p>
+<h2 id="被-Stripe-收购意味着什么"><a href="#被-Stripe-收购意味着什么" class="headerlink" title="被 Stripe 收购意味着什么"></a>被 Stripe 收购意味着什么</h2><p>Stripe 是干嘛的？全球最大的在线支付基础设施之一，很多网站的收款、订阅都是它做的。它买 OpenRouter，图的是 AI 应用的钱袋子——以后 AI 应用的计费、订阅、开发者支付，都可能走 Stripe 的管道。</p>
+<p>对普通用户来说，短期内大概率什么都没变：OpenRouter 该用用，价格服务照旧。中期要盯两件事：一是 credits 计费规则会不会变，二是数据政策会不会变。我的建议是别一次性充太多钱，观望为主。</p>
+<blockquote>
+<p>收购消息为 TechCrunch 2026-08-16 报道（标有 reportedly），尚未官宣；OpenRouter 功能信息查于 2026-08-17，以官网为准。</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/08/17/openrouter-stripe-acquisition/">https://www.lxpyll.top/posts/2026/08/17/openrouter-stripe-acquisition/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI-API/">AI API</a><a class="post-meta__tags" href="/tags/OpenRouter/">OpenRouter</a><a class="post-meta__tags" href="/tags/Stripe/">Stripe</a><a class="post-meta__tags" href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">市场观察</a></div><div class="post-share"><div class="social-share" data-image="/img/openrouter-stripe.svg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/novels/chongsheng/16-zouliang/" title="第十六章 走量"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">第十六章 走量</div></div><div class="info-2"><div class="info-item-1">上一章第十五章 尾货重生 · 目录第 16 / 21 章下一章第十七章 补仓  周一早晨，雨停了半天，又飘起来。细细的，打在铁皮棚顶上，沙沙响。 档口开门。特价区那箱壳，周末两天走了两百多个，剩下的大半是色差的。金仔蹲在门口擦柜台，擦两下看一眼手机： “南宁那小子，货该到了吧？” “班车隔天到。”彭敬寅说，”他要是走得动，会来电话。” “你怎么知道他走...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/17/qwen-38-27b-local/" title="把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉"><img class="cover" src="/img/qwen38-local.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉</div></div><div class="info-2"><div class="info-item-1">上周五阿里开源了 Qwen 3.8 27B，就是通义千问的最新开源版。许可证是 Apache 2.0（商用随便用），270 亿参数，还能看图，27B 这个大小笔记本也带得动，我就装了一个试试。装的过程不复杂，麻烦的是它那个默认设置，不关掉能把你等崩溃。这篇记一下全过程。 Qwen 3.8 27B 是个什么东西一句话：通义千问最新一代开源模型，270 亿...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/08/18/gpt-56-tiers-pricing/" title="GPT-5.6 正式发布，我把 Sol&#x2F;Terra&#x2F;Luna 三档的价格算了一遍"><img class="cover" src="/img/gpt56-tiers.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-18</div><div class="info-item-2">GPT-5.6 正式发布，我把 Sol&#x2F;Terra&#x2F;Luna 三档的价格算了一遍</div></div><div class="info-2"><div class="info-item-1">今天 OpenAI 把 GPT-5.6 全家族放出来了，不是单个模型，是三个档位：Sol、Terra、Luna。官方说未来 24 小时内全球逐步开放。 先说结论，省的往下翻：大多数人用 Luna 或 Terra 就够，写代码、跑长任务的再考虑 Sol。 档位之间价格差 5 倍，日常那点活，Sol 的优势你体感不出来。  三档到底差在哪数字 5.6 是代...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">Levi的Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenRouter-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">OpenRouter 是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">它解决了什么问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%94%A8%EF%BC%8C%E4%B8%89%E6%AD%A5"><span class="toc-number">3.</span> <span class="toc-text">怎么用，三步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E7%9B%B4%E6%8E%A5%E7%94%A8%E5%AE%98%E6%96%B9-API-%E6%AF%94%EF%BC%8C%E5%B7%AE%E5%9C%A8%E5%93%AA"><span class="toc-number">4.</span> <span class="toc-text">和直接用官方 API 比，差在哪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A2%AB-Stripe-%E6%94%B6%E8%B4%AD%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88"><span class="toc-number">5.</span> <span class="toc-text">被 Stripe 收购意味着什么</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/21-zhongqiu/" title="第二十一章 中秋">第二十一章 中秋</a><time datetime="2026-08-22T15:18:00.000Z" title="发表于 2026-08-22 23:18:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/" title="Kimi K3 开源了，我把部署门槛摸了一遍">Kimi K3 开源了，我把部署门槛摸了一遍</a><time datetime="2026-08-22T14:30:00.000Z" title="发表于 2026-08-22 22:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="我现在的 vibe coding 工作流">我现在的 vibe coding 工作流</a><time datetime="2026-08-21T14:30:46.000Z" title="发表于 2026-08-21 22:30:46">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/20-qiulaohu/" title="第二十章 秋老虎">第二十章 秋老虎</a><time datetime="2026-08-21T04:30:00.000Z" title="发表于 2026-08-21 12:30:00">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/19-liqiu/" title="第十九章 立秋">第十九章 立秋</a><time datetime="2026-08-20T15:20:00.000Z" title="发表于 2026-08-20 23:20:00">2026-08-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Lxp1986/Lxp1986.github.io',
+      'data-repo-id': 'R_kgDOMn0qqg',
+      'data-category-id': 'DIC_kwDOMn0qqs4DDgMy',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

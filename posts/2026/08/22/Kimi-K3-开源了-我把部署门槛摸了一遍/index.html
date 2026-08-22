@@ -1,0 +1,272 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Kimi K3 开源了，我把部署门槛摸了一遍 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f0e4"><meta name="description" content="月之暗面把 Kimi K3 的权重放出来了：2.8T 总参数、104B 激活、下载量 1.56TB。这篇聊清楚它到底算不算开源、普通电脑能不能跑、真想部署需要什么，以及不想折腾怎么体验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kimi K3 开源了，我把部署门槛摸了一遍">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="月之暗面把 Kimi K3 的权重放出来了：2.8T 总参数、104B 激活、下载量 1.56TB。这篇聊清楚它到底算不算开源、普通电脑能不能跑、真想部署需要什么，以及不想折腾怎么体验。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/og.jpg">
+<meta property="article:published_time" content="2026-08-22T14:30:00.000Z">
+<meta property="article:modified_time" content="2026-08-22T15:18:45.263Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Kimi">
+<meta property="article:tag" content="MoE">
+<meta property="article:tag" content="开源大模型">
+<meta property="article:tag" content="本地部署">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Kimi K3 开源了，我把部署门槛摸了一遍",
+  "url": "https://www.lxpyll.top/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/",
+  "image": "https://www.lxpyll.top/img/og.jpg",
+  "datePublished": "2026-08-22T14:30:00.000Z",
+  "dateModified": "2026-08-22T15:18:45.263Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "月之暗面把 Kimi K3 的权重放出来了：2.8T 总参数、104B 激活、下载量 1.56TB。这篇聊清楚它到底算不算开源、普通电脑能不能跑、真想部署需要什么，以及不想折腾怎么体验。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#231d17')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f0e4')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Noto+Serif+SC:wght@400;500;600;700;900&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kimi K3 开源了，我把部署门槛摸了一遍',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #f7f0e4;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">Kimi K3 开源了，我把部署门槛摸了一遍</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/novels/"><i class="fa-fw fas fa-book-open"></i><span> 小说</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">Kimi K3 开源了，我把部署门槛摸了一遍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-22T14:30:00.000Z" title="发表于 2026-08-22 22:30:00">2026-08-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-22T15:18:45.263Z" title="更新于 2026-08-22 23:18:45">2026-08-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI/">AI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><p>这周国内 AI 圈刷屏的事，Kimi K3 算一个。月之暗面把旗舰模型的权重放了出来，新闻标题都是”开源对标顶级前沿模型”。我的第一反应跟大多数人一样：下载，跑一跑。然后看到 1.56TB 几个字，人就冷静了。</p>
+<p>这篇把我摸到的门槛写清楚：它开的是什么源、普通电脑能不能跑、真想部署需要什么、不想折腾怎么体验。省得你白下一晚上。</p>
+<h2 id="Kimi-K3-是什么（两句话版）"><a href="#Kimi-K3-是什么（两句话版）" class="headerlink" title="Kimi K3 是什么（两句话版）"></a>Kimi K3 是什么（两句话版）</h2><p>Kimi 是月之暗面做的对话模型，K3 是他们的最新旗舰。它是 MoE 架构（专家混合模型，通俗说就是一个大模型里塞了几百个”专家”，每次只叫醒一小部分干活，所以能做得很大又不算太费算力）：</p>
+<ul>
+<li>总参数 2.8 万亿，每次实际激活 1040 亿（896 个专家里激活 16 个）</li>
+<li>上下文 100 万 token（百万级窗口，长文档、大代码仓库都能一次装下）</li>
+<li>原生支持看图，多模态</li>
+</ul>
+<p>数字很吓人，但真正跟钱包相关的是下面这句：<strong>权重包 1.56TB</strong>。</p>
+<h2 id="它到底”开源”了没有"><a href="#它到底”开源”了没有" class="headerlink" title="它到底”开源”了没有"></a>它到底”开源”了没有</h2><p>权重是真放出来了，Hugging Face 和 ModelScope（国内的模型站）都有官方仓库，能下载。但它用的是自家定制的 <strong>Kimi K3 License</strong>，不是 Apache 2.0 或 MIT 那种标准开源协议。所以业内更准确的说法是”开放权重”。</p>
+<p>区别在哪？标准开源协议是经过检验的，怎么改、怎么商用、怎么分发写得明明白白。定制的协议你得自己读一遍，确认商用、微调、再分发这些动作是不是你想要的。对个人折腾无所谓，对想拿去做商业产品的公司，这一步别省。</p>
+<h2 id="下载这一关，先冷静看看-1-56TB"><a href="#下载这一关，先冷静看看-1-56TB" class="headerlink" title="下载这一关，先冷静看看 1.56TB"></a>下载这一关，先冷静看看 1.56TB</h2><p>1.56TB 什么概念？96 个分片文件，千兆宽带满速也要 3 个多小时，网速差点就准备好下一晚上。断点续传是有的，中途断了重新跑一遍命令就行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先装 huggingface_hub（pip install -U huggingface_hub）</span></span><br><span class="line">hf download moonshotai/Kimi-K3 --local-dir /data/models/kimi-k3</span><br></pre></td></tr></table></figure>
+
+<p>国内直连 Hugging Face 不稳，走 ModelScope 镜像更现实：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install modelscope</span><br><span class="line">modelscope download --model moonshotai/Kimi-K3 --local_dir /data/models/kimi-k3</span><br></pre></td></tr></table></figure>
+
+<h2 id="跑起来要什么硬件（普通人别想了）"><a href="#跑起来要什么硬件（普通人别想了）" class="headerlink" title="跑起来要什么硬件（普通人别想了）"></a>跑起来要什么硬件（普通人别想了）</h2><p>这是最关键的一关。K3 是<strong>原生 4bit 训练</strong>（MXFP4 格式，模型本身就以低精度存储），不是先训大的再事后压缩——也就是说，它几乎没有压缩空间。</p>
+<p>MoE 模型有个特点：每次只激活 16 个专家，但<strong>全部 896 个专家都得驻留在内存&#x2F;显存里</strong>随时待命。所以哪怕激活参数只有 104B，跑推理时整个权重包都要装进去，1.5TB 级别的存储&#x2F;显存，起步就是多卡服务器（A100&#x2F;H100 八卡甚至更多那种）。消费级显卡完全没戏。</p>
+<p>官方推荐的部署方式是 vLLM 的专用镜像，命令大概是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉专用镜像</span></span><br><span class="line">docker pull vllm/vllm-openai:kimi-k3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 起服务（vLLM 官方命令）</span></span><br><span class="line">vllm serve moonshotai/Kimi-K3</span><br></pre></td></tr></table></figure>
+
+<p>顺带说一句，有人做了 GGUF 量化版（unsloth 仓库里有），能再压小一点，但 896 个专家都得出场，压完也是几百 GB 级别，单卡依然无解。4090、5090 的兄弟们，这局咱们看戏就行。</p>
+<h2 id="想体验的话，走官方-API"><a href="#想体验的话，走官方-API" class="headerlink" title="想体验的话，走官方 API"></a>想体验的话，走官方 API</h2><p>不折腾部署的话，最省事的是直接用 Kimi 官方开放平台的 API。长上下文是它的主战场：长工程代码、长文档研究、把一堆材料整理成带图表的报告——官方叫 agentic knowledge work，就是让它自己查资料、写报告、做可视化那一套。</p>
+<p>我试了个研究类的提示词，感觉值得复制：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">你是资深行业研究员。请完成以下深度研究任务：</span><br><span class="line">1. 背景：我是一家小型工程公司，想了解 2026 年 AI 辅助投标报价工具的市场现状；</span><br><span class="line">2. 输出要求：先给一页摘要（结论先行），再分三节展开：主要产品与定价、适合小团队的工具、我的落地建议；</span><br><span class="line">3. 用通俗中文，避免术语堆砌，每条结论标注信息来源；</span><br><span class="line">4. 总字数控制在 1500 字以内。</span><br></pre></td></tr></table></figure>
+
+<p>长上下文模型干这种活最舒服：材料丢进去，让它自己组织，最后输出带依据的结论。我自己的感受是，这类任务别急着让它一次写完，先让它列提纲，再逐节生成，质量会稳很多。</p>
+<h2 id="我的判断"><a href="#我的判断" class="headerlink" title="我的判断"></a>我的判断</h2><p>Kimi K3 开放权重，真正的意义在企业——数据不出门、能私有化部署，这是 API 给不了的。对普通玩家，1.56TB 的下载量加多卡起步的显存门槛，已经把自部署的路焊死了。</p>
+<p>我的建议很朴素：想尝鲜，用 API；想本地玩大模型，还是看几十 B 参数的小模型（之前写过 Qwen 本地部署，那个才是普通电脑能碰的）。等哪天出了真能单卡跑的蒸馏版，我再来更新这篇。</p>
+<p><img src="/img/kimi-k3-gate.svg" alt="Kimi K3 部署门槛图"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/">https://www.lxpyll.top/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kimi/">Kimi</a><a class="post-meta__tags" href="/tags/%E5%BC%80%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B/">开源大模型</a><a class="post-meta__tags" href="/tags/MoE/">MoE</a><a class="post-meta__tags" href="/tags/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/">本地部署</a></div><div class="post-share"><div class="social-share" data-image="/img/og.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/novels/chongsheng/21-zhongqiu/" title="第二十一章 中秋"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">第二十一章 中秋</div></div><div class="info-2"><div class="info-item-1">上一章第二十章 秋老虎重生 · 目录第 21 / 21 章  第21章 中秋九月中旬，深圳还是三十度的天。台风过了快一个月，雨棚晒得发白，华强北的人流一天比一天密。 档口里，金仔把一箱高清膜码上货架，扫了一眼屏幕：「寅哥，一百二十了。」 彭敬寅看了一眼。一百二十块五毛二。八月十六那天跌破一百，磨了一个月，磨到一百二出头。 「磨完了？」金仔问。 「还差一...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="我现在的 vibe coding 工作流"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">我现在的 vibe coding 工作流</div></div><div class="info-2"><div class="info-item-1">vibe coding 这个词最近在技术社区里出现的频率明显变高了，V2EX 上有个帖子统计大家现在都用什么方案，回复一百多条。简单说，vibe coding 就是用自然语言描述需求，让 AI 把代码写出来，人负责提要求和看结果，不自己一行行敲。 我是被一个小需求逼着开始用的。当时要写个处理表格的小脚本，想着让 AI 全包试试，结果真跑通了。从那以后流...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/08/20/qwen38-ud3-gguf/" title="Qwen3.8-27B 出了新压缩格式 Dynamic 3.0，我重新下了一遍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-20</div><div class="info-item-2">Qwen3.8-27B 出了新压缩格式 Dynamic 3.0，我重新下了一遍</div></div><div class="info-2"><div class="info-item-1">前两天刚写完 Qwen 3.8 27B 本地部署，这两天 Unsloth 就给这个模型出了新版的量化格式，叫 Dynamic 3.0。宣传说同样大小的文件，精度能比别家量化高一截。反正模型文件本来就要重下，我干脆换了过去，把过程记一下。 量化是什么先给没接触过的朋友补一句。27B 模型原始文件差不多 50 多 GB，一般电脑跑不动。量化就是把模型里的数...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/17/qwen-38-27b-local/" title="把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉"><img class="cover" src="/img/qwen38-local.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-17</div><div class="info-item-2">把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉</div></div><div class="info-2"><div class="info-item-1">上周五阿里开源了 Qwen 3.8 27B，就是通义千问的最新开源版。许可证是 Apache 2.0（商用随便用），270 亿参数，还能看图，27B 这个大小笔记本也带得动，我就装了一个试试。装的过程不复杂，麻烦的是它那个默认设置，不关掉能把你等崩溃。这篇记一下全过程。 Qwen 3.8 27B 是个什么东西一句话：通义千问最新一代开源模型，270 亿...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">Levi的Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">46</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kimi-K3-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%88%E4%B8%A4%E5%8F%A5%E8%AF%9D%E7%89%88%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Kimi K3 是什么（两句话版）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E5%88%B0%E5%BA%95%E2%80%9D%E5%BC%80%E6%BA%90%E2%80%9D%E4%BA%86%E6%B2%A1%E6%9C%89"><span class="toc-number">2.</span> <span class="toc-text">它到底”开源”了没有</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E8%BF%99%E4%B8%80%E5%85%B3%EF%BC%8C%E5%85%88%E5%86%B7%E9%9D%99%E7%9C%8B%E7%9C%8B-1-56TB"><span class="toc-number">3.</span> <span class="toc-text">下载这一关，先冷静看看 1.56TB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%91%E8%B5%B7%E6%9D%A5%E8%A6%81%E4%BB%80%E4%B9%88%E7%A1%AC%E4%BB%B6%EF%BC%88%E6%99%AE%E9%80%9A%E4%BA%BA%E5%88%AB%E6%83%B3%E4%BA%86%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">跑起来要什么硬件（普通人别想了）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%83%B3%E4%BD%93%E9%AA%8C%E7%9A%84%E8%AF%9D%EF%BC%8C%E8%B5%B0%E5%AE%98%E6%96%B9-API"><span class="toc-number">5.</span> <span class="toc-text">想体验的话，走官方 API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">6.</span> <span class="toc-text">我的判断</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/21-zhongqiu/" title="第二十一章 中秋">第二十一章 中秋</a><time datetime="2026-08-22T15:18:00.000Z" title="发表于 2026-08-22 23:18:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/" title="Kimi K3 开源了，我把部署门槛摸了一遍">Kimi K3 开源了，我把部署门槛摸了一遍</a><time datetime="2026-08-22T14:30:00.000Z" title="发表于 2026-08-22 22:30:00">2026-08-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="我现在的 vibe coding 工作流">我现在的 vibe coding 工作流</a><time datetime="2026-08-21T14:30:46.000Z" title="发表于 2026-08-21 22:30:46">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/20-qiulaohu/" title="第二十章 秋老虎">第二十章 秋老虎</a><time datetime="2026-08-21T04:30:00.000Z" title="发表于 2026-08-21 12:30:00">2026-08-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/novels/chongsheng/19-liqiu/" title="第十九章 立秋">第十九章 立秋</a><time datetime="2026-08-20T15:20:00.000Z" title="发表于 2026-08-20 23:20:00">2026-08-20</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Lxp1986/Lxp1986.github.io',
+      'data-repo-id': 'R_kgDOMn0qqg',
+      'data-category-id': 'DIC_kwDOMn0qqs4DDgMy',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

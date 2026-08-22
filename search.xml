@@ -1,0 +1,2594 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Claude 把 claude.ai 的系统提示词公开了，我抄了几条到自己的 Agent</title>
+    <url>//posts/2026/08/17/claude-system-prompts/</url>
+    <content><![CDATA[<p>昨晚刷 Hacker News，首页第一名挂着 Anthropic 的链接，五百多分，点进去是 claude.ai 系统提示词的官方文档页。Claude 其实一直把网页版和 App 用的系统提示词公开在文档里，按模型、按日期更新，能一路翻到 2024 年。这次又火一轮，大概是 Opus 5 的新版本被大家拿去逐行分析。</p>
+<p>先用人话解释：系统提示词就是每次对话开始前，藏在后台给模型看的那份说明书——告诉它今天几号、你是谁、该怎么说话、什么不能碰。你平时跟 Claude 聊天，你发的第一条消息前面，其实垫着这么一大段。</p>
+<p>文档地址是 <code>platform.claude.com/docs/en/release-notes/system-prompts</code>。有个细节值得注意：这套提示词只管 claude.ai 网页和 App，不作用于 API。调 API 的时候，模型只认你自己传的那份 system prompt，官方这套跟你的代码没有关系。</p>
+<h2 id="我翻了一遍-Opus-5-那份"><a href="#我翻了一遍-Opus-5-那份" class="headerlink" title="我翻了一遍 Opus 5 那份"></a>我翻了一遍 Opus 5 那份</h2><p>光 Opus 5 这一份就三万多词，比我自己写过的所有配置加起来都长。整体分两大块：行为规则（claude_behavior）和一堆机制说明。行为规则里又分产品信息、默认姿态、拒绝规则、语气格式、立场中立、心理健康几个小节；机制部分包括记忆文件系统、结束对话工具、Artifacts 存储、MCP 工具建议、历史对话搜索这些。</p>
+<p>挑几条我印象深的：</p>
+<ol>
+<li>默认姿态是帮忙。原文大意：只要帮忙不会造成具体而严重的伤害，就默认帮；擦边、假设、开玩笑、让人不舒服的问题，都够不上拒绝的标准。</li>
+<li>回复保持简短，结论先行，免责声明要短；每条回复最多追问一个问题；用户不先爆粗，模型就不说脏话。</li>
+<li>最让我在意的一条：明确要求少用 “genuinely”、”honestly”、”straightforward” 这类词，理由是诚实是默认值，反复强调反而显得不真诚。AI 味一大半就是这么来的，国内对应版就是”说实话””老实讲””毫不夸张”。</li>
+<li>立场中立：用户让模型阐述某个立场时，给的是”支持者会怎么辩护”，不是模型自己的观点，最后还得补上对立面的看法。</li>
+</ol>
+<h2 id="我抄了三条"><a href="#我抄了三条" class="headerlink" title="我抄了三条"></a>我抄了三条</h2><p>看完直接动手，把三条抄进了自己的配置。我这边用的是 Hermes 的记忆文件，换成 Claude Code 就是 CLAUDE.md，道理一样，直接贴：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line"># 行为规范（借鉴 claude.ai 系统提示词，2026-08-17 整理）</span><br><span class="line">- 默认直接干活；只有具体且严重的风险才拒绝</span><br><span class="line">- 回复先给结论，保持简短</span><br><span class="line">- 每条回复最多追问一个问题</span><br><span class="line">- 不靠&quot;说实话&quot;&quot;老实讲&quot;&quot;毫不夸张&quot;这类词强调诚意</span><br><span class="line">- 让我讲某个立场时，讲支持者最好的说法，不是我的观点</span><br><span class="line">- 出错了就认，不辩解，也不过度道歉</span><br></pre></td></tr></table></figure>
+
+<p>用下来最直观的变化是废话少了。之前我的 agent 喜欢每条回复前面垫一句”好的，我来帮你看看”，现在没了；问它问题，也很少再反问我一堆确认条件。</p>
+<h2 id="别整份抄"><a href="#别整份抄" class="headerlink" title="别整份抄"></a>别整份抄</h2><p>claude.ai 那份是给 Anthropic 全家桶写的：产品介绍、记忆文件系统、Artifacts 存储全依赖自家基础设施。整份贴到自己的 agent 里，模型会去调用不存在的工具，或者一本正经地介绍你根本不用的产品。挑行为规则抄就够了。另外它更新得勤，抄的时候看一眼日期，别拿半年前的版本当最新。</p>
+<p>想看全文的去官方文档页翻，想省事的直接复制上面那段。我反正是用上了，体感是聊天的 AI 味淡了不少。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Claude</tag>
+        <tag>AI</tag>
+        <tag>Agent</tag>
+        <tag>提示词</tag>
+        <tag>效率工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用了几天 DeepSeek Harness，说几个真实感受</title>
+    <url>//posts/2026/08/16/deepseek-harness-review/</url>
+    <content><![CDATA[<p>先给结论：这工具现在还不适合拿来干正事。想尝鲜、想学它架构的可以装，指望它稳定出活，再等几个月。</p>
+<h2 id="几个不错的地方"><a href="#几个不错的地方" class="headerlink" title="几个不错的地方"></a>几个不错的地方</h2><p>官方出品，模型和框架是一套，配合比第三方拼出来的顺。MIT 开源，代码随便改。不绑死模型，DeepSeek、OpenAI、Claude 都能接。工具免费，API 也便宜，晚上还半价。</p>
+<h2 id="几个让我犹豫的地方"><a href="#几个让我犹豫的地方" class="headerlink" title="几个让我犹豫的地方"></a>几个让我犹豫的地方</h2><p>还是预览版，官方自己都写了「会有破坏性变更」，今天能用的功能过俩月可能就变了。配置概念有学习门槛，装起来简单，用好不简单。生态刚起步，出了问题能搜到的答案少。12 万星是热度，不是稳定。</p>
+<h2 id="跟其他几个比"><a href="#跟其他几个比" class="headerlink" title="跟其他几个比"></a>跟其他几个比</h2><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>出品方</th>
+<th>开源</th>
+<th>印象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DeepSeek Harness</td>
+<td>DeepSeek</td>
+<td>✅</td>
+<td>可定制、便宜，但还年轻</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>Anthropic</td>
+<td>❌</td>
+<td>省心、生态成熟，要订阅</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td>OpenAI</td>
+<td>✅</td>
+<td>跟 GitHub 配合最好</td>
+</tr>
+<tr>
+<td>Aider</td>
+<td>社区</td>
+<td>✅</td>
+<td>极简，只做结对写代码</td>
+</tr>
+</tbody></table>
+<p>（信息查于 2026-08-16，星数和版本会变。）</p>
+<h2 id="我的建议"><a href="#我的建议" class="headerlink" title="我的建议"></a>我的建议</h2><p>爱折腾、想学 Agent 怎么设计的，现在装，社区正热闹。已经在用 DeepSeek 的，直接上。只想省心出活的，选 Claude Code。要上生产的，等 1.0 再说。</p>
+<p>装的话看这篇：《<a href="/posts/2026/08/16/deepseek-harness-tutorial/">把 DeepSeek Harness 跑起来了，安装过程记录</a>》。</p>
+<blockquote>
+<p>本文信息查于 2026-08-16，以官方最新为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>DeepSeek</tag>
+        <tag>AI Agent</tag>
+        <tag>横评</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>把 DeepSeek Harness 跑起来了，安装过程记录</title>
+    <url>//posts/2026/08/16/deepseek-harness-tutorial/</url>
+    <content><![CDATA[<p>Harness 开源那天我装了一个，Windows 和 Mac 都试了一遍。过程比想的简单，把记录放这里，给还没动手的人省点时间。</p>
+<h2 id="环境就一个-Node-js"><a href="#环境就一个-Node-js" class="headerlink" title="环境就一个 Node.js"></a>环境就一个 Node.js</h2><p>版本要 22.19 以上，或者 24。官网下 LTS 版装上，终端里跑 <code>node -v</code> 能出数字就行。</p>
+<h2 id="安装是一行命令"><a href="#安装是一行命令" class="headerlink" title="安装是一行命令"></a>安装是一行命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx @deepseek-ai/dsh web</span><br></pre></td></tr></table></figure>
+
+<p>第一次跑会自己下载，等几十秒。然后浏览器打开 <code>http://127.0.0.1:3080</code>，能看到页面就装好了。终端别关。</p>
+<h2 id="配置两步"><a href="#配置两步" class="headerlink" title="配置两步"></a>配置两步</h2><p>第一步，Settings → Models 里填 DeepSeek 的 API Key，去 platform.deepseek.com 申请，有免费额度。填完保存就行，不用重启。</p>
+<p>第二步，Choose workspace 选一个文件夹给它当工作区。这步不选的话输入框是灰的，我一开始就卡在这。</p>
+<h2 id="第一次用"><a href="#第一次用" class="headerlink" title="第一次用"></a>第一次用</h2><p>新建会话，发了句「总结这个文件夹的结构，说说是什么项目，新人从哪看起」。它会自己翻文件、读代码、跑命令，最后给一份总结。</p>
+<h2 id="三个我实际在用的场景"><a href="#三个我实际在用的场景" class="headerlink" title="三个我实际在用的场景"></a>三个我实际在用的场景</h2><p><strong>分析老项目。</strong> 看不懂的代码仓库丢给它，让它先讲一遍结构，比自己硬啃快。</p>
+<p><strong>自动写周报。</strong> 让它把上周的 git 提交汇总成周报，用 headless 模式跑，一条命令的事：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span> --since=<span class="string">&quot;1 week ago&quot;</span> --pretty=format:<span class="string">&quot;%h %an %ad %s&quot;</span> --<span class="built_in">date</span>=short &gt; /tmp/gitlog.txt</span><br><span class="line">dsh --profile headless <span class="string">&quot;根据下面的提交记录写一份中文周报，按主题归类：<span class="subst">$(cat /tmp/gitlog.txt)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>再配个 cron 定时跑就行。</p>
+<p><strong>定时巡检。</strong> 让它每小时查一次磁盘、服务健康、依赖更新，有问题提醒。这个要开 schedule 插件，稍微折腾一点，官方文档有写。</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li>Key 填了还报错，八成是填错位置了，确认在 Settings → Models 里填的。</li>
+<li>它默认只在工作区文件夹里能改东西，其他地方只读，工作区别直接指到重要目录。</li>
+<li>费用这块，工具免费，花钱的是 API。DeepSeek 现在有峰谷定价，晚上和周末便宜，批量任务排晚上跑能省一半。</li>
+</ul>
+<p>装好之后到底要不要长期用，跟 Claude Code、Codex 比怎么样，我写在另一篇里了：《<a href="/posts/2026/08/16/deepseek-harness-review/">用了几天 DeepSeek Harness，说几个真实感受</a>》。</p>
+<blockquote>
+<p>命令和版本信息查于 2026-08-16，工具还在快速更新，以官方为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>DeepSeek</tag>
+        <tag>AI Agent</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GPT-5.6 正式发布，我把 Sol/Terra/Luna 三档的价格算了一遍</title>
+    <url>//posts/2026/08/18/gpt-56-tiers-pricing/</url>
+    <content><![CDATA[<p>今天 OpenAI 把 GPT-5.6 全家族放出来了，不是单个模型，是三个档位：Sol、Terra、Luna。官方说未来 24 小时内全球逐步开放。</p>
+<p>先说结论，省的往下翻：<strong>大多数人用 Luna 或 Terra 就够，写代码、跑长任务的再考虑 Sol。</strong> 档位之间价格差 5 倍，日常那点活，Sol 的优势你体感不出来。</p>
+<p><img src="/img/gpt56-tiers.svg" alt="GPT-5.6 三档模型对比：定位、价格、适合谁"></p>
+<h2 id="三档到底差在哪"><a href="#三档到底差在哪" class="headerlink" title="三档到底差在哪"></a>三档到底差在哪</h2><p>数字 5.6 是代数，Sol &#x2F; Terra &#x2F; Luna 是档位名。官方说这三档以后各自按自己的节奏升级，不用傻等下一代全家桶。</p>
+<ul>
+<li><strong>Sol</strong>：旗舰。写代码、复杂分析、长任务，官方所有评测的顶分基本都是它</li>
+<li><strong>Terra</strong>：均衡。日常写作、整理资料、做表格，性能跟上一代旗舰 GPT-5.5 差不多</li>
+<li><strong>Luna</strong>：最快最便宜。翻译、摘要、批量处理，官方数据说性能还压过 Claude Opus 4.8</li>
+</ul>
+<h2 id="价格，我算给你看"><a href="#价格，我算给你看" class="headerlink" title="价格，我算给你看"></a>价格，我算给你看</h2><p>API 按「每 100 万 token」计费（token 是模型处理文字的最小单位，大概 1 个英文单词 ≈ 1.3 个 token，中文一个字 ≈ 1-2 个 token）：</p>
+<table>
+<thead>
+<tr>
+<th>档位</th>
+<th>输入（每 1M token）</th>
+<th>输出（每 1M token）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sol</td>
+<td>$5</td>
+<td>$30</td>
+</tr>
+<tr>
+<td>Terra</td>
+<td>$2.5</td>
+<td>$15</td>
+</tr>
+<tr>
+<td>Luna</td>
+<td>$1</td>
+<td>$6</td>
+</tr>
+</tbody></table>
+<p>单看数字没感觉，换算一下：输出 1 万个 token，差不多是一篇 6000-10000 字中文文章的量——Luna 花 $0.06，Terra 花 $0.15，Sol 花 $0.30。写一篇 2000 字的短文，Luna 的成本就是一两分钱人民币的量级。真正拉开差距的是大规模批量任务，比如清洗几千条数据记录，或者批量生成几百份文档。</p>
+<p>另外这不是第一次调价了。7 月 30 日官方就宣布过：Luna 降价 80%、Terra 降价 20%。Luna 原来卖 Sol 一个价，现在只有它的五分之一。价格战的味道很浓。</p>
+<h2 id="订阅用户怎么用"><a href="#订阅用户怎么用" class="headerlink" title="订阅用户怎么用"></a>订阅用户怎么用</h2><p>如果你用 ChatGPT 网页版或 App，不用管上面那套 API 单价：</p>
+<ul>
+<li><strong>Free &#x2F; Go 用户</strong>：ChatGPT Work 和 Codex 里能用 Terra</li>
+<li><strong>Plus 及以上</strong>：Sol &#x2F; Terra &#x2F; Luna 三档都能选，还能调思考力度（medium、xhigh 这些档位）</li>
+<li><strong>Pro &#x2F; 企业用户</strong>：多了 Sol Pro 和 ultra——ultra 是让四个 AI 并行干一件活，复杂任务出结果更快</li>
+</ul>
+<p>ultra 普通人基本用不上，属于「钱多时间少」的人的选择。</p>
+<h2 id="我的建议"><a href="#我的建议" class="headerlink" title="我的建议"></a>我的建议</h2><ul>
+<li>预算敏感、量大管饱 → <strong>Luna</strong>。翻译、摘要、批量改写这种活，它干得又快又便宜</li>
+<li>日常主力 → <strong>Terra</strong>。写文档、回邮件、整理会议纪要，性能跟 GPT-5.5 平级，价格只有 Sol 的一半</li>
+<li>写代码、跑长任务 → <strong>Sol</strong>。程序员和重度用户值得多花这份钱，尤其是一次要跑很久的活</li>
+</ul>
+<h2 id="动手试一下"><a href="#动手试一下" class="headerlink" title="动手试一下"></a>动手试一下</h2><p>最便宜的 Luna 就能干不少活。有 API key 的话（在 platform.openai.com 创建，国内访问需要自备网络条件），一条 curl 就能跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl https://api.openai.com/v1/responses \</span><br><span class="line">  -H <span class="string">&quot;Authorization: Bearer <span class="variable">$OPENAI_API_KEY</span>&quot;</span> \</span><br><span class="line">  -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">  -d <span class="string">&#x27;&#123;</span></span><br><span class="line"><span class="string">    &quot;model&quot;: &quot;gpt-5.6-luna&quot;,</span></span><br><span class="line"><span class="string">    &quot;input&quot;: &quot;用三句话给我讲清楚什么是 token，别用术语&quot;</span></span><br><span class="line"><span class="string">  &#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>模型 ID 别照抄，去 platform.openai.com 的模型列表里看实际名称，一般是 <code>gpt-5.6-</code> 加档位名。想省钱的可以开 prompt 缓存（同一段输入反复用，缓存读取打九折），官方 API 文档里有说明。</p>
+<p>说句实在的：这波三档定价把「旗舰贵、日常便宜」摆到了明面上。只想用 AI 处理日常事务的话，真不用追着旗舰跑，Luna 起步，不够再往上升级就行。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>GPT-5.6</tag>
+        <tag>OpenAI</tag>
+        <tag>AI API</tag>
+        <tag>价格</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kimi K3 开源了，我把部署门槛摸了一遍</title>
+    <url>/posts/2026/08/22/Kimi-K3-%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E6%8A%8A%E9%83%A8%E7%BD%B2%E9%97%A8%E6%A7%9B%E6%91%B8%E4%BA%86%E4%B8%80%E9%81%8D/</url>
+    <content><![CDATA[<p>这周国内 AI 圈刷屏的事，Kimi K3 算一个。月之暗面把旗舰模型的权重放了出来，新闻标题都是”开源对标顶级前沿模型”。我的第一反应跟大多数人一样：下载，跑一跑。然后看到 1.56TB 几个字，人就冷静了。</p>
+<p>这篇把我摸到的门槛写清楚：它开的是什么源、普通电脑能不能跑、真想部署需要什么、不想折腾怎么体验。省得你白下一晚上。</p>
+<h2 id="Kimi-K3-是什么（两句话版）"><a href="#Kimi-K3-是什么（两句话版）" class="headerlink" title="Kimi K3 是什么（两句话版）"></a>Kimi K3 是什么（两句话版）</h2><p>Kimi 是月之暗面做的对话模型，K3 是他们的最新旗舰。它是 MoE 架构（专家混合模型，通俗说就是一个大模型里塞了几百个”专家”，每次只叫醒一小部分干活，所以能做得很大又不算太费算力）：</p>
+<ul>
+<li>总参数 2.8 万亿，每次实际激活 1040 亿（896 个专家里激活 16 个）</li>
+<li>上下文 100 万 token（百万级窗口，长文档、大代码仓库都能一次装下）</li>
+<li>原生支持看图，多模态</li>
+</ul>
+<p>数字很吓人，但真正跟钱包相关的是下面这句：<strong>权重包 1.56TB</strong>。</p>
+<h2 id="它到底”开源”了没有"><a href="#它到底”开源”了没有" class="headerlink" title="它到底”开源”了没有"></a>它到底”开源”了没有</h2><p>权重是真放出来了，Hugging Face 和 ModelScope（国内的模型站）都有官方仓库，能下载。但它用的是自家定制的 <strong>Kimi K3 License</strong>，不是 Apache 2.0 或 MIT 那种标准开源协议。所以业内更准确的说法是”开放权重”。</p>
+<p>区别在哪？标准开源协议是经过检验的，怎么改、怎么商用、怎么分发写得明明白白。定制的协议你得自己读一遍，确认商用、微调、再分发这些动作是不是你想要的。对个人折腾无所谓，对想拿去做商业产品的公司，这一步别省。</p>
+<h2 id="下载这一关，先冷静看看-1-56TB"><a href="#下载这一关，先冷静看看-1-56TB" class="headerlink" title="下载这一关，先冷静看看 1.56TB"></a>下载这一关，先冷静看看 1.56TB</h2><p>1.56TB 什么概念？96 个分片文件，千兆宽带满速也要 3 个多小时，网速差点就准备好下一晚上。断点续传是有的，中途断了重新跑一遍命令就行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先装 huggingface_hub（pip install -U huggingface_hub）</span></span><br><span class="line">hf download moonshotai/Kimi-K3 --local-dir /data/models/kimi-k3</span><br></pre></td></tr></table></figure>
+
+<p>国内直连 Hugging Face 不稳，走 ModelScope 镜像更现实：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install modelscope</span><br><span class="line">modelscope download --model moonshotai/Kimi-K3 --local_dir /data/models/kimi-k3</span><br></pre></td></tr></table></figure>
+
+<h2 id="跑起来要什么硬件（普通人别想了）"><a href="#跑起来要什么硬件（普通人别想了）" class="headerlink" title="跑起来要什么硬件（普通人别想了）"></a>跑起来要什么硬件（普通人别想了）</h2><p>这是最关键的一关。K3 是<strong>原生 4bit 训练</strong>（MXFP4 格式，模型本身就以低精度存储），不是先训大的再事后压缩——也就是说，它几乎没有压缩空间。</p>
+<p>MoE 模型有个特点：每次只激活 16 个专家，但<strong>全部 896 个专家都得驻留在内存&#x2F;显存里</strong>随时待命。所以哪怕激活参数只有 104B，跑推理时整个权重包都要装进去，1.5TB 级别的存储&#x2F;显存，起步就是多卡服务器（A100&#x2F;H100 八卡甚至更多那种）。消费级显卡完全没戏。</p>
+<p>官方推荐的部署方式是 vLLM 的专用镜像，命令大概是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 拉专用镜像</span></span><br><span class="line">docker pull vllm/vllm-openai:kimi-k3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 起服务（vLLM 官方命令）</span></span><br><span class="line">vllm serve moonshotai/Kimi-K3</span><br></pre></td></tr></table></figure>
+
+<p>顺带说一句，有人做了 GGUF 量化版（unsloth 仓库里有），能再压小一点，但 896 个专家都得出场，压完也是几百 GB 级别，单卡依然无解。4090、5090 的兄弟们，这局咱们看戏就行。</p>
+<h2 id="想体验的话，走官方-API"><a href="#想体验的话，走官方-API" class="headerlink" title="想体验的话，走官方 API"></a>想体验的话，走官方 API</h2><p>不折腾部署的话，最省事的是直接用 Kimi 官方开放平台的 API。长上下文是它的主战场：长工程代码、长文档研究、把一堆材料整理成带图表的报告——官方叫 agentic knowledge work，就是让它自己查资料、写报告、做可视化那一套。</p>
+<p>我试了个研究类的提示词，感觉值得复制：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">你是资深行业研究员。请完成以下深度研究任务：</span><br><span class="line">1. 背景：我是一家小型工程公司，想了解 2026 年 AI 辅助投标报价工具的市场现状；</span><br><span class="line">2. 输出要求：先给一页摘要（结论先行），再分三节展开：主要产品与定价、适合小团队的工具、我的落地建议；</span><br><span class="line">3. 用通俗中文，避免术语堆砌，每条结论标注信息来源；</span><br><span class="line">4. 总字数控制在 1500 字以内。</span><br></pre></td></tr></table></figure>
+
+<p>长上下文模型干这种活最舒服：材料丢进去，让它自己组织，最后输出带依据的结论。我自己的感受是，这类任务别急着让它一次写完，先让它列提纲，再逐节生成，质量会稳很多。</p>
+<h2 id="我的判断"><a href="#我的判断" class="headerlink" title="我的判断"></a>我的判断</h2><p>Kimi K3 开放权重，真正的意义在企业——数据不出门、能私有化部署，这是 API 给不了的。对普通玩家，1.56TB 的下载量加多卡起步的显存门槛，已经把自部署的路焊死了。</p>
+<p>我的建议很朴素：想尝鲜，用 API；想本地玩大模型，还是看几十 B 参数的小模型（之前写过 Qwen 本地部署，那个才是普通电脑能碰的）。等哪天出了真能单卡跑的蒸馏版，我再来更新这篇。</p>
+<p><img src="/img/kimi-k3-gate.svg" alt="Kimi K3 部署门槛图"></p>
+]]></content>
+      <categories>
+        <category>AI</category>
+      </categories>
+      <tags>
+        <tag>Kimi</tag>
+        <tag>开源大模型</tag>
+        <tag>MoE</tag>
+        <tag>本地部署</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenRouter 被 Stripe 收购了，聊聊它是什么、怎么用</title>
+    <url>//posts/2026/08/17/openrouter-stripe-acquisition/</url>
+    <content><![CDATA[<p>昨晚看到新闻：Stripe（做支付的那家美国公司）据说要花 70 亿美元收购 OpenRouter。消息来自 TechCrunch，报道里标了「reportedly」，也就是说还没官宣，但业内都在传。</p>
+<p>OpenRouter 这名字，不碰 AI 编程的人可能没听过，但跑过 agent（AI 助手）的人基本都绕不开它。写一篇说清楚它是什么、怎么用、被收购对普通用户有什么影响。</p>
+<h2 id="OpenRouter-是什么"><a href="#OpenRouter-是什么" class="headerlink" title="OpenRouter 是什么"></a>OpenRouter 是什么</h2><p>一句话：一个 AI 模型「中转站」，用一个 API key 就能调用几百个模型。</p>
+<p>现在主流大模型有四五家：Anthropic 的 Claude、OpenAI 的 GPT、Google 的 Gemini、DeepSeek、通义千问，接口和计价各搞一套。OpenRouter 把这些都聚合到自己这里，你只需要注册一个账号、充一笔钱、拿一个 key，代码里换一个模型名字就能切模型，不用每家用一家就重新接一次接口。</p>
+<p>官方口径的几个数字：500+ 模型、80+ 供应商、月处理 200 万亿 token、1000 万以上用户。像 Hermes Agent、Replit、Kilo Code 这些 AI 编程工具，背后用的就是它。</p>
+<p>它整体的工作方式是这样一张图：</p>
+<p><img src="/img/openrouter-stripe.svg" alt="OpenRouter 工作原理：一个 key 调几百个模型"></p>
+<h2 id="它解决了什么问题"><a href="#它解决了什么问题" class="headerlink" title="它解决了什么问题"></a>它解决了什么问题</h2><ul>
+<li><strong>模型路由</strong>：同一个问题，它可以帮你自动挑模型。某个供应商挂了，自动切到另一家，服务不中断</li>
+<li><strong>统一计费</strong>：充 credits（点数）按量扣费，不用开一堆订阅。试新模型花几毛钱就行</li>
+<li><strong>OpenAI 兼容</strong>：接口格式跟 OpenAI 一样，代码几乎不用改</li>
+<li><strong>数据策略</strong>：可以设置只把数据发给信任的供应商</li>
+</ul>
+<h2 id="怎么用，三步"><a href="#怎么用，三步" class="headerlink" title="怎么用，三步"></a>怎么用，三步</h2><p><strong>第 1 步，注册。</strong> 打开 openrouter.ai，用 Google 或 GitHub 账号登录。</p>
+<p><strong>第 2 步，充值。</strong> 右上角买 credits，最低充 5 美元（约 36 元）就能玩。注意两点：网站走 Cloudflare，国内直连时好时坏，需要稳定的网络环境；支付要用支持外币的卡（Visa&#x2F;Mastercard）。</p>
+<p><strong>第 3 步，拿 key 调 API。</strong> 拿一个 API key，代码长这样（Python）：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;https://openrouter.ai/api/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;sk-or-你的key&quot;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">resp = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;deepseek/deepseek-chat&quot;</span>,   <span class="comment"># 模型名按 厂商/模型 格式</span></span><br><span class="line">    messages=[&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;用一句话解释什么是 KV 缓存&quot;</span>&#125;],</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(resp.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<p>模型列表在官网 Models 页看，想换模型只改 <code>model</code> 那一个字符串。</p>
+<h2 id="和直接用官方-API-比，差在哪"><a href="#和直接用官方-API-比，差在哪" class="headerlink" title="和直接用官方 API 比，差在哪"></a>和直接用官方 API 比，差在哪</h2><p><strong>好的地方：</strong> 一个 key 全搞定，切换模型不用改代码；小模型便宜，很多免费模型可以随便试；供应商出故障能自动切换，稳定性反而好。</p>
+<p><strong>不好的地方：</strong> 中间多了一层，价格通常比官方原价略高（它要抽成）；数据经过第三方，正式业务要注意合规；国内访问不稳定，生产环境用着不踏实。</p>
+<p>我的判断：个人开发者、经常试新模型的人、跑 agent 想省钱的人，适合用。大公司正式业务、对数据敏感的，直接用各家官方 API 更省心。</p>
+<h2 id="被-Stripe-收购意味着什么"><a href="#被-Stripe-收购意味着什么" class="headerlink" title="被 Stripe 收购意味着什么"></a>被 Stripe 收购意味着什么</h2><p>Stripe 是干嘛的？全球最大的在线支付基础设施之一，很多网站的收款、订阅都是它做的。它买 OpenRouter，图的是 AI 应用的钱袋子——以后 AI 应用的计费、订阅、开发者支付，都可能走 Stripe 的管道。</p>
+<p>对普通用户来说，短期内大概率什么都没变：OpenRouter 该用用，价格服务照旧。中期要盯两件事：一是 credits 计费规则会不会变，二是数据政策会不会变。我的建议是别一次性充太多钱，观望为主。</p>
+<blockquote>
+<p>收购消息为 TechCrunch 2026-08-16 报道（标有 reportedly），尚未官宣；OpenRouter 功能信息查于 2026-08-17，以官网为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>AI API</tag>
+        <tag>OpenRouter</tag>
+        <tag>Stripe</tag>
+        <tag>市场观察</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Qwen 3.8 想太多，日常用记得把思考档位调低</title>
+    <url>//posts/2026/08/17/qwen-38-reasoning-effort/</url>
+    <content><![CDATA[<p>上午刚按上一篇教程把 Qwen 3.8 27B 装进电脑（<a href="/posts/2026/08/17/qwen-38-27b-local/">安装教程在这里</a>），下午就被它气笑了：让它画一个圆，它先花好几分钟在脑子里构思什么”几何研究——同心圆、刻度线、缓慢旋转的虚线环”，最后交出来一个根本没人要的动画。这模型本身挺好，就是默认设置太离谱。</p>
+<p>先把结论放前面：<strong>日常用，把思考档位从默认的 xhigh 调成 low，或者干脆关掉；只有跑复杂的编码 agent 或工具调用时才开回高档。</strong> 下面说为什么，以及具体怎么调。</p>
+<p><img src="/img/qwen38-reasoning.svg" alt="Qwen 3.8 思考强度三档对比"></p>
+<h2 id="先搞清楚它为什么”想太多”"><a href="#先搞清楚它为什么”想太多”" class="headerlink" title="先搞清楚它为什么”想太多”"></a>先搞清楚它为什么”想太多”</h2><p>Qwen 3.8 27B 是阿里通义实验室上礼拜五（8 月 14 日）发的开源模型，Apache 2.0 协议，27B 参数，带视觉能力，量化后只有 17GB 左右，笔记本能跑。它有个参数叫 <code>reasoning_effort</code>（思考强度），意思是回答之前先写一段”内心独白”再给答案，档位越高独白越长：</p>
+<ol>
+<li><strong>xhigh</strong>（默认）：为复杂任务设计，但官方把它设成默认值</li>
+<li><strong>medium</strong>：平衡速度和准确度</li>
+<li><strong>low</strong>：优先速度和成本</li>
+</ol>
+<p>问题就在这个默认值上。LM Studio 里加载它的 GGUF 量化版，默认就是 xhigh，我第一次没注意，结果被坑得不轻。</p>
+<h2 id="想太多到底有多离谱"><a href="#想太多到底有多离谱" class="headerlink" title="想太多到底有多离谱"></a>想太多到底有多离谱</h2><p>我没耐心一个个任务去测，直接引用了 Simon Willison 前天（8 月 16 日）做的实测，他跑的是和我一样的 LM Studio + 17GB Q4_K_M 量化版：</p>
+<ol>
+<li>让它画一只骑自行车的鹈鹕（SVG 图）：xhigh 档用了 <strong>22276 个思考 token</strong> 才产出 3223 个输出 token，全程 <strong>21 分钟</strong>。同一句提示词关掉思考：<strong>137 秒</strong>，速度快了快十倍。</li>
+<li>让它画一个圆：思考轨迹里自己加戏（动画、渐变、同心圆），产出完全不是要的东西——你要的只是一个圆。</li>
+<li>更隐蔽的坑：LM Studio 默认上下文只有 <strong>8192 个 token</strong>，思考内容一长就把回复空间挤没了。我把上下文拉到最大（这模型支持 262144，看内存给），问题才消失。</li>
+</ol>
+<p>顺便说一句，xhigh 也不是一无是处。Simon 用它跑编码 agent（Pi），让它在一个开源项目里回答”认证是怎么实现的”，模型翻了一堆文件给了很扎实的答案。关掉思考再跑同样的任务，画边界框的工具就直接摆错了位置。</p>
+<h2 id="怎么调：三分钟搞定"><a href="#怎么调：三分钟搞定" class="headerlink" title="怎么调：三分钟搞定"></a>怎么调：三分钟搞定</h2><p>以 LM Studio 为例，操作很简单：</p>
+<ol>
+<li><strong>加载模型</strong>：左侧模型列表选 Qwen 3.8 27B，右侧就会出现设置面板。</li>
+<li><strong>改思考档位</strong>：在模型设置里找 Reasoning Effort（思考强度），默认是 Extra High（xhigh），改成 <strong>Low</strong>；想最快就关掉 Thinking。</li>
+<li><strong>拉大上下文</strong>：把 Context Length（上下文长度）从默认的 8192 拉到你能给的内存上限，我给了 32768 日常够用。</li>
+<li><strong>开新对话</strong>：改完设置要新建一个对话，旧对话里的设置不会变。</li>
+</ol>
+<p>命令行跑 <code>llama-server</code> 的同学，启动参数里对应的是 <code>reasoning_effort</code>，文档里有说明，图形界面能搞定就别折腾命令行。</p>
+<p>如果不想动设置，也可以用提示词约束，比如在提示词末尾加一句”直接回答，不要输出思考过程”。实测效果有限，模型偶尔还是会想一会儿，不如直接改参数来得干净。</p>
+<h2 id="什么时候该开回高思考"><a href="#什么时候该开回高思考" class="headerlink" title="什么时候该开回高思考"></a>什么时候该开回高思考</h2><p>我的判断（也是 Simon 的结论）：</p>
+<ul>
+<li><strong>简单问答、写文案、画图、日常代码</strong> → low 或关掉，体验好一个数量级</li>
+<li><strong>编码 agent、多步骤工具调用、要精确格式的输出</strong>（比如 JSON、边界框坐标）→ 开回 medium 或 xhigh，这时候慢一点是值得的</li>
+<li><strong>拿不准</strong> → 从 low 开始，不满意再往上调一档</li>
+</ul>
+<p>最后给一个可以直接复制到 LM Studio 的提示词模板，关掉思考后画图用：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">用 SVG 画一张图：一只鹈鹕骑自行车。</span><br><span class="line">要求：直接输出完整 SVG 代码，不要解释，不要思考过程。</span><br><span class="line">画面简洁，背景留白，线条清晰。</span><br></pre></td></tr></table></figure>
+
+<p>记住一句话：Qwen 3.8 是好模型，但默认的 xhigh 是给”复杂任务”准备的，不是给你日常用的。装好之后第一件事，就是把它调低。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>Qwen</tag>
+        <tag>通义千问</tag>
+        <tag>LM Studio</tag>
+        <tag>本地模型</tag>
+        <tag>踩坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉</title>
+    <url>//posts/2026/08/17/qwen-38-27b-local/</url>
+    <content><![CDATA[<p>上周五阿里开源了 Qwen 3.8 27B，就是通义千问的最新开源版。许可证是 Apache 2.0（商用随便用），270 亿参数，还能看图，27B 这个大小笔记本也带得动，我就装了一个试试。装的过程不复杂，麻烦的是它那个默认设置，不关掉能把你等崩溃。这篇记一下全过程。</p>
+<h2 id="Qwen-3-8-27B-是个什么东西"><a href="#Qwen-3-8-27B-是个什么东西" class="headerlink" title="Qwen 3.8 27B 是个什么东西"></a>Qwen 3.8 27B 是个什么东西</h2><p>一句话：通义千问最新一代开源模型，270 亿参数，能理解图片和视频，Apache 2.0 协议，随便用。官方给了两个尺寸，27B（适合本地跑）和 2.4T-A95B（超大的混合专家版，本地跑不动，走 API）。</p>
+<p>本地跑的好处就三点：数据不出门、不要钱、断网也能用。坏处是吃内存，下面说。</p>
+<p>整体流程就六步，先看个全貌：</p>
+<p><img src="/img/qwen38-local.svg" alt="Qwen 3.8 27B 本地部署六步流程"></p>
+<h2 id="先说硬件门槛，别踩坑"><a href="#先说硬件门槛，别踩坑" class="headerlink" title="先说硬件门槛，别踩坑"></a>先说硬件门槛，别踩坑</h2><p>模型量化版（Q4_K_M）文件大约 17GB，加载进内存后实际占用要 20GB 以上。</p>
+<ul>
+<li>我的机器是 16GB 内存的 M2 MacBook，试了，跑不动。内存不够会疯狂用硬盘当交换空间，出结果以小时计</li>
+<li>想跑 27B，32GB 内存起步比较稳；Mac 买统一内存大点的版本，Windows 建议 16GB 显存显卡或者 32GB 内存</li>
+<li>16GB 内存的机器想玩：走官方 API（qwencloud.com 或阿里云百炼），或者等官方出更小的量化版本。官方目前只有 27B 和 2.4T-A95B 两个尺寸，社区有人转 9B 的，下载量还很小，先观望</li>
+<li>LM Studio 官方要求：macOS 14 以上、Apple Silicon 芯片；Windows 需要支持 AVX2 指令集（近几年的 CPU 基本都行）</li>
+</ul>
+<h2 id="第-1-步：装-LM-Studio"><a href="#第-1-步：装-LM-Studio" class="headerlink" title="第 1 步：装 LM Studio"></a>第 1 步：装 LM Studio</h2><p>去 lmstudio.ai 下载，Windows 和 Mac 都有安装包，免费。装完打开就是个聊天软件的样子。</p>
+<p>网站挂在 Cloudflare 后面，国内直连有时候慢或者打不开，打不开就挂代理，下载好安装包之后就不用再访问它了。</p>
+<h2 id="第-2-步：下载模型"><a href="#第-2-步：下载模型" class="headerlink" title="第 2 步：下载模型"></a>第 2 步：下载模型</h2><p>两条路，选一条：</p>
+<p><strong>方法 A（界面里直接搜）</strong>：LM Studio 主界面有搜索框，搜 <code>Qwen3.8-27B</code>，选 unsloth 出的 GGUF 量化版，挑 Q4_K_M 这个文件（约 17GB，速度和质量的平衡点）。点了下载等它跑完。</p>
+<p><strong>方法 B（国内推荐，走魔搭）</strong>：ModelScope 魔搭（modelscope.cn）上有同样的文件，国内直连不翻墙。搜 <code>unsloth/Qwen3.8-27B-GGUF</code>，下载 <code>Qwen3.8-27B-Q4_K_M.gguf</code>，然后把这个文件拖进 LM Studio 的模型文件夹，重启就能看到。</p>
+<p>顺带说一句，Hugging Face 上这个 GGUF 下载量已经 270 多万次了，说明大家都在这么玩，路是通的。</p>
+<h2 id="第-3-步：加载模型，先问一句"><a href="#第-3-步：加载模型，先问一句" class="headerlink" title="第 3 步：加载模型，先问一句"></a>第 3 步：加载模型，先问一句</h2><p>左侧选到模型，点加载。加载完在聊天框里随便问一句，比如「用一句话介绍你自己」。</p>
+<h2 id="第-4-步：把默认的「深度思考」关掉，这是重点"><a href="#第-4-步：把默认的「深度思考」关掉，这是重点" class="headerlink" title="第 4 步：把默认的「深度思考」关掉，这是重点"></a>第 4 步：把默认的「深度思考」关掉，这是重点</h2><p>Qwen 3.8 默认把思考强度（官方叫 reasoning_effort）拉到了最高档 xhigh，也就是说每次回答前它都要先长篇大论地自我脑补一通。</p>
+<p>后果有多夸张？AI 博主 Simon Willison 实测：让它在默认设置下画一只骑自行车的鹈鹕（SVG 图片），它先想了 21 分钟、消耗了两万多个「思考 token」，才终于出图。把思考关掉，同一句话 137 秒就出图了。</p>
+<p>日常问答、写代码、总结文档，根本用不上那个深度。聊天界面里找 thinking 相关的开关（有的版本叫 reasoning），关掉；或者后面走 API 的时候传参数，见第 6 步。</p>
+<h2 id="第-5-步：把上下文窗口调大"><a href="#第-5-步：把上下文窗口调大" class="headerlink" title="第 5 步：把上下文窗口调大"></a>第 5 步：把上下文窗口调大</h2><p>LM Studio 默认上下文只有 8192 个 token，而 Qwen 3.8 原生支持 26 万。不调的话，光它自己「思考」就能把 8K 吃光，长文档更是没法聊。</p>
+<p>加载模型的时候把上下文长度调到 262144（保守一点 32768 也行）。内存小的机器量力而行，上下文越大越吃内存。</p>
+<h2 id="第-6-步：走-API-调用，附一个能直接复制的脚本"><a href="#第-6-步：走-API-调用，附一个能直接复制的脚本" class="headerlink" title="第 6 步：走 API 调用，附一个能直接复制的脚本"></a>第 6 步：走 API 调用，附一个能直接复制的脚本</h2><p>LM Studio 左下角切到开发者（Developer）标签，点启动本地服务器，默认地址 <code>http://127.0.0.1:1234</code>，接口完全兼容 OpenAI 格式。装个 OpenAI 的 Python 库就能调：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install openai</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://127.0.0.1:1234/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;lm-studio&quot;</span>,  <span class="comment"># 本地服务器随便填</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">resp = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;qwen3.8-27b&quot;</span>,</span><br><span class="line">    messages=[&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;把下面这段文字压缩成三句话：……&quot;</span>&#125;],</span><br><span class="line">    reasoning_effort=<span class="string">&quot;low&quot;</span>,   <span class="comment"># 关键：别用默认的 xhigh</span></span><br><span class="line">    max_tokens=<span class="number">1024</span>,</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(resp.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<p><code>reasoning_effort</code> 支持 <code>xhigh</code> &#x2F; <code>medium</code> &#x2F; <code>low</code> 三档。想彻底不要思考，官方接口还能传 <code>enable_thinking: False</code>，本地服务器支持与否看版本，试一下就知道。</p>
+<h2 id="用下来的感受"><a href="#用下来的感受" class="headerlink" title="用下来的感受"></a>用下来的感受</h2><p>27B 这个量级里它算能打的，写代码、改 bug、总结文档都行，中文是阿里自家的，很顺。视觉方面让它框出照片里的物体（bounding box），准得有点意外。速度看机器，Apple Silicon 上大概每秒几个到十几个 token，比在线 API 慢，但胜在免费和私密。</p>
+<blockquote>
+<p>版本和命令信息查于 2026-08-17，工具和模型都在快速更新，以官方文档为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>本地部署</tag>
+        <tag>Qwen</tag>
+        <tag>通义千问</tag>
+        <tag>LM Studio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Qwen3.8-27B 出了新压缩格式 Dynamic 3.0，我重新下了一遍</title>
+    <url>//posts/2026/08/20/qwen38-ud3-gguf/</url>
+    <content><![CDATA[<p>前两天刚写完 <a href="/posts/2026/08/17/qwen-38-27b-local/">Qwen 3.8 27B 本地部署</a>，这两天 Unsloth 就给这个模型出了新版的量化格式，叫 Dynamic 3.0。宣传说同样大小的文件，精度能比别家量化高一截。反正模型文件本来就要重下，我干脆换了过去，把过程记一下。</p>
+<h2 id="量化是什么"><a href="#量化是什么" class="headerlink" title="量化是什么"></a>量化是什么</h2><p>先给没接触过的朋友补一句。27B 模型原始文件差不多 50 多 GB，一般电脑跑不动。量化就是把模型里的数字精度降低，文件变小、加载变快，代价是回答质量略降。GGUF 就是量化后模型的文件格式，Ollama、llama.cpp、LM Studio 这些本地工具都认它。</p>
+<p>传统量化基本是一刀切，所有层用同一个精度。Unsloth 的 Dynamic 是逐层挑精度：重要的层多留点精度，不重要的层狠狠压。3.0 版换了新的校准数据集（校准数据就是用来决定「哪层重要」的样本），并且针对对话、写代码和中文做了优化。</p>
+<p>官方给的数据：同样文件大小，top-1% 准确率比别家量化高 10% 以上；发布 5 天，Qwen3.8 系列量化包下载量过了 500 万。这数字是他们自己报的，我当参考看。我在意的就两件事：文件小不小，用起来跟之前差多少。</p>
+<p><img src="/img/ud3-choose.svg" alt="Dynamic 3.0 和传统量化的区别，以及怎么按内存选文件"></p>
+<h2 id="第一步-下载模型文件"><a href="#第一步-下载模型文件" class="headerlink" title="第一步 下载模型文件"></a>第一步 下载模型文件</h2><p>文件在 Hugging Face 的 <code>unsloth/Qwen3.8-27B-GGUF</code> 仓库，所有文件都带 <code>UD-</code> 前缀（Unsloth Dynamic 的缩写），完整文件名长这样：<code>Qwen3.8-27B-UD-Q3_K_XL.gguf</code>。</p>
+<p>国内直连 Hugging Face 基本不行，要开代理；不想开代理可以用 hf-mirror.com 镜像，直连一般能通。</p>
+<p>按内存选文件：</p>
+<ol>
+<li>16GB 内存 → <code>UD-Q2_K_XL</code>（9.8GB 左右）</li>
+<li>24GB 内存 → <code>UD-Q3_K_XL</code></li>
+<li>32GB 以上 → <code>UD-Q4_K_XL</code></li>
+<li>想压到极限 → <code>UD-IQ1_S</code>（只有 6.2GB）</li>
+</ol>
+<p>原则就一条：文件大小加上上下文占用，得小于你的内存（或显存），不然加载慢甚至跑不动。另外 8.37GB 以下的版本砍掉了 MTP 加速模块，能省 500MB 空间，这个模块只影响生成速度，不影响回答质量，砍就砍了。</p>
+<p>命令行下载：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install -U <span class="string">&quot;huggingface_hub[cli]&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 国内直连 Hugging Face 不通的话，先设镜像（不用翻墙）</span></span><br><span class="line"><span class="built_in">export</span> HF_ENDPOINT=https://hf-mirror.com</span><br><span class="line"></span><br><span class="line">huggingface-cli download unsloth/Qwen3.8-27B-GGUF \</span><br><span class="line">  Qwen3.8-27B-UD-Q3_K_XL.gguf --local-dir ./qwen38</span><br></pre></td></tr></table></figure>
+
+<p>懒人办法：浏览器打开仓库页面，点文件直接下，6 到 16GB 不等。</p>
+<h2 id="第二步-跑起来"><a href="#第二步-跑起来" class="headerlink" title="第二步 跑起来"></a>第二步 跑起来</h2><p>llama.cpp 最通用。Windows 去 <code>ggml-org/llama.cpp</code> 的 GitHub Releases 下载预编译包解压；macOS 直接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install llama.cpp</span><br></pre></td></tr></table></figure>
+
+<p>终端里聊天：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">llama-cli -m ./qwen38/Qwen3.8-27B-UD-Q3_K_XL.gguf -c 8192</span><br></pre></td></tr></table></figure>
+
+<p>想要网页界面就起个服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">llama-server -m ./qwen38/Qwen3.8-27B-UD-Q3_K_XL.gguf -c 8192</span><br></pre></td></tr></table></figure>
+
+<p>然后浏览器打开 <a href="http://localhost:8080。">http://localhost:8080。</a></p>
+<p>习惯用 Ollama 的话：本地建一个 <code>Modelfile</code>，内容一行 <code>FROM ./Qwen3.8-27B-UD-Q3_K_XL.gguf</code>，然后 <code>ollama create qwen38-ud -f Modelfile</code>，再 <code>ollama run qwen38-ud</code>。Dynamic 3.0 是刚出的格式，Ollama 内置引擎版本太老会不认这个文件，报错就回 llama.cpp 跑，别折腾。</p>
+<h2 id="感受和结论"><a href="#感受和结论" class="headerlink" title="感受和结论"></a>感受和结论</h2><p>换完的体感：加载、生成速度和之前差不多，量化主要影响体积，速度变化不大；中文回复和写代码时的小毛病感觉少了一点点——纯体感，不严谨，大家自己试。</p>
+<p>我的判断：内存、显存紧张，追求文件越小越好的人，值得换；不缺空间的话，直接用原版或者大体积量化更省心。另外提醒一句，量化过的模型永远比原版差一点，压得越狠差得越多。IQ1 那种 6GB 版本是给实在跑不动的机器准备的，日常用 Q3 起步比较稳。</p>
+<p>想对比新旧量化差多少，同一句话问两个文件（直接复制）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">llama-cli -m ./qwen38/Qwen3.8-27B-UD-Q3_K_XL.gguf -c 8192 \</span><br><span class="line">  -p <span class="string">&quot;用 Python 写一个冒泡排序，加上中文注释，最后说明它的时间复杂度&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>哪个输出顺眼，就留哪个。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>本地部署</tag>
+        <tag>Qwen</tag>
+        <tag>GGUF</tag>
+        <tag>llama.cpp</tag>
+        <tag>Ollama</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我现在的 vibe coding 工作流</title>
+    <url>/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/</url>
+    <content><![CDATA[<p>vibe coding 这个词最近在技术社区里出现的频率明显变高了，V2EX 上有个帖子统计大家现在都用什么方案，回复一百多条。简单说，vibe coding 就是<strong>用自然语言描述需求，让 AI 把代码写出来</strong>，人负责提要求和看结果，不自己一行行敲。</p>
+<p>我是被一个小需求逼着开始用的。当时要写个处理表格的小脚本，想着让 AI 全包试试，结果真跑通了。从那以后流程慢慢固定下来，这篇记录一下我现在的工作流，给想试的人一个参考。</p>
+<h2 id="先选工具：命令行-agent-还是-AI-编辑器"><a href="#先选工具：命令行-agent-还是-AI-编辑器" class="headerlink" title="先选工具：命令行 agent 还是 AI 编辑器"></a>先选工具：命令行 agent 还是 AI 编辑器</h2><p>目前主流方案分两类：</p>
+<ol>
+<li><strong>命令行 agent</strong>（比如 Claude Code、Codex CLI）：直接在你项目目录里干活，能读文件、改文件、自己跑命令，看到报错自己修。适合已经会用终端的人。</li>
+<li><strong>AI 编辑器</strong>（比如 Cursor 这类）：界面里直接跟 AI 聊，改代码实时可见。适合不熟悉命令行的朋友，门槛低一些。</li>
+</ol>
+<p>价格方面这两类基本都是订阅制，一般都有免费额度可以先试，具体价格变动快，以官网为准，这里不写死数字。我个人的选择是命令行 agent 为主，因为我能看到它每一步在干什么，心里有底。</p>
+<h2 id="我的工作流，一共五步"><a href="#我的工作流，一共五步" class="headerlink" title="我的工作流，一共五步"></a>我的工作流，一共五步</h2><h3 id="第-1-步：把需求写清楚"><a href="#第-1-步：把需求写清楚" class="headerlink" title="第 1 步：把需求写清楚"></a>第 1 步：把需求写清楚</h3><p>这一步决定成败。不要只丢一句「帮我写个爬虫」，要把功能点列成清单，明确不要什么。我常用的提示词模板（可以直接复制）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">我要做一个小工具：&lt;一句话说清功能&gt;</span><br><span class="line">使用 &lt;语言/框架&gt;</span><br><span class="line">具体要求：</span><br><span class="line">1. &lt;功能点&gt;</span><br><span class="line">2. &lt;功能点&gt;</span><br><span class="line">3. &lt;功能点&gt;</span><br><span class="line">明确不要做：&lt;避免 AI 自由发挥的部分&gt;</span><br><span class="line">先给我一个实现方案，我确认了再写代码</span><br></pre></td></tr></table></figure>
+
+<p>注意最后一句。让 AI 先出方案再动手，能省掉大量返工。</p>
+<h3 id="第-2-步：先确认方案，再让它写码"><a href="#第-2-步：先确认方案，再让它写码" class="headerlink" title="第 2 步：先确认方案，再让它写码"></a>第 2 步：先确认方案，再让它写码</h3><p>很多人跳过这步，结果 AI 一上来就咔咔写，方向错了全白干。让它先把方案列出来，你觉得没问题了，再说一句「按这个方案写」。</p>
+<h3 id="第-3-步：动手前-git-提交一次干净基线"><a href="#第-3-步：动手前-git-提交一次干净基线" class="headerlink" title="第 3 步：动手前 git 提交一次干净基线"></a>第 3 步：动手前 git 提交一次干净基线</h3><p>AI 改代码之前，先把当前状态提交一次：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">&quot;baseline: 改代码前的干净状态&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样它改坏了随时能回退，这是我最推荐的保险措施。</p>
+<h3 id="第-4-步：跑起来，报错原样贴给它"><a href="#第-4-步：跑起来，报错原样贴给它" class="headerlink" title="第 4 步：跑起来，报错原样贴给它"></a>第 4 步：跑起来，报错原样贴给它</h3><p>写完让它自己运行。报错了不要自己查，把终端里的报错<strong>原样复制</strong>贴给它，说「报错如下，修复它」。AI 看报错改代码非常快，这一步是整个流程里最爽的。</p>
+<h3 id="第-5-步：小步提交，看-diff-验收"><a href="#第-5-步：小步提交，看-diff-验收" class="headerlink" title="第 5 步：小步提交，看 diff 验收"></a>第 5 步：小步提交，看 diff 验收</h3><p>每完成一个功能点就 commit 一次，提交信息写清楚。接受它的修改前，先看一眼 diff：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure>
+
+<p>大改动一定要问一句「为什么这么改」。别闭眼全盘接受。</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li><strong>AI 喜欢一上来就重构整个项目结构</strong>。小需求就明确告诉它「不要动现有文件结构」，不然它会顺手把你的代码重排一遍。</li>
+<li><strong>上下文会被聊满</strong>。聊久了 AI 会「忘记」开头的要求，特别是关键约束。感觉它开始答非所问，就新开一个会话，把需求重新贴一遍。</li>
+<li><strong>别让它改自己写的东西太多次</strong>。同一个文件来回改四五轮之后，质量明显下降，不如让它重写。</li>
+<li><strong>生产环境直接试是最危险的</strong>。先在本地跑通，确认没问题再考虑上线。</li>
+</ul>
+<h2 id="什么样的人适合用"><a href="#什么样的人适合用" class="headerlink" title="什么样的人适合用"></a>什么样的人适合用</h2><p>适合：写小工具、脚本、一次性任务、原型验证——这类活以前要花一晚上的，现在一顿饭的功夫就出来能跑的东西。</p>
+<p>不适合：核心业务逻辑、需要严谨审查的代码。AI 写出来如果没人 review，那就是埋雷，这种场合老老实实自己写。</p>
+<p><img src="/img/vibe-coding-workflow.svg" alt="vibe coding 工作流五步图"></p>
+<p>我现在写小工具的流程基本固定成上面这套，效率比从前高了不少，但该看的 diff 一次都没省过——省掉的都是敲代码的时间，看代码的时间反而变多了，这买卖我觉得划算。</p>
+]]></content>
+      <categories>
+        <category>AI工具</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>效率工具</tag>
+        <tag>教程</tag>
+        <tag>vibe coding</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用 AI Agent 自动化个人博客：从选题到发布全流程零人工</title>
+    <url>/posts/2026/08/16/%E7%94%A8AI-Agent%E8%87%AA%E5%8A%A8%E5%8C%96%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<p>个人博客最大的敌人不是写不好，是<strong>断更</strong>。一开始热情满满，写着写着就停了——因为每篇文章都要自己选题、查资料、排版、发布，太累。</p>
+<p>这篇文章不讲”怎么写爆款”，讲一个更实在的问题：<strong>怎么让博客的日常更新不再靠意志力，而靠一套能自动运转的系统。</strong></p>
+<p>我自己就搭了这么一套，跑了挺久，把它拆开讲清楚。</p>
+<h2 id="一、先解决”发布累”：静态站-自动部署"><a href="#一、先解决”发布累”：静态站-自动部署" class="headerlink" title="一、先解决”发布累”：静态站 + 自动部署"></a>一、先解决”发布累”：静态站 + 自动部署</h2><p>选 <strong>Hexo</strong>（静态博客生成器）+ <strong>GitHub Pages</strong>（免费托管）组合，原因很简单：</p>
+<ul>
+<li>纯 Markdown 写文章，不碰数据库、不碰服务器；</li>
+<li>源码放 GitHub 仓库，天然有版本历史，写错了随时回滚；</li>
+<li>免费、零维护，不用担心服务器挂了。</li>
+</ul>
+<p>关键在<strong>自动部署</strong>。本地写好文章，<code>git push</code> 一下，剩下的交给 GitHub Actions：自动装依赖 → 构建成静态文件 → 发布到 <code>gh-pages</code> 分支。全程一条命令，甚至这一条都能省掉。</p>
+<p><code>.github/workflows/deploy.yml</code> 核心就三步：checkout 源码、<code>npx hexo generate</code> 构建、把产物推到 gh-pages。配一次，以后每次 push 都自动上线。</p>
+<h2 id="二、再解决”写什么累”：让-AI-定时生产"><a href="#二、再解决”写什么累”：让-AI-定时生产" class="headerlink" title="二、再解决”写什么累”：让 AI 定时生产"></a>二、再解决”写什么累”：让 AI 定时生产</h2><p>发布自动化之后，剩下的痛点就是<strong>内容</strong>。这时候把 AI Agent 接进来。</p>
+<p>思路：给 Agent 配一个<strong>定时任务</strong>，每天固定时间自动跑——联网看当下热门话题 → 选题 → 写文章 → 放进 <code>source/_posts/</code> → push → Actions 自动上线。人只做一件事：<strong>事后看一眼，质量不行的删掉</strong>。</p>
+<p>这里有几个踩过的坑，值得单独说：</p>
+<ol>
+<li><strong>提示词要自包含</strong>。定时任务跑在全新会话里，不记得你之前说过什么，所以路径、格式要求、发布步骤都得写进任务描述里，不能省略。</li>
+<li><strong>事实必须查证</strong>。让 AI 联网写，最怕它编数据。铁律：涉及价格、版本、事实的，查得到才写，查不到就模糊化，绝不硬编。</li>
+<li><strong>本地只 push 源码</strong>。别用 <code>hexo deploy</code>，那会全量覆盖 gh-pages，本地落后远程时容易丢内容。交给 Actions 构建发布最安全。</li>
+</ol>
+<h2 id="三、评论系统选-giscus：数据留在自己手里"><a href="#三、评论系统选-giscus：数据留在自己手里" class="headerlink" title="三、评论系统选 giscus：数据留在自己手里"></a>三、评论系统选 giscus：数据留在自己手里</h2><p>博客要不要评论？要，但别用别人的公共示例服务——那等于把评论区数据交给别人管。</p>
+<p>选 <strong>giscus</strong>：基于 GitHub Discussions，评论直接存在你仓库的讨论区里。零成本、零服务器，数据归你自己，还能自动给参与讨论的人发通知。配一次，以后不用管。</p>
+<h2 id="四、复现性：换电脑也要能无缝接管"><a href="#四、复现性：换电脑也要能无缝接管" class="headerlink" title="四、复现性：换电脑也要能无缝接管"></a>四、复现性：换电脑也要能无缝接管</h2><p>整套系统最容易被忽略的一点：<strong>能不能复现</strong>。别把关键路径、操作步骤只记在脑子里，哪天换电脑、换 Agent，就接不上手了。</p>
+<p>我的做法：写一份<strong>总控手册</strong>，把仓库地址、本地路径、接入步骤、写文 SOP、发布 SOP 全列进去。任何一台新设备上的 Agent，读这份手册就能接手，不用重新摸索。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>环节</th>
+<th>方案</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>托管</td>
+<td>Hexo + GitHub Pages</td>
+<td>免费</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>GitHub Actions</td>
+<td>免费</td>
+</tr>
+<tr>
+<td>内容</td>
+<td>AI Agent 定时生产</td>
+<td>低价 API，一天几块钱</td>
+</tr>
+<tr>
+<td>评论</td>
+<td>giscus + GitHub Discussions</td>
+<td>免费</td>
+</tr>
+<tr>
+<td>复现</td>
+<td>总控手册 + GitHub 仓库</td>
+<td>免费</td>
+</tr>
+</tbody></table>
+<p>一句话：<strong>把博客从”靠人写”变成”靠系统跑”，人只做选题把关和质量审核。</strong> 断更这个问题，就被架构解决掉了。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>效率工具</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub Actions</tag>
+        <tag>自动化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第一章 重生</title>
+    <url>//novels/chongsheng/01-chongsheng/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><span class="novel-chapter-nav__placeholder"></span><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 1 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/02-diyibi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二章 第一笔</span></a></nav>
+
+<p>六点四十七分，他醒了。</p>
+<p>不是被闹钟叫醒的。是被一股说不清的东西猛地从水底拽上来的，肺里还留着爆裂的余韵，像溺水的人刚冒头，空气呛进喉咙。</p>
+<p>彭敬寅睁着眼，盯着头顶发黄的蚊帐。空气里有煤炉子的味道，混着稻草和旧木头。窗外天还是灰蓝的，晨雾从田埂那边漫过来，把岗美镇的老屋裹得严严实实。元旦，早上六点多，外面静得只听见自己的心跳。</p>
+<p>他躺了很久，一动不动。</p>
+<p>脑子里是那根针。一根插在K线图上的针，几秒之内，八万七千美元砸到两万四千一百一十一，又弹回八万七。屏幕上，他全部的仓位——几百个比特币的合约——在最不该死的地方，爆了。</p>
+<p>币安。BTC&#x2F;USD1。</p>
+<p>他记得那个交易对代码。USD1。他这辈子，不，上辈子，从没主动碰过那个交易对。流动性薄得没人玩，一个老手，不该把仓位写在那儿。可那晚他的仓位，就是被写在那儿了。</p>
+<p>平安夜。2025年12月24日。</p>
+<p>彭敬寅慢慢抬起手，摸到枕头边。凉的，硬的，玻璃屏。iPhone 5。他按亮屏幕。</p>
+<p>2013年1月1日，星期二。06:47。</p>
+<p>他把手机翻过来扣在胸口，喉咙里堵着一口气，半天没吐出来。</p>
+<p>不是梦。他回来了。</p>
+<hr>
+<p>他坐起来，环顾四周。这是奶奶的老屋，岗美镇，他二十岁前住的地方。墙角是那口褪色的樟木箱，门后挂着去年的旧挂历，桌上半包红五叶神——昨晚回来的路上买的，二十来块一包。旁边一瓶九江双蒸，还有他准备好的红包。</p>
+<p>昨晚，2012年12月31日，他开奥德赛从阳春市区回来，走S277省道，十四公里。路上买烟、买酒、封红包，回来陪奶奶过元旦。车现在停在楼下，那辆能拉货、也能撑场面的RB1。</p>
+<p>他记得昨晚的自己。那个二十六岁、刚忙完一年生意的彭敬寅，心里盘算着过完年怎么把生意再做大一点，怎么多赚点钱，给奶奶换间不漏雨的屋。</p>
+<p>可他也记得十二年后的自己。那个几千万美元盘子爆掉的彭敬寅，死在平安夜插针里的彭敬寅。</p>
+<p>两个彭敬寅，在2013年1月1日的清晨，重叠在一起。</p>
+<p>他闭上眼，又睁开。手指无意识地摸到那包红五叶神，抽出一根，叼在嘴上，没点。</p>
+<p>记忆像潮水，退下去，又涌上来。不是乱的。他这个人记性一向好，大趋势、大事件，记得比谁都牢。前世十二年，他把命都赔在了比特币上，那些起伏像烙在脑子里，清楚，但又不全——越是往细处想，越模糊。</p>
+<p>2013年1月1日，比特币，十三块多美元。</p>
+<hr>
+<p>“醒了？”</p>
+<p>堂屋传来奶奶的声音。他应了一声，起身，披上外套。</p>
+<p>奶奶在厨房门口，背对着他，正往灶膛里添柴。七十五岁的老人，腰已经不太直了，动作却还利索。听见脚步声，头也没回：</p>
+<p>“都几点了才起。昨晚几点到的？”</p>
+<p>“十二点。”</p>
+<p>“我说不用回来，你偏要回。路那么黑，开车也不怕。”奶奶把锅盖掀开，热气腾起来，”浪费钱。油不要钱啊？”</p>
+<p>“给你买的东西，放桌上了。”</p>
+<p>奶奶停了一下，回头扫他一眼，又转过去：”买什么买。有钱就乱花。”</p>
+<p>骂是骂，彭敬寅看见她拿抹布擦手时，动作比平时慢。他走过去，从桌上拿起那瓶九江双蒸和红包，塞进奶奶手里。</p>
+<p>“阿婆，元旦了。收着。”</p>
+<p>奶奶推了两下，到底接过去，顺手把红包往围裙口袋里一揣：”进屋去，粥快好了。你妹妹没回来，说学校还要上课，过几天放寒假再回。”</p>
+<p>彭敬寅应了。小雨，他妹妹，1992年生，在广州读大专。这会儿她还没放寒假。也好。有些话，现在他还不想让任何人听见。</p>
+<hr>
+<p>吃过早饭，天已经大亮。晨雾散了些，露出远处漠阳江的影子和成片的稻田。彭敬寅回了自己那间房，从包里拎出MacBook Pro，插上电。</p>
+<p>家里没宽带。他拿手机开了热点，信号两格，网页慢慢加载。</p>
+<p>他点开比特币中国——BTCChina的页面。</p>
+<p>页面跳出来的那一刻，他盯着那个数字，呼吸停了一拍。</p>
+<p>八十多块人民币一个。</p>
+<p>他心算：除以汇率，六块二毛三。十三块五毛八美元。</p>
+<p>对上了。他记的是十三块多，页面给的是十三块五毛八——一个记的大数，一个看的准数，严丝合缝。</p>
+<p>彭敬寅把身子往后靠，整个人陷进椅子里。这一刻之前，重生这件事还有千万种解释——太累了做梦、疯了、脑子出了问题。这一刻之后，全都推翻了。</p>
+<p>记忆是真的。那张牌，是真的。</p>
+<p>他盯着屏幕上那个还在跳动的价格，脑子里飞快地过着十二年的行情。1月，十三美元。4月，冲到两百六十多。崩了，一路砸到五十上下。11月，破千，一千出头。往后再往上，再往上，直到他前世死的那天。</p>
+<p>十三美元到一千美元，七十多倍。而这才是一年。</p>
+<p>他慢慢吐出一口长气。手指在桌面上敲了敲。</p>
+<p>这一世，他不可能只做小打小闹的生意了。他知道得太多了。</p>
+<hr>
+<p>可正因为知道得太多，他才更清楚，前世他是怎么死的。</p>
+<p>不是行情。是那根针。是那个他根本没碰过的BTC&#x2F;USD1交易对。他的仓位被人——被什么——写进了那个薄得没人的池子里，几秒钟之内，灰飞烟灭。爆仓之后，价格弹回原位，好像什么都没发生。全世界，只有他一个人死在了那几秒里。</p>
+<p>那不是运气差。那是冲着他来的。</p>
+<p>彭敬寅翻出随身那个本子。黑色封皮，边角已经磨白了。这是他最重要的东西——比卡里那十八万人民币、比那台奥德赛、比什么都重要。</p>
+<p>他拧开笔，一页页翻过去。前几页还是生意的账，零碎的进货、出货、过桥的抽水。翻到空白处，他停下来，落笔。</p>
+<p>第一行：</p>
+<p>一、五万人民币，保命底，死都不动。</p>
+<p>写完，他盯着这行字看了几秒。五万块，是他给自己留的棺材本。哪怕记忆全错了，哪怕踩错了点，这五万还在，他就还能活。这是”活着”的底线。</p>
+<p>二、十三万人民币，主力仓，踩点进出，不梭哈。</p>
+<p>三、仓位自己管，不上杠杆。</p>
+<p>笔尖在”不上杠杆”四个字上重重顿了一下。前世爆仓，杠杆只是压垮他的最后一根稻草，根子不在杠杆。但他认了——这辈子，他不给自己留任何一次被一根针清空的机会。他可以重仓，但绝不碰那根线。他知道顶在哪、底在哪，不需要用命去换。</p>
+<p>四、兄弟团，转正。</p>
+<p>写到”转正”，他停住了。他想起了前世。河马，何向东，进货渠道的好手，后来被人坑了；小土，廖俊锋，手里攥着二十万灰色积蓄帮他过桥，最后进去了。还有金仔、南记、素素。这些人跟着他，是因为信他。</p>
+<p>他不能让这辈子再走老路。灰色那两三成的生意，得洗。得让每个人都站到台面上来，干干净净地挣钱。</p>
+<p>五、对得起，信任我的人。</p>
+<p>最后这行字，他写得最慢。前世的最后几年，他管着几千万美元的盘子，一半是自己的，一半是投资人的。那些人的钱，是他一分一分谈回来的信任。插针那晚，全没了。爆仓之后，没人上门骂他，没人为难他。可越是这样，他越觉得欠着。</p>
+<p>这一世，他要么不碰别人的钱，要么，就把他们带上。</p>
+<hr>
+<p>写完，彭敬寅把本子合上，塞进外套内袋，贴着胸口。</p>
+<p>窗外，雾散尽了。天蓝得发亮，元旦的阳光照在岗美镇的瓦顶上，一片一片，白花花的。</p>
+<p>他拿起手机，翻到一个号码。金仔，黎金，他过命的兄弟。</p>
+<p>电话响了两声就接了。</p>
+<p>“喂，寅哥！”那头嗓门大得震耳朵，”新年好新年好！我正想给你打呢，你倒先打来了。”</p>
+<p>“金仔，就这几天，把兄弟几个叫上，聚一聚。”彭敬寅的声音很平，”我有事说。”</p>
+<p>“好事坏事？”金仔的笑声顿了顿，”你这语气，我有点慌啊寅哥。”</p>
+<p>“好事。”</p>
+<p>“真的？”那头立刻又热闹起来，”行！你说哪天就哪天，我提前把车洗了。对了，河马前几天还念叨你……”</p>
+<p>彭敬寅听着，嘴角动了动。</p>
+<p>他没说破。没说他刚从一个死了回来的地方，没说他手里攥着一张别人都不知道的牌，也没说从今天起，他要带着这群兄弟，去走一条跟前世完全不一样的路。</p>
+<p>有些事，现在还早。</p>
+<p>他挂断电话，站在窗边，抬头看了一眼天。</p>
+<p>2013年1月1日，上午九点。</p>
+<p>彭敬寅深吸一口气，把肺里那点残余的、属于死亡的寒意，一点一点，吐了出去。</p>
+<p>重生，从这一刻开始。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><span class="novel-chapter-nav__placeholder"></span><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 1 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/02-diyibi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二章 第一笔</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二零二六新的一年新的征程</title>
+    <url>/posts/2026/02/17/%E4%BA%8C%E9%9B%B6%E4%BA%8C%E5%85%AD%E6%96%B0%E7%9A%84%E4%B8%80%E5%B9%B4%E6%96%B0%E7%9A%84%E5%BE%81%E7%A8%8B/</url>
+    <content><![CDATA[<p>今天是 2026 年的大年初一。</p>
+<p>烟花的灿烂，落在窗台，也落在心上。<br>旧年的烟火已经散了，新年的风正从远处吹来。<br>我站在时间的门槛上，听见自己心里有一句很轻的话: 该出发了。</p>
+<p>2025 像一场大潮。<br>币圈翻涌，涨跌像刀锋上的光，明亮又危险；<br>科技奔跑，AI 与算力把昨天变成今天的旧闻；<br>时事更迭，世界并不温柔，却始终真实。<br>我在这条路上走了很久，终于懂得，能照亮前路的，不是喧嚣，而是清醒；<br>能托住一个人的，也不是运气，而是边界、判断与耐心。</p>
+<p>2025 年下半年，我也迎来了自己新的感情。<br>她就是我最爱的姚蓝蓝宝宝。<br>是她让我慢慢安静下来，重新相信爱情，重新相信人间那些柔软的部分。</p>
+<p>好的关系原来不是轰轰烈烈，而是细水长流。<br>是在我沉默时，她懂我的沉默；<br>是在我想后退时，她把手递过来，轻轻说一句“别怕”。<br>她让我知道，爱不是把人困住，而是让彼此都更勇敢。<br>因为她在，平凡的日子有了光，未来也有了形状。</p>
+<p><img src="/img/lychee-rose-bouquet.jpg" alt="荔枝玫瑰"></p>
+<p>新的一年，我想把“征程”写成四行短语:</p>
+<ol>
+<li>愿我面对市场，守得住心，不随风起落。  </li>
+<li>愿我面对技术，常怀好奇，也常怀谦卑。  </li>
+<li>愿我面对爱情，真诚如初，珍惜眼前。  </li>
+<li>愿我面对自己，少一点迟疑，多一点笃定。</li>
+</ol>
+<p>愿 2026 的每一步，都走得清醒、坚定、温柔。<br>也愿我和姚蓝蓝宝宝，在岁月里并肩，不惧风雨，长长久久。<br>新年快乐。<br>江湖路远，我们慢慢走。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+      <tags>
+        <tag>成长</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>用 Obsidian 搭建个人知识库：总体思路与完整过程</title>
+    <url>/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>写这篇文章之前，我先回答三个最该先回答的问题：<strong>Obsidian 到底比其他工具强在哪？它适合什么场景、不适合什么场景？用的时候到底怎么操作？</strong>——前两个问题我放在最前面，第三个问题用一个完整的「一条笔记的一生」示例讲透。</p>
+<h1 id="一、为什么需要知识库"><a href="#一、为什么需要知识库" class="headerlink" title="一、为什么需要知识库"></a>一、为什么需要知识库</h1><p>先想清楚问题，再谈工具。我最初的痛点是：</p>
+<ul>
+<li>笔记散落在备忘录、微信收藏、浏览器剪藏、Word 文档里，要用时想不起在哪；</li>
+<li>同一个主题反复记两遍，越记越乱；</li>
+<li>记过的东西「好像知道」，但无法快速引用，等于没记；</li>
+<li>AI 时代出现了新需求：不仅要自己读，还要让多个 AI 智能体<strong>共享同一份长期知识</strong>。</li>
+</ul>
+<p>Obsidian 的答案很朴素：纯 Markdown 文件存在本地，天然可同步、可检索、可被任何工具读写。知识库的架构不需要插件来保证，<strong>目录结构 + 链接纪律</strong>就够了。</p>
+<h1 id="二、Obsidian-的优势到底在哪"><a href="#二、Obsidian-的优势到底在哪" class="headerlink" title="二、Obsidian 的优势到底在哪"></a>二、Obsidian 的优势到底在哪</h1><p>一句话总结：<strong>它是「数据所有权」最强的现代笔记工具，双链图谱 + 插件生态让它能从「记笔记的工具」长成「个人知识系统」</strong>。</p>
+<p>拆开说，五个具体优势：</p>
+<ol>
+<li><strong>本地纯文本，数据永远是你的</strong>。所有笔记是一个个 <code>.md</code> 文件，放在你自己的硬盘&#x2F;iCloud&#x2F;Git 里。厂商关停、改版、涨价都绑架不了你的知识——换任何工具，复制文件就能走。这是 Notion、语雀、印象笔记给不了的。</li>
+<li><strong>双向链接 + 关系图谱</strong>。笔记之间用 <code>[[链接]]</code> 织成网，打开图谱视图能看到知识之间的结构，而不是一堆孤立文件。这是 Obsidian 和 Logseq 这类「第二大脑」工具的看家本领。</li>
+<li><strong>插件生态非常强</strong>。模板、看板、日历、数据库（Dataview）、画布（Canvas）、发布……数千个社区插件，几乎任何工作流都能拼出来。</li>
+<li><strong>AI 时代的独特优势：机器可读</strong>。纯 Markdown + 本地文件，意味着 AI 智能体、脚本、自动化工具可以直接读写同一份知识库。其他工具的私有格式对 AI 是黑盒，Obsidian 的知识库天然就是「接口」。</li>
+<li><strong>离线可用、响应快</strong>。打开就是秒开，不联网也能完整工作，移动端 App 与桌面端同步后同样可用。</li>
+</ol>
+<p>也要客观说缺点，避免吹过头：</p>
+<ul>
+<li>官方云同步（Sync）是付费订阅，免费方案要自己搭 iCloud、Git 或坚果云；</li>
+<li>多人实时协作弱于 Notion &#x2F; 语雀，它是「个人知识库」，不是团队协作平台；</li>
+<li>移动端 App 体验一般，不如印象笔记顺滑；</li>
+<li>插件虽强但要折腾，新手容易迷失在「装插件」而不是「记笔记」里；</li>
+<li>大纲式笔记、数据库式管理，不如 Logseq、Notion 原生顺手。</li>
+</ul>
+<h1 id="三、和其他工具的横评"><a href="#三、和其他工具的横评" class="headerlink" title="三、和其他工具的横评"></a>三、和其他工具的横评</h1><p>我的对比标准不是「哪个最好」，而是「哪个适合什么」。六个主流工具，七个关键维度：</p>
+<p><img src="/img/kb-compare.svg" alt="主流笔记工具横评"></p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>一句话定位</th>
+<th>核心优势</th>
+<th>核心短板</th>
+<th>数据所有权</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Notion</strong></td>
+<td>团队协作 + 数据库</td>
+<td>数据库&#x2F;看板强、协作顺滑、界面现代</td>
+<td>数据在云端、离线弱、体感慢</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>印象笔记</strong></td>
+<td>网页剪藏老牌</td>
+<td>剪藏生态成熟、移动端稳</td>
+<td>格式封闭、编辑器旧、广告&#x2F;会员套娃</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>语雀</strong></td>
+<td>国内团队文档</td>
+<td>中文体验好、知识库分层、文档漂亮</td>
+<td>数据在云端、双链弱、无本地文件</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>OneNote</strong></td>
+<td>微软全家桶</td>
+<td>免费、手写笔记强、Office 联动</td>
+<td>格式封闭、双链无、搜索一般</td>
+<td>云端托管</td>
+</tr>
+<tr>
+<td><strong>Logseq</strong></td>
+<td>大纲式双链</td>
+<td>大纲记法、双链原生、本地文件</td>
+<td>上手门槛高、非大纲内容别扭</td>
+<td>本地文件</td>
+</tr>
+<tr>
+<td><strong>Obsidian</strong></td>
+<td>本地双链知识库</td>
+<td>本地纯文本、双链图谱、插件生态、AI 可读写</td>
+<td>官方同步收费、多人协作弱、要折腾</td>
+<td><strong>本地文件</strong></td>
+</tr>
+</tbody></table>
+<p><strong>怎么选，按场景对号入座：</strong></p>
+<ul>
+<li>想要<strong>团队协作、项目管理</strong>（多人编辑同一份文档&#x2F;表格）→ Notion 或语雀；</li>
+<li>想要<strong>网页剪藏</strong>为主，随手存文章 → 印象笔记更顺手；</li>
+<li>想要<strong>手写笔记</strong>（平板 + 笔）→ OneNote；</li>
+<li>想要<strong>大纲式思考</strong>（bullet 记法、Roam 风格）→ Logseq；</li>
+<li>想要<strong>长期积累的个人知识库</strong>，数据要自己掌控，还要接 AI → 选 Obsidian，这篇文章就是讲它的搭法。</li>
+</ul>
+<p>如果你不确定，记住这条分界线：<strong>知识是「资产」还是「临时文档」？</strong> 是资产——怕丢、怕被关停、要长期引用——选本地文件方案的 Obsidian；只是临时协同文档，Notion&#x2F;语雀更省心。</p>
+<h1 id="四、总体思路：像「书」一样分层"><a href="#四、总体思路：像「书」一样分层" class="headerlink" title="四、总体思路：像「书」一样分层"></a>四、总体思路：像「书」一样分层</h1><blockquote>
+<p>我的核心设计原则：<strong>不要按「工具」组织，要按「书」组织</strong>。知识库不是收纳盒，而是一本可以不断再版的书。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">首页（封面，唯一顶层）</span><br><span class="line">  └→ 知识地图（总目录：只列索引页/章）</span><br><span class="line">      ├→ 各领域索引 → 章首页 → 正文笔记</span><br><span class="line">      ├→ 来源资料索引 / 模板索引</span><br><span class="line">      └→ 作品集索引 → 作品节点 → 章节</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/kb-architecture.svg" alt="知识库总体架构"></p>
+<p>这套模型解决一个关键问题：<strong>导航层级永远有限</strong>。首页只放 4–7 个链接，知识地图只列索引页和章首页，正文笔记永远不直接挂在顶层。这样无论笔记涨到几百篇还是几千篇，入口都不会膨胀成乱麻。</p>
+<h1 id="五、目录设计：数字编号排序"><a href="#五、目录设计：数字编号排序" class="headerlink" title="五、目录设计：数字编号排序"></a>五、目录设计：数字编号排序</h1><p>分好层之后，用<strong>两位数字前缀</strong>给目录排序。数字既是物理排序，也是阅读顺序：看编号就知道先看什么、再看什么。</p>
+<p><img src="/img/kb-structure.svg" alt="目录结构设计"></p>
+<p>我的实际目录（可参考，不必照抄）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">00-首页与索引/      封面与目录：首页、总规则、知识地图、全部索引</span><br><span class="line">01-智能体知识/      规则、工具链、AI 使用规范、创作系统</span><br><span class="line">02-项目/            工程项目、软件与 AI 项目</span><br><span class="line">03-施工工艺/        可复用工艺、质量控制、验收要点</span><br><span class="line">04-材料与设备/      材料、设备、规格、价格和适用场景</span><br><span class="line">05-报价与成本/      工程量、人工、机械、辅材、报价、结算</span><br><span class="line">06-合同与风险/      合同、付款、变更、索赔、风险</span><br><span class="line">07-法规与规范/      国家、省、市各级文件</span><br><span class="line">08-安全与台风/      安全、应急、恶劣天气和事故复盘</span><br><span class="line">09-来源资料/        网页 / PDF / 文件来源摘要和原始路径</span><br><span class="line">10-收集箱/          尚未整理的临时内容</span><br><span class="line">99-模板/            模板索引（项目、主题、来源、现场、决策模板）</span><br><span class="line">写作题材/           创作区（独立成区，不并入工作区图谱）</span><br></pre></td></tr></table></figure>
+
+<p>几条关键纪律：</p>
+<ol>
+<li><strong>新建笔记必须归章</strong>：内容写进对应章目录，不平铺在根部；</li>
+<li><strong>每章一个章首页</strong>：<code>&lt;章名&gt;章.md</code>，向下链本章节、向上链所属索引；</li>
+<li><strong>索引只列章首页</strong>，不直接列全部正文；</li>
+<li><strong>作品&#x2F;项目按「作品集 → 作品 → 章节」三层</strong>，每部作品一个作品节点；</li>
+<li><strong>空目录也建章首页占位</strong>，避免新笔记无处安放；</li>
+<li><strong>创作区独立</strong>：写作题材允许内部自由链接，不强行并入工作区图谱。</li>
+</ol>
+<h1 id="六、使用过程示例：一条笔记的一生"><a href="#六、使用过程示例：一条笔记的一生" class="headerlink" title="六、使用过程示例：一条笔记的一生"></a>六、使用过程示例：一条笔记的一生</h1><p>光讲架构没用，看一遍实操就懂。举一个真实场景：<strong>记一条工程知识「C25 商品混凝土 2026 年 8 月阳春信息价」</strong>，完整走一遍从捕获到复用的流程。</p>
+<p><img src="/img/kb-workflow.svg" alt="一条笔记的一生"></p>
+<p><strong>第 1 步 · 捕获（30 秒，无脑完成）</strong></p>
+<p>在手机上看到供应商报价，随手记到 <code>10-收集箱/</code>，一个文件，几句话，不加任何格式：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">C25砼 8月价 阳春 380/方 参考</span><br><span class="line">供应商报价截图（手机拍）</span><br><span class="line">要查：跟7月比涨没涨</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 2 步 · 整理（2 分钟，标准动作）</strong></p>
+<p>周末统一整理：重命名清晰标题 → 补 YAML → 移动到章目录 → 加链接：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: C25商品砼2026年8月阳春信息价</span><br><span class="line">type: source</span><br><span class="line">status: verified</span><br><span class="line">created: 2026-08-10</span><br><span class="line">updated: 2026-08-10</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  -</span> 报价</span><br><span class="line"><span class="bullet">  -</span> 混凝土</span><br><span class="line"><span class="bullet">  -</span> 信息价</span><br><span class="line">source: XX商砼8月报价单</span><br><span class="line">source<span class="emphasis">_date: 2026-08-10</span></span><br><span class="line"><span class="emphasis">checked_</span>date: 2026-08-10</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">8 月 C25 约 380 元/方，较 7 月 +2.7%，详见 [[2026年7月材料信息价]]。</span><br><span class="line">已挂入 [[报价与成本索引]]，用于 [[XX项目结算]] 的调差依据。</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 3 步 · 检索使用（3 秒）</strong></p>
+<p>需要报价时，三种找法任选：</p>
+<ul>
+<li>全文搜索：输入「C25 信息价」直接命中；</li>
+<li>标签检索：<code>tag:信息价</code> 列出所有信息价笔记；</li>
+<li>关系图谱：从 <code>[[报价与成本索引]]</code> 顺着链接点进来，还能看到它被 <code>XX项目结算</code> 引用了多少次。</li>
+</ul>
+<p><strong>第 4 步 · 沉淀复用</strong></p>
+<p>这篇笔记之后被报价书、结算、下月比价反复引用，状态升级为 <code>active</code>，成为报价体系里的一张「卡」。<strong>笔记的价值在第二次使用时才开始兑现</strong>——第一次是记录，之后每一次都是复利。</p>
+<h1 id="七、笔记统一格式：YAML-属性"><a href="#七、笔记统一格式：YAML-属性" class="headerlink" title="七、笔记统一格式：YAML 属性"></a>七、笔记统一格式：YAML 属性</h1><p>每篇笔记开头放一段 YAML，让「内容」和「元数据」分开。这是知识库可检索、可治理的基础：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">笔记标题</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">project</span> <span class="string">|</span> <span class="string">topic</span> <span class="string">|</span> <span class="string">procedure</span> <span class="string">|</span> <span class="string">decision</span> <span class="string">|</span> <span class="string">source</span> <span class="string">|</span> <span class="string">meeting</span> <span class="string">|</span> <span class="string">incident</span></span><br><span class="line"><span class="attr">status:</span> <span class="string">draft</span> <span class="string">|</span> <span class="string">active</span> <span class="string">|</span> <span class="string">verified</span> <span class="string">|</span> <span class="string">needs-review</span> <span class="string">|</span> <span class="string">archived</span></span><br><span class="line"><span class="attr">created:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">updated:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">主题</span></span><br><span class="line"><span class="attr">related:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;[[相关笔记]]&quot;</span></span><br><span class="line"><span class="attr">source:</span> <span class="string">来源或文件路径</span></span><br><span class="line"><span class="attr">source_date:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="attr">checked_date:</span> <span class="number">2026-08-10</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p>几个字段的用法：</p>
+<ul>
+<li><code>type</code>：区分笔记性质（项目、主题、流程、决策、来源、会议）；</li>
+<li><code>status</code>：配合生命周期使用，一搜 <code>status:archived</code> 就能找归档；</li>
+<li><code>source</code> &#x2F; <code>source_date</code> &#x2F; <code>checked_date</code>：<strong>易变信息（价格、法规、数据）必须写来源和查询日期</strong>，过时了能重新查；</li>
+<li><code>tags</code>：主题标签，配合检索而不是代替目录。</li>
+</ul>
+<h1 id="八、链接纪律：让图谱是逻辑链"><a href="#八、链接纪律：让图谱是逻辑链" class="headerlink" title="八、链接纪律：让图谱是逻辑链"></a>八、链接纪律：让图谱是逻辑链</h1><p>分类管「笔记放哪」，链接管「怎么找到」。Obsidian 的 <code>[[双向链接]]</code> 按文件名解析、跨目录有效——<strong>物理移动文件不会断链</strong>，这是它能持续重构目录的前提。</p>
+<p><img src="/img/kb-links.svg" alt="链接纪律"></p>
+<ul>
+<li>每个正文笔记至少 <strong>1 条入链 + 1 条出链</strong>：入链保证「从索引可达」（不孤立），出链保证「上下文延续」（可跳转）；</li>
+<li>新笔记创建后必须挂到所属索引；</li>
+<li>链接目标不存在 → 创建占位笔记标 <code>status: needs-content</code>，正文写「待补充」，不要编造内容；</li>
+<li>只是提及的工具&#x2F;命令名用行内代码 <code>`</code>，不用 <code>[[]]</code>，避免产生无意义的图节点；</li>
+<li>删除笔记前先确认无入链，或先改引用；</li>
+<li>定期跑一次断链扫描（可以写个小脚本遍历所有 md 文件），目标：<strong>真实断链 0、导航全连通、无孤立笔记</strong>。</li>
+</ul>
+<h1 id="九、信息生命周期：从捕获到沉淀"><a href="#九、信息生命周期：从捕获到沉淀" class="headerlink" title="九、信息生命周期：从捕获到沉淀"></a>九、信息生命周期：从捕获到沉淀</h1><p>知识库最大的隐性成本是「整理」。我的做法是给信息一条明确的流动路径，让「快速捕获」和「深度整理」解耦：</p>
+<p><img src="/img/kb-lifecycle.svg" alt="信息生命周期"></p>
+<ol>
+<li><strong>收集箱</strong>：碎片、剪藏、灵感先丢进 <code>10-收集箱</code>，无压力，不打断心流；</li>
+<li><strong>整理中</strong>：定期归类到章目录、补 YAML，状态 <code>draft</code>；</li>
+<li><strong>已验证</strong>：标来源、标日期、区分「事实&#x2F;推断&#x2F;估计」，状态 <code>verified</code>；</li>
+<li><strong>可复用</strong>：挂入索引、被多次引用，成为真正沉淀下来的知识；</li>
+<li><strong>归档</strong>：不再活跃但保留来源，不删除。</li>
+</ol>
+<p>旧知识过时或出错时，回到「整理中」修订并保留修订记录，绝不静默删除——历史也是资产。</p>
+<h1 id="十、分类与标签怎么用"><a href="#十、分类与标签怎么用" class="headerlink" title="十、分类与标签怎么用"></a>十、分类与标签怎么用</h1><p>这是最常被问的问题：目录、标签、链接三者到底各管什么？</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>管什么</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>目录（文件夹）</strong></td>
+<td>笔记「放在哪」——物理归属</td>
+<td><code>05-报价与成本/</code></td>
+</tr>
+<tr>
+<td><strong>标签（tags）</strong></td>
+<td>笔记「是什么」——横向主题</td>
+<td><code>#报价</code>、<code>#验收</code>、<code>#待核实</code></td>
+</tr>
+<tr>
+<td><strong>链接（wikilink）</strong></td>
+<td>笔记「和谁相关」——逻辑关系</td>
+<td><code>[[报价与成本索引]]</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>分类（目录）是主结构，标签是辅助检索，链接是逻辑网</strong>。三者不要互相替代：用标签模拟目录会乱，用目录模拟关系会僵；</li>
+<li>标签建议克制：主题标签 + 状态标签（<code>#待核实</code> &#x2F; <code>#已验证</code>）+ 少量流程标签即可，标签越多越难维护；</li>
+<li>同一个主题若内容渐多，就升级：从一篇文章 → 一个章节目录 → 一个章首页 + 多篇笔记。</li>
+</ul>
+<p>发布到博客时同理：<strong>分类用固定维度</strong>（如 技术&#x2F;生活&#x2F;小说），<strong>标签用自由维度</strong>（如 Obsidian、知识管理），一篇文章只归一个主分类、挂 2–5 个精准标签，避免「一篇多分类、标签堆砌」。</p>
+<h1 id="十一、落地过程：从乱麻到书式分层"><a href="#十一、落地过程：从乱麻到书式分层" class="headerlink" title="十一、落地过程：从乱麻到书式分层"></a>十一、落地过程：从乱麻到书式分层</h1><p>我的真实过程，供参考节奏：</p>
+<ol>
+<li><strong>第 1 天：先立规则再搬家</strong>。写下《总规则》：分层模型、目录编号、分章纪律、YAML 规范、禁止事项——规则先行，后面所有操作有据可依；</li>
+<li><strong>第 2 天：搭骨架</strong>。建 00–99 章目录和章首页占位，把首页、知识地图、各领域索引先立起来；</li>
+<li><strong>第 3 天：批量归类</strong>。把散落笔记按主题 <code>mv</code> 进对应章目录（wikilink 按文件名解析，跨目录移动不断链）；</li>
+<li><strong>之后：持续治理</strong>。新笔记必须归章、必须挂索引；每周跑一次断链扫描；发现旧笔记过时就地修订。</li>
+</ol>
+<p>实测效果：首页从 17 条链接收敛到 7 条，知识地图从 29 条收敛到 13 条，断链清零，图谱从「乱麻」变成「清晰的树」。<strong>治理的投入主要在结构，不在内容</strong>——结构对了，内容自然找到位置。</p>
+<h1 id="十二、给新手的最小起步清单"><a href="#十二、给新手的最小起步清单" class="headerlink" title="十二、给新手的最小起步清单"></a>十二、给新手的最小起步清单</h1><p>不要一步到位，按这个顺序做就够：</p>
+<ol>
+<li><strong>建 3 个目录</strong>：<code>00-入口/</code>（放首页和索引）、<code>10-收集箱/</code>、<code>99-模板/</code>，再加 1 个你当前最关心的业务目录；</li>
+<li><strong>写一篇首页</strong>：只放 3–5 个链接，先让它「能导航」；</li>
+<li><strong>定一个笔记模板</strong>：title &#x2F; created &#x2F; tags &#x2F; status 四字段起步；</li>
+<li><strong>从今天开始记</strong>：新笔记一律先落收集箱，每周日花 20 分钟整理；</li>
+<li><strong>只加一个习惯</strong>：每篇笔记至少一个 <code>[[链接]]</code>；</li>
+<li>两周后回头补索引和章首页，再决定要不要加目录。</li>
+</ol>
+<h1 id="十三、什么时候别用-Obsidian"><a href="#十三、什么时候别用-Obsidian" class="headerlink" title="十三、什么时候别用 Obsidian"></a>十三、什么时候别用 Obsidian</h1><p>最后说点泼冷水的，帮你省钱省时间：</p>
+<ul>
+<li>你需要的其实是<strong>团队共享文档</strong>（多人同时编辑、评论、审批）→ 用 Notion 或语雀，Obsidian 的多人协作会让你难受；</li>
+<li>你<strong>讨厌折腾</strong>，只想开箱即用、同步开箱就有 → 印象笔记&#x2F;语雀更省心，Obsidian 的同步要自己搭；</li>
+<li>你主要记<strong>临时信息</strong>（会议随手记、待办清单），不打算长期积累 → 任何工具都行，没必要为 Obsidian 建整套体系；</li>
+<li>你已经有 Notion&#x2F;语雀体系且用得顺手 → <strong>不要为了换而换</strong>，工具迁移成本很高。Obsidian 的核心价值在「长期积累 + 数据自主 + AI 协作」，这三样你都不需要，就别折腾。</li>
+</ul>
+<hr>
+<p><em>这篇文章的架构来自我自己 Obsidian 知识库的实践：<code>00-首页与索引/</code> 下的《智能体知识库总规则》定义了分层模型、目录编号与分章纪律，<code>知识地图.md</code> 是全库总导航。全部正文为纯 Markdown + 双向链接，可被任何工具读写。</em></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>教程</tag>
+        <tag>Obsidian</tag>
+        <tag>知识管理</tag>
+        <tag>笔记系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第二章 第一笔</title>
+    <url>//novels/chongsheng/02-diyibi/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/01-chongsheng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第一章 重生</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 2 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/03-zhuanzheng/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第三章 转正</span></a></nav>
+
+<p>吃过午饭，奶奶回屋睡午觉。岗美镇的冬天，午后短，太阳一偏西，瓦背上的霜气就起来了。</p>
+<p>彭敬寅把房门掩上，坐回桌前。MacBook Pro还接着电，屏幕亮着，比特币中国的注册页面停在中间，光标一闪一闪。</p>
+<p>他盯着那个界面，忽然有点恍惚。</p>
+<p>一个2025年死在合约里、做了多年交易的人，现在要在一个2013年1月的、他二十多岁根本没碰过的平台上，注册人生第一个账号。页面简陋得像个论坛，蓝白配色，注册栏要填邮箱、手机号、密码。没有实名认证的强制弹窗，没有风控，没有App下载引导。</p>
+<p>他输了一个QQ邮箱，手机号，设了密码。提交。</p>
+<p>“注册成功。”</p>
+<p>四个字。就这么简单。</p>
+<p>前世他在币安过实名、人脸、资金来源证明，光认证就折腾几天。这会儿，一个邮箱加一个手机号，就成了。</p>
+<p>彭敬寅靠进椅背，抽出一根红五叶神，点上，慢慢吸了一口。烟雾里，他忽然想笑，又笑不出来。</p>
+<p>这地方，谁也不知道比特币是什么。阳春没人知道，岗美更没人知道。全中国，也就一小撮人在这个页面上倒腾那串没人当回事的数字。</p>
+<p>而他，是这世上唯一一个知道这串数字会走到哪的人。</p>
+<hr>
+<p>他把烟按灭，开始操作。</p>
+<p>钱在卡里。十八万人民币，2012年一整年的生意利润。干净的部分十几万，还有四五万是过桥抽水，见不得光，但都在同一张卡里，混在一起。</p>
+<p>他先转了一笔。三万。用网银，从卡里打过去，填充值，等它到账。</p>
+<p>元旦，银行柜台不营业，网银照转。他不急，就坐在那儿，隔一会儿刷新一次。</p>
+<p>到账了。</p>
+<p>页面上的数字变了——人民币余额，三万整。他点进交易区。</p>
+<p>比特币，十三块多美元，折人民币八十几块一个。卖盘稀稀拉拉挂着，几个十几个地散在那里，像集市上没卖完的货。</p>
+<p>彭敬寅没有一次全砸进去。他挂了一笔单，几千块，几十个币的量，先试试深浅。成交得很快，几乎是挂上去就吃掉了。</p>
+<p>他看了看账户里的比特币余额，又看了看剩下的钱，接着挂。一笔，两笔，三笔。他拆得碎，每次的量都不大，像把一块砖敲成几块，一块一块码进墙里。</p>
+<p>这不是怂。是他清楚，2013年1月，这市场的池子浅，一口气砸下去，会把价格自己推起来，还买不到便宜货。他要在十三美元这个价位上，用最不惊动人的方式，把该买的都买进来。</p>
+<p>他想起前世。2013年，其实也有人在他耳边提过比特币。那年夏天，一个做IT的客户，饭桌上喝多了，红着脸跟他说：”彭老板，你信不信，网上有个东西，一个能卖上百美金，往后肯定还要涨。”</p>
+<p>他当时怎么回的？他忘了。大概是笑着岔开了话。那会儿他满脑子是二手车、配件、过桥抽水，哪顾得上一个”网上卖的玩意儿”。后来等他真正明白比特币是什么，进场的时候，价格早就翻了不知道多少倍。他总想，要是那年夏天听进去一句……</p>
+<p>这一世，不用等谁提醒了。他自己，就是那个知道答案的人。</p>
+<p>等三万块花得差不多，账户里已经躺着三百多个比特币。成本，摊下来八十几块一个。</p>
+<p>他把电脑合上，没再看。</p>
+<p>心里那根弦，第一次松下来一点。</p>
+<hr>
+<p>天擦黑的时候，他坐在天井里抽烟。奶奶在厨房张罗晚饭，锅铲碰着铁锅，一下一下，很响。</p>
+<p>他脑子里在算账。</p>
+<p>十八万。五万保命底，一分不动，那是他给”活着”留的底——哪怕记忆全错，哪怕满盘皆输，这五万还在，他和奶奶、小雨就还能往下过。</p>
+<p>剩下的十三万，是主力仓。今天动了三万，买了三百多个币。照这个节奏，元旦这几天，他能把主力仓的货，在十三美元这个价位上，一点点备齐。</p>
+<p>他知道后面大概的走法。四月，会冲到两百六十多，再往上，就到头了。他不会傻等那个顶——顶是事后才看出来的，真到顶，就来不及了。他要的，是逼近两百六的时候就开始往外倒，一拨一拨地清，把肉吃到嘴里，不吃那最后一口。</p>
+<p>然后等它崩下来。崩到哪，他记不真，只知道会砸到五十上下。那会儿才是接货的时候。也是分批，几十个几十个地往回买，接得越慢越稳。</p>
+<p>年底，破千，一千出头，再清一次。</p>
+<p>十三美元到一千美元，一年，七十多倍。</p>
+<p>他把烟屁股摁在地上，碾了碾。这事儿，急不得，但也拖不得。重生不是让他慢慢来的，是让他看准了，就下手。</p>
+<p>可他也没忘记，前世是怎么死的。不是跌死的，是一根针，扎在没人碰的池子里，几秒清空。所以这世，他给自己划了死线——不上杠杆，仓自己管，踩点进出。他知道顶，知道底，不需要用命去搏那个”万一”。</p>
+<hr>
+<p>手机在屋里响了。他起身去接。</p>
+<p>是金仔。</p>
+<p>“寅哥，人都给你叫齐了。”金仔那大嗓门隔着电话都震耳朵，”河马、南记、小土、素素，一个不落。你说，哪天，我安排地方。”</p>
+<p>“就这两天。”彭敬寅说，”别整太大，找个安静点的地儿，吃顿饭。”</p>
+<p>“行。”金仔顿了顿，又压低声音，”寅哥，你跟我说实话，是不是出什么事了？我这心里突突的。”</p>
+<p>“没事。”彭敬寅笑了一下，”是好事。想带你们一起，干点大的。”</p>
+<p>那头沉默了两秒，然后金仔”嘿”了一声：”有你这句话，我就踏实了。行，我这就去张罗，定好了给你电话。”</p>
+<p>挂了。</p>
+<p>彭敬寅站在门口，天已经全黑了。岗美镇的黑，是真的黑，没有路灯的地方，伸手不见五指，只有远处谁家的狗远远地叫一声。</p>
+<p>他回头，奶奶屋里的灯亮着，黄黄的，照着灶台和她佝偻的背。</p>
+<p>他忽然想起前世。想起那些年，他忙着滚盘子，几个月不回一次岗美，电话里奶奶只说”忙就忙吧，别惦记家里”。想起爆仓之后——不，爆仓之前，他就已经很少回来了。等他想回来的时候，有些东西，已经回不去了。</p>
+<p>这一世，从今天起，他不会再犯这个错。</p>
+<p>他要把这群人，一个个，都带到台面上来。干干净净的，一个都不能少。</p>
+<p>彭敬寅转身，回了屋。</p>
+<p>桌上的电脑已经黑了屏。他知道，那里面躺着三百多个比特币，正安静地睡在一个2013年1月的账户里，像一颗埋进土里的种子。</p>
+<p>而外面的世界，还什么都不知道。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/01-chongsheng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第一章 重生</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 2 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/03-zhuanzheng/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第三章 转正</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第三章 转正</title>
+    <url>//novels/chongsheng/03-zhuanzheng/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/02-diyibi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第二章 第一笔</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 3 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/04-ruju/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第四章 入局</span></a></nav>
+
+<p>1月3日，天擦黑，彭敬寅开车从岗美回了阳春市区。</p>
+<p>奥德赛在S277上跑，车窗外，田野黑成一片，偶尔掠过一盏灯，是路边人家的灶火。重生第三天。三百多个比特币已经躺在他账户里，五条铁律写进了贴身那个黑本子。</p>
+<p>现在，该见人了。</p>
+<p>金仔把地方定在城东大道边上，一家做走地鸡的馆子，包间，安静。彭敬寅到的时候，人已经齐了。</p>
+<p>金仔在门口迎他，大嗓门：”寅哥！就等你了。”往里头一伸手，”都到了。”</p>
+<p>包间里，热气腾腾。河马占了大半个身子，正往杯里倒酒，抬头看见他，咧嘴一笑，露出一口牙：”寅哥，来啦！坐坐坐，今晚不醉不归。”</p>
+<p>南记缩在角落，盯着手机，头也没抬，只”嗯”了一声。格子衫，拖鞋，还是那副不修边幅的样子。</p>
+<p>小土坐在最边上，没说话，抽着烟，见他进来，点了点头，把烟往烟灰缸里弹了弹。这是他的习惯——话少，但人一定到。</p>
+<p>素素站起来，拍了拍身边的椅子：”寅哥，坐这儿。”她今天穿了件亮色的外套，化了淡妆，整个人精神得很。</p>
+<p>彭敬寅坐下，环顾一圈。五个兄弟，一个不少。前世，这五个人里，有两个人没能走到最后。</p>
+<p>他端起面前的茶杯，喝了一口，压下那点翻上来的东西。</p>
+<hr>
+<p>菜上齐了。阳春走地鸡，春砂仁鲫鱼汤，几样时蔬，一件珠江啤酒，一瓶轩尼诗VSOP。酒是河马带来的，他好这口，说这牌子够劲。</p>
+<p>酒过三巡，话头热了起来。河马嗓门最大，说着阳西线这个月的进货，手机配件的行情；金仔在旁边插科打诨，逗得素素直乐；南记偶尔抬头，冒一句谁也听不懂的技术词。</p>
+<p>彭敬寅一直没怎么说话。他看着这些人，脑子里转的却是另一件事。</p>
+<p>等一桌人闹得差不多了，他把筷子放下，敲了敲桌面。</p>
+<p>“都静一静。”他的声音不响，但一桌子人都停了。金仔坐直了身子，河马把酒杯放下，南记也抬起了头。小土把烟按灭。</p>
+<p>“寅哥，你说。”金仔道，”你不是说有事吗，我憋一晚上了。”</p>
+<p>彭敬寅扫了一圈，慢慢开口：”我这些天，想明白一件事。”</p>
+<p>“咱们这摊生意，二手车、配件，这些干净的，没问题。但还有两三成的灰色——过桥、抽水、擦边，你们心里都有数。”</p>
+<p>房间里静了一下。河马的脸色微微变了变。小土垂着眼，没动。素素咬了下嘴唇。</p>
+<p>“寅哥，”河马先开口，”这话怎么说？这灰色……不是一直这么干的吗？”</p>
+<p>“一直这么干，不代表能一直干下去。”彭敬寅盯着他，”河马，你阳西线那头的货，有多少是擦边的，你自己清楚。现在是没出事，但这事儿，跟走钢丝一样，一年两年没事，十年八年呢？迟早有一天，踩空。”</p>
+<p>河马张了张嘴，没说出话。</p>
+<p>“我前阵子算了笔账。”彭敬寅继续说，”灰色那点钱，看着快，可风险也是最大的。咱们现在有本钱了，趁还转得动，把这摊子洗白，站到台面上来，踏踏实实挣钱。”</p>
+<p>“洗白？”河马皱眉，”寅哥，道理我懂，可洗白不是一句话的事。阳西线不要了？那些渠道、那些人脉，说断就断？”</p>
+<p>“不是断。”彭敬寅摇头，”是转。渠道还在，人脉还在，货照走，但走干净的那部分。手机配件、电子产品，正经批发，一样挣钱，就是慢点、稳点。”</p>
+<p>河马不说话了，端起酒杯，闷了一口。</p>
+<p>这时候，一直没吭声的小土开了口。</p>
+<p>“我赞成转。”</p>
+<p>一桌人都看向他。小土还是那副低眉顺眼的样子，声音不大，却清楚：”灰色这东西，赚的是快钱，睡的是不安稳觉。钱是进来了，可心里那根弦，一直绷着。转吧，转正了，晚上能睡个踏实觉。”</p>
+<p>彭敬寅看了小土一眼。这话，前世小土没机会说出口。等他想说的时候，人已经进去了。</p>
+<p>“我也觉得该转。”素素接话，语气里带着点认真，”我爸是干公安的，我比你们清楚，这两年上头抓得紧。擦边的事，越早收手越好。我不是怕，是……是怕你们哪个，哪天突然就……”她没说完，摆了摆手。</p>
+<p>金仔一拍大腿：”寅哥说转就转！我金仔没二话。反正我跟着你，你指哪我打哪。”</p>
+<p>南记推了推眼镜，终于开口：”转正之后，干什么？总得有个方向。”</p>
+<p>彭敬寅等的就是这句。</p>
+<hr>
+<p>“方向，我想好了。”他坐直了身子，一桌人都竖起耳朵。</p>
+<p>“转正之后，咱们往两个地方走。一个，是把现在正经的生意做大——二手车、配件，这块我有把握。另一个……”他顿了顿，”是个新东西，我最近在琢磨。”</p>
+<p>“什么新东西？”河马问。</p>
+<p>“网上的。比特币。”彭敬寅说出这三个字，观察着每个人的表情。</p>
+<p>一桌人面面相觑。河马一脸茫然：”比……什么币？钱？”</p>
+<p>“不是钱。是一种……网上的虚拟货币。”彭敬寅斟酌着词，”外国人搞出来的，全世界都能买卖。我查过了，一个现在卖八十多块人民币。”</p>
+<p>“八十多块一个？”金仔瞪大眼睛，”这玩意儿能当钱花？”</p>
+<p>“现在还不大能花。”彭敬寅说，”但我看它后面有搞头。我先自己拿点钱试试水，亏了算我的。等摸清楚了，再带你们一起。”</p>
+<p>他没有说七十六倍。没有说四月会涨到两百六十多美元。那些话，说出来没人信，还会以为他疯了。他只说自己”在琢磨””先试试水”。</p>
+<p>“寅哥，”河马皱着眉，”这东西听着不靠谱啊。网上虚拟的，别是骗人的。”</p>
+<p>“所以我先试。”彭敬寅笑了一下，”小打小闹，赔了也就是几万块的事。真要是骗人的，我认。可万一是真的……”</p>
+<p>他没说完，但意思到了。</p>
+<p>一桌人沉默了。彭敬寅看得出来，没几个人真信这个”比特币”，但他们都信他这个人。</p>
+<p>“行了。”彭敬寅举起杯子，”今晚就定两件事：第一，转正，灰色那摊子，今年内收干净；第二，比特币，我先试，成了带你们。干不干，自己拿主意，不勉强。”</p>
+<p>金仔第一个举起杯：”干！”</p>
+<p>小土第二个，没说话，只是把杯子举了起来，跟彭敬寅的碰了碰。</p>
+<p>素素、南记、河马，一个接一个。</p>
+<p>六只杯子碰在一起，酒洒出来一点，落在桌布上。</p>
+<hr>
+<p>散场的时候，已经快十点了。</p>
+<p>彭敬寅站在馆子门口，看着五个兄弟各自上车。金仔的飞度，河马的雅阁，素素的宝马三系，南记打了辆摩的，小土走路，说想吹吹风。</p>
+<p>他点了一根烟，慢慢抽。</p>
+<p>这些人，前世有的被人坑了，有的进去了，有的到最后也没等到他回来。这一世，他要把他们一个个，都带到台面上来。</p>
+<p>转正，是第一步。</p>
+<p>比特币，是第二步。</p>
+<p>而他心里，还揣着一个谁都不知道的、真正的大局。那个大局，现在还早。</p>
+<p>烟抽完了。他上车，发动引擎，往租屋开去。后视镜里，城东大道两边的灯，一盏一盏往后退。</p>
+<p>2013年1月3日，农历冬月廿二。离过年，还有三十七天。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/02-diyibi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第二章 第一笔</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 3 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/04-ruju/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第四章 入局</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>喧嚣的世界里想有一颗能平静的心</title>
+    <url>/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/</url>
+    <content><![CDATA[<p>这个时代，心好像越来越难安稳了。外面的一切都在加速，信息一刻不停地涌进来，AI把生产和传播变得如此轻易，世界像被按下了快进键。心跟不上，就容易乱。明明周围很热闹，可那份安静却越来越稀薄。</p>
+<p><img src="/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/cover.jpg" alt="喧嚣之中，心仍想寻一处安宁"></p>
+<p>人心本该有自己的节奏，能沉得下去，能专注在一件事上。可现在，它常常被各种声音拉扯着。一会儿被新鲜的东西吸引，一会儿又被比较搅动。快节奏把时间切成碎片，心也跟着碎了。想专注的时候，总有别的念头冒出来；想平静的时候，又觉得哪里不对劲。好像整颗心都悬在半空，落不实。</p>
+<p><img src="/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/fragmented-mind.jpg" alt="碎片化的节奏，让心难以落定"></p>
+<p>AI的出现，让这种状态更明显了。它让很多事变得更快更好，但也让心更习惯于快速切换。内容来得太容易，思考就浅了；选择太多，定力就弱了。人心在这样的洪流里，像是被不断稀释，越来越难找到那个原本属于自己的深度和从容。</p>
+<p>我们很多人都有过类似的感觉吧。心在白天被各种事务和消息占满，到了夜里还久久不能沉静。不是因为外面有多可怕，而是心自己失去了和自己待着的能力。它被训练得太习惯外面的刺激，一旦安静下来，反而觉得不适应。专注成了一种奢侈，平静成了一种遥远的记忆。</p>
+<p>这个社会的普遍状态就是如此。人心在浮躁中摇摆，在快节奏里疲惫，在信息过剩里迷茫。它还是那颗心，却仿佛被时代裹挟着，渐渐忘了原本的重量。也许很多人都在暗暗地察觉到这一点，却又说不清该拿它怎么办。</p>
+<p>心若能稳住，世界再吵，也还有一块属于自己的地方。可在当下，它常常是漂着的。漂在潮流里，漂在比较中，漂在永无止境的追赶感里。这或许就是我们这个时代的共同境遇——外在越丰富，内在越渴望一点简单的安宁。</p>
+<p><img src="/posts/2026/06/25/%E5%96%A7%E5%9A%A3%E7%9A%84%E4%B8%96%E7%95%8C%E9%87%8C%E6%83%B3%E6%9C%89%E4%B8%80%E9%A2%97%E8%83%BD%E5%B9%B3%E9%9D%99%E7%9A%84%E5%BF%83/quiet-heart.jpg" alt="世界再吵，仍想守住内心那一盏静水"></p>
+<p>只是不知道，这样的心，还要晃多久。</p>
+]]></content>
+      <categories>
+        <category>日记</category>
+      </categories>
+      <tags>
+        <tag>成长</tag>
+        <tag>感悟</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第四章 入局</title>
+    <url>//novels/chongsheng/04-ruju/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/03-zhuanzheng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第三章 转正</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 4 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/05-huijia/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第五章 回家</span></a></nav>
+
+<p>南记住在城西一间出租屋。</p>
+<p>彭敬寅到的时候，天刚擦黑。楼道里黑黢黢的，灯坏了半年也没人修。他敲了敲门，里头应了一声，半天才开。</p>
+<p>门一开，一股泡面味混着焊锡味扑出来。屋里乱得像刚遭过贼——两台显示器并排亮着，主机箱盖子敞着，网线、数据线在地上盘成一团，桌上一摞吃剩的泡面碗，最上面那只还插着双一次性筷子。</p>
+<p>南记趿着拖鞋，头发乱糟糟的，看见是他，把门让开：”寅哥，进。坐……”他四下看了看，实在没地方坐，从椅子上扒拉下一堆脏衣服，踢到一边，”坐这儿。”</p>
+<p>彭敬寅没坐。他把手里拎的一袋东西放桌上——一份肠粉，一罐可乐。</p>
+<p>“吃没？”</p>
+<p>南记愣了一下，抓过肠粉就拆：”还没。谢了。”</p>
+<p>他三两口扒完，抹了把嘴，抬头看彭敬寅：”寅哥，你找我，不是光送肠粉的吧？”</p>
+<p>彭敬寅点头，从包里掏出MacBook Pro，掀开，推到南记面前。</p>
+<p>“帮我弄个东西。”</p>
+<p>屏幕上，是比特币中国的页面。</p>
+<hr>
+<p>南记凑过去看了一会儿，眉头慢慢皱起来。</p>
+<p>“比特币？”他推了推眼镜，”昨天饭桌上你说要试水，我还当你随口一提……”他顿了顿，抬头看向彭敬寅，”寅哥，你真下手了？”</p>
+<p>“下手了。”彭敬寅说，”买了一点。”</p>
+<p>“多少？”</p>
+<p>“三百多个。”</p>
+<p>南记的眼睛一下睁大了，转过头来：”三百多个？现在一个……”他又看了眼屏幕，”八十多人民币？那你这都两三万了。寅哥，你下手也太快了吧，昨天晚上才说的。”</p>
+<p>“认真的。”彭敬寅把椅子拉过来坐下，”所以找你来。这摊子，光靠我自己盯着费劲，你帮我干三件事。”</p>
+<p>“你说。”</p>
+<p>“第一，帮我在这平台上把账号弄利索，实名、绑卡、安全这些，你是内行。第二，帮我把每一笔买卖记清楚——哪天买的、多少价、多少个，做个表。第三……”彭敬寅指了指屏幕，”这价格天天变，你有没有办法，让它自己盯着，涨了跌了给我报个信？”</p>
+<p>南记的眼睛亮了一下。前两件事是琐事，第三件，戳中他了。</p>
+<p>“可以。”他转身在键盘上敲了几下，”比特币中国有行情接口，我写个小脚本，定时抓价，设个提醒，涨破哪个价、跌破哪个价，给你发短信。”他越说越快，”就是这接口的文档不多，我得研究研究。”</p>
+<p>“你慢慢研究，不急。”彭敬寅说，”比特币这事儿，饭桌上我说过了，不是秘密。但具体买了多少、怎么买的、账上挣了多少，这些数字，就你我知道。别人问起来，你说帮我弄电脑就行。”</p>
+<p>南记抬头看了他一眼，懂了。他不算太会看人，但跟了寅哥几年，这点事还是明白的——方向可以摆上台面，底牌得攥在自己手里。</p>
+<p>“行。”南记点头，”我嘴严。”</p>
+<hr>
+<p>接下来两天，南记一头扎了进去。</p>
+<p>他把彭敬寅的账号重新捋了一遍，改了密码，加了密保。又建了个表格，把每一笔买卖都记下来：时间、价格、数量、成本。最后，他真鼓捣出了一个脚本，每隔几分钟抓一次比特币中国的行情，存进本地，价格一有动静，就弹个提醒。</p>
+<p>彭敬寅这边也没闲着。</p>
+<p>他回了几趟岗美和市区之间，把主力仓的钱，分批转进了平台。三万、五万、又两万。每次都不多，拆成几十个、上百个的量，一笔一笔地吃进。</p>
+<p>比特币那会儿还没什么人当回事。卖盘稀稀拉拉，他挂出去的单，慢悠悠地成交。几天下来，账户里的数字，从三百多个，涨到了一千五百多个。成本，摊下来还是八十几块人民币一个。</p>
+<p>他心里有数。这个价，往后看，便宜得跟白捡一样。</p>
+<p>但他没把话说全。跟兄弟们，他说的是”先试试水，亏了算我的”；跟南记，说的是”帮我盯好账”。没人知道，他往这”新东西”里，已经砸进了十三万人民币——他几乎全部的身家，除了那五万保命底。</p>
+<hr>
+<p>1月5号晚上，南记的电话打过来。</p>
+<p>“寅哥，”那头的声音有点兴奋，又压着，”这比特币，有点东西。”</p>
+<p>“怎么说？”</p>
+<p>“我把它的白皮书、原理、代码，全看了一遍。”南记说，”去中心化，总量恒定，不能增发，不受任何政府管。技术上……挺干净的。我本来以为是个骗局，看完觉得，这玩意儿的设计，真挺聪明。”</p>
+<p>彭敬寅在电话这头，没接话，只是听着。</p>
+<p>“就是，”南记话锋一转，”它现在一个才八十多块人民币，全世界也没几个人认。到底能不能涨起来，谁也不知道。寅哥，你是做生意的，你比我懂行情，你觉得，它后面有戏？”</p>
+<p>彭敬寅沉默了两秒。</p>
+<p>“有戏。”他说，”而且，会很大。”</p>
+<p>“多大？”</p>
+<p>“大到你想象不到。”彭敬寅说，”但我现在还不能跟你说为什么。你就信我这一回，把脚本给我盯好，把账给我记好。剩下的，交给我。”</p>
+<p>南记那头安静了一会儿，然后”嗯”了一声。</p>
+<p>“行。我信你。”</p>
+<p>挂了电话，彭敬寅站在租屋的窗前，看着阳春市区的夜景。</p>
+<p>楼下是环城南路，车不多，灯也不多。这是2013年1月的阳春，一个广东的小县城。整个城市，没几个人知道比特币是什么。</p>
+<p>而他，已经在这里，埋下了一千五百多个。</p>
+<p>他点了一根烟，慢慢抽。</p>
+<p>第一步，已经踏出去了。接下来，就是等。</p>
+<p>等四月，那场所有人都措手不及的暴涨。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/03-zhuanzheng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第三章 转正</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 4 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/05-huijia/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第五章 回家</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第五章 回家</title>
+    <url>//novels/chongsheng/05-huijia/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/04-ruju/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第四章 入局</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 5 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/06-guonian/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第六章 过年</span></a></nav>
+
+<p>1月18号，小雨放假回来了。</p>
+<p>彭敬寅开车去汽车站接她。临近春运，车站里人挤人。他站在出站口，抽着烟，等。</p>
+<p>远远地，一个背着双肩包、拖着行李箱的姑娘从人堆里挤出来，踮着脚张望。</p>
+<p>“哥！”</p>
+<p>小雨看见他，眼睛一亮，拖着箱子小跑过来。到了跟前，又有点不好意思，放慢脚步，抿着嘴笑。</p>
+<p>彭敬寅上下打量她一眼：”瘦了。”</p>
+<p>“哪有，我还胖了两斤。”小雨撅了撅嘴，”学校食堂的饭，比我刚去那会儿强点。”</p>
+<p>“上车。”彭敬寅接过她的箱子，往奥德赛后头一放，”奶奶在家炖了汤，等你呢。”</p>
+<p>回岗美的路上，小雨叽叽喳喳说个不停。学校的事、同学的事、期末考的事。彭敬寅听着，偶尔”嗯”一声，嘴角一直没放下来。</p>
+<p>前世，他太忙了，忙到小雨放假回家，他都抽不出空去接。等他想起来的时候，妹妹已经长大了，不再跟他撒娇了。</p>
+<p>这一世，他不想再错过。</p>
+<hr>
+<p>到家的时候，天已经黑了。奶奶早把饭做好了，一桌菜摆着，都是小雨爱吃的。</p>
+<p>“回来啦？”奶奶听见动静，从厨房迎出来，看见小雨，脸上的褶子都笑开了，”瘦了瘦了，学校吃不好吧？快洗手，吃饭。”</p>
+<p>“阿婆，我想死你了！”小雨扑过去，搂住奶奶的胳膊。</p>
+<p>奶奶嘴上嫌弃：”都多大了还撒娇。”手却拍着她的手背，舍不得松。</p>
+<p>饭桌上，一家人围坐着。奶奶一个劲往小雨碗里夹菜：”多吃点，这个鸡是我让邻居留的，走地鸡，补身体。”</p>
+<p>小雨给奶奶盛汤，又给彭敬寅夹了块鸡肉：”哥，你也吃。你最近是不是又瘦了？我看你脸色不太好。”</p>
+<p>彭敬寅笑了一下：”没瘦。生意忙。”</p>
+<p>“忙也要吃饭。”小雨认真地说，”你别老吃外卖。”</p>
+<p>“知道。”</p>
+<p>一顿饭，吃得热热闹闹。窗外，岗美镇静悄悄的，只有屋里这盏灯，亮得暖人。</p>
+<hr>
+<p>吃过饭，小雨去收拾自己的房间。彭敬寅站在天井里，掏出手机看了一眼。</p>
+<p>南记发来一条短信。</p>
+<p>“寅哥，行情有点意思。比特币今天涨了，人民币价涨到快一百了。”</p>
+<p>彭敬寅盯着这几个字，手指无意识地捏紧了手机。</p>
+<p>一百块人民币一个。他买的时候，八十多。这才半个月，涨了快两成。</p>
+<p>他换算了一下。按汇率，人民币快一百块，差不多就是十五美元多。他记着的那个数——1月中旬，十五块多，对上了。</p>
+<p>记忆是对的。它真的在涨，跟他说的一模一样。</p>
+<p>彭敬寅深吸一口气，又慢慢吐出来。他没有回短信，把手机揣回兜里。</p>
+<p>这才哪到哪。十五块，离他记着的那场暴涨，还远得很。</p>
+<hr>
+<p>第二天，彭敬寅带小雨去了趟市区的手机城。</p>
+<p>小雨那台旧手机，屏幕裂了一条缝，一直舍不得换。这事他记在心里——前世，他忙着赚钱，妹妹想要个新手机，他拖了半年才给买。这一世，他不想拖了。</p>
+<p>“哥，真不用，我手机还能用。”小雨嘴上推辞，眼睛却忍不住往柜台里瞟。</p>
+<p>“别挑便宜的。”彭敬寅说，”挑你喜欢的。”</p>
+<p>小雨磨蹭了半天，最后指了一台。彭敬寅看了一眼，不贵，一千多块。他知道，妹妹这是怕他花钱。</p>
+<p>“这个就行。”小雨说，”我用着顺手。”</p>
+<p>彭敬寅没拆穿她。他冲店员点了点头，付了钱，又顺手给奶奶买了个血压计——奶奶血压时高时低，一直没当回事。</p>
+<p>小雨拎着新手机，笑得眼睛弯弯的。末了，又小声说：”哥，你对我真好。”</p>
+<p>彭敬寅伸手，在她脑袋上轻轻拍了一下。</p>
+<p>“废话。你是我妹。”</p>
+<hr>
+<p>回岗美的路上，小雨坐在副驾驶，摆弄着新手机，突然问了一句：</p>
+<p>“哥，你最近是不是在搞什么大事情？”</p>
+<p>彭敬寅握着方向盘，看了她一眼：”怎么这么问？”</p>
+<p>“就是感觉。”小雨歪着头，”你以前忙归忙，但没这么……沉。最近你老走神，好像心里装着什么事。还有，你手机老响，你都不接，就盯着看。”</p>
+<p>彭敬寅沉默了一下。</p>
+<p>“是有点事。”他说，”但还不能说。等成了，哥第一个告诉你。”</p>
+<p>“那说好了。”小雨伸出小拇指，”拉钩。”</p>
+<p>彭敬寅腾出一只手，跟她勾了勾。</p>
+<p>“拉钩。”</p>
+<p>车窗外，S277两边的田野里，已经有零零星星的油菜花开了。金黄的一小片，一小片，在冬日灰蒙蒙的天底下，格外扎眼。</p>
+<p>彭敬寅忽然觉得，这世，好像真的不一样了。</p>
+<hr>
+<p>1月20号，比特币，人民币差不多一百块。</p>
+<p>彭敬寅账户里，一千五百多个币，浮盈已经有两万多了。</p>
+<p>他坐在租屋里，看着南记发来的行情截图，慢慢点了根烟。</p>
+<p>还早。他知道，这一切，才刚刚开始。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/04-ruju/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第四章 入局</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 5 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/06-guonian/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第六章 过年</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第六章 过年</title>
+    <url>//novels/chongsheng/06-guonian/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/05-huijia/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第五章 回家</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 6 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/07-miaotou/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第七章 苗头</span></a></nav>
+
+<p>2月8号，腊月廿八，彭敬寅开车回了岗美。</p>
+<p>后备箱里塞满了年货：一箱沙糖桔，两盒曲奇，一袋干鱿鱼，还有给奶奶买的一件羽绒背心——她冬天怕冷，总说不碍事，可他记着。给小雨的是一台新的MP3，她年前念叨过想要，他没声张。</p>
+<p>车在村口停稳，老远就看见奶奶坐在门口，手里剥着花生，眼睛一直望着路这头。</p>
+<p>“回来了？”奶奶站起来，拍拍围裙，”我说不用赶，路上车多，慢点开。”</p>
+<p>“不赶。”彭敬寅把年货往屋里搬，”就是回来早点，多帮您干点活。”</p>
+<p>奶奶嘴上说”用不着你”，手却利索地接过羽绒背心，摸了摸料子，又放回他手上，转身进了厨房。彭敬寅听见她在里头嘀咕：”买什么买，净乱花钱。”</p>
+<p>他笑了笑，把东西归置好。</p>
+<hr>
+<p>腊月廿八，开油镬。</p>
+<p>广东的老规矩，年前要开一次油镬，把年货炸出来——煎堆、油角，金灿灿地码满一笸箩。”煎堆碌碌，金银满屋”，图的是来年油水足。阳春的灶台上，也照例要滚这一锅油。</p>
+<p>奶奶头一天就把糯米粉和好了。天蒙蒙亮，灶膛里的火就烧起来，锅里的油咕嘟咕嘟地冒泡。她把揉好的粉团搓圆，下锅，白团子在油里翻几滚，胀成一个个金黄的煎堆。</p>
+<p>“来，学学。”奶奶招呼他，”粉要和得软，油要够热，火不能太大，太大就炸煳了。”</p>
+<p>彭敬寅卷起袖子，笨手笨脚地搓粉团。奶奶在旁边看着，嘴上嫌弃：”你这手是做生意的手，搓粉不行。太用力了，散！”</p>
+<p>小雨在旁边笑，抢过笸箩：”哥，你一边去吧，我来。”</p>
+<p>祖孙三个围着灶台忙了一上午。一笸箩一笸箩的煎堆、油角炸出来，金灿灿的，满屋子都是油香。奶奶捡了一碟给邻居送去，又留了一大盆自家吃。</p>
+<p>彭敬寅站在天井里，看着灶膛的火光映着奶奶的脸，忽然有点恍惚。</p>
+<p>前世这个时候，他在哪儿？好像是在阳春，忙着年底结账、清货款，连年货都是让金仔带回去的。奶奶在电话里说”忙就忙吧”，他真就忙得连年都没回去过。</p>
+<p>这一世，他回来了。赶在一切还来得及的时候。</p>
+<hr>
+<p>除夕下午，贴春联。</p>
+<p>彭敬寅踩在凳子上，往门框上糊浆糊。小雨在下头举着春联，歪着头指挥：”哥，往左点，再往左点……哎，歪了，正过来！”</p>
+<p>“行了行了。”彭敬寅把春联按平，退下来看了一眼，”可以。”</p>
+<p>门口的大红春联贴好，院子里登时有了年味。奶奶在堂屋里点了香，供桌上摆着鸡、鱼、米饭、橘子——祭祖。她跪在蒲团上，拜了三拜，嘴里念念有词，让列祖列宗保佑孙辈平安。</p>
+<p>彭敬寅站在堂屋门口，看着奶奶佝偻的背影，也跟着跪下去，磕了三个头。</p>
+<p>他信的不只是祖先。他信的是这一世，真的能不一样。</p>
+<hr>
+<p>团年饭，摆了一桌。</p>
+<p>白切鸡，整只的，鸡皮黄亮亮的；一条清蒸鲈鱼，年年有余；一锅春砂仁炖鸡汤，隔着老远就闻到香；还有腊鸭、炒河粉、时蔬，满满当当。</p>
+<p>奶奶给彭敬寅和小雨一人夹了一只鸡腿：”多吃点。来年顺顺利利，平平安安。”</p>
+<p>小雨吃得腮帮子鼓鼓的，含糊不清地说：”阿婆，你做的鸡最好吃。”</p>
+<p>彭敬寅喝了口汤，暖意从胃里一路漫上来。</p>
+<p>吃完年夜饭，发利是。奶奶从里屋摸出两个红包，一人一个，硬塞到彭敬寅和小雨手里：”拿着，压岁，平平安安。”彭敬寅没推，收了，又拿出自己准备的两个红包——给奶奶的，给小雨的。</p>
+<p>“阿婆，这是您的。”</p>
+<p>奶奶推了两下，到底收下了，又念叨：”你都二十六了，还给我发红包，别人家都是小的给老的……”</p>
+<p>“在我这儿，您永远是长辈。”彭敬寅说。</p>
+<p>奶奶没再说什么，低下头，用袖子擦了擦眼角。</p>
+<hr>
+<p>快十点的时候，手机响个不停——兄弟们来拜年了。</p>
+<p>金仔的微信语音，大嗓门震耳朵：”寅哥新年好！祝你今年发大财！那什么，你那个比特币，我听南记说最近涨得挺厉害？”</p>
+<p>彭敬寅没接话茬，只回：”新年好。你那飞度，今年该换了。”</p>
+<p>金仔嘿嘿笑：”换换换，等寅哥带我发财！”</p>
+<p>河马发来语音，背景是档口的嘈杂声：”寅哥新年好！跟你说，阳西那头的路子我捋顺了，过完年就换招牌，走干净货。”</p>
+<p>彭敬寅盯着屏幕看了几秒，回了一个字：”好。”</p>
+<p>小土只发了四个字：”新年好。正在收。”没有多话，但彭敬寅明白——他说的”收”，是过桥生意收尾。</p>
+<p>素素发来一条长语音，叽叽喳喳拜年，末了问一句：”寅哥，你什么时候回市区？我弄了新茶具，等你来喝茶。”</p>
+<p>南记最简短：”寅哥新年好。行情我盯着。放心。”</p>
+<p>彭敬寅一条条看过去，把手机揣进兜里。</p>
+<p>这些人，都在变好。前世那些坑，他一个一个，都在填。</p>
+<hr>
+<p>十一点多，奶奶和小雨都睡了。彭敬寅坐在天井里，点了根烟，打开手机看了一眼行情。</p>
+<p>比特币，二十五美元多一个。</p>
+<p>他买的时候，十三块五。一个半月，翻了将近一倍。账户里一千五百多个，浮盈差不多十万块人民币。</p>
+<p>他慢慢吐出一口烟。</p>
+<p>远处，有人家开始放烟花。砰、砰，几声闷响，然后是一串脆响，火光在墨黑的天上炸开，红的、绿的、金的。</p>
+<p>2013年，蛇年。</p>
+<p>彭敬寅看着那烟花，心里第一次生出一个念头——这一世，他要把日子，过到前世想都不敢想的高度。</p>
+<p>守岁。</p>
+<p>他掐灭烟，起身回屋。</p>
+<p>新的一年，开始了。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/05-huijia/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第五章 回家</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 6 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/07-miaotou/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第七章 苗头</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第七章 苗头</title>
+    <url>//novels/chongsheng/07-miaotou/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/06-guonian/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第六章 过年</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 7 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/08-dingfeng/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第八章 顶峰</span></a></nav>
+
+<p>过完年，彭敬寅回了阳春。</p>
+<p>转正的事，一件一件在落地。</p>
+<p>河马说到做到。正月十五一过，阳西那个档口就换了招牌，从”XX电子配件”变成了正儿八经的批发部，营业执照、进货单，一样不少。他给彭敬寅打电话，嗓门还是那么大：”寅哥，招牌换了！以后咱这摊子，进得了税务，进得了派出所！”</p>
+<p>彭敬寅在电话这头笑：”好。账走明白，别留尾巴。”</p>
+<p>“放心！”河马拍胸脯，”我河马办事，靠谱。”</p>
+<p>小土那边，话更少，事更稳。过桥的生意，年前就开始收尾，年后把该平的钱都平了。他来找彭敬寅，就说了三句：”寅哥，过桥收了。账清了。那笔钱，我想找个干净的去处。”</p>
+<p>彭敬寅看着他，想起前世那个进去的小土。他点点头：”不急。钱先放着，等我想清楚，给你安排个正路。”</p>
+<p>小土”嗯”了一声，没再多问。</p>
+<hr>
+<p>3月初，比特币开始不老实了。</p>
+<p>南记的提醒脚本，隔三差五就响。彭敬寅打开行情一看——三十三美元一个了。他买的时候，十三块五。两个多月，翻了两倍半。</p>
+<p>他没声张。但消息还是从南记那儿漏了出去。</p>
+<p>3月6号，金仔的电话打过来，语气里带着点小心翼翼：”寅哥，我听说……那个比特币，涨到四十美元了？”</p>
+<p>彭敬寅握着手机，没承认也没否认：”还行。”</p>
+<p>“还行？！”金仔在那头叫起来，”我查了，你买的时候才十三四块吧？这都翻三倍了！寅哥，你这眼力……”</p>
+<p>“先别高兴。”彭敬寅打断他，”这东西，上蹿下跳的，今天四十，明天也可能掉回二十。你把心态放稳，等我消息。”</p>
+<p>金仔在那头嘿嘿笑：”行行行，我听你的。反正跟着寅哥，不会错。”</p>
+<p>挂了电话，彭敬寅站在窗前，看着楼下的环城南路。</p>
+<p>金仔说的是”翻了”。可他知道，真正的翻，还没开始。</p>
+<hr>
+<p>3月中旬，新闻里开始出现一个名字：塞浦路斯。</p>
+<p>先是小报的边角料，说这个地中海小国银行出了问题；然后是正经财经新闻，说塞浦路斯在跟欧元区谈救助，条件谈不拢；再后来，风声越传越紧——有人说，救助方案里有一条，要让储户承担损失。</p>
+<p>彭敬寅一条一条刷着新闻，手指停在屏幕上。</p>
+<p>他记得这件事。前世，他回看2013年的历史，把这一年比特币的每一段K线都研究过无数遍。塞浦路斯，那是比特币第一次真正进入全球视野的导火索。银行冻结、存款征税，全世界的钱在恐慌里寻找出路，比特币成了那个出口。</p>
+<p>当时媒体都这么说：塞浦路斯，点燃了比特币。</p>
+<p>3月16日，星期六。</p>
+<p>凌晨的消息，像一颗石子砸进水里：欧元区宣布对塞浦路斯存款征税——十万欧元以下征百分之六点七五，以上征百分之九点九。</p>
+<p>彭敬寅的手机在南记的提醒里震了一下。他看了一眼——比特币，四十六美元九毛。</p>
+<p>他没睡。点了根烟，坐在窗边，看着这个数字慢慢往上跳。</p>
+<p>第二天，四十七。第三天，五十二。</p>
+<p>塞浦路斯的银行大门紧闭，取款机被取空，储户在街头排队，跟警察对峙。全世界的目光都投过来，而比特币，像一头闻到血腥味的兽，在无人注意的角落，一点一点，抬起了头。</p>
+<p>三月二十五日，七十美元。</p>
+<p>三月二十八日，八十八美元。</p>
+<p>彭敬寅的账户里，一千五百多个比特币，市值已经超过八十万人民币。他投进去十三万，两个多月，翻了六倍多。</p>
+<p>他没有卖掉一个。</p>
+<p>金仔打来电话，声音都在抖：”寅哥……那个比特币，八十八美元了……咱……咱们是不是该跑了？”</p>
+<p>彭敬寅沉默了一会儿。</p>
+<p>“还不是时候。”他说，”还会涨。”</p>
+<p>“还涨？！”金仔倒吸一口凉气，”寅哥，你胆子也太大了……”</p>
+<p>彭敬寅没解释。他站在租屋的窗前，看着阳春城区的灯火。</p>
+<p>他知道后面是什么。三月末九十二美元，四月二日破百，然后一路向上，冲向他记忆里那个数字——两百六十多。</p>
+<p>他要做的，是在逼近那个位置之前，一拨一拨，把手里的货倒出去。</p>
+<p>不能贪最后一口。那是前世用命换来的教训。</p>
+<p>他掐灭烟，掏出本子，在最后一页写下两个字：</p>
+<p>“四月。”</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/06-guonian/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第六章 过年</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 7 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/08-dingfeng/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第八章 顶峰</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第八章 顶峰</title>
+    <url>//novels/chongsheng/08-dingfeng/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/07-miaotou/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第七章 苗头</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 8 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/09-bengpan/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第九章 崩盘</span></a></nav>
+
+<p>4月2号，比特币破了一百美元。</p>
+<p>彭敬寅站在租屋窗前，看着南记发来的行情。屏幕上，那根线像着了火一样往上窜，把K线图拉得陡峭得吓人。</p>
+<p>他掏出本子，翻到写铁律的那一页。</p>
+<p>二、十三万，主力仓，踩点进出，不梭哈。</p>
+<p>现在，他当初投进去的十三万，已经滚成了一个谁都不敢想的数字。但他没忘，这条线会走到哪。破百之后，还有一段疯涨，然后，是那根所有人都措手不及的针。</p>
+<p>他合上本子，拿起手机，拨给南记。</p>
+<p>“帮我挂单。分批出。”</p>
+<p>南记在电话那头愣了一下：”寅哥，出？现在还在涨啊，一百零四了！”</p>
+<p>“我知道。”彭敬寅说，”所以更要出。挂两百美元，先出两百个。”</p>
+<p>“两……两百？”南记倒吸一口气，”寅哥，现在才一百零四，你挂两百？这能成交吗？”</p>
+<p>“挂上去，等。”</p>
+<hr>
+<p>接下来的几天，比特币像脱缰的野马。</p>
+<p>四月八号，一百六十三美元。四月九号，一百八十七。</p>
+<p>整个比特币论坛都疯了。到处是”突破新高””一币一别墅”的帖子，连阳春都开始有人打听”那个比特币怎么买”。金仔一天打三个电话，声音一次比一次亢奋：”寅哥寅哥，一百八了！咱是不是要发了？！”</p>
+<p>彭敬寅没接他话，只问了一句：”南记那边，单子出得怎么样了？”</p>
+<p>金仔：”啊？我没问……”</p>
+<p>彭敬寅挂了电话，又打给南记。</p>
+<p>“出到多少了？”</p>
+<p>“寅哥，”南记的声音有点发紧，”你挂的两百，还挂在那儿呢。现在才一百八十七，没到价，一张都没成交。”</p>
+<p>“不急。”彭敬寅说，”再把两百一十、两百二十、两百三十、两百四十、两百五十、两百五十八，六档，都挂上。”</p>
+<p>“寅哥，”南记终于忍不住了，”现在市场上才喊一百八，万一它到不了两百呢？你这单子挂在半山腰，要是回调，就出不去了。”</p>
+<p>彭敬寅沉默了一下。</p>
+<p>“南记，”他说，”我跟你打个比方。山脚下有个捡柴的，捡了满满一捆，够烧一冬了。这时候有人喊，山顶上还有金子。你说，他是放下柴火去爬山，还是守着这一捆柴回家？”</p>
+<p>南记愣了一下：”那……那要看山顶是不是真有金子。”</p>
+<p>“山顶有没有金子，我不知道。”彭敬寅说，”但我知道，捡柴的那位，要是贪心上了山，下雪的时候，他连柴都烧不上了。”</p>
+<p>南记没再说话。过了一会儿，他低声说：”明白了。我挂。”</p>
+<hr>
+<p>四月十号。</p>
+<p>比特币盘中冲上两百六十六美元，全球媒体的头条，全是比特币。</p>
+<p>彭敬寅盯着屏幕上的数字，心跳平稳得像一潭死水。</p>
+<p>两百六十六。他记忆里那个数——“两百六十多”，到了。</p>
+<p>南记打来电话，声音已经哑了：”寅哥，最后一笔，两百五十八，出了。一千五百个，全清完了。”</p>
+<p>“好。”</p>
+<p>彭敬寅挂了电话，站在窗前，点了根烟。</p>
+<p>他算了一笔账。一千五百个币，从两百到两百五十八，一路分批出，均价两百三十美元上下。按汇率六块二毛三，折人民币，到手两百一十万上下。</p>
+<p>十三万，三个月，两百一十万。</p>
+<p>他慢慢吐出一口烟。</p>
+<p>手机又响了。是金仔，声音兴奋得发颤：”寅哥！破两百六了！咱还不出吗？我听说有人喊三百！”</p>
+<p>“已经出完了。”彭敬寅说。</p>
+<p>金仔：”……啊？”</p>
+<p>“全出了。”彭敬寅重复了一遍，”一个不剩。”</p>
+<p>电话那头安静了很久。然后金仔小声说：”寅哥，你是不是……知道什么？”</p>
+<p>彭敬寅没回答。他掐灭烟，看着屏幕上还在往上跳的K线，心里默数着。</p>
+<p>一根针，就要来了。</p>
+<p>他没有说出口。有些话，说出来没人信。他要做的，只是站在岸边，看着那些冲进海里去捡金子的人。</p>
+<p>夜深了。他拉上窗帘，躺下，睡得比三个月来任何一个晚上都踏实。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/07-miaotou/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第七章 苗头</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 8 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/09-bengpan/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第九章 崩盘</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第九章 崩盘</title>
+    <url>//novels/chongsheng/09-bengpan/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/08-dingfeng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第八章 顶峰</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 9 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/10-chaodi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十章 抄底</span></a></nav>
+
+<p>四月十号晚上，比特币冲上两百六十六美元。</p>
+<p>彭敬寅看着那个数字，关了电脑。他的货已经全清了，账户里只剩下人民币——两百一十万，安安静静地躺着。</p>
+<p>他躺下，睡了。</p>
+<p>凌晨三点，手机响了。南记的声音，哑得不像他：”寅哥……崩了。”</p>
+<p>彭敬寅睁开眼，没说话，起身，打开电脑。</p>
+<p>屏幕上，那根K线像被人从中间砍了一刀——两百六十六，几个小时之内，砸到一百零五。然后又弹起来一点，又砸下去。交易所的下单页面卡得像死机，MtGox挂出公告，暂停交易。</p>
+<p>整个市场，炸了。</p>
+<hr>
+<p>天还没亮，彭敬寅的电话就没停过。</p>
+<p>金仔的声音在发抖：”寅哥……你看了吗？比特币……它，它从两百六掉到一百了……”</p>
+<p>“看了。”</p>
+<p>“你……你幸好出了！”金仔声音里带着劫后余生的庆幸，”你要是没出，这一晚上，得亏多少啊！”</p>
+<p>彭敬寅嗯了一声。他没说，他不是”幸好”，他是”早就知道”。这个区别，他永远不会对任何人说。</p>
+<p>南记后来又打来一个电话，声音平静了些，问了一句：”寅哥，你挂两百的单子，是什么时候成交的？”</p>
+<p>“四月十号下午，价格冲过两百之后。”</p>
+<p>“下午……”南记喃喃道，”下午成交，晚上崩盘。你要是晚一天卖，就全砸手里了。”</p>
+<p>彭敬寅没接话。</p>
+<p>南记沉默了很久，忽然说：”寅哥，你是不是……早就知道它会崩？”</p>
+<p>彭敬寅握着手机，手指紧了紧。</p>
+<p>“我做了这么多年生意，”他说，”见过太多次涨得越猛、死得越快的行情。这种东西，我不信它能一直涨上去。落袋为安，总归没错。”</p>
+<p>“可你连两百都敢挂……”南记说，”一百零四的时候，你就敢挂两百。你怎么知道它到得了？”</p>
+<p>彭敬寅笑了笑：”赌的。”</p>
+<p>“赌的？！”</p>
+<p>“赌它涨过头。”彭敬寅说，”赌市场是疯的。疯到一定程度，自然会崩。我只是运气好，赶在崩之前跑了。”</p>
+<p>南记没再追问。但他心里信不信，彭敬寅不知道。</p>
+<p>有些事，解释不了，也不能解释。</p>
+<hr>
+<p>白天，全网都在哀嚎。</p>
+<p>比特币论坛里，铺天盖地是”爆仓””割肉””天台见”的帖子。有人几千块买的，有人几十万加杠杆的，一夜之间，全没了。新闻标题换了一茬又一茬，从”比特币疯涨”变成”比特币崩盘””一夜蒸发多少亿”。</p>
+<p>彭敬寅一条一条看过去，没什么表情。</p>
+<p>他没有幸灾乐祸。前世，他也是这些人当中的一个——不是这一次，是更后面，那根插针里，他把自己十几年的积累全赔了进去。</p>
+<p>他知道那种感觉。从山顶被人一脚踹下来，脸着地，摔得粉身碎骨。</p>
+<p>所以他更知道，自己为什么活着回来。</p>
+<hr>
+<p>四月十二号，比特币跌到五十四美元。</p>
+<p>从两百六十六到五十四，三天，跌了将近八成。市场一片死寂，连喊”抄底”的人都少了——没人敢接，都怕还有第二刀。</p>
+<p>彭敬寅看着那个数字，心里那根弦，松了一点。</p>
+<p>五十四。他记忆里那个数——“五十上下”，到了。</p>
+<p>他拿起手机，打给南记。</p>
+<p>“南记，把钱分几笔，开始买。”</p>
+<p>南记愣了一下：”买？现在？寅哥，它还在跌啊——“</p>
+<p>“跌的时候，才买得到便宜货。”彭敬寅说，”它跌到五十上下，差不多了。再往下，空间不大。分批买，不急，两三天买完。”</p>
+<p>“你……”南记的声音有点干，”你刚躲过大崩盘，又要冲进去？”</p>
+<p>“不是冲。”彭敬寅说，”是捡。别人吓得扔出来的便宜货，我顺手接一点。”</p>
+<p>电话那头安静了几秒。然后南记说：”寅哥，说实话，跟你干了这几个月，我越来越看不懂你了。可你每次说的，好像都对。”</p>
+<p>彭敬寅没有回答。</p>
+<p>他看着窗外。四月，阳春的雨季，天灰蒙蒙的，雨丝斜斜地落下来，打在窗玻璃上。</p>
+<p>“别想太多。”他说，”把单子挂好。这一次，我们有的是时间。”</p>
+<p>挂了电话，他在本子上写下一行字：</p>
+<p>四、兄弟团，转正。</p>
+<p>然后在这行字下面，又添了一行：</p>
+<p>五十上下，接货。</p>
+<p>雨还在下。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/08-dingfeng/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第八章 顶峰</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 9 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/10-chaodi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十章 抄底</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十一章 转型</title>
+    <url>//novels/chongsheng/11-zhuanxing/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/10-chaodi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十章 抄底</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 11 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/12-lizu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十二章 立足</span></a></nav>
+
+<p>饭还是订在城东那家做走地鸡的馆子。</p>
+<p>彭敬寅到得早，一个人坐在包间里，把菜先点了。他给自己倒了杯茶，慢慢喝。</p>
+<p>人陆陆续续到齐。金仔一进门就嚷嚷：”寅哥，什么事？是不是比特币又要涨了？”</p>
+<p>彭敬寅摆手让他坐下：”先吃饭。”</p>
+<p>河马坐定，一边倒酒一边笑：”寅哥，我听说你那个比特币，前阵子可吓人，涨到两百多又崩了？”</p>
+<p>“是。”彭敬寅点头，”崩了。”</p>
+<p>“那……你没亏吧？”河马试探着问。</p>
+<p>彭敬寅端起杯子：”我没亏。先跟你说清楚，比特币这摊子，我第一波做了，先告一段落。以后还会不会碰，看情况。但它不是咱们的正业，今天叫你们来，是说正事。”</p>
+<p>一桌人安静下来。</p>
+<p>“什么正事？”素素问。</p>
+<p>彭敬寅放下杯子：”我打算，去深圳。”</p>
+<hr>
+<p>“深圳？”金仔先叫出来，”去深圳干嘛？”</p>
+<p>“做生意。”彭敬寅说，”我研究过，深圳华强北，卖手机配件的地方。这几年电商起来了，实体柜台生意越来越难做，档口转让费从三十万掉到现在没人接，铺租也跌了一半。”</p>
+<p>“那不是更惨？”河马皱眉，”人家都往外跑，你往里冲？”</p>
+<p>“正因为没人要，才便宜。”彭敬寅说，”华强北那地方，全国的手机配件，十有七八从那儿走。档口是便宜了，可货还在那儿，渠道还在那儿。咱们在阳春做配件，是跟广州、深圳的批发商拿货，中间让人扒一层皮。要是直接去华强北蹲着，拿的是源头价。”</p>
+<p>他顿了顿：”源头价和二手价，差多少，你们心里有数。”</p>
+<p>河马不说话了。他做阳西线，最清楚中间商赚差价那套。半晌，他敲了敲桌子：”寅哥，这话在理。”</p>
+<p>“还有电商。”彭敬寅继续说，”淘宝上卖手机壳、贴膜、数据线，一台电脑就能开。去年双十一，淘宝一天卖了一百九十亿。这个势头，往后只会更猛。咱们有货源、有渠道、有会玩电脑的南记，凭什么不做？”</p>
+<p>南记抬起头，眼睛亮了亮：”淘宝……这个我可以研究。开店、上架、装修，这些我都能弄。”</p>
+<p>“对。”彭敬寅说，”你负责技术，我负责货源和路子。”</p>
+<hr>
+<p>“可是寅哥，”素素忍不住问，”你去深圳，阳春这边怎么办？”</p>
+<p>“阳春这边，你来看着。”彭敬寅看向她，”你爸在局里，阳春的地面，没人敢动你。素素小卖部是咱们的据点，账走你那儿，你最稳。”</p>
+<p>素素张了张嘴，没反驳。她虽然舍不得大家走，但也知道，这是个机会。</p>
+<p>“小土，”彭敬寅又看向小土，”你那个钱，安置好了没有？”</p>
+<p>小土点头：”清了，干干净净。”</p>
+<p>“干净的钱，跟我去深圳。”彭敬寅说，”我不动你的，你跟着学，跟着做。等站稳了，你那笔钱，我给你找个正经营生放进去。”</p>
+<p>小土”嗯”了一声，没多话，但眼底动了动。</p>
+<p>“金仔，”彭敬寅最后看向金仔，”深圳那边，跑腿、送货、谈档口，用得着你。你那辆飞度，开过去，先拉货。”</p>
+<p>金仔一拍大腿：”行！寅哥去哪我去哪！”</p>
+<hr>
+<p>一顿饭，把阳春这边的事都理清了。</p>
+<p>散场的时候，河马拉住彭敬寅，压低声音：”寅哥，你那比特币……到底赚了多少？”他实在憋不住了。</p>
+<p>彭敬寅看他一眼，笑了笑：”够用的数。”</p>
+<p>河马还想问，被彭敬寅一个眼神堵了回去。</p>
+<p>“河马，”彭敬寅说，”钱这东西，该你知道的，我不会瞒你。不该你知道的，你知道了，反而是麻烦。你信我，就行。”</p>
+<p>河马沉默了几秒，点点头，没再问。</p>
+<p>彭敬寅站在馆子门口，看着兄弟们一个个上车。</p>
+<p>他知道，这一顿饭，等于把兄弟团从”阳春的地头蛇”，往”深圳的生意人”这条路上，推了一大步。</p>
+<p>转正，是洗白。去深圳，是新生。</p>
+<p>他在脑子里把阳春这边的事过了一遍：转正还剩点尾巴，账要跟素素交接，奶奶那边得安顿好。这些，都得一件一件办。</p>
+<p>他在本子上写下四个字：六月初，走。</p>
+<p>然后给南记发了条消息：”阳春的账，你帮我理利索。等我到深圳站稳了，你就过来。”</p>
+<p>南记回了一个字：”好。”</p>
+<p>彭敬寅收了手机，抬头看了看天。</p>
+<p>四月末的阳春，天已经热起来了。</p>
+<p>该准备的，都该准备了。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/10-chaodi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十章 抄底</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 11 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/12-lizu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十二章 立足</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十章 抄底</title>
+    <url>//novels/chongsheng/10-chaodi/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/09-bengpan/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第九章 崩盘</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 10 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/11-zhuanxing/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十一章 转型</span></a></nav>
+
+<p>接下来的几天，比特币在恐慌里继续阴跌。</p>
+<p>六十，五十八，五十六，五十四。</p>
+<p>南记按彭敬寅说的，把两百一十万分成几笔，一笔一笔地往里买。每次都不多，几十个几十个地吃，像上一次建仓那样，拆得碎碎的，不惊动任何人。</p>
+<p>“寅哥，”南记在电话里报数，”五十八的时候接了两百个，五十五接了三百，五十四又接了两百……”</p>
+<p>“不急。”彭敬寅说，”慢慢来。它要是再跌，咱就再多接点。”</p>
+<p>“还跌？”南记苦笑道，”寅哥，你到底是盼它跌还是盼它涨？”</p>
+<p>“盼它跌。”彭敬寅说，”跌得越深，我买得越多。这钱反正放那儿也不会生崽，跌下来的便宜，不捡白不捡。”</p>
+<p>南记那头半天没说话。末了，他冒出一句：”寅哥，我发现你这人，跟别人反着来。”</p>
+<p>“做生意的，都跟别人反着来。”彭敬寅说，”别人抢的时候你卖，别人扔的时候你捡。这才叫生意。”</p>
+<hr>
+<p>买到最后，南记算了一笔账。</p>
+<p>两百一十万，留了五十万在账户里没动，剩下的一百六十万，全买了币。均价五十五美元上下，折人民币三百四十几块一个，一共四千六百多个。</p>
+<p>“四千六百个。”南记报完数，自己都愣了半天，”寅哥，上次你是一千五百个，这回四千六……你是真敢啊。”</p>
+<p>彭敬寅站在窗前，看着外头还在下的雨。</p>
+<p>“一千五百个的时候，我手里只有十三万。”他说，”四千六百个的时候，我手里这四千六百个，一个都没花自己的老本。”</p>
+<p>南记：”……这话什么意思？”</p>
+<p>“意思就是，”彭敬寅说，”第一波赚的，就是捡的。第二波买的，也是捡的。真正花出去的本钱，还是那十三万，一分没多。”</p>
+<p>南记沉默了一会儿，忽然”嘶”了一声：”寅哥，照这么说，你这一波要是再涨回去……”</p>
+<p>“涨回去，再说涨回去的话。”彭敬寅打断他，”现在，把账记好，把行情盯住。别的，不用多想。”</p>
+<hr>
+<p>四月十四号，比特币弹回一百美元。</p>
+<p>市场一片哗然——刚才还跌到五十四，两天就翻倍了？有人说这是死猫跳，有人说庄家拉盘，吵得不可开交。</p>
+<p>彭敬寅没参与这些争论。他看着账户里的四千六百多个币，又看了看行情，心里很平静。</p>
+<p>他记得这一年的走势。四月崩完，是漫长的磨底和震荡，一百上下磨一阵，然后慢慢往上，一路涨到年底那个他记忆里的数字——破千。</p>
+<p>中间还有好几个月。这几个月，他不打算只盯着屏幕等。</p>
+<p>他还有别的事要做。</p>
+<hr>
+<p>晚上，彭敬寅给几个兄弟群发了条消息：</p>
+<p>“明天晚上，老地方，吃饭。有事说。”</p>
+<p>第一个回的是素素，秒回：”寅哥！什么事什么事？是不是比特币又涨了？”</p>
+<p>彭敬寅回她：”来了再说。”</p>
+<p>第二个是金仔：”寅哥，是不是要带我们发财了？！”</p>
+<p>第三个是河马：”收到。我把阳西那边的单子推了，明天下午就到。”</p>
+<p>小土只回了一个字：”好。”</p>
+<p>南记在群里发了一个链接，是比特币的行情页面。</p>
+<p>彭敬寅看着手机屏幕上一个个跳出来的消息，忽然觉得，这几个月，他一个人扛着走的路，终于到了可以分几步给兄弟们的时候了。</p>
+<p>比特币的路，他已经走出了第一个来回。接下来，该带着这群人，往地面上走了。</p>
+<p>他放下手机，望向窗外。</p>
+<p>雨停了。阳春的夜空，难得露出几颗星星。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/09-bengpan/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第九章 崩盘</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 10 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/11-zhuanxing/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十一章 转型</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十二章 立足</title>
+    <url>//novels/chongsheng/12-lizu/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/11-zhuanxing/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十一章 转型</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 12 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/13-kaizhang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十三章 开张</span></a></nav>
+
+<p>6月3号，星期一，彭敬寅到了深圳。</p>
+<p>他开奥德赛走的，早上七点出发，走S277上高速，阳茂、开阳、佛开、广深，一路往东。四个多小时，窗外的田野慢慢变成厂房，变成高楼，变成望不到头的车流。</p>
+<p>他在福田下了高速，把车停在路边，看着这个城市。</p>
+<p>前世，他在这里起过家，也在这里翻了船。那都是很久以后的事。现在的深圳，对他来说，是一个重新开始的战场。</p>
+<p>他回到车上，直奔华强北。</p>
+<hr>
+<p>华强北路，到处是围挡和施工挡板。</p>
+<p>地铁七号线在修，从二月份开始，把整条华强北路围了个严严实实，改成步行街。两边的大厦还在，可人流少了不少。档口的老板们三三两两坐在门口抽烟，看见有人经过，懒懒地招呼一声。</p>
+<p>彭敬寅不紧不慢地走，一家一家看。</p>
+<p>他先去明通数码城——手机配件批发的大市场。一楼二楼，柜台一格挨着一格，手机壳、贴膜、数据线、充电器，堆得满满当当。他蹲在一个柜台前，拿起一个手机壳，翻过来看做工。</p>
+<p>“老板，这个壳，拿货多少钱？”</p>
+<p>柜台的老板娘眼皮都没抬：”一块五。”</p>
+<p>“塑料的？”</p>
+<p>“TPU的，清水套。你要多少？”</p>
+<p>“先问问。”彭敬寅放下壳，”量大呢？”</p>
+<p>“一百个起批，一个一块二。”</p>
+<p>彭敬寅点点头，记在心里。他逛了一上午，把行情摸了个七七八八：手机壳一两块，贴膜几毛到一两块，数据线两三块。这些货，他转手往淘宝上一挂，翻个三五倍，很正常。</p>
+<p>下午，他去看档口。</p>
+<p>华强北的档口，以前是抢手货，一个一米多的玻璃柜台，转让费能收到三十万。现在？中介小哥带着他看了三家，一开口就是：”现在行情不好，转让费意思意思就行，有的连转让费都不要，你直接把租金付了就能用。”</p>
+<p>彭敬寅心里盘算了一下，没有马上定。他又问：”附近城中村，有没有单间租？”</p>
+<p>“岗厦村。”中介小哥手一指，”走路十几分钟，单间六七百一个月。”</p>
+<hr>
+<p>晚上，彭敬寅在岗厦村租了一间单间。</p>
+<p>六百块一个月。屋子不大，一张床，一张桌子，一个卫生间，窗户对着隔壁楼的墙，白天也要开灯。</p>
+<p>他把行李放下，坐在床边，掏出本子，把今天看的东西一样一样记下来：</p>
+<p>手机壳 1.2-1.5 元&#x2F;个（100起批）<br>贴膜 0.5-2 元&#x2F;张<br>数据线 2-3 元&#x2F;条<br>档口：明通数码城，转让费已腰斩，月租可谈<br>岗厦单间：600 元&#x2F;月<br>淘宝：保证金 1000，顺丰首重 22</p>
+<p>写完，他合上本子，躺下。</p>
+<p>头顶的风扇嗡嗡转着，吹出一点点凉风。窗外是深圳六月的夜，楼下的巷子里，有人炒菜，有人打电话，有人骑着电动车按喇叭。</p>
+<p>彭敬寅闭着眼，心里却比在阳春任何时候都踏实。</p>
+<p>他想起今天在华强北看到的一幕：一个二十出头的小伙子，拖着两大包货，从明通数码城出来，浑身是汗，脸上却带着笑，一路小跑着去快递点发货。</p>
+<p>那画面，让他想起前世的自己。</p>
+<p>这一世，他要做的，就是把这幅画面，画得再大一点——大到自己，大到兄弟们，大到整个家。</p>
+<hr>
+<p>第二天一早，他给金仔打了个电话。</p>
+<p>“金仔，我在深圳了。”</p>
+<p>“寅哥！你到了？”金仔在电话那头精神得很，”我这边都收拾好了，你一句话，我开飞度过去！”</p>
+<p>“过来吧。”彭敬寅说，”明通数码城，我先看中一个档口，你过来帮我一起盘下来。”</p>
+<p>“好嘞！”</p>
+<p>挂了电话，彭敬寅站在岗厦村的出租屋门口，看着楼下来来往往的人流。</p>
+<p>深圳的早晨，天很亮。街上都是赶着上班的人，行色匆匆，没人多看他一眼。</p>
+<p>但他知道，这个城市，很快会记住他的名字。</p>
+<p>2013年6月，彭敬寅，二十六岁，在深圳华强北，落了脚。</p>
+<p>第一桶金，已经赚到。第二桶金的路，他正在走。</p>
+<p>而在这座城市最深的角落里，有一些东西，正在悄悄地、慢慢地生长。</p>
+<p>他不知道的是，那些东西，将在几年后，把他带到比今天高得多的地方——也把他带到，那个差点要了他命的夜晚。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/11-zhuanxing/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十一章 转型</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 12 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/13-kaizhang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十三章 开张</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十三章 开张</title>
+    <url>//novels/chongsheng/13-kaizhang/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/12-lizu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十二章 立足</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 13 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/14-duanwu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十四章 端午</span></a></nav>
+
+<p>金仔是6月5号到的。</p>
+<p>彭敬寅在岗厦村口等他，奥德赛就停在身后的树荫下。天热，闷，刚下过一场雨，地上还湿着，蒸出一股子潮气。他站在车旁抽烟，看一辆白色的飞度从巷口拐进来，贴着墙根停下。</p>
+<p>金仔跳下来，光着膀子，脖子上搭条毛巾，一下车就喊：”寅哥！”</p>
+<p>嗓门太大，旁边小卖部的老板娘抬头看了一眼。</p>
+<p>“路上怎么样？”彭敬寅问。</p>
+<p>“还行，开阳那截下了场雨，别的都顺。”金仔抹了把汗，”就是这深圳的路，拐来拐去，我差点绕错。这鬼天气，比阳春还闷。”</p>
+<p>“深圳六月就这样。”彭敬寅说，”又热又下雨，往后更闷。你把车停好，先上去洗把脸。”</p>
+<p>金仔把车挪到巷子深处一块空地上，锁好，跟着上了楼。彭敬寅的出租屋在六楼，没电梯，两人爬上去，都是一身汗。</p>
+<p>“这地方，一个月六百。”彭敬寅递过一条毛巾，”就一张床一张桌，你先睡沙发，等档口稳了，再租个大的。”</p>
+<p>金仔接过毛巾，没含糊：”有地方睡就行，我不挑。”</p>
+<hr>
+<p>当天下午，两人去了明通数码城。</p>
+<p>六月的华强北，天像蒸笼。华强北路还围着施工挡板，地铁七号线在修，整条街改成步行街，两边的档口稀稀拉拉开着。彭敬寅带着金仔从东头走到西头，一家一家看，一边走一边给金仔讲：哪家做壳，哪家做膜，哪家是源头，哪家是二批。</p>
+<p>“这地方，眼睛要毒。”彭敬寅说，”一样的东西，隔两家，价能差三成。你以后跑货，先把这条街摸透。”</p>
+<p>金仔点头，眼睛到处转，看什么都新鲜。</p>
+<p>彭敬寅看中的那个档口，在二楼拐角，一米二宽，位置不算最好，胜在便宜。上一家做手机膜的，撑不住，撤了。转让费，中介开口不高，彭敬寅还了还，两千多块钱，成交。</p>
+<p>“这档口，搁以前没个三五万下不来。”中介小哥签着合同，”现在行情不好，便宜你了。”</p>
+<p>“行情不好，你也没亏。”彭敬寅把合同从头到尾看了一遍，才签字。</p>
+<p>租金按月，押一付一，加上水电和管理费，一个月三千来块。他蹲在档口前，把这笔账算了一遍：手机壳拿货一块二，批发出去两块二；贴膜拿货五毛，卖一块五；数据线拿货两块，卖四块。一天只要走两百件货，一个月就打平。再往上，都是赚的。</p>
+<p>他把账掰开揉碎讲给金仔听。</p>
+<p>金仔听完一拍大腿：”寅哥，这账我听得懂！就是说，卖得越多，赚得越多呗！”</p>
+<p>“对。”彭敬寅说，”但光靠档口，赚的是辛苦钱。大头在淘宝。咱们得两条腿走路。”</p>
+<p>“淘宝？”金仔挠头，”那个我搞不来，我看都看不懂。”</p>
+<p>“你搞不来，南记搞得来。”彭敬寅说，”你管档口和送货，他管网店，我管货和路子。各干各的，都是拿钱分。”</p>
+<hr>
+<p>盘下档口当天，两人就去进货。</p>
+<p>彭敬寅熟门熟路，带着金仔一家一家柜台走。手机壳、贴膜、数据线、充电器，挑了十几个爆款，一样拿了两百到五百个。</p>
+<p>在一家做清水套的柜台前，彭敬寅跟老板砍了半晌价。</p>
+<p>“一块二，一分不能少。”老板是个中年女人，眼皮都不抬，”你要的量还没到我给你让价的时候。”</p>
+<p>“我长期要。”彭敬寅说，”这个月先走两千个，下个月翻倍。你给我一块一毛五，我把单都放你这里。”</p>
+<p>老板抬起眼皮，打量了他一眼：”你新来的吧？”</p>
+<p>“新开的档口，二楼。”彭敬寅递了张名片，”我这人，说话算数。”</p>
+<p>老板捏着名片，犹豫了几秒，点了点头：”行，一块一毛五。卖不动别怪我。”</p>
+<p>“卖得动。”彭敬寅笑了一下。</p>
+<p>货不重，箱子多，装了满满一车。搬货的时候，金仔脱了上衣，一箱一箱往车上扛，彭敬寅在旁边搭手。</p>
+<p>“寅哥，这壳子进这么多，卖得完吗？”金仔问。</p>
+<p>“卖得完。”彭敬寅说，”这玩意儿，全国都在用。华强北一天走多少货，你想象不到。”</p>
+<p>货搬回档口，两人连夜理货、贴价签、写进货单。忙到半夜，档口总算有了个样子。玻璃柜台擦得发亮，货一样样码得整整齐齐，价签用黑笔写在白卡纸上。</p>
+<p>金仔累得坐在纸箱上，灌了半瓶水：”寅哥，我算看明白了，你这哪是做生意，你这是打仗。”</p>
+<p>彭敬寅笑了一下：”做生意就是打仗。打下来一块地盘，就站稳一块。”</p>
+<hr>
+<p>淘宝店是南记远程弄的。</p>
+<p>第二天一早，彭敬寅给南记打电话，说了档口的事。南记在电话那头说：”寅哥，淘宝店我注册好了，保证金交了一千，店铺名你想一个。”</p>
+<p>“就叫华强北彭记数码吧。”彭敬寅说，”简单，好记。”</p>
+<p>“行。你进的这些货，拍照、上架，标题关键词我来写。你回头把进货价发我，我定售价。”</p>
+<p>“售价你定，参考同行的价。别太低，也别太黑。”彭敬寅顿了顿，”发货走顺丰，跨省首重二十二，这个钱得算进成本。”</p>
+<p>“我懂。”南记说，”物流模板我来配。对了寅哥，阳春这边的账我理得差不多了，素素说她那小卖部也收拾出来了。”</p>
+<p>“好。”彭敬寅说，”等我这边站稳了，你就过来。”</p>
+<p>挂了电话，彭敬寅把进货价一项项发过去。他信南记的技术，就像南记信他的路子。</p>
+<hr>
+<p>开张第三天，来了第一个正经客人。</p>
+<p>一个背双肩包的小伙子，二十出头，在档口前站了半天，拿起一个手机壳翻来覆去看，问：”老板，这个壳，批发什么价？”</p>
+<p>金仔刚要开口，彭敬寅按了按他胳膊，自己上前：”你要多少？”</p>
+<p>“先拿两百个试试。”</p>
+<p>“两块二一个。”彭敬寅说，”量大还能谈。”</p>
+<p>小伙子又问了贴膜和数据线，最后拿了三百个壳、一百张膜、五十条线。算账的时候，彭敬寅多送了他十条线。</p>
+<p>“老板爽快。”小伙子从包里点出一沓钱，留了张名片，”卖得好我再来。”</p>
+<p>人走后，金仔小声问：”寅哥，你不是说批发两块吗？怎么卖他两块二？”</p>
+<p>“行情是两块，但他这种拿货量是二批，两块二不贵。”彭敬寅说，”送他十条线，是让他记着咱们。他卖得好，下回就是五百个、一千个。”</p>
+<p>金仔”哦”了一声，似懂非懂，转头把钱数了一遍，整整齐齐码进抽屉。</p>
+<hr>
+<p>晚上回到岗厦，彭敬寅洗了把脸，打开电脑。</p>
+<p>比特币，一百二十一美元一个。</p>
+<p>他盯着那个数字，心里很平静。四月那波，他从十三块多做到两百六，清了仓；又回到五十多，抄了底。现在一百二，横盘。</p>
+<p>他知道，这只是半山腰。年底，这玩意儿要破千，一千出头。</p>
+<p>他手里握着四千六百多个。按一百二算，就是五十六七万美元，折人民币三百四十多万。</p>
+<p>可他不卖。远没到时候。</p>
+<p>他把今天档口的账也过了一遍：一天卖出去三百多件货，毛利四百出头。这笔钱不多，但这是一条会自己生钱的腿，跟比特币那笔横财不一样。那笔是命，这笔是根。</p>
+<p>他合上电脑，走到窗边。岗厦村的夜，楼下巷子里，还是有人在炒菜，有电动车按喇叭，有房东在楼下大声讲电话。</p>
+<p>这一世，他手里有两条路。一条在明通数码城的档口里，一条在这台电脑里。</p>
+<p>两条路，他都要走到底。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/12-lizu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十二章 立足</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 13 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/14-duanwu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十四章 端午</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十四章 端午</title>
+    <url>//novels/chongsheng/14-duanwu/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/13-kaizhang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十三章 开张</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 14 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/15-weihuo/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十五章 尾货</span></a></nav>
+
+<p>开张第三天起，档口的日子有了模样。</p>
+<p>早上九点开档，傍晚六点半收档，中午两人轮着去街口吃快餐。金仔学得快，三天下来，把华强北几条街摸了个大概：哪家做壳，哪家做膜，哪家是源头，哪家是二批。彭敬寅教他认货——清水壳看料子，磨砂壳看手感，钢化膜看厚度，数据线看铜芯。</p>
+<p>金仔嘴笨，手不笨。摸过一遍的东西，他记得住。</p>
+<p>“寅哥，这家源头，那家二批，隔两家店，价差三成。”金仔蹲在柜台后面，比划着，”你那天说的，我算是看明白了。”</p>
+<p>“看明白就行。”彭敬寅说，”以后你跑货，眼睛自己会挑。”</p>
+<p>周六那天，人流多。档口一天走了六百多件货，毛利七百出头。金仔数钱数得手快，彭敬寅在旁边记账，一支笔，一个本子，写得飞快。</p>
+<p>周日，背双肩包的小伙子回来了。</p>
+<p>“老板，再拿八百个壳。”他站在档口前，开门见山，”还是上次那个价？”</p>
+<p>“八百个是二批的量了。”彭敬寅说，”两块一，膜和线照旧。”</p>
+<p>小伙子想了想，点头：”行。八百个壳，两百张膜，一百条线。”</p>
+<p>算账的时候，彭敬寅多送了他五十条线。</p>
+<p>“老板还是爽快。”小伙子数出一沓钱，又递了张名片，”我在南宁那边有个档口，货走得快。下回我直接打电话给你，不用跑一趟。”</p>
+<p>人走后，金仔凑过来：”寅哥，两块二变两块一，少赚八十块，你还送五十条线。”</p>
+<p>“八十块是让出来的利，五十条线是人情。”彭敬寅把钱收进抽屉，”他这一趟，八百个。下回，就是一千五。你算算，哪个划算。”</p>
+<p>金仔掰着指头算了半天，一拍大腿：”还是你精。”</p>
+<p>周一中午，南记的电话来了。</p>
+<p>“寅哥，店里出单了。”南记在电话那头，声音里带着点兴奋，”桂林的，两个壳、一张膜、一条线，钱到支付宝了。”</p>
+<p>“发了吗？”</p>
+<p>“没。等你定快递。这单货值二十几块钱，顺丰首重二十二，寄过去运费比货还贵。”</p>
+<p>“小单走圆通那几家，十块钱上下的事。”彭敬寅说，”顺丰留给大单和急单。运费模板你改一下，省得后面每单都问。”</p>
+<p>“行。”南记应着，”对了寅哥，比特币到一百了，你看到了吧。”</p>
+<p>“看到了。”彭敬寅说，”行情你别管，账记好就行。”</p>
+<p>挂了电话，金仔凑过来：”寅哥，淘宝一单才赚几块钱，能顶事吗？”</p>
+<p>“一单几块，十单几十，一百单就是几百。”彭敬寅说，”档口一天见几百个人，淘宝一天见几万人。全国的人都在上面买东西，这才是大头。”</p>
+<p>“几万人？”金仔咂了咂嘴，”那得卖多少货。”</p>
+<p>“慢慢你就懂了。”彭敬寅说，”先把档口这摊守好。”</p>
+<p>他蹲在档口门口，点了一支烟。</p>
+<p>华强北路还围着施工挡板，地铁七号线在修，街上行人稀稀拉拉。他知道，这条街还要再围三年。三年后，地铁通了，这里会是另一个样子。而他，那时候早就不靠这个档口吃饭了。</p>
+<hr>
+<p>晚上回到岗厦，彭敬寅打开电脑。</p>
+<p>比特币，一百块挂零。</p>
+<p>一个星期前，还是一百二十一。六月的行情，一路阴跌，像入夏的雨，闷着下，看不见晴。</p>
+<p>他记得那年夏天。六月磨底，一百上下晃；七月还要往下走一截，最低到过七十上下；八月磨回一百；九月十月才起势，然后十一月，破千，一千出头。</p>
+<p>多少人熬不住，割在百元上下。割完，就再也没上车。</p>
+<p>他不一样。他手里这四千六百多个，成本五十多。一百，还有将近一倍。破千，是十倍。</p>
+<p>金仔洗完澡出来，看见他盯着屏幕，凑过来：”寅哥，还看这个呢？跌了吧？”</p>
+<p>“嗯，一百上下。”</p>
+<p>“那你不亏了？”</p>
+<p>“成本低，不怕。”彭敬寅合上电脑，”这东西跟档口不一样。档口是天天开张，天天见钱；这个是拿住了，才见大钱。”</p>
+<p>金仔”哦”了一声，没再问。他知道寅哥做事有数，寅哥说拿得住，那就是拿得住。</p>
+<hr>
+<p>周二，雨下疯了。</p>
+<p>一整天没停，华强北街上的水漫过脚踝，施工挡板边上积了一汪汪的浑水。档口冷清，一上午没开张。两人坐在柜台后面，听雨砸铁皮棚顶，噼里啪啦。</p>
+<p>金仔闷得慌，拿个手机壳在手里翻来覆去地擦。</p>
+<p>“寅哥，”他突然说，”咱们什么时候回趟家？”</p>
+<p>“等档口稳了。”彭敬寅说，”七月，回去一趟，看看阿婆。”</p>
+<p>“好。”金仔把壳放下，望着雨帘，”我也有点想我妈包的粽子了。”</p>
+<p>“快了。”彭敬寅说，”端午就在后天。”</p>
+<p>雨最大的时候，河马来了电话。</p>
+<p>“寅哥，阳西这边有个厂，压了一批手机壳的尾货。”河马的声音混着雨声，”量不小，价压得低。要不要？”</p>
+<p>“要。”彭敬寅说，”先拍照片发我看看。”</p>
+<p>“行，明天拍给你。”河马说，”你在深圳站稳没有？”</p>
+<p>“站稳了。”彭敬寅说，”档口开着，淘宝店也开了。”</p>
+<p>“那就好。”河马那头顿了顿，”这批尾货要是成了，我给你发过去。”</p>
+<hr>
+<p>端午这天，雨小了，天凉下来，风里带着雨后的潮气。</p>
+<p>华强北不歇市。档口照常开门，上午开了一单，下午又开了一单，都是熟客介绍来的。街口有人支了个摊，卖咸肉粽，几块钱一个，热气腾腾。</p>
+<p>傍晚，两人提前收了档。金仔拎了四个粽子回来，往柜台上一放：”热的，刚出锅。”</p>
+<p>两人搬了小凳子，坐在档口里吃。金仔吃相凶，两口一个；彭敬寅剥得慢，一口一口，就着粽叶的香气。</p>
+<p>“有肉，有绿豆。”金仔含含糊糊地说，”我妈包得比这个个大。”</p>
+<p>“家里包的，是这种。”彭敬寅说，”岗美家家端午包粽。”</p>
+<p>“七月回去，让我妈包一锅。”金仔把最后一个粽子塞进嘴里，”你和阿婆都有份。”</p>
+<p>晚上回到岗厦，彭敬寅拨了家里的电话。</p>
+<p>响了两声，接了。</p>
+<p>“阿婆，端午了。”他说，”吃粽子没有？”</p>
+<p>“吃了吃了。”奶奶的声音带着笑，”家里包了一大锅，咸的。你那边呢？”</p>
+<p>“吃了，金仔买的。”</p>
+<p>“那就好。”奶奶顿了顿，”小雨前几天打电话回来，说学校要考试了，忙得很，放暑假就回来住一阵。你什么时候回来看看？”</p>
+<p>“档口刚开，走不开。”彭敬寅说，”七月吧，中旬前后，我回去一趟。”</p>
+<p>“好。”奶奶说，”回来给你杀只鸡。腊鸭得等中秋过后起北风才晒得成，晒好了我给你留着。岗美腊鸭，你最爱吃的。”</p>
+<p>“好。”</p>
+<p>挂了电话，他在窗边站了一会儿。</p>
+<p>岗厦村的夜，楼下还是那样：炒菜的锅铲声，电动车的喇叭，房东的大嗓门。端午的晚上，巷子里飘着粽叶的香气，混着雨后的潮气。</p>
+<p>他坐到电脑前，又看了一眼那个数字。</p>
+<p>比特币，一百零九美元。</p>
+<p>四千六百多个，折人民币，三百一十来万。比开张那天，少了三十来万。</p>
+<p>他盯着屏幕，看了很久。</p>
+<p>然后合上电脑。</p>
+<p>这一星期，档口走出了第一批回头客，淘宝来了第一单。两条腿，都开始动了。</p>
+<p>至于那条最粗的腿——比特币，还在半山腰上喘气。</p>
+<p>他不急。</p>
+<p>夏天磨底，是给拿得住的人看的。他拿得住。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/13-kaizhang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十三章 开张</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 14 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/15-weihuo/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十五章 尾货</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十六章 走量</title>
+    <url>//novels/chongsheng/16-zouliang/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/15-weihuo/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十五章 尾货</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 16 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/17-bucang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十七章 补仓</span></a></nav>
+
+<p>周一早晨，雨停了半天，又飘起来。细细的，打在铁皮棚顶上，沙沙响。</p>
+<p>档口开门。特价区那箱壳，周末两天走了两百多个，剩下的大半是色差的。金仔蹲在门口擦柜台，擦两下看一眼手机：</p>
+<p>“南宁那小子，货该到了吧？”</p>
+<p>“班车隔天到。”彭敬寅说，”他要是走得动，会来电话。”</p>
+<p>“你怎么知道他走得动？”</p>
+<p>“他上次拿了一千五，是试水。”彭敬寅说，”走得动，他会想再要；走不动，电话都不打一个。”</p>
+<p>快中午，电话来了。南宁那个小伙子，声音里带着点兴奋：</p>
+<p>“寅哥，货到了。4S 的壳我摆出去，半天走了几十个。你那还有没有？”</p>
+<p>“有。”彭敬寅说，”要多少？”</p>
+<p>“再来一千。5 的有吗？”</p>
+<p>“5 的不多，给你三百。4S 的七百，凑一千。膜搭两百张，线搭五十条，当添头。”</p>
+<p>“行。”对方痛快，”还是那个价？”</p>
+<p>“还是那个价。”</p>
+<p>挂了电话，金仔凑过来：”他又要了？”</p>
+<p>“一千个。”彭敬寅说，”第一单是试水，第二单才是真信。他走动了，就会一直来。”</p>
+<p>“那咱们是不是该多收点？”金仔搓着手，”河马说阳西那边还有厂……”</p>
+<p>“先把手上这批消化掉。”彭敬寅说，”货在手里是死的，钱转起来才是活的。手上几千个还没走完，再进货，就是拿现金堆纸箱。”</p>
+<p>金仔想了想，点头。</p>
+<p>下午配货：七百个 4S 壳，三百个 5 的，两百张膜，五十条线。金仔打包，彭敬寅在旁边看，教他：”膜放最上面，壳码整齐，箱子封实。客户拆开箱子，第一眼看见的东西，就是他心里的价钱。”</p>
+<p>金仔”嗯”了一声，手上的活没停。</p>
+<hr>
+<p>过了两天，南记的电话来了。淘宝那边出了点事。</p>
+<p>“有人给差评了。”南记说，”买特价款那个，一块九毛九的，说壳有色差，还裂了个角。”</p>
+<p>“拍了照片没有？”</p>
+<p>“拍了，看着像路上磕的。”</p>
+<p>“退他钱，壳不用寄回来。”彭敬寅说，”差评挂在店里，比退十块钱都贵。特价款本来就是引人的，不能让它变成劝退的。”</p>
+<p>南记应了，挂了电话。</p>
+<p>金仔在旁边听着，有点肉疼：”一块九毛九还退？那单才赚几毛钱……”</p>
+<p>“那单本来就不是赚他钱的。”彭敬寅说，”他是进来买东西的，还是进来骂我们的，就看这一下。你把他哄好了，他下回还来，还带人来。你跟他吵，他转头写个差评加追评，一百个客人都不敢进店。”</p>
+<p>金仔琢磨了一会儿：”那要是故意找茬的呢？”</p>
+<p>“那更好办。”彭敬寅说，”退钱，拉黑，不跟他纠缠。一天就二十四小时，花在讲理上，不如多卖十单。”</p>
+<p>金仔点点头，把这话记下了。</p>
+<hr>
+<p>连着几天的雨，下到周一，下得最凶。雨打在档口外面的铁皮棚上，噼里啪啦，像谁在敲鼓。街上人少，正好配货。</p>
+<p>素素那批，他说过月底前要发。两百个尾货壳，三十个正价 4S、5 的，五十张膜，二十条线，装了两个纸箱。</p>
+<p>金仔边装边问：”素素那边，卖多少钱合适？”</p>
+<p>“小地方，别按华强北的价。”彭敬寅说，”尾货壳她卖三块，正价卖八块，膜五块，线十块。比手机店便宜，比地摊齐整，卖的就是个顺手。”</p>
+<p>“会不会太便宜了？”</p>
+<p>“阳春的消费，三块八块的，人不心疼。东西好，回头客自然就来了。她那个店，本来就是人来人往的地方。”</p>
+<p>班车发走。第二天，素素的电话来了，声音爽朗：</p>
+<p>“寅哥！货收到了！我摆柜台上了，今早就卖了几个壳！”</p>
+<p>“定价你看了？”</p>
+<p>“看了，三块八块的，好卖！”素素在那头笑，”对了寅哥，你什么时候回来啊？我爸还念叨你呢。”</p>
+<p>“七月中。”彭敬寅说，”回去看阿婆。”</p>
+<p>“那说好了啊，回来请我吃饭！”</p>
+<p>挂了电话，彭敬寅笑了笑。素素一直这样，大大咧咧的，从不催他。</p>
+<p>傍晚，河马也来了电话：”阳西又找着一家，数据线的厂，压了批货想清。苹果的、安卓的都有，说是库存，不是次品。要不要看样？”</p>
+<p>“寄几根过来，我看看。”彭敬寅说，”先别谈价。”</p>
+<p>“行。”河马说，”还有，素素那批的钱，她转给你了？”</p>
+<p>“给了。”</p>
+<p>“她动作快。”河马笑，”那我明天去厂里拿样线。”</p>
+<p>“跟厂里说，尾货按堆走，别按根数。压货的厂，最怕一件一件点。”</p>
+<hr>
+<p>隔天，河马寄的样线到了，一捆，用皮筋扎着，十根：五根苹果的，五根安卓的。</p>
+<p>金仔把线摊在柜台上：”这线，跟地摊两块钱一根的差不多吧？”</p>
+<p>彭敬寅拿起一根苹果线，捏了捏线身，又看插头：”地摊的线，用一个月就接触不良。这是厂里正品压的库存，料子不一样。你看线身，软，捏着有弹性；插头镀层亮，拔插顺。次品线做不出这个。”</p>
+<p>他把十根线一根根过了一遍手：苹果的五根，接口都利索；安卓的有一根插头有点松。</p>
+<p>“样品看完了。”他拨河马的电话，”是库存线，不是次品线，可以谈。按堆走，苹果的一块以内，安卓的五毛以内，压到多少算多少，拿回来我们再分。”</p>
+<p>“行，我明天去磨。”河马在那头笑。</p>
+<p>挂了电话，金仔还捏着那根苹果线翻来覆去地看：”寅哥，这线收回来能卖多少？”</p>
+<p>“苹果的，批给南宁三块五，档口卖五块；安卓的，批发一块二，卖两块。”彭敬寅说，”线这东西走得快，是走量的货——不比壳，壳是挑出来的钱，线是铺出来的量。”</p>
+<p>金仔点头，把线放回柜台，学得认真。</p>
+<hr>
+<p>雨停了两天。太阳一出来，华强北就像蒸笼，铁皮棚顶上的热气往下压，人从档口走到街口，后背就湿透了。</p>
+<p>月底，生意比下雨那几天好了些。特价区换了一批货，正价壳也走了几十个。淘宝那边，特价款引来的客人，慢慢开始买正价的东西。南记说，一周下来赚得不多，但店活了。</p>
+<p>“店活了就好。”彭敬寅说，”先活，再旺。”</p>
+<p>晚上回到岗厦，他照例开电脑，看一眼行情。</p>
+<p>比特币，九十四块九毛九。</p>
+<p>六月后半月，一百上下磨着，月底还是掉下去一截。他记得那年夏天：七月初那几天还要往下走，最低到过七十上下；八月磨回一百，九月十月起势，然后十一月，破千。</p>
+<p>手里那五十万现金，他一直留着，没动。</p>
+<p>按七十上下、四百二三一个算，能接一千一百来个。加上手里四千六百多，五千七百多。年底要是破千，按六块一毛多的汇率——三千五百来万。</p>
+<p>够他干很多事了。这些钱，他要在十一月之前，全变成踏踏实实的东西：档口做大，兄弟团各就各位，阳春那边的根，也扎稳。</p>
+<p>行情他不怕。前世他真正怕过的，从来不是涨跌——是那次插针。他没碰过的交易对，偏偏爆在他头上，数秒之间，几千万美元灰飞烟灭。那种事，他不敢赌第二次。</p>
+<p>他合上电脑，给阿婆打了个电话。</p>
+<p>阿婆问他什么时候回来。他说七月中。</p>
+<p>“深圳热不热？”阿婆问。</p>
+<p>“热。”他说，”跟家里夏天差不多。”</p>
+<p>“热就多喝水，别中暑。”阿婆说，”鸡我养着了，你回来就有得吃。”</p>
+<p>他应着，挂了电话。</p>
+<p>窗外，蝉叫得凶。六月要过去了，七月就在门口。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/15-weihuo/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十五章 尾货</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 16 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/17-bucang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十七章 补仓</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十七章 补仓</title>
+    <url>//novels/chongsheng/17-bucang/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/16-zouliang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十六章 走量</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 17 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/18-modi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十八章 磨底</span></a></nav>
+
+<p>七月二号，雨下了一夜，早上停了半天，中午又飘起来。</p>
+<p>明通数码城二楼，档口开门。金仔把最后一箱尾货壳码上货架，拍了拍手上的灰：”这批壳，走了差不多九成。南宁那小子又追了五百，钱都打过来了。”</p>
+<p>“嗯。”彭敬寅坐在柜台后面，看着手机。</p>
+<p>金仔凑过来：”看什么呢？”</p>
+<p>“行情。”彭敬寅把手机翻过去，”比特币。”</p>
+<p>“比特币？”金仔压低声音，”六月不是还一百上下吗，现在多少？”</p>
+<p>“八十多。”</p>
+<p>“跌这么狠？”</p>
+<p>“大起大落，正常。”彭敬寅说，”这东西就是过山车，上去了要下来，下来了，还得上去。”</p>
+<p>金仔想了想：”那你之前那些……没事吧？”</p>
+<p>“成本低，不怕。”彭敬寅说，”我买得早。”</p>
+<p>金仔放了心，转头去擦柜台。彭敬寅把手机又翻回来，比特币中国的行情页跳了一下。</p>
+<p>87.0 美元。</p>
+<p>他记得。前世那年七月，这玩意儿从九十多一路往下砸，最低到了七十上下，然后整整磨了一个季度，磨到九月，十月才重新抬头，十一月破千。</p>
+<p>记忆是区间，不是点。他从来不指望自己记得哪天是底——他记得的是”七十上下”这一带，是”跌破八十、还没到七十”这一段路。</p>
+<p>那才是他该下手的地方。</p>
+<p>晚上，他回到出租屋，翻开本子。铁律那一页，第一条还是那行字：踩点进出，不赌点。</p>
+<p>他在下面添了四个字：七月补仓。然后合上本子。</p>
+<hr>
+<p>七月四号，深圳晴了两天，白天三十一度，太阳毒，整条华强北都晒得发白。</p>
+<p>晚上九点，出租屋里，MacBook 屏幕亮着。行情：78.11 美元。</p>
+<p>跌破八十了。</p>
+<p>他点开比特币中国的交易页面。卡里那五十万现金，是上一波就留好的补仓钱，一分没动。他从网银转了十五万进去，充值，下单。</p>
+<p>三百个。</p>
+<p>78.11，折人民币四百七十九一个，三百个，十四万四。</p>
+<p>成交。他靠在椅背上，盯着屏幕看了一会儿。窗外是华强北的夜，车流声轰轰的，像一条大河从楼下淌过去。</p>
+<p>第一笔进去了。</p>
+<p>剩下三十五万，不急着花。跌破八十进第一笔，逼近七十进第二笔，真到七十以下，那就是他记忆里的底带——六十以下不接了，认栽。</p>
+<p>线，在下单之前就画好了。</p>
+<hr>
+<p>七月六号，周六，下了场雨。</p>
+<p>档口照常开。华强北的档口没有周末，只有开门和不开门。金仔蹲在门口抽烟，彭敬寅站在柜台后面看手机。</p>
+<p>金仔吐了口烟：”多少了？”</p>
+<p>“六十八块八毛六。”</p>
+<p>“上个月还一百多，这才一个月，掉了三分之一？”金仔烟灰都忘了弹，”寅哥，这不是赔惨了？”</p>
+<p>“有人赔，就有人捡。”彭敬寅说。</p>
+<p>金仔瞪着他：”你还敢捡？”</p>
+<p>“已经在捡了。”</p>
+<p>金仔张了张嘴，把烟摁灭：”寅哥，我不懂这个。但我懂你，你从来不打没准备的仗。”</p>
+<p>“信我，就好好卖壳。”彭敬寅说，”壳是吃饭的。这个，才是翻身的。”</p>
+<p>下午，素素从阳春打来电话，说那批货走了七七八八，问什么时候再发一批。彭敬寅说月底前配好，价钱别动——三块八块的，卖的就是个顺手。素素应了。</p>
+<p>晚上，雨又下起来，敲着出租屋的窗。</p>
+<p>他坐回电脑前。68.86。</p>
+<p>下单，四百个。</p>
+<p>六十八块八毛六，折人民币四百二十二一个，四百个，十六万九。</p>
+<p>买完，他没关电脑，盯着那行数字看了很久。</p>
+<p>独处的时候，那种熟悉的焦虑会爬上来。万一记忆错了呢？万一这一世跟上一世不一样呢？五十万砸下去，连个响都听不见。</p>
+<p>他翻出本子，又看了一遍那条线。六十以下不接。真错了，他就认——跌破六十走一半，跌破五十全清。亏是亏，亏不死人。</p>
+<p>上一世，他死在不止损上。这一世，止损线先于下单存在。</p>
+<p>电话响了。南记。</p>
+<p>“寅哥，跌到七十以下了。”南记的声音有点紧，”要不要先出来一部分？”</p>
+<p>“不用。”彭敬寅说，”拿着。”</p>
+<p>“……行，你说了算。”南记顿了顿，”淘宝这边你放心，特价款这几天走得不错。”</p>
+<p>“那就好。”</p>
+<p>挂了电话，他靠在椅背上，听着窗外的雨。</p>
+<p>南记是唯一知道他账上趴着多少货的人。连南记都在慌，说明这个价位，市场上已经没人敢看了。</p>
+<p>没人敢看的时候，才是看的人捡钱的时候。</p>
+<hr>
+<p>河马的电话是七号下午打来的。</p>
+<p>“阳西那厂，谈下来了。”河马的声音带着点得意，”苹果线八毛，安卓线三毛。苹果六千根，安卓一万根，全清。”</p>
+<p>“八毛？”金仔在旁边竖起耳朵。</p>
+<p>“八毛。”河马说，”压了快一年，老板急着腾仓库，我磨了两天。”</p>
+<p>“收。”彭敬寅说，”出货价，苹果三块五，安卓一块二。让厂里装车发过来。”</p>
+<p>“运费谁出？”</p>
+<p>“一人一半，从货款里扣。”</p>
+<p>“行。”河马干脆，”后天到。”</p>
+<p>挂了电话，金仔搓着手：”八毛收，三块五出？一条赚两块七？”</p>
+<p>“毛利。”彭敬寅说，”还有运费，还有压货的钱。赚的不是一条两块七，是一千条、一万条。”</p>
+<p>“那也是钱啊。”</p>
+<p>“是钱。”彭敬寅说，”钱就是这么一块一块攒起来的。壳是吃饭的，线是加菜的——先吃饭，再加菜。”</p>
+<hr>
+<p>八号，BTC 回到七十五。</p>
+<p>九号七十六块四毛九，十号七十六块七。他等了两天，等它再往下探一点，没有。七十五上下，就是这一带的底了。</p>
+<p>第三次下单，四百个。</p>
+<p>七十五，折人民币四百六一个，四百个，十八万四。</p>
+<p>三次加在一起，一千一百个，四十九万六，五十万不到。手里五千七百多个，均价摊到七十三四。</p>
+<p>他合上电脑，在本子上补了一行：</p>
+<p>七月补仓 1100 个 @73。总仓 5760。止损：60 减半，50 清。</p>
+<p>写完，他看了那行字很久。</p>
+<p>前世，这个数字是他想都不敢想的仓位。现在它安安静静躺在账上，等着十一月。</p>
+<hr>
+<p>十一号，雨停了。太阳出来，华强北的街上全是水汽，人走过去，影子都带着潮气。</p>
+<p>金仔在档口拆箱。阳西的货到了，苹果线捆得整整齐齐，塑料膜都没撕。他抽出一根，对着光看了看，又弯了弯：”这线，摸着还行。”</p>
+<p>“走量不看摸，看回头客。”彭敬寅说，”第一单便宜，第二单好用，第三单，就是朋友了。”</p>
+<p>金仔”嗯”了一声，把线码上架。码到一半，他回头看了柜台一眼，彭敬寅又站在那儿看手机。</p>
+<p>“寅哥，”金仔问，”那个……又涨了？”</p>
+<p>“八十七块九。”</p>
+<p>“哟，回来了！”</p>
+<p>“还没到回来的时候。”彭敬寅把手机收进口袋，”这才七月。”</p>
+<p>七月，八月，九月，十月。前世那四个月，价格在七十到一百三之间磨了整整一个季度，磨得人心烦，磨得人想跑。然后十月十号，一路向北，再没回头。</p>
+<p>他站在档口门口，看街上的人流。</p>
+<p>这一世，他手里五千七百多个，成本七十三四。</p>
+<p>上一世那根针，这辈子不会再落下来。</p>
+<p>他等的是十一月。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/16-zouliang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十六章 走量</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 17 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/18-modi/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十八章 磨底</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十八章 磨底</title>
+    <url>//novels/chongsheng/18-modi/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/17-bucang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十七章 补仓</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 18 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/19-liqiu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十九章 立秋</span></a></nav>
+
+<p>七月十四，周日。闷热。半上午一场阵雨，浇过华强北，太阳一出来，整条街都在蒸。</p>
+<p>明通数码城二楼，档口。金仔把最后两箱苹果线拆开，码上货架，价签竖起来：苹果原装线，五块。</p>
+<p>“五块一根？”金仔问，”贵不贵？”</p>
+<p>“零售五块，批发三块五。”彭敬寅说，”走的量不一样。”</p>
+<p>正午，一个湖南口音的男人在档口前站住，拿起一根苹果线，对着光看插头，又弯了弯线身：”这线怎么拿？”</p>
+<p>“三块五，一口价。”</p>
+<p>“多少起拿？”</p>
+<p>“一百根起。”</p>
+<p>男人想了想：”先拿一千，试试水。好卖再来。”</p>
+<p>“行。”彭敬寅冲金仔抬了抬下巴，”打包，一千根。”</p>
+<p>金仔蹲下去装箱。男人数钱的时候，彭敬寅扫了一眼手机，比特币中国的行情页：98.0。</p>
+<p>“涨回九十八了！”金仔凑过来，”这是回来了？”</p>
+<p>“回到九十八而已。”彭敬寅把手机收进口袋，”离回来还早。”</p>
+<p>“那啥时候算回来？”</p>
+<p>“等它自己走。”彭敬寅说，”我的活，是卖壳卖线。”</p>
+<p>金仔”嘁”了一声，继续装箱。湖南男人留了张名片，金仔夹进账本里。</p>
+<hr>
+<p>七月十六，雨下了一天，晚上越下越大，敲着出租屋的窗。</p>
+<p>彭敬寅坐在电脑前。98.4。</p>
+<p>补仓那笔账，他已经在心里过了无数遍：一千一百个，四十九万六，均价七十三四。加上原来那批，五千七百六十个，成本两百一十万上下。</p>
+<p>现在，三百八十万挂零。</p>
+<p>浮盈一百七十万上下，一分没动。</p>
+<p>他在窗边站了一会儿，雨声很大。</p>
+<p>磨底最磨人。七十到一百三，要磨一个季度，磨得人怀疑，磨得人想跑。前世的他，这时候还不懂什么叫磨底——前世他压根不知道比特币是什么，是后来才进的场，学的教训，栽的跟头。</p>
+<p>所以这一世，没人跟他抢这份孤独。</p>
+<p>他翻开本子，在”七月补仓”下面写：</p>
+<p>八月，不动。<br>九月，不动。</p>
+<p>合上本子。雨还在下。</p>
+<hr>
+<p>七月十八，雨停了半天。早上七点，彭敬寅开奥德赛出深圳，走沈海高速。四个多小时，中午到阳春，拐上 S277，回岗美。</p>
+<p>阿婆在门口等着。脚边一只公鸡，拴着脚，咯咯叫。</p>
+<p>“鸡都养肥了，你才回来。”阿婆骂他，”瘦了。深圳那边吃的什么。”</p>
+<p>“有的吃。”彭敬寅从车上搬东西——两箱壳，几根线，一袋水果，两包红五叶神。</p>
+<p>“又乱花钱！”阿婆骂得更响，骂完还是把东西收了，转身去抓鸡。</p>
+<p>小雨放暑假，也在家，跑出来叽叽喳喳：”哥！深圳好玩吗？”</p>
+<p>“做生意，不是玩。”彭敬寅从箱子里掏出几个手机壳，”挑一个。”</p>
+<p>小雨挑了个粉的，往自己手机上套了套，又摘下来：”我手机用不上，哥你留着卖。”</p>
+<p>“拿着。”彭敬寅说，”自家东西。”</p>
+<p>晚上阿婆做白切鸡。阳春走地鸡，皮黄肉紧，蘸姜蓉。彭敬寅吃了两碗饭。阿婆坐对面看着，嘴上不说话，眼里的笑藏不住。</p>
+<p>吃完饭，他往阿婆手里塞了一叠钱。阿婆一摸厚度就瞪眼：”又要干什么！”</p>
+<p>“收着。”彭敬寅说，”买点好的。”</p>
+<p>“我一个老人，花什么钱！”阿婆把钱推回来，推了两下，还是收下了，”下回别给了。你的钱，留着娶媳妇。”</p>
+<p>“知道。”彭敬寅说。</p>
+<p>第二天中午，素素请吃饭，城东大道那家饭馆——一月份兄弟团聚餐的老地方。河马从阳西赶过来，三个人坐了一桌。</p>
+<p>素素先报账：”第一批走得七七八八了。壳卖了一百六十多个，膜差不多完了，线卖了七八根——十块钱一根，有人问，就是卖得慢。”</p>
+<p>“正常。”彭敬寅说，”壳是顺手生意，三块八块的，街坊掏钱不心疼。”</p>
+<p>“第二批什么时候发？”素素问。</p>
+<p>“月底配好，班车发。”彭敬寅说，”三百个尾货壳，五十个正价壳，一百张膜，再给你搭二十根苹果线。线你卖十块，给你四块的价，一根赚六块。”</p>
+<p>“好。”素素高兴，”我把门口那块地方收拾出来，专门摆手机壳。”</p>
+<p>河马在旁边倒茶。彭敬寅拿起手机，给他转了两千。</p>
+<p>河马手机响了一声，看了一眼，愣住：”寅哥，这什么意思？”</p>
+<p>“线材那单的提成，先给一半。”彭敬寅说，”全走完，再结两千。”</p>
+<p>“我就跑了个腿……”河马说。</p>
+<p>“货源就是生意。”彭敬寅说，”这单线全走完，毛利两万四五。你拿四千，一成半。以后货源这条线是你的，还长着。”</p>
+<p>河马张了张嘴，没再推，把茶满上，三个人碰了一下。</p>
+<p>“对了，”河马说，”阳西那厂还压着一批膜，我看过样，正货，就是颜色杂了点。”</p>
+<p>“带样来看。”彭敬寅说。</p>
+<hr>
+<p>七月二十，回深圳。大暑前后，雨一场接一场，下到月底才消停。</p>
+<p>二十九号，素素第二批配好，班车发阳春。</p>
+<p>三十一号，周三，晴。晚上九点，出租屋，MacBook 亮着。</p>
+<p>107.8。</p>
+<p>从六十八块八毛六那个坑里爬出来，一个月，回到一百零七块八。底，磨出来了。</p>
+<p>彭敬寅算了笔账：五千七百六十个，六十二万美元，折人民币三百八十万挂零。成本两百一十万上下，浮盈一百七十万上下。</p>
+<p>一分没动。</p>
+<p>手机响了。南记。</p>
+<p>“寅哥，一百零七了。”南记说，”要不要先出一部分？”</p>
+<p>“不出。”彭敬寅说，”到了，我会说。”</p>
+<p>“……行。”南记顿了顿，”对了，十一月十一号淘宝大促，全网的店都打折。我们要不要也上个活动？”</p>
+<p>“上。”彭敬寅说，”特价款备足，该报名的报名。不求爆，求个热闹，把店带活。”</p>
+<p>“行，我研究下。”南记挂了。</p>
+<p>彭敬寅放下手机，翻开本子，在”九月，不动”下面添了一行：</p>
+<p>十月十号之后，看。</p>
+<p>窗外，华强北的夜，车流声轰轰的。</p>
+<p>磨底这一段，他等得起。</p>
+<p>全世界，只有他一个人知道，十月十号之后会发生什么。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/17-bucang/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十七章 补仓</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 18 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/19-liqiu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十九章 立秋</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十九章 立秋</title>
+    <url>//novels/chongsheng/19-liqiu/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/18-modi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十八章 磨底</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 19 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/20-qiulaohu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二十章 秋老虎</span></a></nav>
+
+<h1 id="第19章-立秋"><a href="#第19章-立秋" class="headerlink" title="第19章 立秋"></a>第19章 立秋</h1><p>八月三号，周六。一早下着雨，华强北的街面湿漉漉的，行人走得快。</p>
+<p>明通数码城二楼，档口。金仔把新到的苹果线往货架上码，彭敬寅在柜台后面拆一箱尾货壳。手机响，河马的大嗓门先一步炸出来：</p>
+<p>“寅哥！我到华强北了，你在哪？”</p>
+<p>“明通二楼档口。你直接上来。”</p>
+<p>“等着，五分钟。”</p>
+<p>金仔探头：”河马哥来了？”</p>
+<p>“带膜样来。”彭敬寅说，”阳西那边一个厂压了一批膜。”</p>
+<p>十分钟后，河马湿着半边肩膀进来，腋下夹着一个塑料文件袋，拍在柜台上：”高清的磨砂的，一样五张，你过目。”</p>
+<p>他壮，T恤绷在身上，说话中气十足。金仔递了条干毛巾过去，河马胡乱擦了两把脸，把文件袋打开，一张一张往台面上摆。</p>
+<p>彭敬寅拿起一张高清膜，对着窗口的光看：透光不错，边缘裁得齐。又拿起一张磨砂的，指甲刮了刮表面，手感涩而不粗。翻到背面，撕开一角保护纸，胶层均匀，没有气泡点。</p>
+<p>“静电的还是带胶的？”他问。</p>
+<p>“带胶的。”河马说，”厂里说静电的太容易起边，主做带胶。”</p>
+<p>彭敬寅把膜放下：”压了多少？”</p>
+<p>“一万五千张，高清七成，磨砂三成。”</p>
+<p>“厂里开多少？”</p>
+<p>河马比了个手指：”三毛。我磨了半天，磨到两毛五。”他顿了顿，”你要觉得行，我按老规矩来——你三毛五收，差价归我。”</p>
+<p>彭敬寅没接话，又拿起一张磨砂膜看了看背面：”货什么时候能动？”</p>
+<p>“明天班车发，后天到。”</p>
+<p>“行。”彭敬寅说，”三毛五。后天我去提。”</p>
+<p>金仔在旁边听完了，凑过来：”这膜卖多少？”</p>
+<p>“零售五块。二批一块五。”彭敬寅说，”素素那边我按两块给，她卖五块。”</p>
+<p>“两毛五收，卖五块？”金仔咂嘴。</p>
+<p>“不是这么算的。”彭敬寅把膜收进文件袋，”一万五千张，走的是量。二批一块五一张，出一千张就是一千五。膜这东西轻，不压运费，是配件里最好走钱的。”</p>
+<p>河马咧嘴笑：”寅哥心里有数。”</p>
+<p>雨在中午前停了。下午太阳出来，档口走了两单散客。傍晚收档，三人在华强北街边的大排档坐下，珠江啤酒一人一瓶，河马要了一碟炒河粉、一碟豉油鸡。</p>
+<p>河马喝了两口啤酒，话就多了：讲阳西那边夏天生意怎么淡，讲档口换了招牌以后正货走得多顺，讲哪个同行又被人坑了一票。金仔听得起劲，彭敬寅偶尔搭一句。</p>
+<p>“深圳这边怎么样？”河马问。</p>
+<p>“刚起量。”彭敬寅说，”线走了两批，尾货也清得差不多。”</p>
+<p>“那就好。”河马举瓶，”跟着寅哥，有肉吃。”</p>
+<p>彭敬寅跟他碰了一下。啤酒凉，街上的灯刚亮起来，整条华强北都是手机壳、贴膜和行色匆匆的人。</p>
+<p>河马当晚在街对面找了家招待所住下。第二天一早赶大巴回阳西，临走前又叮嘱一遍：”明天班车到，你记得提。”</p>
+<p>八月四号，周日。晴，热。</p>
+<p>晚上素素来电话。第二批货早到了，她那边报账：”壳走了大半，膜也卖了不少。”</p>
+<p>“膜好卖？”</p>
+<p>“好卖。五块一张，不心疼。”</p>
+<p>“行。”彭敬寅说，”我这边新进了一批膜，高清磨砂都有，下批给你按两块配，你卖五块。”</p>
+<p>“那感情好。”素素说，”对了，你什么时候回来？我妈还念叨你呢。”</p>
+<p>“忙完这阵。”彭敬寅说，”中秋前回去一趟。”</p>
+<p>八月五号，周一。晴，更热，白花花的大太阳。</p>
+<p>上午湖南二批来了电话。金仔从账本里翻出那张名片，报了价，转头捂着话筒：”说再拿三千根苹果线。”</p>
+<p>“三块五，老价。”彭敬寅说，”问他膜要不要试水。”</p>
+<p>金仔对着电话说了几句，又抬头：”拿五百张试试。”</p>
+<p>“一块五给他。”</p>
+<p>下午两点，阳西的班车到了物流园。彭敬寅开奥德赛去提货——膜比壳轻多了，一箱一万五千张，搬起来像一包棉花。回到档口，金仔拆箱验货，对着光看了一张又一张。</p>
+<p>“都行？”彭敬寅问。</p>
+<p>“高清的透，磨砂的涩。”金仔把膜码上货架，”没毛病。”</p>
+<p>傍晚，湖南二批到店，提了三千根苹果线、五百张膜。彭敬寅递了根芙蓉王过去，男人接了点上，数钱的时候问了一句：”这膜好走吗？”</p>
+<p>“试了就知道。”彭敬寅说，”五块一张，贴膜摊走得起量。”</p>
+<p>男人点点头，把膜装进自己带来的袋子：”好卖再来。”</p>
+<p>金仔在账本上记了一笔：三千线，一万零五百；五百膜，七百五。</p>
+<p>晚上，彭敬寅回岗厦。出租屋里闷，开了风扇，他在电脑前坐了一会儿。</p>
+<p>比特币中国的行情页：106.5。</p>
+<p>五千七百六十个，六块一毛二的汇率——三百七十五六万。七月底是三百八十万挂零。</p>
+<p>磨了一个礼拜，还少了五万。</p>
+<p>他合上电脑。窗外的热气还没散，风是热的。</p>
+<p>八月七号，立秋。傍晚下了一场雨。</p>
+<p>雨不大，落在华强北的街面上，把白天的热气一点点压下去。档口收了，彭敬寅站在二楼走廊上，看雨。</p>
+<p>手机响。南记。</p>
+<p>“一百零六了。”南记说，”这一个多月就在一百到一百一之间磨。”</p>
+<p>“嗯。”</p>
+<p>“要不要动一点？”</p>
+<p>“不动。”彭敬寅说，”到了我会说。”</p>
+<p>南记沉默了一下：”那行。双十一的货，我下个月开始备。”</p>
+<p>“备。”</p>
+<p>挂了电话，雨还在下。</p>
+<p>彭敬寅翻开本子。八月，不动。九月，不动。字还是七月十六那晚写的，墨迹干了，规矩没变。</p>
+<p>他想起河马那批膜——两毛五进，三毛五结，一块五出。高清膜、磨砂膜，都是过路财神。再过一两年，玻璃膜出来，满街都是贴钢化的，那又是另一波。他赶得上。</p>
+<p>就像行情一样。七十到一百三，磨一个季度。磨完了，十月十号往后，一路向北。</p>
+<p>立秋了，天还热着。</p>
+<p>但秋天，确实来了。</p>
+<p>他的季节，在十月。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/18-modi/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十八章 磨底</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 19 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/20-qiulaohu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二十章 秋老虎</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第二十章 秋老虎</title>
+    <url>//novels/chongsheng/20-qiulaohu/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/19-liqiu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十九章 立秋</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 20 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/21-zhongqiu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二十一章 中秋</span></a></nav>
+
+<h1 id="第20章-秋老虎"><a href="#第20章-秋老虎" class="headerlink" title="第20章 秋老虎"></a>第20章 秋老虎</h1><p>八月十四号，周三。台风尤特下午在阳江阳西的溪头镇登陆。深圳的雨从十三号就开始下，一天没停。</p>
+<p>明通数码城二楼，档口冷清。雨打在卷帘门上，稀里哗啦。隔壁几个档口干脆没开门，金仔把特价区的壳重新码了一遍，又没别的事，蹲在柜台后面刷手机。彭敬寅在看行情。</p>
+<p>一百零九。台风天，数字纹丝不动。</p>
+<p>“这雨得下到什么时候？”金仔问。</p>
+<p>“台风尾巴。过去了就晴。”</p>
+<p>“台风？”</p>
+<p>“新闻里说的。尤特，在阳西登陆。”</p>
+<p>金仔说：”阳西？河马哥不是在那边吗？”</p>
+<p>“嗯。”彭敬寅说，”等会儿打个电话问问。”</p>
+<p>下午三点多，河马来电。电话那头风声很响，像有人对着话筒灌气。</p>
+<p>“寅哥！”河马的大嗓门穿过风噪，”台风在阳西登陆了，就在溪头那边！风大得吓人，我这档口玻璃门哗哗响，今天歇一天！”</p>
+<p>“人没事吧？”</p>
+<p>“没事。就是镇上停电了。”河马说，”阳春那边雨也大，你打个电话回家问问。”</p>
+<p>“嗯。你自己小心。”</p>
+<p>“放心，我皮厚。”</p>
+<p>挂了电话，金仔问：”河马哥没事吧？”</p>
+<p>“停电，人没事。歇一天。”</p>
+<p>“那就好。”</p>
+<p>彭敬寅拨岗美的号码。响到第四声，阿婆接起来。</p>
+<p>“敬寅？”</p>
+<p>“阿婆，是我。家里雨大不大？”</p>
+<p>“大得很。”阿婆的声音稳，”你放心，屋没事，鸡我关进笼了。电视里说台风，讲得吓人。”</p>
+<p>“小雨呢？”</p>
+<p>“在家，挑你那些壳呢，说好卖得很。”</p>
+<p>“叫她别出门。这几天雨大。”</p>
+<p>“知道，知道。你那边呢？”</p>
+<p>“我没事。过几天就晴了。”</p>
+<p>挂了电话，他看了行情一眼，还是一百零九。台风压不动它——磨底就是这个样子，跌不深，涨不动，磨到你没脾气。</p>
+<p>八月十五号，雨更大。八月十六号，雨下成了瓢泼。华强北的街面积水没过鞋面，档口一天没开张几单。雨砸在雨棚上，像有人从天上往下泼水，一泼就是一整天。</p>
+<p>金仔盯着屏幕，忽然说：”寅哥，跌破一百了。”</p>
+<p>彭敬寅扫了一眼。九十八。</p>
+<p>“一百是关口，不是价钱。”他说。</p>
+<p>“那会不会一直跌下去？”</p>
+<p>“磨底就这样。插来插去，磨完了自己会走。”</p>
+<p>金仔咂嘴：”你心真大。”</p>
+<p>“亏出来的。”</p>
+<p>金仔没再问。彭敬寅也没解释。有些东西教不会，得自己拿钱买教训——他希望金仔这辈子都不用买。</p>
+<p>晚上，南记来电话。</p>
+<p>“九十八了。”南记说，”跌破一百了，要不要动一点？”</p>
+<p>“不动。九十以下再谈。”</p>
+<p>电话那头沉默了几秒。”……你心里有数就行。”</p>
+<p>“嗯。”</p>
+<p>夜里，雨没停。彭敬寅翻开本子。八月，不动。九月，不动。两行字八月七号就写好了，一笔没动过。他合上本子。</p>
+<p>上一世的这个时候，他在干什么？记不清了。大概是收账、喝酒、跟人扯皮。他不记得那些日常——他记得清楚的，是十月的拐点。十月十号之后，一路向北。</p>
+<p>八月二十一号，七月十五，中元节。雨小了些。</p>
+<p>晚上收档回岗厦，路口有人蹲着烧纸。火光照着老人半张脸，纸灰被风卷起来，在路灯底下飘。金仔说：”今天七月半。”</p>
+<p>彭敬寅嗯了一声，没停步。</p>
+<p>八月二十三号，处暑。又下了一场雨。雨停之后，太阳毒起来。</p>
+<p>秋老虎来了。连着几天三十二三度，华强北的街面被晒得发白，档口的风扇从早转到晚，吹出来都是热风。雨走了，生意也回来了。特价区一天走两百多个，金仔打包打得手酸，嘴上倒高兴：”还是大太阳好。下雨天，人都没一个。”</p>
+<p>八月二十八号，湖南二批来电话。</p>
+<p>“寅哥，苹果线再给我两千。双十一，我这也要备货。”</p>
+<p>“行。最后两千，你拿走。”</p>
+<p>“痛快！老价？”</p>
+<p>“老价，三块五。”</p>
+<p>“明天到店提。”</p>
+<p>挂了电话，彭敬寅想：苹果线清了正好。双十一主打安卓线——安卓机多，线便宜，一块二的批价，挂低点走量。</p>
+<p>第二天下午，湖南二批到店提了货，两千根，点完数装袋走人。傍晚，南记来电话，还是备货的事。</p>
+<p>“苹果线没了？”</p>
+<p>“卖完了。”彭敬寅说，”双十一主打安卓线。膜高清的多挂，磨砂的少挂。特价壳备一批，那天全店最低价放特价区，引流。”</p>
+<p>“打包呢？”</p>
+<p>“纸箱、气泡膜、快递单，按两千单备。”</p>
+<p>“预算？”</p>
+<p>“两三万，店里账上出。”他顿了顿，”那笔钱不动。”</p>
+<p>南记懂”那笔钱”是什么，没多问：”行。我列单子。”</p>
+<p>“淘宝店现在一天多少单？”</p>
+<p>“十来单。”南记说，”特价挂出去以后，慢慢涨上来的。”</p>
+<p>“双十一那天，能上五十单就是赚的。”</p>
+<p>八月底，素素来电。</p>
+<p>“膜走得快，线慢。”她报账，”壳补的那批也走了大半。”</p>
+<p>“线慢正常。小地方认壳认膜，线是捎带手买的。”</p>
+<p>“那倒是。”素素说，”你到底什么时候回？我妈说给你做春砂仁鲫鱼汤。”</p>
+<p>“九月十四，周六。”</p>
+<p>“说好了啊，我请你吃饭。”</p>
+<p>“嗯。中秋前回去一趟。”</p>
+<p>挂了电话，他算了算：中秋九月十九。十四号回，十六号返深。双十一的货，九月下旬备齐，正好。</p>
+<p>八月三十一号，周六。月底，又下雨了。</p>
+<p>下午雨小，档口早早收了。金仔回岗厦，彭敬寅一个人在档口坐了一会儿，拿手机看行情。</p>
+<p>一百二十四块八毛四。</p>
+<p>他心算：五千七百六十个，七十一万九千美元。按六块一毛二的汇率，四百四十万人民币上下。</p>
+<p>七月的七十，八月的九十八，今天的一百二十四——磨了一个季度，上沿快摸到了。还在他的区间里。</p>
+<p>他翻开本子。</p>
+<p>八月，不动。✓</p>
+<p>九月，不动。</p>
+<p>第三行空着。他没写。有些日子不用写，记在心里就行。</p>
+<p>十月十号。从今天算起，还有四十天。</p>
+<p>雨又大了。秋老虎被这场雨浇灭，九月要来了。</p>
+<p>他合上本子，关了灯，锁门。雨声里，明通数码城的招牌灯还亮着。</p>
+<p>这个夏天，快过去了。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/19-liqiu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十九章 立秋</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 20 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/21-zhongqiu/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第二十一章 中秋</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mojo 正式开源了，我装好跑通了</title>
+    <url>/posts/2026/08/19/Mojo-%E6%AD%A3%E5%BC%8F%E5%BC%80%E6%BA%90%E4%BA%86-%E6%88%91%E8%A3%85%E5%A5%BD%E8%B7%91%E9%80%9A%E4%BA%86/</url>
+    <content><![CDATA[<p>今天 Hacker News 热榜上挂着一条消息：Mojo 语言正式开源了。就是那个宣传语喊了很久的「Python 语法、C 语言速度」的语言，作者是 Chris Lattner——LLVM 和 Swift 的作者，编译器圈子里分量很重的人。以前它只开放 SDK，源码一直捏在手里，这次全放出来了，背后的公司 Modular 现在归高通（Qualcomm）旗下。</p>
+<p>一句话说清它是什么：一门能直接跑 Python 代码、但按原生速度执行的语言，主要面向 AI 和高性能计算场景，不是给写业务脚本的人准备的。</p>
+<p>我趁热装了一个，把过程记下来，想尝鲜的直接照着来。</p>
+<p><img src="/img/mojo-open.svg" alt="Mojo 开源三步走：是什么、怎么装、能干什么"></p>
+<p><strong>先说我装完的结论</strong>：安装比想象中顺，一条命令，没有依赖地狱；但别被宣传里的性能数字冲昏头，那些倍数都是挑过的特定场景。现阶段它的意义就是「尝鲜 + 感受」，指望它替换 Python 干活，生态还早。</p>
+<h2 id="第-1-步：安装（macOS-Linux）"><a href="#第-1-步：安装（macOS-Linux）" class="headerlink" title="第 1 步：安装（macOS &#x2F; Linux）"></a>第 1 步：安装（macOS &#x2F; Linux）</h2><p>一条命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -sSf https://sh.modular.com | sh</span><br></pre></td></tr></table></figure>
+
+<p>脚本会下载安装器并配置好环境，装完重开一下终端。</p>
+<p><strong>要不要翻墙</strong>：安装脚本和下载源都在国外，国内直连有时候很慢或者直接失败。失败就挂代理重试，没有别的坑。</p>
+<p><strong>Windows 用户</strong>：官方对 Windows 的原生支持有限，建议先装 WSL2（Windows 自带的 Linux 子系统），在里面的 Ubuntu 中跑上面这条命令。</p>
+<h2 id="第-2-步：验证"><a href="#第-2-步：验证" class="headerlink" title="第 2 步：验证"></a>第 2 步：验证</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mojo --version</span><br></pre></td></tr></table></figure>
+
+<p>能打印出版本号就算装好了。</p>
+<h2 id="第-3-步：跑第一个程序"><a href="#第-3-步：跑第一个程序" class="headerlink" title="第 3 步：跑第一个程序"></a>第 3 步：跑第一个程序</h2><p>建一个 hello.mojo：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fn main():</span><br><span class="line">    print(&quot;Hello, Mojo!&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mojo hello.mojo</span><br></pre></td></tr></table></figure>
+
+<p>看到 Hello, Mojo! 就通了。注意这里用的是 <code>fn</code>——Mojo 的强类型函数写法，性能敏感的部分用它。</p>
+<h2 id="第-4-步：试试-Python-风格的写法"><a href="#第-4-步：试试-Python-风格的写法" class="headerlink" title="第 4 步：试试 Python 风格的写法"></a>第 4 步：试试 Python 风格的写法</h2><p>Mojo 是 Python 的超集，<code>def</code> 一样能用。建个 loop.mojo：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">fn main():</span><br><span class="line">    var total = 0</span><br><span class="line">    for i in range(1000000):</span><br><span class="line">        total += i</span><br><span class="line">    print(total)</span><br></pre></td></tr></table></figure>
+
+<p>一百万个数累加，几毫秒出结果。同样的逻辑用 python3 跑一遍，能明显感觉到差别——虽然小循环 Python 也就零点几秒，但「原生编译」和「解释执行」的体感差距，这么一对比就有了。</p>
+<h2 id="第-5-步：不想装也能玩"><a href="#第-5-步：不想装也能玩" class="headerlink" title="第 5 步：不想装也能玩"></a>第 5 步：不想装也能玩</h2><p>官方有个网页版 playground（playground.modular.com），浏览器打开就能写能跑，零安装。建议先在上面玩十分钟，觉得有意思再装本地环境。</p>
+<h2 id="Mojo-和-Python-到底是什么关系"><a href="#Mojo-和-Python-到底是什么关系" class="headerlink" title="Mojo 和 Python 到底是什么关系"></a>Mojo 和 Python 到底是什么关系</h2><p>简单说：Mojo 是 Python 的超集，大部分 Python 代码它能直接跑，也能调用 Python 的库（通过互操作接口），所以你不是从零开始。区别在写法：想快的部分用 <code>fn</code> 加类型标注，让它编译成机器码；其余地方还是你熟悉的 Python 手感。</p>
+<h2 id="我的判断"><a href="#我的判断" class="headerlink" title="我的判断"></a>我的判断</h2><ul>
+<li><strong>适合谁</strong>：想尝鲜的程序员；对性能敏感又不想离开 Python 生态的人；对编译器技术好奇的人。</li>
+<li><strong>不适合谁</strong>：只想写脚本、做数据分析的，Python 够用，没必要折腾。</li>
+<li><strong>生态现状</strong>：库远不如 Python 全，很多坑要自己趟，上生产要慎重。</li>
+<li><strong>但有一点是实的</strong>：真想优化的那段代码，不用换语言、不用学 C++，用 Mojo 重写就行。这个价值是长期存在的，跟它开源不开源没关系。</li>
+</ul>
+<p>想直接试的话，把第 4 步那段代码贴进 playground 就能跑，不用装任何东西。开源第一天，趁热玩吧。</p>
+]]></content>
+      <categories>
+        <category>技术教程</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>Mojo</tag>
+        <tag>编程语言</tag>
+        <tag>开源</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第二十一章 中秋</title>
+    <url>//novels/chongsheng/21-zhongqiu/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/20-qiulaohu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第二十章 秋老虎</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 21 / 21 章</span></a><span class="novel-chapter-nav__placeholder"></span></nav>
+
+<h1 id="第21章-中秋"><a href="#第21章-中秋" class="headerlink" title="第21章 中秋"></a>第21章 中秋</h1><p>九月中旬，深圳还是三十度的天。台风过了快一个月，雨棚晒得发白，华强北的人流一天比一天密。</p>
+<p>档口里，金仔把一箱高清膜码上货架，扫了一眼屏幕：「寅哥，一百二十了。」</p>
+<p>彭敬寅看了一眼。一百二十块五毛二。八月十六那天跌破一百，磨了一个月，磨到一百二出头。</p>
+<p>「磨完了？」金仔问。</p>
+<p>「还差一点。」</p>
+<p>「差多少？」</p>
+<p>「差一阵子。」</p>
+<p>金仔笑：「你说话跟算命的一样。」</p>
+<p>彭敬寅没接话。不是算命，是记账——十二年的账翻到这一页，日子写得清清楚楚。「九月不动」四个字，八月末写在本子上的，一个字都不能改。</p>
+<p>南记的电话是九月十二号打来的。双十一的事，淘宝那边开始报名了，要定备货。</p>
+<p>「安卓线主打，高清膜多挂，磨砂的少挂。」彭敬寅说，「特价壳还是引流，预算两万五，从店里账上出。」</p>
+<p>「行。」南记在那头敲键盘，「对了，比特币一百二十六了，要不要动一点？」</p>
+<p>「不动。」</p>
+<p>「真不动？四月份那波……」</p>
+<p>「四月份那波是四月份。」彭敬寅说，「到了我会说。」</p>
+<p>南记没再劝。挂了电话，彭敬寅把手机放下。南记是好手，账记得清，行情盯得准，就是沉不住气。一百二就想跑的人，拿不住一千的货。</p>
+<p>九月十四，周六。素素来电。</p>
+<p>「寅哥！我回乡下老家了，帮我妈收拾东西，中秋前回去一趟。」电话那头是她一贯的亮嗓门，「你中秋回不回来？」</p>
+<p>「回。」</p>
+<p>「真的？那阿婆有口福了。」素素说，「我这边膜卖得可好了，壳也走，就是线慢点。」</p>
+<p>「线不急，双十一那波才走量。」</p>
+<p>「第二批账我算好了，回头发给你。」素素又说，「阿珍她们几个都来问我拿货，说比镇上那家便宜好多。」</p>
+<p>「行，回头算。」</p>
+<p>「那我中秋那天给你打电话。」</p>
+<p>「嗯。」</p>
+<p>挂了电话，彭敬寅站了一会儿。中秋。他翻了翻记忆，翻到二零一三年的中秋，像翻到一页空白。八月九月的事，早糊成一片。他记得住的只有数字：七月七十上下，十月拐点，十一月破千。日子是别人的，只有数字是他的。</p>
+<p>九月十八，下午三点。档口关门，卷帘门拉下来，金仔把货架用布盖上。</p>
+<p>「三天够不够？」金仔问。</p>
+<p>「够了。」</p>
+<p>「那走。」</p>
+<p>金仔开飞度，彭敬寅开奥德赛。两辆车一前一后，从华强北钻进车流，上了沈海高速。出深圳堵了一段，过了虎门大桥就好走了，一路向西，太阳从车尾追到车头，落进粤西的山里。三百五十公里，四小时。彭敬寅在中途服务区加了次油，九十三号，七块多一升。加油站里全是赶路回家过中秋的车。</p>
+<p>加油的时候他顺手看了一眼行情。一百三十九块一毛五。他心算了一下，五十七百六十个，四百九十万上下。快五百万了。</p>
+<p>他熄了屏幕，发动车。钱是死的，日子是活的。今晚要到家。</p>
+<p>晚上八点多到岗美。老屋的灯亮着，阿婆站在门口。</p>
+<p>「回来啦。」</p>
+<p>「回来了。」</p>
+<p>阿婆早杀好了鸡。白切鸡、一碟酱油、一盆青菜、一锅老火汤。彭敬寅吃了两大碗饭，阿婆坐在对面看他吃，看他碗里饭浅了，就夹一块鸡过去。</p>
+<p>「瘦了。」</p>
+<p>「没瘦，深圳伙食好。」</p>
+<p>「伙食好还瘦。」阿婆说，「金仔呢？」</p>
+<p>「回他自己家了，明天过来。」</p>
+<p>夜里十点，阿婆在门口摆了张小桌。柚子、月饼，三炷香点起来。月亮从屋角的树梢上慢慢升起来，圆得没有一丝缺口，香火在风里一明一灭。阿婆对着月亮拜了拜，嘴里念念有词。</p>
+<p>彭敬寅站在旁边，月光把老屋的瓦照成一片银白。</p>
+<p>「阿婆，求什么？」</p>
+<p>「求平平安安，顺顺利利。」阿婆头也不回，「保佑你。」</p>
+<p>「会的。」</p>
+<p>阿婆回头看他：「钱赚多赚少，没所谓。人好好的就行。」</p>
+<p>「知道。」</p>
+<p>月亮很圆。彭敬寅想不起来，前世这个时候自己在干什么。大概是在哪张桌上喝酒，或者收了一辆二手车——不重要了。这一页，是他自己写的。</p>
+<p>小雨的电话十点多打来。</p>
+<p>「哥！中秋快乐！」</p>
+<p>「中秋快乐。吃饭没有？」</p>
+<p>「吃了，跟同学出去吃了顿好的。」小雨的声音兴高采烈，「阿婆呢？」</p>
+<p>「在拜月。」</p>
+<p>「叫阿婆给我留两个月饼！我十一回去吃！」</p>
+<p>「给你留着。」</p>
+<p>挂了电话，阿婆说：「小雨这丫头，就知道吃。」</p>
+<p>「能吃是福。」</p>
+<p>金仔第二天上午来的，拎着两盒月饼，进门先喊阿婆。阿婆给他泡茶，他从口袋里摸出一包烟，递过来一根。</p>
+<p>「寅哥，昨晚看了没有？」</p>
+<p>「看什么？」</p>
+<p>「行情。」金仔压低声音，「一百三十九了。」</p>
+<p>「那是昨天的事。」彭敬寅说，「昨晚回落到一百二十七了。」</p>
+<p>「啊？又下来了？」</p>
+<p>「磨底就这样。上去一点，又下来，磨完了才走。」</p>
+<p>金仔咂了咂嘴，把烟点上，吸了一口：「这得磨到什么时候？」</p>
+<p>「快了。」</p>
+<p>「真的？」</p>
+<p>「磨了三个月，够久了。」</p>
+<p>金仔咧嘴笑了，没再问。阿婆在屋里喊吃饭，白切鸡重新热过，加了一碟青菜。两个人在院子里，对着太阳吃。</p>
+<p>下午，彭敬寅去河边走了走。漠阳江从镇里穿过去，水还是那条水。两边的水稻田黄了一大半，再过一个月就能割。田埂上有人赶牛，远远的叫了一声，又静下去。岗美的下午，安静得像没人住一样。</p>
+<p>素素的中秋电话傍晚打来。</p>
+<p>「寅哥！中秋快乐！吃月饼没有？」</p>
+<p>「吃了，双黄白莲蓉。」</p>
+<p>「我也吃了！」素素说，「对了，我这边第二批账发你手机了，膜卖得真好。你什么时候回深圳？」</p>
+<p>「后天。」</p>
+<p>「那行，等我去深圳找你玩。」素素说完又补了一句，「我说真的。」</p>
+<p>「好。」</p>
+<p>挂了电话，彭敬寅站在门口看了会儿月亮。第二天的月亮没有十五的圆，但他知道，月亮还会圆的。</p>
+<p>九月二十一，周六，回深圳。早上阿婆塞给他一袋东西：几个煮鸡蛋、两个柚子、一盒切好的月饼。「路上吃。」她说。彭敬寅没推，全收下，放进副驾。</p>
+<p>出岗美，上 S277，转沈海高速，一路向东。太阳从车头升起来，照进驾驶室。他忽然想起阿婆那句话：人好好的就行。</p>
+<p>回深圳第二天，档口开张。南记来电话，双十一的报名过了，让准备主图。</p>
+<p>「行。」</p>
+<p>「对了，比特币一百二十三了，真的不动？」</p>
+<p>「不动。」</p>
+<p>「你是不是在等什么日子？」</p>
+<p>彭敬寅顿了一下。</p>
+<p>「等一个日子。」他说。</p>
+<p>挂了电话，他从口袋里摸出那个本子。八月，打勾。九月，不动。第三行还空着，一个字都没写。</p>
+<p>十月十号。还有十九天。</p>
+<p>他合上本子，抬头看档口外面的天。深圳的天很蓝，蓝得不像话。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/20-qiulaohu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第二十章 秋老虎</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 21 / 21 章</span></a><span class="novel-chapter-nav__placeholder"></span></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第十五章 尾货</title>
+    <url>//novels/chongsheng/15-weihuo/</url>
+    <content><![CDATA[<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/14-duanwu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十四章 端午</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 15 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/16-zouliang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十六章 走量</span></a></nav>
+
+<p>端午夜里，河马把照片发了过来。微信里一长串，一箱箱手机壳，码在厂房的角落里，封口的纸箱摞了半人高。</p>
+<p>端午过完，深圳的雨还是没停，一场接一场。</p>
+<p>周四上午，彭敬寅把照片一张张放大看：清水壳多，磨砂的少，颜色杂，有几箱封着口，看不清里面。</p>
+<p>收旧货出身的人，最懂尾货。尾货这东西，怕的不是旧，是型号死。壳子压在仓库里半年，亏的从来不是塑料，是眼光。他一张张看过去，心里已经有个数：这批货能挑出多少能卖的，全看 4S 和 5 的占比。</p>
+<p>他拨了河马的电话。</p>
+<p>“就这些？”</p>
+<p>“还有。”河马在电话那头，嗓门大，”后面仓库还有十几箱。厂里压了半年了，想清掉。”</p>
+<p>“型号呢？”</p>
+<p>“杂。iPhone 4 的多，4S 的也有，三星的几十个，剩下的杂牌。”</p>
+<p>“4S 的挑出来，别的先别动。”</p>
+<p>“行。”河马说，”价格怎么谈？”</p>
+<p>“尾货按堆走，别按个谈。”彭敬寅说，”你问他全清什么价，三毛五以内，就拿。”</p>
+<p>“五毛他都不一定松口。”河马笑。</p>
+<p>“五毛是正价货的零头。”彭敬寅说，”压了半年的货是债。你告诉他，过完这个夏天，一块钱都不值。三毛五，现金，当场拉走。”</p>
+<p>河马”嗯”了一声，挂了电话。</p>
+<p>下午，河马的电话又来了。</p>
+<p>“成了。”他说，声音里带着得意，”三毛五，七千三百个，全清。连箱子都给我们。”</p>
+<p>“型号挑过没有？”</p>
+<p>“4S 的多，两千来个。4 的少些。三星的几十个。剩下是杂牌，还有一批色差大的。”</p>
+<p>“色差的单独装。”</p>
+<p>“知道。”河马说，”钱怎么结？”</p>
+<p>“五毛一个跟你结。”彭敬寅说，”多出来的，是你的。”</p>
+<p>河马在那头笑出声来：”那我再去压压他，能压到三毛，差价都是我的。”</p>
+<p>“随你。”彭敬寅说，”货别拖，今天发出来。”</p>
+<p>“下午就装车，班车走，隔天到。”</p>
+<p>挂了电话，三千七百块转了过去，货款加运费，一次结清。</p>
+<p>金仔在边上听着，凑过来：”寅哥，三毛五的壳，能卖吗？”</p>
+<p>“看你会不会卖。”彭敬寅说，”正价货在明通拿，一块二到一块五。尾货三毛五，差的不是货，是型号和品相。挑得出来，就是赚的。”</p>
+<hr>
+<p>第二天下午，物流的电话来了，货到了。</p>
+<p>彭敬寅开着奥德赛去提货。华强北附近的物流园，一排排大货车，班车卸下来的箱子码在雨棚底下。二十来箱，他一个人搬了四趟，后座放倒，塞得满满当当。</p>
+<p>金仔在档口等得心焦，见他回来，围上来转了两圈：”寅哥，这能卖多少？”</p>
+<p>“搬完再说。”彭敬寅抹了把汗，”先搬上楼。”</p>
+<p>回到岗厦，金仔已经把楼下空地清出来了。</p>
+<p>拆箱，分货。</p>
+<p>这是金仔第一次看尾货。彭敬寅搬了把小凳子坐下，拆开一箱，把壳哗啦倒在纸板上。</p>
+<p>“看三样。”他说，”第一，型号。4S 的、5 的，还有人要；4 的，少；诺基亚三星老款，没人要。第二，料子。硬料的好，软料的放一阵就变色变形。第三，色差。一箱里颜色不齐的，是二次料，挑出来，别混着卖。”</p>
+<p>金仔蹲在旁边，学得认真。他手笨，眼睛不笨。先按型号分，再对着灯看边角——水口没剪干净的，毛边划手的，往左边一扔；颜色发暗、和箱子里其他不是一个调的，往右边一扔。</p>
+<p>“水口这个也挑？”金仔捏着一个，边角一道塑料茬，”看着不明显。”</p>
+<p>“你现在看着不明显。”彭敬寅说，”顾客拿手里能摸出来。一单差评，搭十个壳都补不回来。”</p>
+<p>一晚上，七千三百个壳，分成三堆：能卖的，两千八百多；一般的，两千；剩下两千五百不到，是杂牌和色差的。</p>
+<p>“能卖的，一块二走。”彭敬寅数着，”一般的，档口摆个特价区，一块钱一个。差的留着，买正价货送两个。”</p>
+<p>金仔算了半天账，眼睛亮起来：”两千八乘一块二，三千三百多；特价区再走一走，本钱就回来了。”</p>
+<p>“还有两千个一块的。”彭敬寅说，”那才是赚的。”</p>
+<p>金仔搓着手：”尾货这买卖，来钱啊。”</p>
+<p>“来钱？”彭敬寅看了他一眼，”七千多个，挑出来能卖的一半都不到。眼光不够，收十箱烂十箱。这不是捡钱，是捡漏——捡的是别人看不上的东西，挑出值钱的，才叫漏。”</p>
+<p>金仔点头，把这话记在心里。</p>
+<hr>
+<p>周六，档口门口多了个纸箱，拿马克笔写着：特价清仓，一块一个。</p>
+<p>路过的人停下来的不少。手机壳这东西，一块钱，跟白送差不多。有个姑娘蹲在纸箱前挑了半天，最后拿了三个，又顺手带走了柜台里一只五块的磨砂壳：”这个摸着舒服，一块钱那些太糙了。”</p>
+<p>金仔在旁边看着，眼睛越来越亮：”寅哥，这招行啊。便宜的在前头引，贵的在后头卖。”</p>
+<p>“做生意就这一条。”彭敬寅说，”先让钱进门，再谈赚多少。”</p>
+<p>一天下来，特价区走了一百多个，正价货反倒被带着多卖了几单。</p>
+<p>中午，他给南宁那个小伙子打了个电话。</p>
+<p>“是我，华强北的。到了批尾货，4S 的壳多，一块二，要不要？”</p>
+<p>电话那头想了想：”尾货？先拿一千五，走得好再要。”</p>
+<p>“行。下午发。”</p>
+<p>挂了电话，南记那边也报了信：淘宝挂了个特价款，一块九毛九起，不包邮，一下午进来三十多个人看。</p>
+<p>“挂着，别改价。”彭敬寅说，”这价格不是拿来赚钱的，是拿来引人的。”</p>
+<p>傍晚收档，河马的电话又来了。</p>
+<p>“钱到账了。”他说，”三毛五拿的，五毛结的，差价一千零九十五，我收了。”</p>
+<p>“该你的。”彭敬寅说，”这趟你来回跑厂里，没少费鞋。”</p>
+<p>“费鞋算什么。”河马在那头笑，”阳西这边搞批发的多，这种清仓的厂子不止一家。你要是有胃口，我下回多跑几家，凑个整车。”</p>
+<p>“行。先把手上的消化掉。”</p>
+<p>“对了，”河马说，”素素问起来，说深圳这边忙不忙。我说忙。她没再问。”</p>
+<p>彭敬寅嗯了一声。素素一直守在阳春，没催过他。他知道她等着他站稳——像前几年等着他攒够钱娶她一样。</p>
+<p>“月底前，我给你那边也留一批。”他说，”素素小卖部，挂上卖。”</p>
+<hr>
+<p>晚上回到岗厦，雨还在下。他打开电脑。</p>
+<p>比特币，九十九块九毛八。一百，又破了。</p>
+<p>他记得那年夏天：六月磨底，一百上下晃，跌破了又回来；七月还要往下走一截，最低到过七十上下；八月磨回一百；九月十月才起势，然后十一月，破千。</p>
+<p>现在手里这四千六百多个，按一百算，两百八十来万。比端午那天，又少了二十来万。</p>
+<p>他盯着那个数字，心里没有波澜。一百上下是磨底，这是行情图的常事。真正的大戏在十一月——那才是他要等的。</p>
+<p>尾货是捡漏，币也是。别人在百元上下割肉，他不割。七月那一跌，要是真到七十上下——他手里那笔现金，正好派上用场。</p>
+<p>到时候，再捡一批。</p>
+<p>窗外，岗厦村的夜还是一样的吵。楼下有人炒菜，有人按电动车喇叭，房东的大嗓门穿过巷子。雨打在铁皮棚上，噼里啪啦，像谁在数钱。</p>
+<p>他合上电脑，抽了支烟，把烟头摁灭在易拉罐里。</p>
+<p>七月中旬，回阳春。阿婆等着他，鸡也养肥了。</p>
+<nav class="novel-chapter-nav" role="navigation" aria-label="章节导航"><a class="novel-chapter-nav__link novel-chapter-nav__prev" href="/novels/chongsheng/14-duanwu/"><span class="novel-chapter-nav__label">上一章</span><span class="novel-chapter-nav__title">第十四章 端午</span></a><a class="novel-chapter-nav__toc" href="/novels/chongsheng/"><i class="fas fa-list"></i><span>重生 · 目录</span><span class="novel-chapter-nav__progress">第 15 / 21 章</span></a><a class="novel-chapter-nav__link novel-chapter-nav__next" href="/novels/chongsheng/16-zouliang/"><span class="novel-chapter-nav__label">下一章</span><span class="novel-chapter-nav__title">第十六章 走量</span></a></nav>]]></content>
+      <categories>
+        <category>小说</category>
+      </categories>
+      <tags>
+        <tag>重生</tag>
+        <tag>彭敬寅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iPhone 上装了个 Firefox，网页广告终于能拦了</title>
+    <url>//posts/2026/08/17/firefox-ios-adblocker/</url>
+    <content><![CDATA[<p>iPhone 上去广告这事，一直比安卓麻烦。Safari 要另装内容拦截器 app，Chrome、Edge 在 iOS 上又装不了扩展——苹果规定所有 iOS 浏览器都得用 WebKit 内核，拦截只能靠网络层过滤，这个功能之前没几个浏览器愿意做。</p>
+<p>这周 Mozilla 开始给 Firefox for iOS 推内置广告拦截，官方标注 experimental（实验功能），灰度放量。我手机更新到最新版之后看到了开关，用了一天，记录一下。</p>
+<h2 id="能拦什么"><a href="#能拦什么" class="headerlink" title="能拦什么"></a>能拦什么</h2><p>拦截在网络层做，页面加载前就把请求过滤掉，主要对付三类东西：</p>
+<ol>
+<li>第三方广告网络和广告交易所投的广告，也就是你在新闻站、博客、论坛里看到的那种花花绿绿的横幅和贴片；</li>
+<li>广告相关的追踪器，网站之间跟着你跑的那种；</li>
+<li>弹窗、遮罩层这类强打扰形式。</li>
+</ol>
+<p>规则基于 EasyList——一个公开维护的”广告黑名单”，Adblock 那一整个生态都在用它，所以覆盖面不用太担心，常见的第三方广告基本都能消掉。</p>
+<h2 id="拦不住的部分"><a href="#拦不住的部分" class="headerlink" title="拦不住的部分"></a>拦不住的部分</h2><p>官方文档写得很明白，有几个例外：</p>
+<ul>
+<li>搜索引擎结果页的广告，Google、Bing、DuckDuckGo 的推广位都不拦；</li>
+<li>Firefox 新标签页的赞助内容不拦。</li>
+</ul>
+<p>原因也不难猜：Mozilla 的收入大头来自搜索分成，2025 年他们自己说过，九成收入来自 Firefox，其中约八成五来自跟 Google 的合作。不拦搜索广告，算是留口饭吃。</p>
+<h2 id="怎么开"><a href="#怎么开" class="headerlink" title="怎么开"></a>怎么开</h2><p>第 1 步：App Store 搜 Firefox 装上，国内商店直接下，不用翻墙，然后更新到最新版。</p>
+<p>第 2 步：随便打开一个网页。</p>
+<p>第 3 步：点右上角菜单按钮，进 Site menu（站点菜单），找到 Ad Blocker，点进去把开关打开。</p>
+<p>我这边是英文界面，中文版菜单名可能略有出入。另外功能是灰度推送的，如果没看到 Ad Blocker 这一项，等几天再刷一下 App Store 更新，或者过阵子再回来看。</p>
+<h2 id="跟-Safari-内容拦截器比"><a href="#跟-Safari-内容拦截器比" class="headerlink" title="跟 Safari + 内容拦截器比"></a>跟 Safari + 内容拦截器比</h2><p>iOS 上之前的主流方案是 Safari 配 AdGuard、1Blocker 这类内容拦截器，效果更全，能自定义规则，但要么付费要么折腾。Firefox 这个免费、内置、两步打开，缺点也明显：不拦搜索页广告，不拦网站自己投的第一方广告，而且 iOS 版 Firefox 内核还是 WebKit，浏览体验跟 Safari 没有本质区别。</p>
+<p>我的判断：给不想折腾的普通人用刚好，重度用户继续用 Safari 加专门的拦截器。</p>
+<p>顺手说个真实例子：我拿它开了一个平时广告满天飞的技术博客，页面上只剩正文和图片，加载还快了一截。想给 iPhone 去广告又不想装付费 app 的，可以试试这个路子。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>Firefox</tag>
+        <tag>iOS</tag>
+        <tag>去广告</tag>
+      </tags>
+  </entry>
+</search>
