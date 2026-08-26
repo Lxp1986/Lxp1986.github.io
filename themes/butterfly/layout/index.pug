@@ -4,7 +4,6 @@ block content
   include ./includes/mixins/indexPostUI.pug
   +indexPostUI
     if page.current === 1
-      - const latestNovel = novel_latest_chapter('chongsheng')
       section.home-hero(aria-labelledby='home-hero-title')
         .home-hero__media
           img.home-hero__image(
@@ -21,9 +20,6 @@ block content
           p.home-hero__subtitle.sr-only 在热爱里，记录世界的不同温度
           .home-hero__actions
             a.home-hero__button.home-hero__button--primary(href=url_for('/archives/')) 开始阅读
-            a.home-hero__button.home-hero__button--secondary(href=url_for('/novels/')) 进入小说
-          if latestNovel
-            a.home-hero__continue(href=url_for(latestNovel.path)) 继续阅读《重生》第 #{latestNovel.chapter} 章
 
     header.home-feed__header
       p.home-feed__eyebrow= page.current === 1 ? 'RECENT NOTES' : 'KEEP READING'
