@@ -1,5 +1,5 @@
 ---
-title: MoneyPrinterTurbo 跑解说视频流水线，三个绕不开的坑
+title: MoneyPrinterTurbo 跑解说视频流水线，从部署到跑通
 date: 2026-09-03 22:28:49
 categories: [AI工具]
 tags: [MoneyPrinterTurbo, 视频, 本地AI, Edge TTS, ffmpeg, 教程]

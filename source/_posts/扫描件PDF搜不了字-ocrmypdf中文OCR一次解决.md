@@ -1,5 +1,5 @@
 ---
-title: 扫描件PDF搜不了文字-ocrmypdf中文OCR踩坑记
+title: 扫描件 PDF 搜不了字？ocrmypdf 中文 OCR 一次解决
 date: 2026-08-28 22:33:28
 categories: [数码工具]
 tags: [OCR, ocrmypdf, tesseract, 扫描件, PDF, 中文识别]

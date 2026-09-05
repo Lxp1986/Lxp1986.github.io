@@ -1,5 +1,5 @@
 ---
-title: Obsidian笔记放iCloud同步的坑-冲突副本和旧版本回滚
+title: Obsidian 放 iCloud 同步，冲突副本和旧版回滚这样处理
 date: 2026-08-31 22:28:22
 categories: [知识管理]
 tags: [Obsidian, iCloud, 同步, 知识库, macOS]

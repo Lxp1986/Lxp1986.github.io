@@ -1,5 +1,5 @@
 ---
-title: python-docx 生成报价书，字体和表格的坑记一下
+title: python-docx 生成报价书，中文字体和表格边框这么设置
 date: 2026-08-24 22:28:44
 categories: [办公自动化]
 tags: [python-docx, Word, 报价书, 自动化, python]

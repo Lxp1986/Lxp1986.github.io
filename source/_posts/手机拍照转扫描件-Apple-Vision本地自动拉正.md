@@ -1,5 +1,5 @@
 ---
-title: 手机拍照转扫描件，Apple Vision 透视矫正踩坑记
+title: 手机拍照转扫描件，Apple Vision 本地自动拉正
 date: 2026-09-02 22:29:44
 categories: [macOS]
 tags: [Swift, Vision, CoreImage, 扫描件, 命令行]
