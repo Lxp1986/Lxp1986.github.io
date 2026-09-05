@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>用了几天 DeepSeek Harness，说几个真实感受</title>
+    <url>//posts/2026/08/16/deepseek-harness-review/</url>
+    <content><![CDATA[<p>先给结论：这工具现在还不适合拿来干正事。想尝鲜、想学它架构的可以装，指望它稳定出活，再等几个月。</p>
+<h2 id="几个不错的地方"><a href="#几个不错的地方" class="headerlink" title="几个不错的地方"></a>几个不错的地方</h2><p>官方出品，模型和框架是一套，配合比第三方拼出来的顺。MIT 开源，代码随便改。不绑死模型，DeepSeek、OpenAI、Claude 都能接。工具免费，API 也便宜，晚上还半价。</p>
+<h2 id="几个让我犹豫的地方"><a href="#几个让我犹豫的地方" class="headerlink" title="几个让我犹豫的地方"></a>几个让我犹豫的地方</h2><p>还是预览版，官方自己都写了「会有破坏性变更」，今天能用的功能过俩月可能就变了。配置概念有学习门槛，装起来简单，用好不简单。生态刚起步，出了问题能搜到的答案少。12 万星是热度，不是稳定。</p>
+<h2 id="跟其他几个比"><a href="#跟其他几个比" class="headerlink" title="跟其他几个比"></a>跟其他几个比</h2><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>出品方</th>
+<th>开源</th>
+<th>印象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DeepSeek Harness</td>
+<td>DeepSeek</td>
+<td>✅</td>
+<td>可定制、便宜，但还年轻</td>
+</tr>
+<tr>
+<td>Claude Code</td>
+<td>Anthropic</td>
+<td>❌</td>
+<td>省心、生态成熟，要订阅</td>
+</tr>
+<tr>
+<td>Codex CLI</td>
+<td>OpenAI</td>
+<td>✅</td>
+<td>跟 GitHub 配合最好</td>
+</tr>
+<tr>
+<td>Aider</td>
+<td>社区</td>
+<td>✅</td>
+<td>极简，只做结对写代码</td>
+</tr>
+</tbody></table>
+<p>（信息查于 2026-08-16，星数和版本会变。）</p>
+<h2 id="我的建议"><a href="#我的建议" class="headerlink" title="我的建议"></a>我的建议</h2><p>爱折腾、想学 Agent 怎么设计的，现在装，社区正热闹。已经在用 DeepSeek 的，直接上。只想省心出活的，选 Claude Code。要上生产的，等 1.0 再说。</p>
+<p>装的话看这篇：《<a href="/posts/2026/08/16/deepseek-harness-tutorial/">把 DeepSeek Harness 跑起来了，安装过程记录</a>》。</p>
+<blockquote>
+<p>本文信息查于 2026-08-16，以官方最新为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>DeepSeek</tag>
+        <tag>AI Agent</tag>
+        <tag>横评</tag>
+        <tag>效率工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>把 DeepSeek Harness 跑起来了，安装过程记录</title>
+    <url>//posts/2026/08/16/deepseek-harness-tutorial/</url>
+    <content><![CDATA[<p>Harness 开源那天我装了一个，Windows 和 Mac 都试了一遍。过程比想的简单，把记录放这里，给还没动手的人省点时间。</p>
+<h2 id="环境就一个-Node-js"><a href="#环境就一个-Node-js" class="headerlink" title="环境就一个 Node.js"></a>环境就一个 Node.js</h2><p>版本要 22.19 以上，或者 24。官网下 LTS 版装上，终端里跑 <code>node -v</code> 能出数字就行。</p>
+<h2 id="安装是一行命令"><a href="#安装是一行命令" class="headerlink" title="安装是一行命令"></a>安装是一行命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npx @deepseek-ai/dsh web</span><br></pre></td></tr></table></figure>
+
+<p>第一次跑会自己下载，等几十秒。然后浏览器打开 <code>http://127.0.0.1:3080</code>，能看到页面就装好了。终端别关。</p>
+<h2 id="配置两步"><a href="#配置两步" class="headerlink" title="配置两步"></a>配置两步</h2><p>第一步，Settings → Models 里填 DeepSeek 的 API Key，去 platform.deepseek.com 申请，有免费额度。填完保存就行，不用重启。</p>
+<p>第二步，Choose workspace 选一个文件夹给它当工作区。这步不选的话输入框是灰的，我一开始就卡在这。</p>
+<h2 id="第一次用"><a href="#第一次用" class="headerlink" title="第一次用"></a>第一次用</h2><p>新建会话，发了句「总结这个文件夹的结构，说说是什么项目，新人从哪看起」。它会自己翻文件、读代码、跑命令，最后给一份总结。</p>
+<h2 id="三个我实际在用的场景"><a href="#三个我实际在用的场景" class="headerlink" title="三个我实际在用的场景"></a>三个我实际在用的场景</h2><p><strong>分析老项目。</strong> 看不懂的代码仓库丢给它，让它先讲一遍结构，比自己硬啃快。</p>
+<p><strong>自动写周报。</strong> 让它把上周的 git 提交汇总成周报，用 headless 模式跑，一条命令的事：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span> --since=<span class="string">&quot;1 week ago&quot;</span> --pretty=format:<span class="string">&quot;%h %an %ad %s&quot;</span> --<span class="built_in">date</span>=short &gt; /tmp/gitlog.txt</span><br><span class="line">dsh --profile headless <span class="string">&quot;根据下面的提交记录写一份中文周报，按主题归类：<span class="subst">$(cat /tmp/gitlog.txt)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>再配个 cron 定时跑就行。</p>
+<p><strong>定时巡检。</strong> 让它每小时查一次磁盘、服务健康、依赖更新，有问题提醒。这个要开 schedule 插件，稍微折腾一点，官方文档有写。</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li>Key 填了还报错，八成是填错位置了，确认在 Settings → Models 里填的。</li>
+<li>它默认只在工作区文件夹里能改东西，其他地方只读，工作区别直接指到重要目录。</li>
+<li>费用这块，工具免费，花钱的是 API。DeepSeek 现在有峰谷定价，晚上和周末便宜，批量任务排晚上跑能省一半。</li>
+</ul>
+<p>装好之后到底要不要长期用，跟 Claude Code、Codex 比怎么样，我写在另一篇里了：《<a href="/posts/2026/08/16/deepseek-harness-review/">用了几天 DeepSeek Harness，说几个真实感受</a>》。</p>
+<blockquote>
+<p>命令和版本信息查于 2026-08-16，工具还在快速更新，以官方为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>DeepSeek</tag>
+        <tag>AI Agent</tag>
+        <tag>效率工具</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iPhone 上装了个 Firefox，网页广告终于能拦了</title>
+    <url>//posts/2026/08/17/firefox-ios-adblocker/</url>
+    <content><![CDATA[<p>iPhone 上去广告这事，一直比安卓麻烦。Safari 要另装内容拦截器 app，Chrome、Edge 在 iOS 上又装不了扩展——苹果规定所有 iOS 浏览器都得用 WebKit 内核，拦截只能靠网络层过滤，这个功能之前没几个浏览器愿意做。</p>
+<p>这周 Mozilla 开始给 Firefox for iOS 推内置广告拦截，官方标注 experimental（实验功能），灰度放量。我手机更新到最新版之后看到了开关，用了一天，记录一下。</p>
+<h2 id="能拦什么"><a href="#能拦什么" class="headerlink" title="能拦什么"></a>能拦什么</h2><p>拦截在网络层做，页面加载前就把请求过滤掉，主要对付三类东西：</p>
+<ol>
+<li>第三方广告网络和广告交易所投的广告，也就是你在新闻站、博客、论坛里看到的那种花花绿绿的横幅和贴片；</li>
+<li>广告相关的追踪器，网站之间跟着你跑的那种；</li>
+<li>弹窗、遮罩层这类强打扰形式。</li>
+</ol>
+<p>规则基于 EasyList——一个公开维护的”广告黑名单”，Adblock 那一整个生态都在用它，所以覆盖面不用太担心，常见的第三方广告基本都能消掉。</p>
+<h2 id="拦不住的部分"><a href="#拦不住的部分" class="headerlink" title="拦不住的部分"></a>拦不住的部分</h2><p>官方文档写得很明白，有几个例外：</p>
+<ul>
+<li>搜索引擎结果页的广告，Google、Bing、DuckDuckGo 的推广位都不拦；</li>
+<li>Firefox 新标签页的赞助内容不拦。</li>
+</ul>
+<p>原因也不难猜：Mozilla 的收入大头来自搜索分成，2025 年他们自己说过，九成收入来自 Firefox，其中约八成五来自跟 Google 的合作。不拦搜索广告，算是留口饭吃。</p>
+<h2 id="怎么开"><a href="#怎么开" class="headerlink" title="怎么开"></a>怎么开</h2><p>第 1 步：App Store 搜 Firefox 装上，国内商店直接下，不用翻墙，然后更新到最新版。</p>
+<p>第 2 步：随便打开一个网页。</p>
+<p>第 3 步：点右上角菜单按钮，进 Site menu（站点菜单），找到 Ad Blocker，点进去把开关打开。</p>
+<p>我这边是英文界面，中文版菜单名可能略有出入。另外功能是灰度推送的，如果没看到 Ad Blocker 这一项，等几天再刷一下 App Store 更新，或者过阵子再回来看。</p>
+<h2 id="跟-Safari-内容拦截器比"><a href="#跟-Safari-内容拦截器比" class="headerlink" title="跟 Safari + 内容拦截器比"></a>跟 Safari + 内容拦截器比</h2><p>iOS 上之前的主流方案是 Safari 配 AdGuard、1Blocker 这类内容拦截器，效果更全，能自定义规则，但要么付费要么折腾。Firefox 这个免费、内置、两步打开，缺点也明显：不拦搜索页广告，不拦网站自己投的第一方广告，而且 iOS 版 Firefox 内核还是 WebKit，浏览体验跟 Safari 没有本质区别。</p>
+<p>我的判断：给不想折腾的普通人用刚好，重度用户继续用 Safari 加专门的拦截器。</p>
+<p>顺手说个真实例子：我拿它开了一个平时广告满天飞的技术博客，页面上只剩正文和图片，加载还快了一截。想给 iPhone 去广告又不想装付费 app 的，可以试试这个路子。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>Firefox</tag>
+        <tag>iOS</tag>
+        <tag>去广告</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FreeCAD 导 DXF 丢文字标注，换旧版导出器就好了</title>
+    <url>/posts/2026/08/25/FreeCAD%E5%AF%BCDXF%E4%B8%A2%E6%96%87%E5%AD%97%E6%A0%87%E6%B3%A8-%E6%8D%A2%E6%97%A7%E7%89%88%E5%AF%BC%E5%87%BA%E5%99%A8%E5%B0%B1%E5%A5%BD%E4%BA%86/</url>
+    <content><![CDATA[<p>画施工图这行，FreeCAD 出图之后绕不开一步：导 DXF。我的流程是 FreeCAD 里画好，导 DXF 给做预算的或者施工队，对方用 LibreCAD 或者 CAD 打开接着干活。</p>
+<p>上个月给一个村道项目的排水断面图收尾，画完导 DXF 发出去，隔天对方回一句：标注呢？我打开文件一看，线都在，尺寸标注全没了，图上的文字说明也一个不剩。图能看，但没尺寸没标注，等于白画。</p>
+<p>查了半天，问题出在 FreeCAD 的默认导出器上。</p>
+<h2 id="两个导出器，差在哪"><a href="#两个导出器，差在哪" class="headerlink" title="两个导出器，差在哪"></a>两个导出器，差在哪</h2><p>FreeCAD 里有两套 DXF 导出器：</p>
+<ul>
+<li>C++ 导出器：默认用的这个，速度快，但导出的东西少</li>
+<li>旧版 Python 导出器：慢，但功能全</li>
+</ul>
+<p>官方文档里的对比表列得很清楚：文字和标注、颜色、组和块，默认的 C++ 导出器一概不导出。也就是说你在 Draft 工作台里标了一堆尺寸、写了几行说明，导出来只剩几何线。速度快是快，该丢的一样没少丢。</p>
+<h2 id="第一步：换旧版导出器"><a href="#第一步：换旧版导出器" class="headerlink" title="第一步：换旧版导出器"></a>第一步：换旧版导出器</h2><p>解决就一步：</p>
+<ol>
+<li>打开 FreeCAD，菜单：编辑 → 偏好设置 → 导入&#x2F;导出 → DXF</li>
+<li>勾选「使用旧版 Python 导出器」（Use legacy python exporter）</li>
+<li>如果提示需要下载 DXF 转换库，把「允许自动下载并更新 DXF 库」也勾上——这个库因为许可证原因不能打包进 FreeCAD，第一次会自动下载，之后就没事了</li>
+<li>重新导出，文字标注就回来了</li>
+</ol>
+<h2 id="中文变方块，是字体的事"><a href="#中文变方块，是字体的事" class="headerlink" title="中文变方块，是字体的事"></a>中文变方块，是字体的事</h2><p>换旧版导出器之后，文字是有了，但 LibreCAD 里打开全是方块。一开始以为导出坏了，后来才搞明白：DXF 里的文字内容是 Unicode，没坏，坏的是打开端的字体映射。TEXT 实体里带一个字体名，LibreCAD 找不到对应字体，就画方块。</p>
+<p>处理办法：LibreCAD 里选中文字，属性编辑器里把字体换成系统里带的中文字体，方块立刻变回字。更省事的做法是导出前在 FreeCAD 里把 Draft 文字对象的字体属性设成系统里真实存在的中文字体，一劳永逸。</p>
+<h2 id="曲线和图层，两个边角料"><a href="#曲线和图层，两个边角料" class="headerlink" title="曲线和图层，两个边角料"></a>曲线和图层，两个边角料</h2><p>旧版导出器对椭圆支持不好，官方论坛都承认这事。河道断面、边坡这种带曲线的图，用旧版导出器，椭圆容易出问题。我的做法是看情况：曲线多就先用默认导出器把几何出干净，标注到 LibreCAD 里补；曲线少就直接旧版一把梭。要是用脚本导出，<code>importDXF.export()</code> 里有个 <code>nospline</code> 参数，默认 False 按样条导，设 True 就把样条离散成多段线，跟下游软件不兼容时可以试这个。</p>
+<p>图层也顺带说一句。默认导出器按对象名映射图层，旧版按 Draft 工作台的图层（Layer）映射。想让 DXF 里图层名可控、分得清，画的时候就把线分门别类放进 Draft 图层里，导出后在 LibreCAD 里才好开关图层。工程图不分层，后面改图能改到哭。</p>
+<p>现在的流程固定下来了：Draft 工作台里把几何和标注都画好，图层分好，旧版导出器导出，LibreCAD 打开核对一遍字体，再发出去。没再出过丢标注的事。官方文档在 <a href="https://wiki.freecad.org/Draft_DXF">wiki.freecad.org&#x2F;Draft_DXF</a>，对比表值得存个书签。</p>
+]]></content>
+      <categories>
+        <category>工程软件</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>FreeCAD</tag>
+        <tag>DXF</tag>
+        <tag>LibreCAD</tag>
+        <tag>施工图</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LibreCAD 导出 PDF 线条太淡，原来&quot;按图层&quot;线宽是 0.00mm</title>
+    <url>/posts/2026/08/29/LibreCAD%E5%AF%BC%E5%87%BAPDF%E7%BA%BF%E6%9D%A1%E5%A4%AA%E6%B7%A1-%E6%8C%89%E5%9B%BE%E5%B1%82%E7%BA%BF%E5%AE%BD%E6%98%AF0.00mm/</url>
+    <content><![CDATA[<p>前阵子画一条排洪沟的断面图，LibreCAD 里分好图层、线分粗细，屏幕上看得清清楚楚。导出 PDF 发给监理，对方回一句”线条太淡了，看不清，重新出”。</p>
+<p>排查了半天，问题出在 LibreCAD 的”按图层”线宽上。</p>
+<h2 id="屏幕上的线宽是假的"><a href="#屏幕上的线宽是假的" class="headerlink" title="屏幕上的线宽是假的"></a>屏幕上的线宽是假的</h2><p>LibreCAD 屏幕显示的线宽只是示意，跟打印出来是两回事。更坑的是，图层默认的线宽是”按图层（By Layer）”——这在 LibreCAD 里等于 0.00mm。图层分得再细、颜色分得再清，只要线宽没填具体数值，导出 PDF 后线条要么淡得几乎看不见，要么在部分阅读器里直接消失。</p>
+<p>搞工程的都习惯按图层分颜色：墙线红色、标注绿色、轴线青色。AutoCAD 时代靠打印样式表（CTB）按颜色映射线宽，画图时根本不用管线宽。LibreCAD 没有这套机制，它只认对象和图层上的 Pen Width（笔宽）属性，默认值就是 0。从 AutoCAD 转过来的人，第一张图基本都会踩这个坑。</p>
+<h2 id="解决办法：把线宽填成具体数字"><a href="#解决办法：把线宽填成具体数字" class="headerlink" title="解决办法：把线宽填成具体数字"></a>解决办法：把线宽填成具体数字</h2><p>两个做法，推荐第一个。</p>
+<p><strong>方法一：图层管理器里设线宽（一劳永逸）</strong></p>
+<p>图层管理器每一行都有 Color &#x2F; Line Type &#x2F; Line Width 三列，把线宽从”按图层”改成具体数值：</p>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>线宽</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标注、尺寸、中心线、文字</td>
+<td>0.18 mm</td>
+</tr>
+<tr>
+<td>可见轮廓（墙线、道路边线）</td>
+<td>0.35 mm</td>
+</tr>
+<tr>
+<td>剖切线、断面轮廓</td>
+<td>0.70 mm</td>
+</tr>
+<tr>
+<td>图框线</td>
+<td>1.00 mm</td>
+</tr>
+</tbody></table>
+<p>这是 ISO 制图标准的数值，LibreCAD 官方文档也这么建议。设完把文件另存为模板（.dwt），以后新图直接套，不用每次重新设。</p>
+<p><strong>方法二：全选批量改（补救已经画完的图）</strong></p>
+<p>图画完了不想回图层慢慢改，可以全选批量处理：Ctrl+A 全选 → 菜单 Modify → Attributes（属性）→ Pen Width 填 0.25 → 勾上 “Apply attributes block-deep”（让块里面的对象一起改）→ Apply。</p>
+<p>0.25mm 是通用的折中值，保证打印出来清晰。想精细就按上表的数值分层处理。</p>
+<h2 id="导出-PDF-还有两个坑"><a href="#导出-PDF-还有两个坑" class="headerlink" title="导出 PDF 还有两个坑"></a>导出 PDF 还有两个坑</h2><ol>
+<li><p><strong>先选纸张再导出</strong>：Current Drawing Preferences（当前绘图设置）里把纸张设成 A4 或 A3。不设的话，导出 PDF 有可能是空白页。农村小工程图纸我一般用 A3，1:100 出图，监理看得清，打印店也好打。</p>
+</li>
+<li><p><strong>打印比例跟线宽无关</strong>：LibreCAD 按 1:1 画图（排水沟 30 米就画 30 米），打印时在打印对话框里输入比例 1:100，或者选适配页面。线宽不受比例影响——设了 0.35mm，打出来就是 0.35mm 粗细，1:1 和 1:100 都一样。这点跟多段线宽度不同：多段线宽度是几何属性，1:100 打印时会跟着缩小，别拿它当线宽用。</p>
+</li>
+</ol>
+<h2 id="最后检查"><a href="#最后检查" class="headerlink" title="最后检查"></a>最后检查</h2><p>导出 PDF 后别急着发，先放大看一遍：轮廓线是不是明显比标注线粗，图框是不是最粗。屏幕预览靠不住，PDF 里放大看才是真的。另外 LibreCAD 有个草图模式（Draft Mode），开着的时候屏幕连线宽都不显示，检查线宽前先确认它是关着的。</p>
+<p>这套整明白之后，我的出图流程固定成了：模板里把图层线宽全设好 → 画图 → 打印预览 → 导出 PDF → 放大检查 → 再发出去。之后再没被监理退过图。</p>
+<p><img src="/img/librecad-linewidth-iso.svg"></p>
+]]></content>
+      <categories>
+        <category>工程软件</category>
+      </categories>
+      <tags>
+        <tag>LibreCAD</tag>
+        <tag>CAD</tag>
+        <tag>出图</tag>
+        <tag>打印</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mac 总提示&quot;储存空间不足&quot;，我把空间找回来了</title>
+    <url>/posts/2026/08/23/Mac%E6%80%BB%E6%8F%90%E7%A4%BA%E5%82%A8%E5%AD%98%E7%A9%BA%E9%97%B4%E4%B8%8D%E8%B6%B3-%E6%88%91%E6%8A%8A%E7%A9%BA%E9%97%B4%E6%89%BE%E5%9B%9E%E6%9D%A5%E4%BA%86/</url>
+    <content><![CDATA[<p>用 Mac 的人基本都撞到过这个：正干着活，突然弹窗”你的磁盘几乎已满”，然后各种卡、各种存不了。我之前也以为是硬盘买小了，后来才发现，真正常年占着几十 G 不动的，是那些看不到的东西。这篇把我清理的思路和命令记下来，你照着做能腾出一大块。</p>
+<h2 id="先看明白：到底是啥占了地方"><a href="#先看明白：到底是啥占了地方" class="headerlink" title="先看明白：到底是啥占了地方"></a>先看明白：到底是啥占了地方</h2><p>别急着删。打开 <strong>苹果菜单 → 关于本机 → 存储空间</strong>，右边有个”管理”。这里能看到每个类别占了多大，有的人一进来就发现”系统数据”或”文稿”那一栏是最大的，那问题基本就在那。</p>
+<p>Mac 的”储存空间管理”会把文件分成几类，你一眼能看清大头在哪。真正让你电脑变慢、报满的，通常是下面这几个。</p>
+<h2 id="第一招：清”文稿”里的大文件"><a href="#第一招：清”文稿”里的大文件" class="headerlink" title="第一招：清”文稿”里的大文件"></a>第一招：清”文稿”里的大文件</h2><p>点开”文稿”，下面会列出下载、桌面、文稿几个文件夹。<strong>按大小排个序</strong>，从大到小看一遍，十有八九能翻出几个超大又没用的东西（比如早就下完的大视频、一堆安装包 dmg）。</p>
+<p>命令行的看法更直接，在”终端”里跑这行，把家目录里最大的文件列出来：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">du</span> -sh ~/* ~/Library/* 2&gt;/dev/null | <span class="built_in">sort</span> -hr | <span class="built_in">head</span> -20</span><br></pre></td></tr></table></figure>
+
+<p>会像这样打印，最上面就是占最多的：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4.5G    /Users/你/Library/Developer</span><br><span class="line">2.8G    /Users/你/Downloads</span><br><span class="line">1.2G    /Users/你/Documents</span><br></pre></td></tr></table></figure>
+
+<p>看到哪个不想要、又大，直接删。</p>
+<h2 id="第二招：清-App-缓存（安全，能腾不少）"><a href="#第二招：清-App-缓存（安全，能腾不少）" class="headerlink" title="第二招：清 App 缓存（安全，能腾不少）"></a>第二招：清 App 缓存（安全，能腾不少）</h2><p>很多软件会悄悄缓存一堆东西，删了完全不碍事。跑这行，把”缓存”文件夹里每个 App 占的空间按大小排出来：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">du</span> -sh ~/Library/Caches/* 2&gt;/dev/null | <span class="built_in">sort</span> -hr | <span class="built_in">head</span> -15</span><br></pre></td></tr></table></figure>
+
+<p>确认没问题再删（比如某浏览器缓存、某个图片 App 的缩略图缓存）。缓存删了软件会自动重建，放心。</p>
+<h2 id="第三招：删本地快照——很多人不知道的大头"><a href="#第三招：删本地快照——很多人不知道的大头" class="headerlink" title="第三招：删本地快照——很多人不知道的大头"></a>第三招：删本地快照——很多人不知道的大头</h2><p>这一招我吃了亏才学会。Mac 的”时间机器”会<strong>在本地悄悄存快照</strong>，哪怕你没插外接硬盘，它也可能攒下几十 G，而且你在普通文件列表里根本看不见。跑到终端里看一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tmutil listlocalsnapshots /</span><br></pre></td></tr></table></figure>
+
+<p>如果列出一堆带日期的东西（比如 <code>com.apple.TimeMachine.2026-08-20-123456.local</code>），就用下面这条把旧快照删掉（会要你输管理员密码）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> tmutil deletelocalsnapshots 2026-08-20-123456</span><br></pre></td></tr></table></figure>
+
+<p>删完再 <code>tmutil listlocalsnapshots /</code> 确认那行没了，腾出来的空间会立刻显示出来。这是”系统数据”那一栏总是巨大、背地里最常见的原因。</p>
+<h2 id="第四招：清空回收站-卸载残留"><a href="#第四招：清空回收站-卸载残留" class="headerlink" title="第四招：清空回收站 + 卸载残留"></a>第四招：清空回收站 + 卸载残留</h2><ul>
+<li>回收站：这个最直观，右键”清空”。但注意，<strong>“优化存储”那种自动帮你删的东西别乱点</strong>，有时候删掉的是你还没看完的素材。</li>
+<li>卸载残留：删 App 别直接拖到废纸篓，很多 App 会在 <code>~/Library/Application Support</code> 留一堆配置和数据，几个 G 就是这么攒的。卸载前先看看这个文件夹里对应名字的目录还在不在，一起删掉。</li>
+</ul>
+<h2 id="顺手检查：系统自身的占用"><a href="#顺手检查：系统自身的占用" class="headerlink" title="顺手检查：系统自身的占用"></a>顺手检查：系统自身的占用</h2><p><code>/System</code> 和 <code>/Library</code> 底下的东西<strong>别手动删</strong>，那是系统运行需要的，删错了会出大问题。真要清理系统占用的部分，用上面的”第三招”（快照）就够了，别去动系统文件。</p>
+<h2 id="我用下来的一点判断"><a href="#我用下来的一点判断" class="headerlink" title="我用下来的一点判断"></a>我用下来的一点判断</h2><ol>
+<li><strong>清缓存和文稿大文件是最划算的</strong>——安全、见效快、零风险，每次都能腾出不少。</li>
+<li><strong>真正的大头往往是快照和”其他&#x2F;系统数据”</strong>，光删下载文件夹看不到它，得用上面第三招。</li>
+<li>别一上来就重装系统或者买新硬盘，先把这几步做了——我身边十有八九的人，做完整理后都发现”其实不用换更大容量的”。</li>
+</ol>
+<p>一句话：<strong>先看类别、再清文稿、再清缓存、最后别忘了快照。</strong> 顺序下来，基本能把电脑那个”储存空间不足”弹窗治利索。</p>
+]]></content>
+      <categories>
+        <category>macOS</category>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+        <tag>磁盘清理</tag>
+        <tag>缓存</tag>
+        <tag>系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MoneyPrinterTurbo 跑解说视频流水线，从部署到跑通</title>
+    <url>/posts/2026/09/03/MoneyPrinterTurbo%E8%B7%91%E8%A7%A3%E8%AF%B4%E8%A7%86%E9%A2%91%E6%B5%81%E6%B0%B4%E7%BA%BF-%E4%BB%8E%E9%83%A8%E7%BD%B2%E5%88%B0%E8%B7%91%E9%80%9A/</url>
+    <content><![CDATA[<p>我要做一批中文解说短视频——城市航拍、乡村风光那种，画面配旁白。手动剪太慢，就试了开源的 MoneyPrinterTurbo（Python 写的），它把文案、配音、拼素材、烧字幕、合成一条命令串完。文案走 DeepSeek 的接口（兼容 OpenAI 格式），配音用 Edge TTS，这俩都不要钱，素材用自己手头的视频。跑通之后发现真正卡人的不是部署，是下面这三个坑。</p>
+<h2 id="先分清两个入口"><a href="#先分清两个入口" class="headerlink" title="先分清两个入口"></a>先分清两个入口</h2><p>项目跑起来是两个独立进程，别只开一个：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 后端 API（FastAPI），监听 8080</span></span><br><span class="line">python main.py</span><br><span class="line"><span class="comment"># 浏览器开 http://127.0.0.1:8080/docs 才是接口文档，根路径只是落地页</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># WebUI 操作界面（Streamlit），监听 8501</span></span><br><span class="line"><span class="built_in">chmod</span> +x webui.sh    <span class="comment"># 这文件 clone 下来默认没有执行权限，不 chmod 直接报 permission denied</span></span><br><span class="line">./webui.sh</span><br></pre></td></tr></table></figure>
+
+<p>我一般不用 WebUI，直接命令行跑，参数可控、好重复。</p>
+<h2 id="坑一：task-id-必须是-UUID"><a href="#坑一：task-id-必须是-UUID" class="headerlink" title="坑一：task-id 必须是 UUID"></a>坑一：task-id 必须是 UUID</h2><p>想给任务起个能看懂的名字？不行。传 <code>yangchun_seasons</code> 这种自定义字符串，直接报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">task-id must be a valid UUID</span><br></pre></td></tr></table></figure>
+
+<p>任务 ID 老老实实用 <code>uuidgen</code> 生成，跑完去 <code>storage/tasks/&lt;uuid&gt;/</code> 里拿产物。</p>
+<h2 id="坑二：字幕字体不能填系统字体名"><a href="#坑二：字幕字体不能填系统字体名" class="headerlink" title="坑二：字幕字体不能填系统字体名"></a>坑二：字幕字体不能填系统字体名</h2><p>中文视频要烧中文字幕，<code>--font-name</code> 传系统字体名（比如 <code>Songti SC</code>）会报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">subtitle font file must exist inside ./resource/fonts</span><br></pre></td></tr></table></figure>
+
+<p>必须把字体文件本身放进 <code>resource/fonts/</code> 目录，传文件名。项目自带 <code>MicrosoftYaHeiNormal.ttc</code> 和 <code>STHeitiMedium.ttc</code>，直接用前者就行。中文默认字体经常有版权问题，这个自带的是最省事的。</p>
+<h2 id="坑三：素材-key-全空时，在线素材一个都用不了"><a href="#坑三：素材-key-全空时，在线素材一个都用不了" class="headerlink" title="坑三：素材 key 全空时，在线素材一个都用不了"></a>坑三：素材 key 全空时，在线素材一个都用不了</h2><p><code>config.toml</code> 里 pexels、pixabay 的 key 不填，在线素材源就等于没有。实测 curl Pexels 直链还被 Cloudflare 403 挡。所以只能：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/MoneyPrinterTurbo</span><br><span class="line">.venv/bin/python cli.py \</span><br><span class="line">  --video-source <span class="built_in">local</span> \</span><br><span class="line">  --video-materials <span class="string">&quot;/path/素材1.mp4,/path/素材2.mp4,/path/素材3.mp4&quot;</span> \</span><br><span class="line">  --video-concat-mode sequential \</span><br><span class="line">  --video-script $<span class="string">&#x27;第一段文案\n第二段文案\n第三段文案&#x27;</span> \</span><br><span class="line">  --video-language zh-CN \</span><br><span class="line">  --video-aspect 16:9 \</span><br><span class="line">  --font-name <span class="string">&quot;MicrosoftYaHeiNormal.ttc&quot;</span> \</span><br><span class="line">  --stop-at video</span><br></pre></td></tr></table></figure>
+
+<p><code>--video-script</code> 里每行 <code>\n</code> 是一段独立配音，这样文案完全自己定，跳过 LLM 生成那步，最可控。输出在 <code>storage/tasks/&lt;uuid&gt;/</code> 下：<code>final-1.mp4</code> 是带字幕成片，<code>combined-1.mp4</code> 是没字幕的拼接，<code>audio.mp3</code> 和 <code>subtitle.srt</code> 是中间产物。</p>
+<h2 id="素材从哪来：B-站能搜到，但有版权水印"><a href="#素材从哪来：B-站能搜到，但有版权水印" class="headerlink" title="素材从哪来：B 站能搜到，但有版权水印"></a>素材从哪来：B 站能搜到，但有版权水印</h2><p>要拍特定地方（比如我搜阳春的航拍），B 站能搜到真素材：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yt-dlp --ignore-config --cookies-from-browser chrome <span class="string">&quot;bilisearch6:阳春航拍&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>两个注意点：<code>--ignore-config</code> 必须加，否则和 yt-dlp 全局配置里的 cookies 参数重复写会出问题；读 Chrome 的 cookie 需要 macOS 给终端「完全磁盘访问」权限，没授权会报找不到 cookie 数据库。但 B 站素材带着水印、是别人的版权，成片直接发不干净，自己商用前想清楚。Wikimedia 免 key 能下，可内容基本是外国河流瀑布，撑不起精确主题。最干净的出路还是自己拍的素材。</p>
+<h2 id="画面和文案要对得上，别只看文件名"><a href="#画面和文案要对得上，别只看文件名" class="headerlink" title="画面和文案要对得上，别只看文件名"></a>画面和文案要对得上，别只看文件名</h2><p>第一次跑我按素材标题写文案，结果成片里文案说「江水穿城、田园村落」，画面却是夜景城市——素材实际是昼夜混剪的。文件名和标题根本说明不了画面内容。</p>
+<p>核验办法是抽帧看：用 ffmpeg 从成片里抽几帧拼一起检查。这里有个坑，多个时间点写进同一条命令会抽成同一帧：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 这样写不行——两个 -ss 混一条命令，抽出来是同一帧</span></span><br><span class="line">ffmpeg -ss 3 -ss 30 -i final-1.mp4 -frames:v 1 f.png</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要一条命令只抽一个点</span></span><br><span class="line">ffmpeg -y -v error -ss 3 -i final-1.mp4 -frames:v 1 f1.png</span><br><span class="line">ffmpeg -y -v error -ss 30 -i final-1.mp4 -frames:v 1 f2.png</span><br></pre></td></tr></table></figure>
+
+<p>这工具适合手里有自己素材、要批量做解说的人；指望全自动出一个能直接发布的成品，目前还不行，素材版权这关谁也绕不过去。</p>
+]]></content>
+      <categories>
+        <category>AI工具</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>MoneyPrinterTurbo</tag>
+        <tag>视频</tag>
+        <tag>本地AI</tag>
+        <tag>Edge TTS</tag>
+        <tag>ffmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python-docx 生成报价书，中文字体和表格边框这么设置</title>
+    <url>/posts/2026/08/24/python-docx%E7%94%9F%E6%88%90%E6%8A%A5%E4%BB%B7%E4%B9%A6-%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E5%92%8C%E8%A1%A8%E6%A0%BC%E8%BE%B9%E6%A1%86%E8%BF%99%E4%B9%88%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<p>干工程劳务这行，报价书是高频产出。一个项目清单几十行，单价改来改去，每次都在 Word 里重新排版：字体字号、表格边框、表头底纹，烦得很。后来我把报价书改成脚本生成，改单价只改一个 Python 列表，几秒钟出一份新文档。</p>
+<p>但第一个坑马上就来了：设置了 <code>font.name = &#39;宋体&#39;</code>，Word 里打开，中文还是默认字体。查了一圈才知道，这事没那么简单。</p>
+<h2 id="坑一：font-name-只管西文，中文要走-eastAsia"><a href="#坑一：font-name-只管西文，中文要走-eastAsia" class="headerlink" title="坑一：font.name 只管西文，中文要走 eastAsia"></a>坑一：font.name 只管西文，中文要走 eastAsia</h2><p>docx 的 XML 里，一段文字的字体声明 <code>rFonts</code> 分三个属性：<code>ascii</code> 管西文字母数字，<code>hAnsi</code> 管西文高字节，<code>eastAsia</code> 才管中文。python-docx 的 <code>font.name</code> 只写前两个，中文显示读的是 eastAsia，没设就退回文档默认字体——这就是「宋体不生效」的原因。</p>
+<p>正确写法是补一句：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> docx.oxml.ns <span class="keyword">import</span> qn</span><br><span class="line"></span><br><span class="line">run.font.name = <span class="string">&#x27;宋体&#x27;</span></span><br><span class="line">run._element.rPr.rFonts.<span class="built_in">set</span>(qn(<span class="string">&#x27;w:eastAsia&#x27;</span>), <span class="string">&#x27;宋体&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>嫌每处都写麻烦，就封装成函数，所有 run 统一走它：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">set_run_font</span>(<span class="params">run, name=<span class="string">&#x27;宋体&#x27;</span>, size=<span class="number">12</span>, bold=<span class="literal">False</span></span>):</span><br><span class="line">    run.font.name = name</span><br><span class="line">    run._element.rPr.rFonts.<span class="built_in">set</span>(qn(<span class="string">&#x27;w:eastAsia&#x27;</span>), name)</span><br><span class="line">    run.font.size = Pt(size)</span><br><span class="line">    run.font.bold = bold</span><br></pre></td></tr></table></figure>
+
+<p>样式也要同样处理。<code>doc.styles[&#39;Normal&#39;]</code> 只设 <code>style.font.name</code> 的话，没手动设字体的段落照样乱：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">normal = doc.styles[<span class="string">&#x27;Normal&#x27;</span>]</span><br><span class="line">normal.font.name = <span class="string">&#x27;宋体&#x27;</span></span><br><span class="line">normal._element.rPr.rFonts.<span class="built_in">set</span>(qn(<span class="string">&#x27;w:eastAsia&#x27;</span>), <span class="string">&#x27;宋体&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/rfonts-eastasia.svg" alt="python-docx 中文字体设置原理"></p>
+<h2 id="坑二：罗马数字用-ASCII，别用-Unicode"><a href="#坑二：罗马数字用-ASCII，别用-Unicode" class="headerlink" title="坑二：罗马数字用 ASCII，别用 Unicode"></a>坑二：罗马数字用 ASCII，别用 Unicode</h2><p>报价书章节号习惯用 I、II、III。写代码时千万别用 Unicode 那组罗马数字（Ⅰ、Ⅱ、Ⅲ，U+2160 起那批）——它们在宋体下看着正常，换字体、换平台（比如甲方用 WPS 或者 Mac 打开）就容易变方框、样式不统一。普通大写字母 I、II、III 任何字体都有，直接拼字符串 <code>&#39;I. 编制说明&#39;</code> 最稳。</p>
+<h2 id="坑三：表格边框和表头底纹"><a href="#坑三：表格边框和表头底纹" class="headerlink" title="坑三：表格边框和表头底纹"></a>坑三：表格边框和表头底纹</h2><p><code>doc.add_table()</code> 出来的表格默认没边框，要边框就套内置样式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">table.style = <span class="string">&#x27;Table Grid&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>表头浅蓝底纹 python-docx 没有现成接口，得直接操作 XML。<code>w:shd</code> 是单元格底纹声明，fill 是颜色值：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> docx.oxml <span class="keyword">import</span> OxmlElement</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shade_cell</span>(<span class="params">cell, fill=<span class="string">&#x27;DCE6F1&#x27;</span></span>):</span><br><span class="line">    tcPr = cell._tc.get_or_add_tcPr()</span><br><span class="line">    shd = OxmlElement(<span class="string">&#x27;w:shd&#x27;</span>)</span><br><span class="line">    shd.<span class="built_in">set</span>(qn(<span class="string">&#x27;w:val&#x27;</span>), <span class="string">&#x27;clear&#x27;</span>)</span><br><span class="line">    shd.<span class="built_in">set</span>(qn(<span class="string">&#x27;w:fill&#x27;</span>), fill)</span><br><span class="line">    tcPr.append(shd)</span><br></pre></td></tr></table></figure>
+
+<p>DCE6F1 是 Word 主题里的浅蓝，打印出来很淡，表头不抢眼。单价、金额列记得数字用 <code>&#39;0.00&#39;</code> 格式，报价书最忌一串 480.00000001。</p>
+<h2 id="坑四：生成完翻一遍，检查末页"><a href="#坑四：生成完翻一遍，检查末页" class="headerlink" title="坑四：生成完翻一遍，检查末页"></a>坑四：生成完翻一遍，检查末页</h2><p>脚本生成省的是排版时间，检查不能省。之前复核一份报价书，最后一页基本是空的——脚本多带出来的空段落把签章区顶到下一页，要删掉尾部空段落或者把签章区前移。生成后转 PDF 翻一遍，重点看末页和表格有没有撑破。</p>
+<h2 id="验证方法"><a href="#验证方法" class="headerlink" title="验证方法"></a>验证方法</h2><p>docx 本质是个 zip，可以解包直接看 XML 有没有写对：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">unzip -p 报价书.docx word/document.xml | grep -o <span class="string">&#x27;w:eastAsia=&quot;宋体&quot;&#x27;</span> | <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
+
+<p>我在 Mac 上习惯用 LibreOffice 转 PDF 检查排版：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">soffice --headless --convert-to pdf 报价书.docx</span><br></pre></td></tr></table></figure>
+
+<p>python-docx 现在稳定版是 1.2.0，<code>pip install python-docx</code> 直接装。</p>
+<p>这套脚本我用了一年多，改单价、加项目都是改列表重新生成，比手工排版快得多。坑就这四个，写下来免得下次再踩一遍。</p>
+]]></content>
+      <categories>
+        <category>办公自动化</category>
+      </categories>
+      <tags>
+        <tag>python-docx</tag>
+        <tag>Word</tag>
+        <tag>报价书</tag>
+        <tag>自动化</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>macOS定时任务和开机自启，我最后都交给了launchd</title>
+    <url>/posts/2026/08/30/macOS%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF-%E6%88%91%E6%9C%80%E5%90%8E%E9%83%BD%E4%BA%A4%E7%BB%99%E4%BA%86launchd/</url>
+    <content><![CDATA[<p>我机器上有几个”到点就该干活”的东西：每 5 分钟同步一次多智能体的记忆文件、每 30 分钟重打一次补丁、开机自动把后台网关拉起来。以前用过登录项、用过 crontab，折腾一圈之后全换成了 launchd。理由很简单：launchd 是 macOS 亲生的调度器，开机就接管，不依赖你进不进桌面，还能做到进程挂了自动拉起。写起来不难，坑倒是不少，都记在下面。</p>
+<h2 id="plist-放哪里"><a href="#plist-放哪里" class="headerlink" title="plist 放哪里"></a>plist 放哪里</h2><p>当前用户的放 <code>~/Library/LaunchAgents/</code>。第一个坑常出在这：放到了 <code>/Library/LaunchAgents</code>（系统级，要 root，权限不对就静默失败），或者目录放对了但文件名和 Label 对不上。</p>
+<h2 id="Label-规则"><a href="#Label-规则" class="headerlink" title="Label 规则"></a>Label 规则</h2><p><code>&lt;key&gt;Label&lt;/key&gt;</code> 的值必须和文件名一致。<code>com.levi.agent-sync.plist</code> 里 Label 就必须是 <code>com.levi.agent-sync</code>。不一致时 <code>launchctl load</code> 会报错，或者加载了但 <code>launchctl list</code> 里找不到——这种无声失败最坑。</p>
+<h2 id="一个最小可用的例子"><a href="#一个最小可用的例子" class="headerlink" title="一个最小可用的例子"></a>一个最小可用的例子</h2><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.levi.demo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/bin/echo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StartInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">integer</span>&gt;</span>300<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/tmp/launchd-demo.log<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardErrorPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/tmp/launchd-demo.err<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>保存成 <code>~/Library/LaunchAgents/com.levi.demo.plist</code>，然后：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">plutil -lint ~/Library/LaunchAgents/com.levi.demo.plist   <span class="comment"># 先查语法，输出 OK 再往下走</span></span><br><span class="line">launchctl bootstrap gui/$(<span class="built_in">id</span> -u) ~/Library/LaunchAgents/com.levi.demo.plist</span><br></pre></td></tr></table></figure>
+
+<p>老教程会让你用 <code>launchctl load -w</code>，这条命令还能用，但新系统推荐 bootstrap&#x2F;bootout 这一对。</p>
+<h2 id="三种触发方式"><a href="#三种触发方式" class="headerlink" title="三种触发方式"></a>三种触发方式</h2><ul>
+<li><strong>StartInterval</strong>：每隔多少秒跑一次，配 <code>RunAtLoad=true</code> 就是”开机先跑一次，之后每 N 秒一次”。注意它是”每隔”，不是”每天几点”，要定点跑用下面这个。</li>
+<li><strong>StartCalendarInterval</strong>：指定几点几分，字典里写 <code>Hour</code>、<code>Minute</code>。</li>
+<li><strong>KeepAlive&#x3D;true</strong>：进程死了自动拉起，常驻服务用这个，我的网关就是 KeepAlive 挂着的。</li>
+</ul>
+<h2 id="环境变量是第一个坑"><a href="#环境变量是第一个坑" class="headerlink" title="环境变量是第一个坑"></a>环境变量是第一个坑</h2><p>launchd 起来的环境很干净，PATH 基本只有系统那几条，<code>/opt/homebrew/bin</code> 这种 brew 路径不在里面。脚本里用到 brew 装的命令，要么写绝对路径，要么在 plist 里用 <code>EnvironmentVariables</code> 传进去。我那个同步脚本的 plist 就是把 iCloud 目录路径通过 EnvironmentVariables 传的，脚本自己不用猜路径。</p>
+<h2 id="日志要自己接"><a href="#日志要自己接" class="headerlink" title="日志要自己接"></a>日志要自己接</h2><p>launchd 默认不保存脚本输出，任务”看起来没跑”的时候最抓瞎。plist 里加 <code>StandardOutPath</code> 和 <code>StandardErrorPath</code> 指向两个文件，stdout 和 stderr 就都进文件了。我的习惯是每条任务先接好日志再上线，不然出问题只能 <code>log show</code> 捞系统日志。</p>
+<h2 id="改完要重载，光-load-没用"><a href="#改完要重载，光-load-没用" class="headerlink" title="改完要重载，光 load 没用"></a>改完要重载，光 load 没用</h2><p>改 plist 之后必须 bootout 再 bootstrap（旧命令是 unload 再 load），否则 launchd 还是跑老配置。想立刻手动跑一次验证：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl kickstart -k gui/$(<span class="built_in">id</span> -u)/com.levi.demo   <span class="comment"># -k 表示先杀掉正在跑的再起</span></span><br><span class="line">launchctl list | grep com.levi.demo                 <span class="comment"># 第二列是上次退出码，0 正常，非 0 就是脚本挂了</span></span><br><span class="line">launchctl <span class="built_in">print</span> gui/$(<span class="built_in">id</span> -u)/com.levi.demo          <span class="comment"># 看详细状态</span></span><br><span class="line">launchctl bootout gui/$(<span class="built_in">id</span> -u)/com.levi.demo        <span class="comment"># 卸载</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="贴一个我真实在用的"><a href="#贴一个我真实在用的" class="headerlink" title="贴一个我真实在用的"></a>贴一个我真实在用的</h2><p>下面这个是我机器上的 <code>com.levi.agent-sync.plist</code>，每 300 秒跑一次多智能体记忆同步脚本，开机先跑一遍，日志和 iCloud 根路径都显式传好：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.levi.agent-sync<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/bin/bash<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/levi/.local/bin/levi-agent-sync.sh<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>now<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StartInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">integer</span>&gt;</span>300<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/levi/.local/state/levi-agent-sync/sync.out<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardErrorPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/levi/.local/state/levi-agent-sync/sync.err<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>EnvironmentVariables<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">key</span>&gt;</span>AGENT_SYNC_ICLOUD_ROOT<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/levi/Library/Mobile Documents/iCloud~md~obsidian/Documents<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>launchctl list | grep agent-sync</code> 看到 <code>- 0</code> 就是正常状态：没在跑（任务执行完就退），上次退出码 0。</p>
+<p>我的判断：macOS 上要定时、要自启、要保活，launchd 一张 plist 全搞定。踩过的坑就这四个——文件位置、Label 一致、环境变量、日志。记住基本不会翻车。</p>
+]]></content>
+      <categories>
+        <category>macOS</category>
+      </categories>
+      <tags>
+        <tag>launchd</tag>
+        <tag>定时任务</tag>
+        <tag>开机自启</tag>
+        <tag>macOS</tag>
+        <tag>运维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>yt-dlp报SSL证书错误-是Loon的HTTPS解密在捣乱</title>
+    <url>/posts/2026/08/27/yt-dlp%E6%8A%A5SSL%E8%AF%81%E4%B9%A6%E9%94%99%E8%AF%AF-%E6%98%AFLoon%E7%9A%84HTTPS%E8%A7%A3%E5%AF%86%E5%9C%A8%E6%8D%A3%E4%B9%B1/</url>
+    <content><![CDATA[<h1 id="yt-dlp-报-SSL-证书错误，是-Loon-的-HTTPS-解密在捣乱"><a href="#yt-dlp-报-SSL-证书错误，是-Loon-的-HTTPS-解密在捣乱" class="headerlink" title="yt-dlp 报 SSL 证书错误，是 Loon 的 HTTPS 解密在捣乱"></a>yt-dlp 报 SSL 证书错误，是 Loon 的 HTTPS 解密在捣乱</h1><p>今天用 yt-dlp 下个 YouTube 视频，直接给我报这个错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ERROR: [youtube] [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed:</span><br><span class="line">unable to get local issuer certificate</span><br></pre></td></tr></table></figure>
+
+<p>网上搜了一圈，十有八九让你 <code>export SSL_CERT_FILE=/etc/ssl/cert.pem</code>，或者 <code>pip install certifi</code> 之后把 certifi 的路径指过去。我全试了，没用，还是报一样的错。</p>
+<p><img src="/img/yt-dlp-ssl-loon-flow.svg" alt="yt-dlp SSL 报错排查路径"></p>
+<h2 id="排查：问题根本不在证书文件"><a href="#排查：问题根本不在证书文件" class="headerlink" title="排查：问题根本不在证书文件"></a>排查：问题根本不在证书文件</h2><p>先做个排除。curl 能不能访问 YouTube？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -sI https://www.youtube.com -o /dev/null -w <span class="string">&quot;%&#123;http_code&#125;&quot;</span></span><br><span class="line"><span class="comment"># 200，正常</span></span><br></pre></td></tr></table></figure>
+
+<p>系统 Python 呢？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/usr/bin/python3 -c <span class="string">&quot;import urllib.request; print(urllib.request.urlopen(&#x27;https://www.youtube.com&#x27;, timeout=15).status)&quot;</span></span><br><span class="line"><span class="comment"># 200，也正常</span></span><br></pre></td></tr></table></figure>
+
+<p>网络没问题、系统证书没问题，那就是 yt-dlp 自己用的 Python 有问题。看它到底跑在哪个解释器上：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">head</span> -1 <span class="string">&quot;<span class="subst">$(which yt-dlp)</span>&quot;</span></span><br><span class="line"><span class="comment"># #!/Users/levi/.local/share/uv/tools/yt-dlp/bin/python</span></span><br></pre></td></tr></table></figure>
+
+<p>原来 yt-dlp 是 <code>uv tool</code> 装的，跑在 uv 的独立 Python 里。直接用这个 Python 访问 YouTube：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/.local/share/uv/tools/yt-dlp/bin/python -c \</span><br><span class="line">  <span class="string">&quot;import urllib.request; print(urllib.request.urlopen(&#x27;https://www.youtube.com&#x27;, timeout=15).status)&quot;</span></span><br><span class="line"><span class="comment"># 报一样的 SSL 错</span></span><br></pre></td></tr></table></figure>
+
+<p>锁定到解释器了。但为什么同一个证书文件，系统 Python 能过、uv 的 Python 过不了？关键区别：系统 Python 用的是 LibreSSL，<strong>认 macOS 系统钥匙串</strong>；uv&#x2F;brew 的 Python 用 OpenSSL 3.x，<strong>只认 cert.pem 文件</strong>。</p>
+<p>那 cert.pem 文件里缺了什么？用 openssl 直接连一下看证书：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/opt/homebrew/opt/openssl@3/bin/openssl s_client -connect www.youtube.com:443 -brief &lt;/dev/null</span><br><span class="line"><span class="comment"># depth=0 O=Loon, CN=xn--ck8h.com</span></span><br><span class="line"><span class="comment"># verify error:num=20:unable to get local issuer certificate</span></span><br></pre></td></tr></table></figure>
+
+<p>看到 <code>O=Loon</code> 就明白了：本机挂着 Loon 代理，开了 HTTPS 解密（MITM），YouTube 的真实证书被 Loon 用自己的根证书重新签了一遍。macOS 的工具走钥匙串，信任 Loon 装进去的根证书，所以没事；OpenSSL 3 只读文件，文件里没有 Loon 的根证书，于是验证失败。</p>
+<h2 id="解决：把代理的根证书合并进-CA-bundle"><a href="#解决：把代理的根证书合并进-CA-bundle" class="headerlink" title="解决：把代理的根证书合并进 CA bundle"></a>解决：把代理的根证书合并进 CA bundle</h2><p>Loon 的根证书其实已经装进系统钥匙串了（代理工具安装时都会装），把它导出来：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.config/ssl</span><br><span class="line">security find-certificate -c <span class="string">&quot;LOON&quot;</span> -p /Library/Keychains/System.keychain &gt; ~/.config/ssl/loon-ca.pem</span><br></pre></td></tr></table></figure>
+
+<p>和系统证书合并成一个 bundle：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> /private/etc/ssl/cert.pem ~/.config/ssl/loon-ca.pem &gt; ~/.config/ssl/combined.pem</span><br></pre></td></tr></table></figure>
+
+<p>然后指给 SSL_CERT_FILE（写进 <code>~/.zshenv</code> 持久生效）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> SSL_CERT_FILE=<span class="string">&quot;<span class="variable">$HOME</span>/.config/ssl/combined.pem&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>验证一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yt-dlp --simulate --<span class="built_in">print</span> <span class="string">&quot;%(title)s | %(format_id)s&quot;</span> \</span><br><span class="line">  -f <span class="string">&quot;bv*+ba/b&quot;</span> --merge-output-format mp4 <span class="string">&quot;https://www.youtube.com/watch?v=dQw4w9WgXcQ&quot;</span></span><br><span class="line"><span class="comment"># OK 标题: Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster) | 格式: 401+251</span></span><br></pre></td></tr></table></figure>
+
+<p>能正常提取了。</p>
+<h2 id="这类坑的通用规律"><a href="#这类坑的通用规律" class="headerlink" title="这类坑的通用规律"></a>这类坑的通用规律</h2><p>装过 Loon、Surge、Clash、Stash 这类代理，又开了 HTTPS 解密的机器，命令行工具突然报 SSL 证书错，<strong>先怀疑代理的中间人证书，别急着折腾系统证书</strong>。两条路：要么把代理根证书导出来合并进 CA bundle（上面这套命令，Surge&#x2F;Stash 的证书名改成你自己的就行），要么在代理里把要访问的域名加进解密豁免名单。</p>
+<p>顺带说一句，我这套 combined.pem 还合并了 Agent-Reach 的 CA 文件（<code>/opt/homebrew/etc/ca-certificates/agent-reach-sys-ca.pem</code>，之前为修另一个工具的信任链导的），三个来源合成一份，OpenSSL 系的工具一个文件全覆盖，以后再报错就少一个怀疑对象。</p>
+]]></content>
+      <categories>
+        <category>macOS</category>
+      </categories>
+      <tags>
+        <tag>yt-dlp</tag>
+        <tag>SSL</tag>
+        <tag>代理</tag>
+        <tag>Loon</tag>
+        <tag>排障</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一堆 DXF 图纸要算面积，freecadcmd 一个脚本全跑完</title>
+    <url>/posts/2026/09/05/%E4%B8%80%E5%A0%86DXF%E5%9B%BE%E7%BA%B8%E8%A6%81%E7%AE%97%E9%9D%A2%E7%A7%AF-freecadcmd%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC%E5%85%A8%E8%B7%91%E5%AE%8C/</url>
+    <content><![CDATA[<p>干工程的总逃不掉一个动作：收方、算量，最后落到”这块多少平方”。图纸来了，要么是设计院丢过来的 DXF，要么是自己画的图，反正最后都得要个面积数。</p>
+<p>日常画图我用 LibreCAD 为主，量面积要一个封闭对象点一次，点完还得自己拿笔记。几十个井盖、地块，图一多就烦。</p>
+<p>后来想到：FreeCAD 不是一直装在机器上吗？它带一个命令行版 freecadcmd，能不能直接读 DXF，把面积批量算出来？试了一下，能。写成了脚本，现在整个文件夹拖进去，几秒钟出一张表。</p>
+<h2 id="freecadcmd-是-FreeCAD-的命令行版"><a href="#freecadcmd-是-FreeCAD-的命令行版" class="headerlink" title="freecadcmd 是 FreeCAD 的命令行版"></a>freecadcmd 是 FreeCAD 的命令行版</h2><p>装好 FreeCAD 就自带，不用额外装东西。macOS 上在这个位置（本机 FreeCAD 1.1.3 实测）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd</span><br></pre></td></tr></table></figure>
+
+<p>它是 FreeCAD 的无界面版，能跑 Python 脚本，脚本里能调 FreeCAD 的 Python API：导入 DXF、读几何、算面积。GUI 里点半天的事，脚本几行完事。</p>
+<p>原理三步：</p>
+<ol>
+<li><code>importDXF</code> 把 DXF 读进来，多段线、圆变成 FreeCAD 对象</li>
+<li>闭合的线围成面，面的 <code>Area</code> 就是面积；圆这类没有线的，单条闭合边也能成面</li>
+<li>按图层分组汇总，输出</li>
+</ol>
+<p><img src="/img/fc-dxf-area-flow.svg" alt="freecadcmd 批处理 DXF 面积的流程"></p>
+<h2 id="脚本全文"><a href="#脚本全文" class="headerlink" title="脚本全文"></a>脚本全文</h2><p>存成 <code>dxf_area.py</code>。一个提醒：freecadcmd 会拦截 <code>--</code> 开头的参数，所以脚本只用了位置参数，两种跑法都能用：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># dxf_area.py —— freecadcmd 批量算 DXF 面积</span></span><br><span class="line"><span class="comment"># 注意: freecadcmd 会拦截 -- 开头的参数, 所以本脚本只用位置参数</span></span><br><span class="line"><span class="comment"># 用法:</span></span><br><span class="line"><span class="comment">#   freecadcmd dxf_area.py 图纸.dxf                 # 单文件, 按 mm 图算</span></span><br><span class="line"><span class="comment">#   freecadcmd dxf_area.py 图纸.dxf m               # 图纸按米画(文件没声明单位)</span></span><br><span class="line"><span class="comment">#   freecadcmd dxf_area.py 图纸目录/ m              # 整个目录按米画</span></span><br><span class="line"><span class="comment">#   freecadcmd dxf_area.py 图纸.dxf m 井盖 绿化     # 只统计指定图层(可多个)</span></span><br><span class="line"><span class="comment"># 用普通 python3 跑也一样: python3 dxf_area.py 图纸.dxf m</span></span><br><span class="line"><span class="keyword">import</span> argparse, glob, io, os, sys</span><br><span class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> redirect_stdout</span><br><span class="line"></span><br><span class="line"><span class="comment"># freecadcmd 的 sys.argv = [freecadcmd, 脚本.py, 参数...], 把脚本路径剥掉</span></span><br><span class="line"><span class="comment"># 让 freecadcmd dxf_area.py x.dxf 和 python3 dxf_area.py x.dxf 两种跑法一致</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(sys.argv) &gt; <span class="number">1</span> <span class="keyword">and</span> sys.argv[<span class="number">1</span>].endswith(<span class="string">&quot;.py&quot;</span>) <span class="keyword">and</span> os.path.exists(sys.argv[<span class="number">1</span>]):</span><br><span class="line">    <span class="keyword">del</span> sys.argv[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> FreeCAD <span class="keyword">as</span> App</span><br><span class="line"><span class="keyword">import</span> Part, importDXF</span><br><span class="line"></span><br><span class="line"><span class="comment"># DXF 头 $INSUNITS 声明: 1 个绘图单位 = 多少 mm</span></span><br><span class="line">SCALE = &#123;<span class="number">0</span>: <span class="literal">None</span>, <span class="number">1</span>: <span class="number">25.4</span>, <span class="number">2</span>: <span class="number">304.8</span>, <span class="number">4</span>: <span class="number">1.0</span>, <span class="number">5</span>: <span class="number">10.0</span>, <span class="number">6</span>: <span class="number">1000.0</span>&#125;</span><br><span class="line">UNIT_MM = &#123;<span class="string">&quot;mm&quot;</span>: <span class="number">1.0</span>, <span class="string">&quot;m&quot;</span>: <span class="number">1000.0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_insunits</span>(<span class="params">path</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;从 DXF 头部读 $INSUNITS, 没声明返回 None&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        head = <span class="built_in">open</span>(path, <span class="string">&quot;rb&quot;</span>).read(<span class="number">8192</span>).decode(<span class="string">&quot;utf-8&quot;</span>, <span class="string">&quot;ignore&quot;</span>)</span><br><span class="line">        head = head.replace(<span class="string">&quot;\r\n&quot;</span>, <span class="string">&quot;\n&quot;</span>).replace(<span class="string">&quot;\r&quot;</span>, <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        lines = head.split(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> i, ln <span class="keyword">in</span> <span class="built_in">enumerate</span>(lines):</span><br><span class="line">            <span class="keyword">if</span> ln.strip() == <span class="string">&quot;$INSUNITS&quot;</span>:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i + <span class="number">1</span>, <span class="built_in">min</span>(i + <span class="number">15</span>, <span class="built_in">len</span>(lines))):</span><br><span class="line">                    <span class="keyword">if</span> lines[j].strip() == <span class="string">&quot;70&quot;</span> <span class="keyword">and</span> j + <span class="number">1</span> &lt; <span class="built_in">len</span>(lines):</span><br><span class="line">                        <span class="keyword">try</span>:</span><br><span class="line">                            <span class="keyword">return</span> <span class="built_in">int</span>(lines[j + <span class="number">1</span>].strip())</span><br><span class="line">                        <span class="keyword">except</span> ValueError:</span><br><span class="line">                            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">except</span> OSError:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">feature_area</span>(<span class="params">feature</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回 (面积列表, 未闭合线数量)&quot;&quot;&quot;</span></span><br><span class="line">    areas, open_n = [], <span class="number">0</span></span><br><span class="line">    shp = feature.Shape</span><br><span class="line">    <span class="keyword">if</span> shp.Wires:</span><br><span class="line">        <span class="keyword">for</span> w <span class="keyword">in</span> shp.Wires:</span><br><span class="line">            <span class="keyword">if</span> w.isClosed():</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    areas.append(Part.Face(w).Area)</span><br><span class="line">                <span class="keyword">except</span> Exception:</span><br><span class="line">                    open_n += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                open_n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> shp.Edges:            <span class="comment"># 圆/椭圆这类没有 wire 的</span></span><br><span class="line">        <span class="keyword">if</span> e.Closed:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                areas.append(Part.Face(Part.Wire([e])).Area)</span><br><span class="line">            <span class="keyword">except</span> Exception:</span><br><span class="line">                open_n += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> areas, open_n</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">collect_by_layer</span>(<span class="params">doc</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;返回 [(图层名, [几何对象...])]&quot;&quot;&quot;</span></span><br><span class="line">    result, seen = [], <span class="built_in">set</span>()</span><br><span class="line">    <span class="keyword">for</span> o <span class="keyword">in</span> doc.Objects:</span><br><span class="line">        <span class="keyword">if</span> o.TypeId == <span class="string">&quot;App::DocumentObjectGroupPython&quot;</span>:   <span class="comment"># LayerContainer</span></span><br><span class="line">            <span class="keyword">for</span> lay <span class="keyword">in</span> <span class="built_in">getattr</span>(o, <span class="string">&quot;Group&quot;</span>, []):</span><br><span class="line">                feats = [f <span class="keyword">for</span> f <span class="keyword">in</span> <span class="built_in">getattr</span>(lay, <span class="string">&quot;Group&quot;</span>, []) <span class="keyword">if</span> f.TypeId == <span class="string">&quot;Part::Feature&quot;</span>]</span><br><span class="line">                <span class="keyword">if</span> feats:</span><br><span class="line">                    result.append((lay.Label, feats))</span><br><span class="line">                    seen.update(<span class="built_in">id</span>(f) <span class="keyword">for</span> f <span class="keyword">in</span> feats)</span><br><span class="line">    top = [o <span class="keyword">for</span> o <span class="keyword">in</span> doc.Objects <span class="keyword">if</span> o.TypeId == <span class="string">&quot;Part::Feature&quot;</span> <span class="keyword">and</span> <span class="built_in">id</span>(o) <span class="keyword">not</span> <span class="keyword">in</span> seen]</span><br><span class="line">    <span class="keyword">if</span> top:</span><br><span class="line">        result.append((<span class="string">&quot;(未分层)&quot;</span>, top))</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params">path, unit, layers</span>):</span><br><span class="line">    ins = read_insunits(path)</span><br><span class="line">    declared = ins <span class="keyword">in</span> SCALE <span class="keyword">and</span> SCALE[ins] <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> declared:</span><br><span class="line">        <span class="comment"># 文件声明了单位, FreeCAD 已把数值缩放成 mm 存储(数值即 mm²)</span></span><br><span class="line">        mm_per_unit, note = SCALE[ins], <span class="string">&quot;文件声明单位(INSUNITS=%d), FreeCAD 已按 mm 换算&quot;</span> % ins</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 未声明, FreeCAD 按 1 单位 = 1 mm 存数值, 用 mm/m 参数解释真实尺寸</span></span><br><span class="line">        mm_per_unit, note = UNIT_MM[unit], <span class="string">&quot;未声明单位, 按 1 绘图单位 = 1 %s 读&quot;</span> % unit</span><br><span class="line">    <span class="keyword">if</span> declared:</span><br><span class="line">        to_m2 = <span class="keyword">lambda</span> s: s / <span class="number">1e6</span>          <span class="comment"># 数值已是 mm²</span></span><br><span class="line">        num_note = <span class="string">&quot;mm²&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        to_m2 = <span class="keyword">lambda</span> s: s * (mm_per_unit / <span class="number">1000.0</span>) ** <span class="number">2</span></span><br><span class="line">        num_note = <span class="string">&quot;绘图单位²&quot;</span></span><br><span class="line">    App.newDocument(<span class="string">&quot;dxfwork&quot;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">with</span> redirect_stdout(io.StringIO()):</span><br><span class="line">            importDXF.insert(path, <span class="string">&quot;dxfwork&quot;</span>)</span><br><span class="line">        doc = App.getDocument(<span class="string">&quot;dxfwork&quot;</span>)</span><br><span class="line">        lines, total_s, total_open = [], <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> label, feats <span class="keyword">in</span> collect_by_layer(doc):</span><br><span class="line">            <span class="keyword">if</span> layers <span class="keyword">and</span> label <span class="keyword">not</span> <span class="keyword">in</span> layers:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            s, closed_n, open_n = <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> f <span class="keyword">in</span> feats:</span><br><span class="line">                areas, on = feature_area(f)</span><br><span class="line">                s += <span class="built_in">sum</span>(areas)</span><br><span class="line">                closed_n += <span class="built_in">len</span>(areas)</span><br><span class="line">                open_n += on</span><br><span class="line">            total_s += s</span><br><span class="line">            total_open += open_n</span><br><span class="line">            <span class="keyword">if</span> closed_n:</span><br><span class="line">                lines.append(<span class="string">&quot;  图层 %-10s 闭合 %2d 处  数值面积 %12.2f %s = %12.6f m²&quot;</span></span><br><span class="line">                             % (label, closed_n, s, num_note, to_m2(s)))</span><br><span class="line">            <span class="keyword">if</span> open_n:</span><br><span class="line">                lines.append(<span class="string">&quot;  图层 %-10s 有 %2d 条线未闭合, 没算进去&quot;</span> % (label, open_n))</span><br><span class="line">        <span class="built_in">print</span>(os.path.basename(path))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;  &quot;</span> + note)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span>.join(lines))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;  合计: 数值 %.2f %s = %.6f m²&quot;</span> % (total_s, num_note, to_m2(total_s)))</span><br><span class="line">        <span class="keyword">if</span> total_open:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;  警告: 共 %d 条线未闭合, 在 CAD 里围合后再跑&quot;</span> % total_open)</span><br><span class="line">        <span class="built_in">print</span>()</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        App.closeDocument(<span class="string">&quot;dxfwork&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    ap = argparse.ArgumentParser(description=<span class="string">&quot;freecadcmd 批量算 DXF 面积&quot;</span>)</span><br><span class="line">    ap.add_argument(<span class="string">&quot;target&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;dxf 文件或目录&quot;</span>)</span><br><span class="line">    ap.add_argument(<span class="string">&quot;unit&quot;</span>, nargs=<span class="string">&quot;?&quot;</span>, choices=[<span class="string">&quot;mm&quot;</span>, <span class="string">&quot;m&quot;</span>], default=<span class="string">&quot;mm&quot;</span>,</span><br><span class="line">                    <span class="built_in">help</span>=<span class="string">&quot;图纸实际绘图单位, 用于文件未声明单位时 (mm/m, 默认 mm)&quot;</span>)</span><br><span class="line">    ap.add_argument(<span class="string">&quot;layer&quot;</span>, nargs=<span class="string">&quot;*&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;只统计这些图层 (可多个)&quot;</span>)</span><br><span class="line">    args = ap.parse_args()</span><br><span class="line">    files = []</span><br><span class="line">    <span class="keyword">if</span> os.path.isdir(args.target):</span><br><span class="line">        <span class="keyword">for</span> pat <span class="keyword">in</span> (<span class="string">&quot;*.dxf&quot;</span>, <span class="string">&quot;*.DXF&quot;</span>):</span><br><span class="line">            files += glob.glob(os.path.join(args.target, pat))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        files = [args.target]</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> files:</span><br><span class="line">        sys.exit(<span class="string">&quot;没找到 DXF 文件&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> <span class="built_in">sorted</span>(files):</span><br><span class="line">        process(f, args.unit, args.layer)</span><br><span class="line"></span><br><span class="line">main()  <span class="comment"># freecadcmd 下 __name__ 不是 __main__, 不能套 guard</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h2><p>图纸按米画、文件又没声明单位的（老图常见），这样跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd dxf_area.py 平面图.dxf m</span><br></pre></td></tr></table></figure>
+
+<p>输出长这样，按图层分开列，一眼能看到哪层多少：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">平面图.dxf</span><br><span class="line">  未声明单位, 按 1 绘图单位 = 1 m 读</span><br><span class="line">  图层 主体          闭合  1 处  数值面积       300.00 绘图单位² =   300.000000 m²</span><br><span class="line">  图层 井盖          闭合  1 处  数值面积        12.57 绘图单位² =    12.566371 m²</span><br><span class="line">  图层 标注线        有  1 条线未闭合, 没算进去</span><br><span class="line">  合计: 数值 312.57 绘图单位² = 312.566371 m²</span><br><span class="line">  警告: 共 1 条线未闭合, 在 CAD 里围合后再跑</span><br></pre></td></tr></table></figure>
+
+<p>一张图只想算某几层，把图层名跟在后面：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">freecadcmd dxf_area.py 平面图.dxf m 井盖 绿化</span><br></pre></td></tr></table></figure>
+
+<p>一个文件夹几十张图，直接给目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">freecadcmd dxf_area.py 图纸目录/ m</span><br></pre></td></tr></table></figure>
+
+<p>嫌每次敲一长串路径麻烦，先 <code>alias fc=/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd</code>，之后就是 <code>fc dxf_area.py 图纸目录/ m</code>。</p>
+<h2 id="单位问题脚本替你兜了一半"><a href="#单位问题脚本替你兜了一半" class="headerlink" title="单位问题脚本替你兜了一半"></a>单位问题脚本替你兜了一半</h2><p>DXF 文件头部有个 <code>$INSUNITS</code> 变量，声明这张图 1 个单位是毫米还是米。实测 FreeCAD 的行为：</p>
+<ul>
+<li>文件声明了单位，导入时自动按声明缩放，比如声明 Meters 的图数值会放大 1000 倍存成 mm，脚本识别后直接除 1e6 给你平方米，不用管</li>
+<li>文件没声明（很多设计院导出的图就是这样），FreeCAD 一律按 1 单位 &#x3D; 1 mm 读，脚本就按你给的 mm 或 m 参数解释</li>
+</ul>
+<p>所以拿不准的图，先量一段标了尺寸的线对一下：标注 10 的墙量出来是 10，图就是按米画的，跑的时候带个 m；量出来是 10000，才是毫米图。这个习惯比信任何默认值都靠谱。</p>
+<h2 id="两个提醒"><a href="#两个提醒" class="headerlink" title="两个提醒"></a>两个提醒</h2><p>不闭合的线不会参与计算，脚本会把数量列出来提示你——断面图、半截线多的时候，先看警告再抄数。</p>
+<p>一张图里如果有好几个不相干的区域，脚本会把它们加在一起。要么按图层把要算的分开（图层的活 CAD 里顺手就做了），要么把需要的部分单独另存一张 DXF。收方这种事，数错了后面全是麻烦，宁可多跑一遍核对。</p>
+]]></content>
+      <categories>
+        <category>工程软件</category>
+      </categories>
+      <tags>
+        <tag>FreeCAD</tag>
+        <tag>DXF</tag>
+        <tag>freecadcmd</tag>
+        <tag>面积</tag>
+        <tag>批处理</tag>
+        <tag>命令行</tag>
+        <tag>算量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的博客发布是一条 git push：GitHub Actions 自动部署 Hexo 流水线</title>
+    <url>/posts/2026/09/04/%E5%8D%9A%E5%AE%A2%E5%8F%91%E5%B8%83%E6%98%AF%E4%B8%80%E6%9D%A1-git-push-GitHub-Actions%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2Hexo%E6%B5%81%E6%B0%B4%E7%BA%BF/</url>
+    <content><![CDATA[<p>这篇博客现在是怎么发出去的？我在 <code>source/_posts/</code> 里放一个 md 文件，<code>git push origin main</code>，然后就没了——剩下的构建、部署全是 GitHub Actions 干的。</p>
+<p>以前不是这样。最早我用 <code>hexo-deployer-git</code>，每次发布要在本地敲三行：<code>hexo clean &amp;&amp; hexo generate &amp;&amp; hexo d</code>，而且 <code>hexo d</code> 要往配置里塞一个带 token 的仓库地址。token 半年过期一次，过期就报 401，换电脑还要重新配。文章没写几篇，部署的坑倒是踩了一堆。后来把部署整个挪进 GitHub Actions，这些事一件都不剩了。这篇把流水线文件拆开讲，配置可以直接抄。</p>
+<h2 id="流水线文件长这样"><a href="#流水线文件长这样" class="headerlink" title="流水线文件长这样"></a>流水线文件长这样</h2><p>仓库根目录建 <code>.github/workflows/deploy.yml</code>，这就是我的全部部署逻辑：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">Hexo</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">permissions:</span></span><br><span class="line">  <span class="attr">contents:</span> <span class="string">write</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Setup</span> <span class="string">Node.js</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;20&#x27;</span></span><br><span class="line">          <span class="attr">cache:</span> <span class="string">npm</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span> <span class="string">site</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npx</span> <span class="string">hexo</span> <span class="string">clean</span> <span class="string">&amp;&amp;</span> <span class="string">npx</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">gh-pages</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">          <span class="attr">publish_branch:</span> <span class="string">gh-pages</span></span><br><span class="line">          <span class="attr">force_orphan:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>工作流大概是这么个走向：</p>
+<p><img src="/img/blog-deploy-flow.svg"></p>
+<h2 id="每个配置是干嘛的"><a href="#每个配置是干嘛的" class="headerlink" title="每个配置是干嘛的"></a>每个配置是干嘛的</h2><p><strong><code>on.push.branches: main</code> + <code>workflow_dispatch</code></strong>。前者是推 main 自动触发，后者是给 Actions 页面加一个”Run workflow”按钮——改主题、改配置这种不想制造假提交的情况，点一下按钮手动跑一次。</p>
+<p><strong><code>permissions: contents: write</code></strong>。这行不加，新版 runner 的 <code>GITHUB_TOKEN</code> 默认只读，最后一步 peaceiris 往 gh-pages 推东西会直接 403。仓库 Settings → Actions → General 里的 Workflow permissions 也可以设成读写，但更推荐在 yml 里显式声明，跟流水线放一起，别人看文件就明白权限边界。</p>
+<p><strong><code>npm ci</code> 而不是 <code>npm install</code></strong>。<code>npm ci</code> 按 <code>package-lock.json</code> 精确装依赖，装之前还会清空 node_modules，结果可复现；前提是 <code>package-lock.json</code> 要提交进仓库。比 install 快，还不会出现”本地能跑 Actions 挂了”的版本漂移。</p>
+<p><strong>peaceiris&#x2F;actions-gh-pages@v4</strong> 是 GitHub Pages 部署的事实标准 action。<code>publish_dir: ./public</code> 是 hexo generate 的输出目录，<code>publish_branch: gh-pages</code> 是发布目标分支，<code>force_orphan: true</code> 表示每次用一条孤儿提交重建 gh-pages——分支历史永远只有一版，不会越积越厚。</p>
+<h2 id="几个真实的坑"><a href="#几个真实的坑" class="headerlink" title="几个真实的坑"></a>几个真实的坑</h2><p><strong>CNAME 要放 <code>source/</code> 下，不是仓库根。</strong> 自定义域名靠 gh-pages 分支里的 CNAME 文件撑着，而那个分支的内容就是 <code>public/</code>。hexo 只会把 <code>source/</code> 下的文件复制进 <code>public/</code>，所以你仓库根的 CNAME 写得再对也没用——generate 根本不会带它。我仓库里两个 CNAME 都提交过，真正起作用的是 <code>source/CNAME</code> 这个。不信你删了它部署一次，Pages 设置里的自定义域名会掉，域名直接打不开。</p>
+<p><strong>不用建 Personal Access Token。</strong> 流水线里用的是 <code>$&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;</code>，每次运行 GitHub 自动生成，跑完作废，不用去 Settings 里手动塞任何 secret。我最早看教程自己建了个 PAT 放 secrets 里，纯属多余。</p>
+<p><strong><code>.gitignore</code> 要忽略 <code>public/</code> 和 <code>node_modules/</code>。</strong> 这两个目录都是构建产物，一旦误提交进 main，每次构建结果和源码混在一起，push 还会越来越慢。我的忽略列表里还有 <code>db.json</code>（hexo 的本地数据库）和 <code>.deploy*/</code>。</p>
+<h2 id="这套东西省了什么"><a href="#这套东西省了什么" class="headerlink" title="这套东西省了什么"></a>这套东西省了什么</h2><p>发布从”记得三条命令 + token 没过期”变成”一条 push”。省到极致之后，连人都可以不在了——我现在的文章有一部分是定时任务代写的，脚本写完 md 直接 commit、push，流水线自动上线，全程没人碰部署命令。机器写文章这事先不说好坏，但发布环节确实做到了零干预。</p>
+]]></content>
+      <categories>
+        <category>博客折腾</category>
+      </categories>
+      <tags>
+        <tag>自动化</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub Actions</tag>
+        <tag>博客部署</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我现在的 vibe coding 工作流</title>
+    <url>/posts/2026/08/21/%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84-vibe-coding-%E5%B7%A5%E4%BD%9C%E6%B5%81/</url>
+    <content><![CDATA[<p>vibe coding 这个词最近在技术社区里出现的频率明显变高了，V2EX 上有个帖子统计大家现在都用什么方案，回复一百多条。简单说，vibe coding 就是<strong>用自然语言描述需求，让 AI 把代码写出来</strong>，人负责提要求和看结果，不自己一行行敲。</p>
+<p>我是被一个小需求逼着开始用的。当时要写个处理表格的小脚本，想着让 AI 全包试试，结果真跑通了。从那以后流程慢慢固定下来，这篇记录一下我现在的工作流，给想试的人一个参考。</p>
+<h2 id="先选工具：命令行-agent-还是-AI-编辑器"><a href="#先选工具：命令行-agent-还是-AI-编辑器" class="headerlink" title="先选工具：命令行 agent 还是 AI 编辑器"></a>先选工具：命令行 agent 还是 AI 编辑器</h2><p>目前主流方案分两类：</p>
+<ol>
+<li><strong>命令行 agent</strong>（比如 Claude Code、Codex CLI）：直接在你项目目录里干活，能读文件、改文件、自己跑命令，看到报错自己修。适合已经会用终端的人。</li>
+<li><strong>AI 编辑器</strong>（比如 Cursor 这类）：界面里直接跟 AI 聊，改代码实时可见。适合不熟悉命令行的朋友，门槛低一些。</li>
+</ol>
+<p>价格方面这两类基本都是订阅制，一般都有免费额度可以先试，具体价格变动快，以官网为准，这里不写死数字。我个人的选择是命令行 agent 为主，因为我能看到它每一步在干什么，心里有底。</p>
+<h2 id="我的工作流，一共五步"><a href="#我的工作流，一共五步" class="headerlink" title="我的工作流，一共五步"></a>我的工作流，一共五步</h2><h3 id="第-1-步：把需求写清楚"><a href="#第-1-步：把需求写清楚" class="headerlink" title="第 1 步：把需求写清楚"></a>第 1 步：把需求写清楚</h3><p>这一步决定成败。不要只丢一句「帮我写个爬虫」，要把功能点列成清单，明确不要什么。我常用的提示词模板（可以直接复制）：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">我要做一个小工具：&lt;一句话说清功能&gt;</span><br><span class="line">使用 &lt;语言/框架&gt;</span><br><span class="line">具体要求：</span><br><span class="line">1. &lt;功能点&gt;</span><br><span class="line">2. &lt;功能点&gt;</span><br><span class="line">3. &lt;功能点&gt;</span><br><span class="line">明确不要做：&lt;避免 AI 自由发挥的部分&gt;</span><br><span class="line">先给我一个实现方案，我确认了再写代码</span><br></pre></td></tr></table></figure>
+
+<p>注意最后一句。让 AI 先出方案再动手，能省掉大量返工。</p>
+<h3 id="第-2-步：先确认方案，再让它写码"><a href="#第-2-步：先确认方案，再让它写码" class="headerlink" title="第 2 步：先确认方案，再让它写码"></a>第 2 步：先确认方案，再让它写码</h3><p>很多人跳过这步，结果 AI 一上来就咔咔写，方向错了全白干。让它先把方案列出来，你觉得没问题了，再说一句「按这个方案写」。</p>
+<h3 id="第-3-步：动手前-git-提交一次干净基线"><a href="#第-3-步：动手前-git-提交一次干净基线" class="headerlink" title="第 3 步：动手前 git 提交一次干净基线"></a>第 3 步：动手前 git 提交一次干净基线</h3><p>AI 改代码之前，先把当前状态提交一次：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">&quot;baseline: 改代码前的干净状态&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样它改坏了随时能回退，这是我最推荐的保险措施。</p>
+<h3 id="第-4-步：跑起来，报错原样贴给它"><a href="#第-4-步：跑起来，报错原样贴给它" class="headerlink" title="第 4 步：跑起来，报错原样贴给它"></a>第 4 步：跑起来，报错原样贴给它</h3><p>写完让它自己运行。报错了不要自己查，把终端里的报错<strong>原样复制</strong>贴给它，说「报错如下，修复它」。AI 看报错改代码非常快，这一步是整个流程里最爽的。</p>
+<h3 id="第-5-步：小步提交，看-diff-验收"><a href="#第-5-步：小步提交，看-diff-验收" class="headerlink" title="第 5 步：小步提交，看 diff 验收"></a>第 5 步：小步提交，看 diff 验收</h3><p>每完成一个功能点就 commit 一次，提交信息写清楚。接受它的修改前，先看一眼 diff：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git diff</span><br></pre></td></tr></table></figure>
+
+<p>大改动一定要问一句「为什么这么改」。别闭眼全盘接受。</p>
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><ul>
+<li><strong>AI 喜欢一上来就重构整个项目结构</strong>。小需求就明确告诉它「不要动现有文件结构」，不然它会顺手把你的代码重排一遍。</li>
+<li><strong>上下文会被聊满</strong>。聊久了 AI 会「忘记」开头的要求，特别是关键约束。感觉它开始答非所问，就新开一个会话，把需求重新贴一遍。</li>
+<li><strong>别让它改自己写的东西太多次</strong>。同一个文件来回改四五轮之后，质量明显下降，不如让它重写。</li>
+<li><strong>生产环境直接试是最危险的</strong>。先在本地跑通，确认没问题再考虑上线。</li>
+</ul>
+<h2 id="什么样的人适合用"><a href="#什么样的人适合用" class="headerlink" title="什么样的人适合用"></a>什么样的人适合用</h2><p>适合：写小工具、脚本、一次性任务、原型验证——这类活以前要花一晚上的，现在一顿饭的功夫就出来能跑的东西。</p>
+<p>不适合：核心业务逻辑、需要严谨审查的代码。AI 写出来如果没人 review，那就是埋雷，这种场合老老实实自己写。</p>
+<p><img src="/img/vibe-coding-workflow.svg" alt="vibe coding 工作流五步图"></p>
+<p>我现在写小工具的流程基本固定成上面这套，效率比从前高了不少，但该看的 diff 一次都没省过——省掉的都是敲代码的时间，看代码的时间反而变多了，这买卖我觉得划算。</p>
+]]></content>
+      <categories>
+        <category>AI工具</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>教程</tag>
+        <tag>vibe coding</tag>
+        <tag>AI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手机拍照转扫描件，Apple Vision 本地自动拉正</title>
+    <url>/posts/2026/09/02/%E6%89%8B%E6%9C%BA%E6%8B%8D%E7%85%A7%E8%BD%AC%E6%89%AB%E6%8F%8F%E4%BB%B6-Apple-Vision%E6%9C%AC%E5%9C%B0%E8%87%AA%E5%8A%A8%E6%8B%89%E6%AD%A3/</url>
+    <content><![CDATA[<p>做工程免不了交扫描件。前几天给公司报名供应商建库，营业执照、法人身份证、授权书，全是「请提供扫描件」。手边没有扫描仪，镇上打印店的机器还得专门跑一趟。手机拍倒是快，但拍出来是斜的——纸成梯形，字越远越小。</p>
+<p>手机备忘录自带的扫描能拍正，但一张张在手机上框边、导出，量一多就烦。第三方扫描 App 倒是一拍就正，可证件类资料要传它的服务器，还要看会员脸色。身份证照片我不想交给不认识的服务器，就在 Mac 上想办法本地解决。</p>
+<h2 id="Vision-找纸，Core-Image-拉正"><a href="#Vision-找纸，Core-Image-拉正" class="headerlink" title="Vision 找纸，Core Image 拉正"></a>Vision 找纸，Core Image 拉正</h2><p>macOS 自带 Vision 框架里有个 <code>VNDetectDocumentSegmentationRequest</code>，专门干「在一张照片里找出像纸的区域」这件事，iPhone 备忘录的「扫描文稿」底层检测就是它。我的方案就两步：</p>
+<ol>
+<li>Vision 找出纸张的四个角</li>
+<li>Core Image 的 <code>CIPerspectiveCorrection</code> 滤镜把四边形拉成矩形</li>
+</ol>
+<p>Swift 写命令行工具不需要建 Xcode 工程，一个 .swift 文件直接跑。前提是装过 Command Line Tools（没装先跑 <code>xcode-select --install</code>）。</p>
+<p>完整代码存成 <code>docscan.swift</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">#<span class="operator">!/</span>usr<span class="regexp">/bin/</span>env swift</span><br><span class="line"><span class="comment">// docscan.swift —— 手机拍照转扫描件：Vision 找纸张边缘 + 透视拉正</span></span><br><span class="line"><span class="comment">// 用法: swift docscan.swift 输入图片 [输出图片] [--enhance]</span></span><br><span class="line"><span class="keyword">import</span> Vision</span><br><span class="line"><span class="keyword">import</span> CoreImage</span><br><span class="line"><span class="keyword">import</span> AppKit</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> args <span class="operator">=</span> <span class="type">CommandLine</span>.arguments</span><br><span class="line"><span class="keyword">guard</span> args.count <span class="operator">&gt;=</span> <span class="number">2</span> <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;用法: swift docscan.swift 输入图片 [输出图片] [--enhance]&quot;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> inputPath <span class="operator">=</span> args[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">let</span> outputPath <span class="operator">=</span> args.count <span class="operator">&gt;=</span> <span class="number">3</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>args[<span class="number">2</span>].hasPrefix(<span class="string">&quot;--&quot;</span>) <span class="operator">?</span> args[<span class="number">2</span>] : <span class="string">&quot;scan.png&quot;</span></span><br><span class="line"><span class="keyword">let</span> enhance <span class="operator">=</span> args.contains(<span class="string">&quot;--enhance&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读图，转成 CGImage</span></span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> img <span class="operator">=</span> <span class="type">NSImage</span>(contentsOfFile: inputPath),</span><br><span class="line">      <span class="keyword">let</span> tiff <span class="operator">=</span> img.tiffRepresentation,</span><br><span class="line">      <span class="keyword">let</span> rep <span class="operator">=</span> <span class="type">NSBitmapImageRep</span>(data: tiff),</span><br><span class="line">      <span class="keyword">let</span> cgImage <span class="operator">=</span> rep.cgImage <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;读不了图片: <span class="subst">\(inputPath)</span>&quot;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. Vision 找文档四角</span></span><br><span class="line"><span class="keyword">let</span> request <span class="operator">=</span> <span class="type">VNDetectDocumentSegmentationRequest</span>()</span><br><span class="line"><span class="keyword">let</span> handler <span class="operator">=</span> <span class="type">VNImageRequestHandler</span>(cgImage: cgImage, options: [:])</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> handler.perform([request])</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;识别失败: <span class="subst">\(error)</span>&quot;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> doc <span class="operator">=</span> request.results<span class="operator">?</span>.first <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;没找到文档边缘。把纸放深色背景上拍，四角要拍全。&quot;</span>)</span><br><span class="line">    exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 坐标换算：Vision 是归一化坐标且原点在左下，像素坐标原点在左上</span></span><br><span class="line"><span class="keyword">let</span> ciImage <span class="operator">=</span> <span class="type">CIImage</span>(cgImage: cgImage)</span><br><span class="line"><span class="keyword">let</span> <span class="type">W</span> <span class="operator">=</span> ciImage.extent.width</span><br><span class="line"><span class="keyword">let</span> <span class="type">H</span> <span class="operator">=</span> ciImage.extent.height</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">toPixel</span>(<span class="keyword">_</span> <span class="params">p</span>: <span class="type">CGPoint</span>) -&gt; <span class="type">CGPoint</span> &#123;</span><br><span class="line">    <span class="type">CGPoint</span>(x: p.x <span class="operator">*</span> <span class="type">W</span>, y: (<span class="number">1</span> <span class="operator">-</span> p.y) <span class="operator">*</span> <span class="type">H</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> params: [<span class="type">String</span>: <span class="keyword">Any</span>] <span class="operator">=</span> [</span><br><span class="line">    <span class="string">&quot;inputTopLeft&quot;</span>: <span class="type">CIVector</span>(cgPoint: toPixel(doc.topLeft)),</span><br><span class="line">    <span class="string">&quot;inputTopRight&quot;</span>: <span class="type">CIVector</span>(cgPoint: toPixel(doc.topRight)),</span><br><span class="line">    <span class="string">&quot;inputBottomLeft&quot;</span>: <span class="type">CIVector</span>(cgPoint: toPixel(doc.bottomLeft)),</span><br><span class="line">    <span class="string">&quot;inputBottomRight&quot;</span>: <span class="type">CIVector</span>(cgPoint: toPixel(doc.bottomRight))</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 透视矫正；纸质件反光发灰时加个对比增强更像扫描件</span></span><br><span class="line"><span class="keyword">var</span> out <span class="operator">=</span> ciImage.applyingFilter(<span class="string">&quot;CIPerspectiveCorrection&quot;</span>, parameters: params)</span><br><span class="line"><span class="keyword">if</span> enhance &#123;</span><br><span class="line">    out <span class="operator">=</span> out.applyingFilter(<span class="string">&quot;CIColorControls&quot;</span>, parameters: [</span><br><span class="line">        <span class="string">&quot;inputContrast&quot;</span>: <span class="number">1.15</span>,</span><br><span class="line">        <span class="string">&quot;inputSaturation&quot;</span>: <span class="number">0.8</span></span><br><span class="line">    ])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 存成 PNG（要 PDF 用 sips 转：sips -s format pdf scan.png --out scan.pdf）</span></span><br><span class="line"><span class="keyword">let</span> ctx <span class="operator">=</span> <span class="type">CIContext</span>()</span><br><span class="line"><span class="keyword">try</span> ctx.writePNGRepresentation(of: out, to: <span class="type">URL</span>(fileURLWithPath: outputPath),</span><br><span class="line">                               format: .<span class="type">RGBA8</span>, colorSpace: <span class="type">CGColorSpace</span>(name: <span class="type">CGColorSpace</span>.sRGB)<span class="operator">!</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;完成: <span class="subst">\(outputPath)</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>单张：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x docscan.swift</span><br><span class="line">./docscan.swift 拍的照片.jpg scan.png --enhance</span><br></pre></td></tr></table></figure>
+
+<p><code>--enhance</code> 会加一点对比度，纸面反光发灰的时候输出更像扫描件。批量就把文件名交给 shell：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> *.jpg; <span class="keyword">do</span></span><br><span class="line">  ./docscan.swift <span class="string">&quot;<span class="variable">$f</span>&quot;</span> <span class="string">&quot;scan-<span class="variable">$&#123;f%.jpg&#125;</span>.png&quot;</span> --enhance</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>要 PDF 用 sips 转一下就行，不用改代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sips -s format pdf scan.png --out scan.pdf</span><br></pre></td></tr></table></figure>
+
+<h2 id="踩过的坑"><a href="#踩过的坑" class="headerlink" title="踩过的坑"></a>踩过的坑</h2><h3 id="坑一：坐标原点是反的"><a href="#坑一：坐标原点是反的" class="headerlink" title="坑一：坐标原点是反的"></a>坑一：坐标原点是反的</h3><p>Vision 返回的角点坐标是归一化小数（0~1），而且原点在左下角；图片像素坐标原点在左上角。我第一次直接拿 <code>x × 宽、y × 高</code> 去算，输出上下颠倒。正确换算是 <code>y′ = (1 − y) × 高</code>，关系见图：</p>
+<p><img src="/img/docscan-coords.svg" alt="Vision 坐标转像素坐标示意"></p>
+<p>另外别自己拿 boundingBox 凑角点，<code>VNRectangleObservation</code> 直接给了 topLeft &#x2F; topRight &#x2F; bottomLeft &#x2F; bottomRight 四个点，用现成的就行。</p>
+<h3 id="坑二：找不到纸"><a href="#坑二：找不到纸" class="headerlink" title="坑二：找不到纸"></a>坑二：找不到纸</h3><p>纸上内容太少、背景和纸颜色接近、纸没拍全，都会报「没找到文档边缘」。拍的时候把纸放深色桌面上、四角留出边，成功率明显高。白纸贴白墙拍大概率失败，别问我是怎么知道的。</p>
+<h3 id="坑三：电子截图不要矫正"><a href="#坑三：电子截图不要矫正" class="headerlink" title="坑三：电子截图不要矫正"></a>坑三：电子截图不要矫正</h3><p>手机截图、网页截图本来就是正的，跑透视矫正反而把边裁歪。截图类的我直接用，顶多加个对比度，不碰矫正。</p>
+<h2 id="现在的流程"><a href="#现在的流程" class="headerlink" title="现在的流程"></a>现在的流程</h2><p>手机拍 → AirDrop 到 Mac → 跑一下 → PNG 或 PDF 直接交。M 芯片上处理 iPhone 原图，识别加输出基本一秒内。对「拍得还行」的照片成功率很高；但整片反光、拍糊了救不回来，老老实实重拍——这工具解决的是「拍正了但透视歪」，不解决「没拍好」。</p>
+<p>代码丢在 <code>~/bin/</code> 里，几十行，以后再要扫描件就是一条命令的事。全程照片不出本机，营业执照、身份证这类东西，交得放心点。</p>
+]]></content>
+      <categories>
+        <category>macOS</category>
+      </categories>
+      <tags>
+        <tag>命令行</tag>
+        <tag>Swift</tag>
+        <tag>Vision</tag>
+        <tag>CoreImage</tag>
+        <tag>扫描件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>博客更新不生效，我在部署流程里加了 Cloudflare 自动清缓存</title>
+    <url>/posts/2026/08/26/%E5%8D%9A%E5%AE%A2%E6%9B%B4%E6%96%B0%E4%B8%8D%E7%94%9F%E6%95%88-%E6%88%91%E5%9C%A8%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E9%87%8C%E5%8A%A0%E4%BA%86Cloudflare%E8%87%AA%E5%8A%A8%E6%B8%85%E7%BC%93%E5%AD%98/</url>
+    <content><![CDATA[<p>博客是 Hexo 压 GitHub Pages，前面套了层 Cloudflare CDN。有段时间发完文章，手机刷半天还是旧页面，一度以为 Actions 部署挂了，打开日志一看，构建、部署都成功了，就是页面不更新。</p>
+<p>后来才搞明白：Cloudflare 默认根本不缓存 HTML（官方文档原话：the CDN does not cache HTML or JSON by default）。我当时为了提速，照着教程给博客加了「缓存 HTML」的规则——静态博客嘛，HTML 全站缓存，回源压力小，打开快。代价就是：文章页 URL 永远不变，边缘节点一直把旧 HTML 甩给访客。</p>
+<p>手动解法很简单：Cloudflare 后台 → Caching → Purge Everything，一键全清，立竿见影。但每次发文章都进后台点一下，发得勤就烦了。干脆把清缓存写进部署流程。</p>
+<p><img src="https://www.lxpyll.top/img/cf-auto-purge-flow.svg" alt="发布流程"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>git push 之后，Actions 依次干三件事：构建 → 部署到 gh-pages → 调 Cloudflare API 把缓存清了。全程不用管。</p>
+<h2 id="1-建-API-Token（最小权限）"><a href="#1-建-API-Token（最小权限）" class="headerlink" title="1. 建 API Token（最小权限）"></a>1. 建 API Token（最小权限）</h2><p>后台右上角头像 → My Profile → API Tokens → Create Token。权限按最小来：</p>
+<ul>
+<li>Zone → Cache Purge → Purge</li>
+<li>Zone Resources 限定自己的域名（lxpyll.top）</li>
+</ul>
+<p>别用 Global API Key，那个权限是整个账号。建完先验证一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl <span class="string">&quot;https://api.cloudflare.com/client/v4/user/tokens/verify&quot;</span> \</span><br><span class="line">  -H <span class="string">&quot;Authorization: Bearer <span class="variable">$CF_API_TOKEN</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>返回 <code>&quot;status&quot;: &quot;active&quot;</code> 就说明 token 没问题。</p>
+<h2 id="2-拿-Zone-ID"><a href="#2-拿-Zone-ID" class="headerlink" title="2. 拿 Zone ID"></a>2. 拿 Zone ID</h2><p>域名 Overview 页面右侧就有 Zone ID，复制下来。不想翻页面就用 API 查：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl <span class="string">&quot;https://api.cloudflare.com/client/v4/zones?per_page=50&quot;</span> \</span><br><span class="line">  -H <span class="string">&quot;Authorization: Bearer <span class="variable">$CF_API_TOKEN</span>&quot;</span> | jq -r <span class="string">&#x27;.result[] | &quot;\(.id) \(.name)&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-仓库加两个-Secrets"><a href="#3-仓库加两个-Secrets" class="headerlink" title="3. 仓库加两个 Secrets"></a>3. 仓库加两个 Secrets</h2><p>GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret：</p>
+<ul>
+<li><code>CF_API_TOKEN</code>：刚建的 token</li>
+<li><code>CF_ZONE_ID</code>：Zone ID</li>
+</ul>
+<h2 id="4-部署流程末尾加一步"><a href="#4-部署流程末尾加一步" class="headerlink" title="4. 部署流程末尾加一步"></a>4. 部署流程末尾加一步</h2><p>在 <code>.github/workflows/deploy.yml</code> 的 Deploy to gh-pages 步骤后面加：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Purge</span> <span class="string">Cloudflare</span> <span class="string">cache</span></span><br><span class="line">  <span class="attr">env:</span></span><br><span class="line">    <span class="attr">CF_API_TOKEN:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.CF_API_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">    <span class="attr">CF_ZONE_ID:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.CF_ZONE_ID</span> <span class="string">&#125;&#125;</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    curl -X POST &quot;https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache&quot; \</span></span><br><span class="line"><span class="string">      -H &quot;Authorization: Bearer $CF_API_TOKEN&quot; \</span></span><br><span class="line"><span class="string">      -H &quot;Content-Type: application/json&quot; \</span></span><br><span class="line"><span class="string">      --data &#x27;&#123;&quot;purge_everything&quot;: true&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>网上有现成的第三方 action 干这事，但本质就是调这个接口，curl 三行搞定，少引一个依赖。想精确一点可以清指定 URL，<code>files</code> 参数传数组，一次最多 30 条、每分钟限额 1000 条——博客这种全站刷新更省事，<code>purge_everything</code> 一了百了，静态站回源那点流量可以忽略，免费版也能用。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>push 一次，看 Actions 日志里这步返回 <code>&quot;success&quot;: true</code>，然后手机浏览器打开新文章，能看到了就成。以后写文章就是 git push 一件事，剩下的 Actions 自己干完。</p>
+<p>几个坑记一下：</p>
+<ol>
+<li>token 权限给最小，就算泄露了，最坏情况就是被人清缓存，不伤别的。</li>
+<li>排查这类问题先看响应头：<code>curl -I https://www.lxpyll.top/</code>，<code>cf-cache-status: HIT</code> 说明是 CF 缓存在作怪；不是的话再查浏览器缓存、GitHub Pages 那层。</li>
+<li>不想全站缓存 HTML 的话，也可以在 Cache Rules 里给 HTML 单独设个短 TTL（比如 10 分钟），但部署后 purge 更干脆，我现在一直用这个方案。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>开发与运维</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>缓存</tag>
+        <tag>Hexo</tag>
+        <tag>GitHub Actions</tag>
+        <tag>Cloudflare</tag>
+        <tag>CDN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>扫描件 PDF 搜不了字？ocrmypdf 中文 OCR 一次解决</title>
+    <url>/posts/2026/08/28/%E6%89%AB%E6%8F%8F%E4%BB%B6PDF%E6%90%9C%E4%B8%8D%E4%BA%86%E5%AD%97-ocrmypdf%E4%B8%AD%E6%96%87OCR%E4%B8%80%E6%AC%A1%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>做工程的，手上全是扫描件：图纸、报价单、合同、签证单，清一色”图片”。要找某句话只能一页页翻，要引用一段文字只能对着屏幕手敲。Spotlight 和阅读器都搜不到内容，因为 PDF 里根本没有文字层。</p>
+<p>ocrmypdf 就是干这个的：把文字层加到 PDF 里，扫描件变成能搜、能复制的文档。装完踩了三个坑，都记下来。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install ocrmypdf</span><br></pre></td></tr></table></figure>
+
+<p>tesseract 识别引擎会一起装好。先拿一张图试跑：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ocrmypdf -l chi_sim+eng test.png out.pdf</span><br></pre></td></tr></table></figure>
+
+<p>然后第一个坑就来了。</p>
+<h2 id="坑1：tesseract-默认没有中文语言包"><a href="#坑1：tesseract-默认没有中文语言包" class="headerlink" title="坑1：tesseract 默认没有中文语言包"></a>坑1：tesseract 默认没有中文语言包</h2><p>报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">OCR engine does not have language data for the following requested languages:</span><br><span class="line">chi_sim</span><br></pre></td></tr></table></figure>
+
+<p>原因：brew 的 tesseract 公式只带 <code>eng</code>、<code>osd</code>、<code>snum</code> 三个语言包，装完时它的提示其实写了——需要其他语言就装 <code>tesseract-lang</code>。</p>
+<p>轻量解法是只补一个文件，2.4MB：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -L -o /opt/homebrew/share/tessdata/chi_sim.traineddata \</span><br><span class="line">  https://github.com/tesseract-ocr/tessdata_fast/raw/main/chi_sim.traineddata</span><br><span class="line"></span><br><span class="line">tesseract --list-langs   <span class="comment"># 确认出现 chi_sim</span></span><br></pre></td></tr></table></figure>
+
+<p>不想折腾就 <code>brew install tesseract-lang</code>，把所有语言都装上，但下载量大得多，用不上的语言纯属浪费。</p>
+<h2 id="坑2：brew-升级-tesseract-会把语言包”弄丢”"><a href="#坑2：brew-升级-tesseract-会把语言包”弄丢”" class="headerlink" title="坑2：brew 升级 tesseract 会把语言包”弄丢”"></a>坑2：brew 升级 tesseract 会把语言包”弄丢”</h2><p>这个是我实测踩中的：放好 chi_sim 之后，我顺手 <code>brew install ocrmypdf</code>，结果 tesseract 从 5.5.1 被升到 5.5.3，再跑 OCR 又报语言包缺失，跟坑1一模一样。</p>
+<p>查了半天才明白：<code>/opt/homebrew/share/tessdata</code> 是个软链接，指向 Cellar 里的版本目录：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">ls</span> -ld /opt/homebrew/share/tessdata</span><br><span class="line"><span class="comment"># lrwxr-xr-x ... /opt/homebrew/share/tessdata -&gt; ../Cellar/tesseract/5.5.3/share/tessdata</span></span><br></pre></td></tr></table></figure>
+
+<p>升级后链接换到新版本目录，我放的语言包跟着旧目录”消失”了——文件其实还在 <code>/opt/homebrew/Cellar/tesseract/5.5.1/share/tessdata/</code> 里躺着。解法就是升级完再放一次。教训：每次 brew 升级 tesseract 之后，先 <code>tesseract --list-langs</code> 看一眼再跑 OCR。</p>
+<h2 id="坑3：图片输入没有-DPI-信息"><a href="#坑3：图片输入没有-DPI-信息" class="headerlink" title="坑3：图片输入没有 DPI 信息"></a>坑3：图片输入没有 DPI 信息</h2><p>手机拍的照片、很多扫描 App 导出的图片不带 DPI 元数据，直接丢给 ocrmypdf 会报：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">DpiError: Input file is an image, but has no resolution (DPI) in its metadata.</span><br><span class="line">Estimate the resolution at which image was scanned and specify it using --image-dpi.</span><br></pre></td></tr></table></figure>
+
+<p>按实际扫描分辨率补上就行，一般 300：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ocrmypdf --image-dpi 300 -l chi_sim+eng 扫描件.png 输出.pdf</span><br></pre></td></tr></table></figure>
+
+<p>如果输入本来就是 PDF（扫描仪出的那种），不需要这个参数。</p>
+<h2 id="能用的命令"><a href="#能用的命令" class="headerlink" title="能用的命令"></a>能用的命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># PDF 输入</span></span><br><span class="line">ocrmypdf -l chi_sim+eng 扫描件.pdf 输出.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 图片输入（无 DPI 时）</span></span><br><span class="line">ocrmypdf --image-dpi 300 -l chi_sim+eng 照片.png 输出.pdf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 批量</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> *.pdf; <span class="keyword">do</span> ocrmypdf -l chi_sim+eng <span class="string">&quot;<span class="variable">$f</span>&quot;</span> <span class="string">&quot;ocr_<span class="variable">$f</span>&quot;</span>; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>常用参数：</p>
+<ul>
+<li><code>--deskew</code>：自动矫正歪斜的页，手机拍的歪页有用</li>
+<li><code>--force-ocr</code>：PDF 里已有文字层但质量差（比如自带乱码文字层）时强制全部重识别</li>
+<li>输出默认是 PDF&#x2F;A 归档格式，适合长期保存</li>
+</ul>
+<p>验证文字层加没加上：用 pdftotext、或 Python 的 pypdf 提取文字试试，能提出来就成了，之后 Finder 和 Spotlight 都能搜到内容。</p>
+<h2 id="说句实话"><a href="#说句实话" class="headerlink" title="说句实话"></a>说句实话</h2><p>tesseract 中文识别不是 100%，工程术语更容易错——我测试图里的”渠道清淤”被识别成了”渠道清流”。OCR 完建议抽查几页，重要数字对着原图核一遍。但拿来做全文搜索定位，几百页的说明书能搜了，省下的时间值回票价。</p>
+<p><img src="/img/ocrmypdf-flow.svg"></p>
+]]></content>
+      <categories>
+        <category>数码工具</category>
+      </categories>
+      <tags>
+        <tag>扫描件</tag>
+        <tag>OCR</tag>
+        <tag>ocrmypdf</tag>
+        <tag>tesseract</tag>
+        <tag>PDF</tag>
+        <tag>中文识别</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>渠道清淤算量：土渠溪河按梯形断面算，不是上口宽乘淤厚乘长</title>
+    <url>/posts/2026/09/01/%E6%B8%A0%E9%81%93%E6%B8%85%E6%B7%A4%E7%AE%97%E9%87%8F-%E5%9C%9F%E6%B8%A0%E6%BA%AA%E6%B2%B3%E6%8C%89%E6%A2%AF%E5%BD%A2%E6%96%AD%E9%9D%A2%E7%AE%97/</url>
+    <content><![CDATA[<p>上个月在阳春做一条水毁修复的渠道清淤，工程量计算书第一版我按「宽 × 淤厚 × 长」算，量出来比实际能挖的大一截，被业主一句话点醒：土渠、溪河都是带边坡的梯形断面，淤泥层是上宽下窄的倒梯形，拿上口宽直接乘，等于把两个坡脚的三角都算进去了，量自然虚高。</p>
+<p>这单最后全部按梯形口径重算，业主复核没再提意见。记下来，给同样做农村水利、市政渠道的同行省点事。</p>
+<h2 id="为什么矩形算法是错的"><a href="#为什么矩形算法是错的" class="headerlink" title="为什么矩形算法是错的"></a>为什么矩形算法是错的</h2><p>清淤挖的是淤积层，断面是倒梯形：顶面是上口宽 B，挖到底，底面因为两侧边坡往内收，只剩 B − 2m·h（m 是边坡系数，h 是淤厚）。</p>
+<p>按矩形算 &#x3D; B × h × L，把两侧坡脚的两个三角形也算了进去。单个三角看着不大，一条几百米的渠积累下来就是几百方。量虚高，报价跟着虚高：投标要么没竞争力，要么中标后按业主复核的量干，心里没底。</p>
+<h2 id="公式"><a href="#公式" class="headerlink" title="公式"></a>公式</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">V = (B − m·h) × h × L</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>B：上口宽（顶宽），现场量最宽那条线，不是底宽，也不是平均宽</li>
+<li>h：淤厚（平均淤深），米</li>
+<li>m：边坡系数，水平:垂直 &#x3D; m:1，无单位</li>
+<li>L：清淤长度，米</li>
+</ul>
+<p>推导很简单：梯形面积 &#x3D;（上底 + 下底）÷ 2 × 高，下底 &#x3D; B − 2m·h，代进去就是 (B − m·h) × h。</p>
+<h2 id="边坡系数-m-怎么定"><a href="#边坡系数-m-怎么定" class="headerlink" title="边坡系数 m 怎么定"></a>边坡系数 m 怎么定</h2><p>m 由土质决定，渠道越松、越砂，坡越要缓，m 越大：</p>
+<ul>
+<li>黏土、壤土渠道：1:1 左右</li>
+<li>偏砂、松散的溪河：1:1.25 ~ 1:1.5</li>
+</ul>
+<p>我们这单定的是：土渠 1:1，小溪小河偏砂松散 1:1.25。这个数一般和业主、设计对一下口径，别自己拍脑袋。</p>
+<h2 id="算例"><a href="#算例" class="headerlink" title="算例"></a>算例</h2><p>一段土渠，上口宽 2.0 m，平均淤厚 0.4 m，长 100 m，m &#x3D; 1：</p>
+<ul>
+<li>矩形：2.0 × 0.4 × 100 &#x3D; 80 m³</li>
+<li>梯形：(2.0 − 1 × 0.4) × 0.4 × 100 &#x3D; 64 m³</li>
+</ul>
+<p>同一条渠，两种算法差 16 m³，差 20%。这就是这层修正必须做的原因。</p>
+<h2 id="几个容易踩的点"><a href="#几个容易踩的点" class="headerlink" title="几个容易踩的点"></a>几个容易踩的点</h2><ol>
+<li>只有土渠、溪河（带边坡的天然断面）才用梯形修正；人工清理的成形矩形渠道、沟槽开挖、回填铺筑，直接按矩形或设计断面算，别乱套。</li>
+<li>宽度取上口最大宽，现场量测先分清哪条线是上口，拿底宽或平均宽出来整个偏小。</li>
+<li>淤厚取分段断面平均，隔一段测一个断面，别拿一个断面代表整条渠。</li>
+<li>公式里所有单位统一用米，m 不带单位。</li>
+<li>渠道清理的分项别漏：一般是清淤 m³ + 除草清障 m²（或 m）+ 淤泥清运，量要分开列。</li>
+</ol>
+<p><img src="/img/qingyu-trapezoid.svg" alt="渠道清淤梯形断面示意"></p>
+<p>这单的量按梯形口径修正后约 3211.87 m³（溪河 1:1.25 与土渠 1:1 分列）。量是计价的地基，量错了，后面单价再准都白搭。</p>
+]]></content>
+      <categories>
+        <category>工程软件</category>
+      </categories>
+      <tags>
+        <tag>算量</tag>
+        <tag>水利</tag>
+        <tag>清淤</tag>
+        <tag>梯形断面</tag>
+        <tag>施工</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>笔记散在五个地方，我最后都收进了 Obsidian</title>
+    <url>/posts/2026/08/10/%E7%94%A8Obsidian%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p>我的笔记以前是散成一地的。备忘录里存几条，微信收藏夹一堆，浏览器剪藏一堆，还有几个 Word 文档东一个西一个。真到要用的时候，就是想不起当时记哪去了，等于没记。后来我全搬进 Obsidian，用到现在，把思路和做法记下来，给你个参考。</p>
+<h2 id="为什么选-Obsidian"><a href="#为什么选-Obsidian" class="headerlink" title="为什么选 Obsidian"></a>为什么选 Obsidian</h2><p>我最看重的一点是：<strong>笔记是纯 Markdown 文件，就放在你自己硬盘上</strong>。厂商关停、改版、涨价，都带不走你的东西——换任何工具，复制文件就能走。Notion、语雀、印象笔记这些，数据都在人家云端，万一哪天想搬家就麻烦。</p>
+<p>第二点是它能”连”。笔记之间用 <code>[[链接]]</code> 织成网，打开图谱能看到知识之间的结构，不是一堆孤立文件。第三是插件多，模板、看板、日历、数据库都能拼出来，几乎任何工作流都够用。</p>
+<p>缺点我也直说：官方云同步是付费的，不花钱得自己搭 iCloud 或 Git；多人协作比 Notion 弱；插件太多新手容易一头扎进”装插件”而不是”记笔记”。想开箱即用、只想随手记的人，语雀印象笔记更省心。</p>
+<h2 id="我的核心思路：像”书”一样分层"><a href="#我的核心思路：像”书”一样分层" class="headerlink" title="我的核心思路：像”书”一样分层"></a>我的核心思路：像”书”一样分层</h2><blockquote>
+<p>不要按”工具”组织，要按”书”组织。知识库不是收纳盒，是一本可以不断再版的书。</p>
+</blockquote>
+<p>首页只放几个链接，下面是知识地图（总目录），地图里只列各领域的索引页和章首页，正文笔记永远不直接挂在顶层。这样不管笔记涨到几百还是几千篇，入口都不会乱成麻。</p>
+<h2 id="目录用数字编号排序"><a href="#目录用数字编号排序" class="headerlink" title="目录用数字编号排序"></a>目录用数字编号排序</h2><p>我用两位数字前缀给目录排序。数字既是物理排序也是阅读顺序，看编号就知道先看哪、后看哪：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">00-首页与索引/      封面与目录：首页、总规则、知识地图、全部索引</span><br><span class="line">01-智能体知识/      规则、工具链、AI 使用规范、创作系统</span><br><span class="line">02-项目/            工程项目、软件与 AI 项目</span><br><span class="line">03-施工工艺/        可复用工艺、质量控制、验收要点</span><br><span class="line">04-材料与设备/      材料、设备、规格、价格和适用场景</span><br><span class="line">05-报价与成本/      工程量、人工、机械、辅材、报价、结算</span><br><span class="line">06-合同与风险/      合同、付款、变更、索赔、风险</span><br><span class="line">07-法规与规范/      国家、省、市各级文件</span><br><span class="line">08-安全与台风/      安全、应急、恶劣天气和事故复盘</span><br><span class="line">09-来源资料/        网页 / PDF / 文件来源摘要和原始路径</span><br><span class="line">10-收集箱/          尚未整理的临时内容</span><br><span class="line">99-模板/            模板索引（项目、主题、来源、现场、决策模板）</span><br></pre></td></tr></table></figure>
+
+<p>几条纪律：新笔记必须归进对应章目录，不平铺在根部；每章一个章首页；索引只列章首页不列全部正文；空目录也建个占位章首页，避免新笔记没地方放。</p>
+<h2 id="一条笔记的一生"><a href="#一条笔记的一生" class="headerlink" title="一条笔记的一生"></a>一条笔记的一生</h2><p>光讲架构没用，走一遍就懂。就拿工程里的例子：记一条「C25 商品混凝土 8 月阳春信息价」。</p>
+<p><strong>第 1 步·捕获（30 秒）</strong>：手机上看到供应商报价，随手记进 <code>10-收集箱/</code>，一个文件几句话，不加格式：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">C25砼 8月价 阳春 380/方 参考</span><br><span class="line">供应商报价截图（手机拍）</span><br><span class="line">要查：跟7月比涨没涨</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 2 步·整理（2 分钟）</strong>：周末统一整理，重命名、补 YAML、挪进章目录、加链接：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: C25商品砼2026年8月阳春信息价</span><br><span class="line">type: source</span><br><span class="line">status: verified</span><br><span class="line">created: 2026-08-10</span><br><span class="line">updated: 2026-08-10</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  -</span> 报价</span><br><span class="line"><span class="bullet">  -</span> 混凝土</span><br><span class="line"><span class="bullet">  -</span> 信息价</span><br><span class="line">source: XX商砼8月报价单</span><br><span class="line">source<span class="emphasis">_date: 2026-08-10</span></span><br><span class="line"><span class="emphasis">checked_</span>date: 2026-08-10</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">8 月 C25 约 380 元/方，较 7 月 +2.7%，详见 [[2026年7月材料信息价]]。</span><br><span class="line">已挂入 [[报价与成本索引]]，用于 [[XX项目结算]] 的调差依据。</span><br></pre></td></tr></table></figure>
+
+<p><strong>第 3 步·检索（3 秒）</strong>：什么时候要报价，全文搜索、标签检索、顺着链接点进去，三种找法任选。</p>
+<p><strong>第 4 步·沉淀</strong>：这篇之后被报价书、结算反复引用，就成了报价体系里的一张”卡”。<strong>笔记的价值在第二次使用时才开始兑现</strong>——第一次是记录，之后每一次都是复利。</p>
+<h2 id="几个我吃了亏才记住的点"><a href="#几个我吃了亏才记住的点" class="headerlink" title="几个我吃了亏才记住的点"></a>几个我吃了亏才记住的点</h2><ol>
+<li><strong>易变信息必须写来源和日期</strong>。价格、法规、数据这类，<code>source</code> 和 <code>checked_date</code> 一定填上，过时了能重新查，不然记了等于没记。</li>
+<li><strong>分类是主结构，标签是辅助，链接是逻辑网</strong>，别互相替代。用标签模拟目录会乱，用目录模拟关系会僵。</li>
+<li><strong>每篇笔记至少一条入链 + 一条出链</strong>。入链保证从索引达得到（不孤立），出链保证能往下跳。</li>
+<li><strong>链接目标不存在就先建占位</strong>，标个”待补充”，别编内容。</li>
+<li><strong>别光顾着装插件</strong>。我一开始天天折腾插件，后来发现结构对了比什么都强。</li>
+</ol>
+<h2 id="我的落地节奏"><a href="#我的落地节奏" class="headerlink" title="我的落地节奏"></a>我的落地节奏</h2><p>第 1 天先立规则再搬家：写下总规则（分层、编号、分章、YAML、禁止事项），后面所有操作有据可依。第 2 天搭骨架，建 00–99 章目录和章首页。第 3 天把散落笔记按主题批量搬进对应目录。之后就是持续治理：新笔记必须归章、必须挂索引，每周跑一次断链扫描。</p>
+<p>实测下来，首页从 17 条链接收敛到 7 条，知识地图从 29 条收敛到 13 条，断链清零，图谱从乱麻变成一棵清楚的树。<strong>治理的投入主要在结构，不在内容</strong>——结构对了，内容自然找到位置。</p>
+<p>一句话：数据是自己的、能连成网、结构能长大，这三样对长期积累够了。想试试的话，先建 3 个目录（入口、收集箱、模板）、定个笔记模板，从今天开始记，比什么都强。</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>效率工具</tag>
+        <tag>教程</tag>
+        <tag>Obsidian</tag>
+        <tag>知识管理</tag>
+        <tag>笔记系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>鼠须管候选框太透明看不清，改成实心暗底绿高亮了</title>
+    <url>/posts/2026/08/23/%E9%BC%A0%E9%A1%BB%E7%AE%A1%E5%80%99%E9%80%89%E6%A1%86%E6%94%B9%E6%88%90%E5%AE%9E%E5%BF%83%E6%9A%97%E5%BA%95/</url>
+    <content><![CDATA[<p>用鼠须管（Squirrel）快两年，默认候选框一直是半透明毛玻璃。平时没觉得，但窗口一叠起来就遭殃：背后是深色内容时，候选字直接糊进背景里，盯半天分不清是「工」还是「土」。那天晚上对着报价表改数字，眼睛实在受不了，决定把候选框改成实心暗底。</p>
+<p>改起来不难，只动一个文件：<code>~/Library/Rime/squirrel.custom.yaml</code>。这个文件只管鼠须管的外观，词库、按键、候选数量都别碰。没有就新建。</p>
+<p>完整配置，直接整段贴进去：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">patch:</span></span><br><span class="line">  <span class="attr">style:</span></span><br><span class="line">    <span class="attr">translucency:</span> <span class="literal">false</span>          <span class="comment"># 关掉毛玻璃</span></span><br><span class="line">    <span class="attr">alpha:</span> <span class="number">1.0</span>                   <span class="comment"># 完全不透明</span></span><br><span class="line">    <span class="attr">font_point:</span> <span class="number">16</span>               <span class="comment"># 候选字字号</span></span><br><span class="line">    <span class="attr">corner_radius:</span> <span class="number">5</span>             <span class="comment"># 候选框圆角</span></span><br><span class="line">    <span class="attr">border_height:</span> <span class="number">0</span>             <span class="comment"># 上下留白，0 最矮</span></span><br><span class="line">    <span class="attr">spacing:</span> <span class="number">2</span>                   <span class="comment"># 候选词间距</span></span><br><span class="line">    <span class="attr">color_scheme:</span> <span class="string">my_dark</span>        <span class="comment"># 用下面自定义的肤色</span></span><br><span class="line">  <span class="attr">preset_color_schemes:</span></span><br><span class="line">    <span class="attr">my_dark:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">实心暗底</span></span><br><span class="line">      <span class="attr">back_color:</span> <span class="number">0x545554</span>                   <span class="comment"># 候选框底色（暗灰）</span></span><br><span class="line">      <span class="attr">text_color:</span> <span class="number">0xFFFFFF</span>                   <span class="comment"># 拼音颜色</span></span><br><span class="line">      <span class="attr">label_color:</span> <span class="number">0xAAAAAA</span>                  <span class="comment"># 序号颜色</span></span><br><span class="line">      <span class="attr">candidate_text_color:</span> <span class="number">0xFFFFFF</span>         <span class="comment"># 候选字颜色</span></span><br><span class="line">      <span class="attr">hilited_candidate_back_color:</span> <span class="number">0x98FB98</span> <span class="comment"># 选中项背景（淡绿）</span></span><br><span class="line">      <span class="attr">hilited_candidate_text_color:</span> <span class="number">0x000000</span> <span class="comment"># 选中项文字（黑）</span></span><br><span class="line">      <span class="attr">hilited_candidate_label_color:</span> <span class="number">0x000000</span> <span class="comment"># 选中项序号</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/squirrel-candidate-style.svg" alt="候选框参数示意"></p>
+<p>保存后必须重新部署才生效：点菜单栏的松鼠图标，右键 →「重新部署」。改完候选框变成实心暗底、选中项淡绿底黑字，对比度拉满，叠在任何窗口上都不糊了。</p>
+<p>几个参数说明（都写在 <code>style</code> 下）：</p>
+<ol>
+<li><code>translucency: false</code> + <code>alpha: 1.0</code>：关半透明。只关 translucency 也行，两个都写上保险。</li>
+<li><code>border_height: 0</code>：候选框上下留白。默认值不小，候选框显得又高又胖，改成 0 最矮。</li>
+<li><code>corner_radius: 5</code>：圆角大小，想要更方就改小，直角写 0。</li>
+<li><code>spacing: 2</code>：词与词的间距，字大了挤、字小了松，自己试。</li>
+<li><code>font_point: 16</code>：候选字大小。我试过 15 偏小、17 偏大，16 刚好。</li>
+</ol>
+<p>踩过一个坑，值得单独说：色值是 (A)BGR 顺序，红和蓝是反的。比如想把选中项弄成红色，按习惯写 <code>0xFF0000</code> 是错的，红蓝要对调。我用的 <code>0x545554</code>（暗灰）和 <code>0x98FB98</code>（淡绿）恰好是回文对称的色值，怎么排结果都一样，所以没中招。你要配蓝底红字的皮肤，记得反着填。</p>
+<p>改乱了也不慌：把 <code>squirrel.custom.yaml</code> 删掉再重新部署，就回到默认外观，词库和自定义短语在别的文件里，不受影响。</p>
+<p>还有个别踩坑提醒：候选词数量（<code>menu/page_size</code>）是 <code>default.custom.yaml</code> 管的事，别往这个文件里写。样式文件只管样式，各管各的，出问题好排查。</p>
+<p>现在候选框实心暗底、淡绿高亮，画图、敲报价表都干净利落。鼠须管这套配置自由度很高，就是参数名又多又散，留个档，下次重装系统直接抄。</p>
+]]></content>
+      <categories>
+        <category>macOS</category>
+      </categories>
+      <tags>
+        <tag>macOS</tag>
+        <tag>鼠须管</tag>
+        <tag>Rime</tag>
+        <tag>输入法</tag>
+        <tag>配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Obsidian 放 iCloud 同步，冲突副本和旧版回滚这样处理</title>
+    <url>/posts/2026/08/31/Obsidian%E6%94%BEiCloud%E5%90%8C%E6%AD%A5-%E5%86%B2%E7%AA%81%E5%89%AF%E6%9C%AC%E5%92%8C%E6%97%A7%E7%89%88%E5%9B%9E%E6%BB%9A%E8%BF%99%E6%A0%B7%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>我的 Obsidian 知识库直接放在 iCloud：<code>~/Library/Mobile Documents/iCloud~md~obsidian/Documents</code>。MacBook、另一台机器、还有几个自动脚本都在读写这个库，好处是啥设备打开都是同一份，坏处是 iCloud 根本没有冲突处理机制——它不合并、不提示，出了冲突自己拿主意，拿错主意就是丢内容。</p>
+<p>最近一个月碰上两件事：一是笔记内容变回旧版，昨天写的东西睡一觉起来没了；二是目录里冒出一堆「xxx 2.md」。都排查明白了，记下来。</p>
+<h2 id="坑1：两台设备同时写一个笔记，出来个「xxx-2-md」"><a href="#坑1：两台设备同时写一个笔记，出来个「xxx-2-md」" class="headerlink" title="坑1：两台设备同时写一个笔记，出来个「xxx 2.md」"></a>坑1：两台设备同时写一个笔记，出来个「xxx 2.md」</h2><p>现象：MacBook 上开着「项目清单.md」在改，另一台机器上的脚本也在往这个文件里追加内容。两边都保存了，谁也没看到谁的版本。过一会儿 iCloud 的处理方式是：两个版本都留着，把后到的那份改名叫「项目清单 2.md」放回原地。</p>
+<p>冲突副本的命名规律就是「原文件名 空格 数字」，冲突多了还有「xxx 3.md」「xxx 4.md」。先查全库有多少：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find <span class="string">&quot;<span class="variable">$HOME</span>/Library/Mobile Documents/iCloud~md~obsidian/Documents&quot;</span> -name <span class="string">&quot;* 2.md&quot;</span> -o -name <span class="string">&quot;* 3.md&quot;</span> -o -name <span class="string">&quot;*conflicted copy*&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>路径带空格，引号一定要加，不然 find 直接报错。</p>
+<p>删之前先 diff，别上来就删。大多数「xxx 2.md」和原文件一模一样，是 iCloud 瞎复制出来的，直接删；但有的里面就藏着只有那一份才有的段落：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">diff <span class="string">&quot;项目清单.md&quot;</span> <span class="string">&quot;项目清单 2.md&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>有差异就先合并再删，顺手把指向重复文件的内部链接改回来。</p>
+<p>冲突副本的产生过程，画成图就是这样：</p>
+<p><img src="/img/obsidian-icloud-conflict.svg" alt="并发写冲突副本的产生"></p>
+<h2 id="坑2：旧版本回滚，这个最阴"><a href="#坑2：旧版本回滚，这个最阴" class="headerlink" title="坑2：旧版本回滚，这个最阴"></a>坑2：旧版本回滚，这个最阴</h2><p>冲突副本好歹是明着来，旧版本回滚是暗着来。现象：脚本写好的文件，内容过一段时间悄悄变回更早的版本——iCloud 把另一台设备上传的旧版同步回来，覆盖了新版，没有任何提示。</p>
+<p>我自己就中过招：多智能体记忆同步目录 <code>.agent-sync</code> 里的记忆文件被旧重复版污染过，一开始没发现，后来某条记录越看越眼熟，一查才知道被回滚了。从那以后关键文件一律用哈希盯梢：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">shasum -a 256 <span class="string">&quot;<span class="variable">$HOME</span>/Library/Mobile Documents/iCloud~md~obsidian/Documents/.agent-sync/hermes-memory/&quot;</span>*.md &gt; /tmp/memory-hashes.txt</span><br></pre></td></tr></table></figure>
+
+<p>隔一段时间（或每次脚本同步完）再算一遍对比，变了就说明文件被动过，去查被改成了什么样。想省事就把对比逻辑写进脚本，挂 launchd 定时跑，我这套定时任务本来就走的 launchd。</p>
+<h2 id="坑3：-icloud-占位文件，打开是空的"><a href="#坑3：-icloud-占位文件，打开是空的" class="headerlink" title="坑3：.icloud 占位文件，打开是空的"></a>坑3：.icloud 占位文件，打开是空的</h2><p>文件还在云端没下载下来时，本地只有一个 <code>.icloud</code> 占位文件。Obsidian 这时候打开笔记，轻则卡一下，重则显示空内容——要是这时候手一抖保存了，云端那份就被空文件覆盖，0 字节笔记就是这么来的。</p>
+<p>两个办法：</p>
+<p>一是 Finder 里对知识库文件夹右键 →「始终保留在此设备上」，把整个库钉在本地，不产生占位。这是官方推荐做法，最省心。</p>
+<p>二是用 brctl 命令强制下载（macOS 自带的 iCloud 文件工具，在 &#x2F;usr&#x2F;bin 下）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brctl download <span class="string">&quot;~/Library/Mobile Documents/iCloud~md~obsidian/Documents/某笔记.md&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意传给 brctl 的路径不带 <code>.icloud</code> 后缀。整个库批量下载：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find <span class="string">&quot;<span class="variable">$HOME</span>/Library/Mobile Documents/iCloud~md~obsidian/Documents&quot;</span> -name <span class="string">&#x27;.*icloud&#x27;</span> | \</span><br><span class="line">  perl -pe <span class="string">&#x27;s|(.*)/\.(.*)\.icloud|$1/$2|s&#x27;</span> | \</span><br><span class="line">  <span class="keyword">while</span> <span class="built_in">read</span> f; <span class="keyword">do</span> brctl download <span class="string">&quot;<span class="variable">$f</span>&quot;</span>; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="治本的习惯"><a href="#治本的习惯" class="headerlink" title="治本的习惯"></a>治本的习惯</h2><ol>
+<li>同一篇笔记别同时在两台设备上开着编辑。改完等 iCloud 上传完成（Finder 里云图标变实心）再动另一台。</li>
+<li>别把 git 仓库放进 iCloud。<code>.git</code> 里全是高频写入的小文件，iCloud 同步必坏，我见过仓库索引直接废掉的。</li>
+<li>脚本写库之前先确认文件已经下载到本地（<code>brctl status</code> 看一眼），写完留哈希。</li>
+<li>冲突真的频繁，就考虑 Obsidian 官方 Sync（有合并和版本历史），或者本地库干活、iCloud 只放镜像。</li>
+</ol>
+<p>我的结论：单用户全 Apple 设备，iCloud 方案还能用，但心里要清楚它没有冲突解决机制，关键数据自己留哈希、留备份，别指望它跟 git 一样聪明。</p>
+]]></content>
+      <categories>
+        <category>知识管理</category>
+      </categories>
+      <tags>
+        <tag>macOS</tag>
+        <tag>Obsidian</tag>
+        <tag>iCloud</tag>
+        <tag>同步</tag>
+        <tag>知识库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>把 Qwen 3.8 27B 装进本地电脑，默认的深度思考先关掉</title>
+    <url>//posts/2026/08/17/qwen-38-27b-local/</url>
+    <content><![CDATA[<p>上周五阿里开源了 Qwen 3.8 27B，就是通义千问的最新开源版。许可证是 Apache 2.0（商用随便用），270 亿参数，还能看图，27B 这个大小笔记本也带得动，我就装了一个试试。装的过程不复杂，麻烦的是它那个默认设置，不关掉能把你等崩溃。这篇记一下全过程。</p>
+<h2 id="Qwen-3-8-27B-是个什么东西"><a href="#Qwen-3-8-27B-是个什么东西" class="headerlink" title="Qwen 3.8 27B 是个什么东西"></a>Qwen 3.8 27B 是个什么东西</h2><p>一句话：通义千问最新一代开源模型，270 亿参数，能理解图片和视频，Apache 2.0 协议，随便用。官方给了两个尺寸，27B（适合本地跑）和 2.4T-A95B（超大的混合专家版，本地跑不动，走 API）。</p>
+<p>本地跑的好处就三点：数据不出门、不要钱、断网也能用。坏处是吃内存，下面说。</p>
+<p>整体流程就六步，先看个全貌：</p>
+<p><img src="/img/qwen38-local.svg" alt="Qwen 3.8 27B 本地部署六步流程"></p>
+<h2 id="先说硬件门槛，别踩坑"><a href="#先说硬件门槛，别踩坑" class="headerlink" title="先说硬件门槛，别踩坑"></a>先说硬件门槛，别踩坑</h2><p>模型量化版（Q4_K_M）文件大约 17GB，加载进内存后实际占用要 20GB 以上。</p>
+<ul>
+<li>我的机器是 16GB 内存的 M2 MacBook，试了，跑不动。内存不够会疯狂用硬盘当交换空间，出结果以小时计</li>
+<li>想跑 27B，32GB 内存起步比较稳；Mac 买统一内存大点的版本，Windows 建议 16GB 显存显卡或者 32GB 内存</li>
+<li>16GB 内存的机器想玩：走官方 API（qwencloud.com 或阿里云百炼），或者等官方出更小的量化版本。官方目前只有 27B 和 2.4T-A95B 两个尺寸，社区有人转 9B 的，下载量还很小，先观望</li>
+<li>LM Studio 官方要求：macOS 14 以上、Apple Silicon 芯片；Windows 需要支持 AVX2 指令集（近几年的 CPU 基本都行）</li>
+</ul>
+<h2 id="第-1-步：装-LM-Studio"><a href="#第-1-步：装-LM-Studio" class="headerlink" title="第 1 步：装 LM Studio"></a>第 1 步：装 LM Studio</h2><p>去 lmstudio.ai 下载，Windows 和 Mac 都有安装包，免费。装完打开就是个聊天软件的样子。</p>
+<p>网站挂在 Cloudflare 后面，国内直连有时候慢或者打不开，打不开就挂代理，下载好安装包之后就不用再访问它了。</p>
+<h2 id="第-2-步：下载模型"><a href="#第-2-步：下载模型" class="headerlink" title="第 2 步：下载模型"></a>第 2 步：下载模型</h2><p>两条路，选一条：</p>
+<p><strong>方法 A（界面里直接搜）</strong>：LM Studio 主界面有搜索框，搜 <code>Qwen3.8-27B</code>，选 unsloth 出的 GGUF 量化版，挑 Q4_K_M 这个文件（约 17GB，速度和质量的平衡点）。点了下载等它跑完。</p>
+<p><strong>方法 B（国内推荐，走魔搭）</strong>：ModelScope 魔搭（modelscope.cn）上有同样的文件，国内直连不翻墙。搜 <code>unsloth/Qwen3.8-27B-GGUF</code>，下载 <code>Qwen3.8-27B-Q4_K_M.gguf</code>，然后把这个文件拖进 LM Studio 的模型文件夹，重启就能看到。</p>
+<p>顺带说一句，Hugging Face 上这个 GGUF 下载量已经 270 多万次了，说明大家都在这么玩，路是通的。</p>
+<h2 id="第-3-步：加载模型，先问一句"><a href="#第-3-步：加载模型，先问一句" class="headerlink" title="第 3 步：加载模型，先问一句"></a>第 3 步：加载模型，先问一句</h2><p>左侧选到模型，点加载。加载完在聊天框里随便问一句，比如「用一句话介绍你自己」。</p>
+<h2 id="第-4-步：把默认的「深度思考」关掉，这是重点"><a href="#第-4-步：把默认的「深度思考」关掉，这是重点" class="headerlink" title="第 4 步：把默认的「深度思考」关掉，这是重点"></a>第 4 步：把默认的「深度思考」关掉，这是重点</h2><p>Qwen 3.8 默认把思考强度（官方叫 reasoning_effort）拉到了最高档 xhigh，也就是说每次回答前它都要先长篇大论地自我脑补一通。</p>
+<p>后果有多夸张？AI 博主 Simon Willison 实测：让它在默认设置下画一只骑自行车的鹈鹕（SVG 图片），它先想了 21 分钟、消耗了两万多个「思考 token」，才终于出图。把思考关掉，同一句话 137 秒就出图了。</p>
+<p>日常问答、写代码、总结文档，根本用不上那个深度。聊天界面里找 thinking 相关的开关（有的版本叫 reasoning），关掉；或者后面走 API 的时候传参数，见第 6 步。</p>
+<h2 id="第-5-步：把上下文窗口调大"><a href="#第-5-步：把上下文窗口调大" class="headerlink" title="第 5 步：把上下文窗口调大"></a>第 5 步：把上下文窗口调大</h2><p>LM Studio 默认上下文只有 8192 个 token，而 Qwen 3.8 原生支持 26 万。不调的话，光它自己「思考」就能把 8K 吃光，长文档更是没法聊。</p>
+<p>加载模型的时候把上下文长度调到 262144（保守一点 32768 也行）。内存小的机器量力而行，上下文越大越吃内存。</p>
+<h2 id="第-6-步：走-API-调用，附一个能直接复制的脚本"><a href="#第-6-步：走-API-调用，附一个能直接复制的脚本" class="headerlink" title="第 6 步：走 API 调用，附一个能直接复制的脚本"></a>第 6 步：走 API 调用，附一个能直接复制的脚本</h2><p>LM Studio 左下角切到开发者（Developer）标签，点启动本地服务器，默认地址 <code>http://127.0.0.1:1234</code>，接口完全兼容 OpenAI 格式。装个 OpenAI 的 Python 库就能调：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install openai</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI(</span><br><span class="line">    base_url=<span class="string">&quot;http://127.0.0.1:1234/v1&quot;</span>,</span><br><span class="line">    api_key=<span class="string">&quot;lm-studio&quot;</span>,  <span class="comment"># 本地服务器随便填</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">resp = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">&quot;qwen3.8-27b&quot;</span>,</span><br><span class="line">    messages=[&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;把下面这段文字压缩成三句话：……&quot;</span>&#125;],</span><br><span class="line">    reasoning_effort=<span class="string">&quot;low&quot;</span>,   <span class="comment"># 关键：别用默认的 xhigh</span></span><br><span class="line">    max_tokens=<span class="number">1024</span>,</span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(resp.choices[<span class="number">0</span>].message.content)</span><br></pre></td></tr></table></figure>
+
+<p><code>reasoning_effort</code> 支持 <code>xhigh</code> &#x2F; <code>medium</code> &#x2F; <code>low</code> 三档。想彻底不要思考，官方接口还能传 <code>enable_thinking: False</code>，本地服务器支持与否看版本，试一下就知道。</p>
+<h2 id="用下来的感受"><a href="#用下来的感受" class="headerlink" title="用下来的感受"></a>用下来的感受</h2><p>27B 这个量级里它算能打的，写代码、改 bug、总结文档都行，中文是阿里自家的，很顺。视觉方面让它框出照片里的物体（bounding box），准得有点意外。速度看机器，Apple Silicon 上大概每秒几个到十几个 token，比在线 API 慢，但胜在免费和私密。</p>
+<blockquote>
+<p>版本和命令信息查于 2026-08-17，工具和模型都在快速更新，以官方文档为准。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>AI</tag>
+        <tag>Qwen</tag>
+        <tag>通义千问</tag>
+        <tag>本地部署</tag>
+        <tag>LM Studio</tag>
+      </tags>
+  </entry>
+</search>
