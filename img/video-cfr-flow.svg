@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif">
+  <rect width="800" height="300" fill="#f7f9fc"/>
+  <text x="24" y="34" font-size="17" font-weight="600" fill="#1f3b57">手机视频转固定帧率（CFR）的四步</text>
+  <text x="24" y="55" font-size="12" fill="#6b7d90">源文件是可变帧率时，剪辑软件按固定栅格摊时间，误差会一直累积</text>
+
+  <g stroke="#2f6f8f" stroke-width="1.6" fill="#ffffff">
+    <rect x="20" y="86" width="158" height="96" rx="8"/>
+    <rect x="214" y="86" width="158" height="96" rx="8"/>
+    <rect x="408" y="86" width="166" height="96" rx="8"/>
+    <rect x="610" y="86" width="170" height="96" rx="8"/>
+  </g>
+
+  <g font-size="13" font-weight="600" fill="#1f3b57">
+    <text x="34" y="110">① 先判断帧率</text>
+    <text x="228" y="110">② 视频转 CFR</text>
+    <text x="422" y="110">③ 音频重建时间轴</text>
+    <text x="624" y="110">④ 校验后进剪辑</text>
+  </g>
+  <g font-size="11.5" fill="#3f5568">
+    <text x="34" y="134">ffprobe 比对</text>
+    <text x="34" y="151">r_frame_rate 与</text>
+    <text x="34" y="168">avg_frame_rate</text>
+
+    <text x="228" y="134">-fps_mode cfr -r 30</text>
+    <text x="228" y="151">h264_videotoolbox</text>
+    <text x="228" y="168">-b:v 12M</text>
+
+    <text x="422" y="134">-c:a aac -ar 48000</text>
+    <text x="422" y="151">-af aresample=</text>
+    <text x="422" y="168">async=1000</text>
+
+    <text x="624" y="134">两个帧率字段</text>
+    <text x="624" y="151">相等才算转成</text>
+    <text x="624" y="168">30/1 配 30/1</text>
+  </g>
+
+  <g stroke="#7fa6bd" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <line x1="180" y1="134" x2="210" y2="134"/>
+    <line x1="374" y1="134" x2="404" y2="134"/>
+    <line x1="576" y1="134" x2="606" y2="134"/>
+  </g>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#7fa6bd"/>
+    </marker>
+  </defs>
+
+  <rect x="20" y="206" width="760" height="66" rx="8" fill="#eef4f8" stroke="#cddde8"/>
+  <text x="36" y="230" font-size="12.5" font-weight="600" fill="#1f3b57">一个容易漏的地方</text>
+  <text x="36" y="252" font-size="12" fill="#3f5568">脚本里不加 -y，遇到已存在的输出文件 ffmpeg 会报 File already exists. Exiting. —— 但退出码仍是 0，</text>
+  <text x="36" y="268" font-size="12" fill="#3f5568">所以必须自己核对产物（ffmpeg 9.0.1 / macOS 实测）。</text>
+</svg>

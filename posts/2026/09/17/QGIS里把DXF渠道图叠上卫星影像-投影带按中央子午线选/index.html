@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f0e4"><meta name="description" content="水毁渠道的 DXF 平面图要跟村里交底，图纸上只有线，看不出哪段贴屋、哪段挨着竹林，所以得把 DXF 叠到卫星影像上。QGIS 3.44 LTR 实测流程：先用东坐标位数判断投影带（阳春 111.8°E，3 度带 37 带中央子午线 111°E，EPSG:4546），再挂 Esri 影像 XYZ 瓦片，然后用「项目 → 导入&#x2F;导出 → 从 DWG&#x2F;DXF 导入图层」指定坐标系导进 GeoPacka">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="水毁渠道的 DXF 平面图要跟村里交底，图纸上只有线，看不出哪段贴屋、哪段挨着竹林，所以得把 DXF 叠到卫星影像上。QGIS 3.44 LTR 实测流程：先用东坐标位数判断投影带（阳春 111.8°E，3 度带 37 带中央子午线 111°E，EPSG:4546），再挂 Esri 影像 XYZ 瓦片，然后用「项目 → 导入&#x2F;导出 → 从 DWG&#x2F;DXF 导入图层」指定坐标系导进 GeoPacka">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/qgis-dxf-imagery.svg">
+<meta property="article:published_time" content="2026-09-17T14:40:00.000Z">
+<meta property="article:modified_time" content="2026-09-19T14:29:33.477Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="CGCS2000">
+<meta property="article:tag" content="DXF">
+<meta property="article:tag" content="QGIS">
+<meta property="article:tag" content="卫星影像">
+<meta property="article:tag" content="坐标系统">
+<meta property="article:tag" content="水利">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选",
+  "url": "https://www.lxpyll.top/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/",
+  "image": "https://www.lxpyll.top/img/qgis-dxf-imagery.svg",
+  "datePublished": "2026-09-17T14:40:00.000Z",
+  "dateModified": "2026-09-19T14:29:33.477Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "水毁渠道的 DXF 平面图要跟村里交底，图纸上只有线，看不出哪段贴屋、哪段挨着竹林，所以得把 DXF 叠到卫星影像上。QGIS 3.44 LTR 实测流程：先用东坐标位数判断投影带（阳春 111.8°E，3 度带 37 带中央子午线 111°E，EPSG:4546），再挂 Esri 影像 XYZ 瓦片，然后用「项目 → 导入/导出 → 从 DWG/DXF 导入图层」指定坐标系导进 GeoPackage。整体平移用处理工具箱的 translate，独立坐标带旋转就用两个已知点算平移加旋转角。附实测过的瓦片地址和 ogr2ogr 批量命令。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#231d17')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f0e4')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Noto+Serif+SC:wght@400;500;600;700;900&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #f7f0e4;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">127</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-17T14:40:00.000Z" title="发表于 2026-09-17 22:40:00">2026-09-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T14:29:33.477Z" title="更新于 2026-09-19 22:29:33">2026-09-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E7%A8%8B%E8%BD%AF%E4%BB%B6/">工程软件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><p>新圩 512、618 那两条渠的 DXF 平面图，要拿去现场跟村里对一遍。图纸打开全是线和桩号，人家问「这一段两边是不是竹林」「这里贴着谁家的屋」，我盯着图答不上来，得叠上卫星影像才说得清。</p>
+<p>AutoCAD 里挂影像底图也能做，但要自己下影像、自己配准，一张图折腾半小时。QGIS 不花钱，Esri 的公开影像直接按 XYZ 瓦片拉下来叠，我拉了一块阳春附近的瓦片试，返回 200、256×256 的 JPEG，17 KB 一块，够清楚。</p>
+<h2 id="装-QGIS"><a href="#装-QGIS" class="headerlink" title="装 QGIS"></a>装 QGIS</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install --cask qgis@ltr   <span class="comment"># 3.44.14 LTR</span></span><br><span class="line">brew install --cask qgis       <span class="comment"># 4.2.2，最新版</span></span><br></pre></td></tr></table></figure>
+
+<p>我装的是 LTR。工程上画图算量这种活，我不想每隔几个月发现菜单又换地方了 —— 3.44 这版够用，装完在 <code>/Applications/QGIS-LTR.app</code>，安装包一 G 出头，占地方但值。</p>
+<h2 id="先定投影带，这一步错了后面全白干"><a href="#先定投影带，这一步错了后面全白干" class="headerlink" title="先定投影带，这一步错了后面全白干"></a>先定投影带，这一步错了后面全白干</h2><p>图加载得进去，但整条渠飘出几公里、或者压到海里去，十有八九是投影带填错，不是图坏了。</p>
+<p>阳春的经度大概 111.8°E，落在 3 度带的第 37 带，中央子午线 111°E。CGCS2000 下对应的 EPSG 是 <strong>4546</strong>，坐标系列表里的名字是 <code>CGCS2000 / 3-degree Gauss-Kruger CM 111E</code>。阳江、茂名这一片都是同一个带。</p>
+<p>手上图纸是哪种形式，看东坐标（测量坐标里的 Y，也就是 CAD 里横着的那根轴）：</p>
+<ul>
+<li><strong>6 位</strong>（456789、512345 这种）→ 不带带号，直接选 EPSG:4546；</li>
+<li><strong>8 位、开头是带号</strong>（37512345 这种，37 就是第 37 带）→ 得用「带带号」的那一版，在坐标系列表里搜 CGCS2000 3-degree，挑名字里带 zone 的那个；</li>
+<li>还有一种是 6 度带，6 度带第 19 带的中央子午线<strong>也是</strong> 111°E，但数值跟 3 度带不是一回事，别按经验填。</li>
+</ul>
+<p>最省事的办法是直接问设计要一句坐标系统说明，写清楚带号和中央子午线，比自己在图上猜快得多。</p>
+<h2 id="挂卫星影像"><a href="#挂卫星影像" class="headerlink" title="挂卫星影像"></a>挂卫星影像</h2><p>图层面板旁边那个「浏览器」面板（<code>Ctrl+2</code> 打开），找到 <strong>XYZ Tiles</strong>，右键 → 新建连接，填：</p>
+<ul>
+<li>名称：<code>Esri 影像</code></li>
+<li>URL：<code>https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}</code></li>
+</ul>
+<p>占位符顺序是 <code>{z}/{y}/{x}</code>，Esri 这套是 y 在前，写反了整屏拉花。确定以后双击它就加载进来了，放大到 17～19 级，房子、田埂、竹林边界都看得清。</p>
+<h2 id="把-DXF-导进来"><a href="#把-DXF-导进来" class="headerlink" title="把 DXF 导进来"></a>把 DXF 导进来</h2><p>两种导法：</p>
+<p><strong>拖拽</strong>（快，但样式会乱）：把 <code>.dxf</code> 从文件管理器直接拖到 QGIS 画布上，弹窗勾要哪些子图层就行。图层名会自动起成「文件名_entities_线」这种，颜色也是随机的。</p>
+<p><strong>官方导入器</strong>（保留 CAD 里的图层名和颜色，推荐）：菜单 <code>项目 → 导入/导出 → 从 DWG/DXF 导入图层…</code></p>
+<ol>
+<li>源图纸：选 <code>.dxf</code> 文件；</li>
+<li><strong>坐标系：填 EPSG:4546</strong>（就是前面定的那个，这一步填错整篇白写）；</li>
+<li>目标 GeoPackage：指定一个新文件，导入是把 CAD 内容写进这个 gpkg 里，以后再打开不用重新导；</li>
+<li>块的处理：默认「展开块几何」就够，图上有块参照（比如重复的涵洞符号）想单独提点出来，选「展开块几何并添加插入点」；</li>
+<li>点「导入」，跑完之后下半部分是图纸里的图层清单，勾要用的、起个组名，确定。</li>
+</ol>
+<p>导进来的线是带 Z 值的 <code>LineStringZ</code>，量长度不受影响，不用特意去降成二维。</p>
+<h2 id="对位，和必要的修正"><a href="#对位，和必要的修正" class="headerlink" title="对位，和必要的修正"></a>对位，和必要的修正</h2><p>先把影像放到合适层级，再把渠道线叠上去。找桥、涵洞、老路这种影像上一眼认得出的地物，看线有没有压在渠上。</p>
+<p><strong>整体偏一个固定量</strong>：处理工具箱（<code>Ctrl+Alt+T</code>）里搜 <code>translate</code>，中文界面叫「平移」，X&#x2F;Y 偏移量填「实测值 − 图上值」，跑一次就归位。工具箱里英文算法名也能搜到，界面语言不影响。</p>
+<p><strong>又偏又转</strong>（设计给的施工独立坐标，跟 2000 系差一个角度）：拿两个已知点，算平移量和两点的方位角差，然后用工具箱搜 <code>rotate</code>、<code>affine</code>（旋转、仿射变换）做一次相似变换。两个点要选得开一点，一米范围内选两点，角度误差会被放大。</p>
+<h2 id="量算和出图"><a href="#量算和出图" class="headerlink" title="量算和出图"></a>量算和出图</h2><p>渠道长度不用手拉尺：图层右键 → 字段计算器，新建字段写 <code>$length</code>，单位跟着图层 CRS 走，出来就是米，跟图纸桩号对一遍；要面积就把 <code>$length</code> 换 <code>$area</code>。</p>
+<p>出图交底用 <code>项目 → 导入/导出 → 导出地图为图像</code>，把渠道线压着影像导成 PNG，现场拿着看比打印蓝图直观。</p>
+<p>几十个 DXF 一起转的话，别一个个点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install gdal</span><br><span class="line">ogr2ogr -f GPKG -a_srs EPSG:4546 渠道.gpkg 渠道.dxf</span><br></pre></td></tr></table></figure>
+
+<p><code>-a_srs</code> 是给没有坐标信息的 DXF 指定坐标系（DXF 文件本身不存 CRS，这是它跟 Shapefile 最大的区别），转完的 gpkg 直接拖进 QGIS 就是带坐标的。</p>
+<h2 id="一句实在话"><a href="#一句实在话" class="headerlink" title="一句实在话"></a>一句实在话</h2><p>QGIS 装起来笨重、第一次打开菜单也多，但投影带这事定一次就固定了，以后每张图纸进来都是叠着影像看：青苗在不在线位上、老涵洞有没有被漏掉、哪一段要清淤、两边有没有屋，一眼就清楚。这一步以前要靠人工到现场走一遍，现在坐在桌前先把可疑段落圈出来，下现场只核那几段。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/">https://www.lxpyll.top/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/DXF/">DXF</a><a class="post-meta__tags" href="/tags/QGIS/">QGIS</a><a class="post-meta__tags" href="/tags/%E5%9D%90%E6%A0%87%E7%B3%BB%E7%BB%9F/">坐标系统</a><a class="post-meta__tags" href="/tags/CGCS2000/">CGCS2000</a><a class="post-meta__tags" href="/tags/%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F/">卫星影像</a><a class="post-meta__tags" href="/tags/%E6%B0%B4%E5%88%A9/">水利</a></div><div class="post-share"><div class="social-share" data-image="/img/qgis-dxf-imagery.svg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/09/18/ffmpeg%E6%8A%8A%E6%89%8B%E6%9C%BA%E8%A7%86%E9%A2%91%E8%BD%AC%E6%88%90%E5%9B%BA%E5%AE%9A%E5%B8%A7%E7%8E%87%EF%BC%8C%E5%89%AA%E8%BE%91%E6%97%B6%E9%9F%B3%E7%94%BB%E4%B8%8D%E5%86%8D%E9%94%99%E4%BD%8D/" title="ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位"><img class="cover" src="/img/video-cfr-flow.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位</div></div><div class="info-2"><div class="info-item-1">手机拍的视频丢进剪辑软件，前面几秒音画是齐的，往后拖就慢慢错位：中段差半秒，片尾能差一两秒。这种偏移和编码器、码率都无关，原因是手机录出来的是可变帧率文件——相机界面上的「30fps」「60fps」只是目标值，实际每两帧之间的间隔并不均匀。剪辑软件按固定帧率把时间摊开，误差就一帧一帧累积起来。 解法是剪辑前先把素材转成固定帧率（CFR）。下面这套流程我...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/16/%E7%B4%A0%E6%9D%90%E5%92%8C%E5%AF%86%E9%92%A5%E8%AF%AF%E6%8F%90%E4%BA%A4%E8%BF%9B%E4%BB%93%E5%BA%93%EF%BC%8C%E7%94%A8-git-filter-repo-%E4%BB%8E%E5%8E%86%E5%8F%B2%E9%87%8C%E5%88%A0%E5%B9%B2%E5%87%80/" title="素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净</div></div><div class="info-2"><div class="info-item-1">我给素材定的规矩是全部放外置盘，仓库里只留引用路径——本机硬盘太小，一个视频工程就能占满。规矩好定，历史不好改：早先有一批素材是真的提交进仓库过，我当时在 Finder 里删掉，再 commit 一笔「删除文件」。这个动作看着干净，其实一点用没有。 我拿测试仓库实测过：塞一个 3MB 的文件提交，再 git rm 掉、再提交一次。git count-o...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/09/01/%E6%B8%A0%E9%81%93%E6%B8%85%E6%B7%A4%E7%AE%97%E9%87%8F-%E5%9C%9F%E6%B8%A0%E6%BA%AA%E6%B2%B3%E6%8C%89%E6%A2%AF%E5%BD%A2%E6%96%AD%E9%9D%A2%E7%AE%97/" title="渠道清淤算量：土渠溪河按梯形断面算，不是上口宽乘淤厚乘长"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-01</div><div class="info-item-2">渠道清淤算量：土渠溪河按梯形断面算，不是上口宽乘淤厚乘长</div></div><div class="info-2"><div class="info-item-1">上个月在阳春做一条水毁修复的渠道清淤，工程量计算书第一版我按「宽 × 淤厚 × 长」算，量出来比实际能挖的大一截，被业主一句话点醒：土渠、溪河都是带边坡的梯形断面，淤泥层是上宽下窄的倒梯形，拿上口宽直接乘，等于把两个坡脚的三角都算进去了，量自然虚高。 这单最后全部按梯形口径重算，业主复核没再提意见。记下来，给同样做农村水利、市政渠道的同行省点事。 为什...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/11/%E6%B8%A0%E9%81%93%E6%96%AD%E9%9D%A2%E5%9B%BE%E7%94%A8matplotlib%E8%84%9A%E6%9C%AC%E7%94%BB%EF%BC%8C%E4%B8%AD%E6%96%87%E6%A0%87%E6%B3%A8%E5%92%8C%E5%B9%B3%E6%96%B9%E5%8F%B7%E9%83%BD%E4%B8%8D%E7%BC%BA/" title="渠道断面图用 matplotlib 脚本画，中文标注和平方号都不缺"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-11</div><div class="info-item-2">渠道断面图用 matplotlib 脚本画，中文标注和平方号都不缺</div></div><div class="info-2"><div class="info-item-1">渠道清淤的计算书里得配断面示意图，图上要标上口最大宽、淤厚、边坡，还有算出来的面积。以前这几张图我用 LibreCAD 描，一张十来分钟，问题是复核阶段淤厚改了两回、边坡从 1:1 改成 1:1.25，图上的底宽和面积全跟着要重算重标。手画的东西改一处忘一处，到最后图上写的 2.70 m 和表里写的 2.70 m，谁也不知道哪个是对的。 现在这几张图交...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/05/%E4%B8%80%E5%A0%86DXF%E5%9B%BE%E7%BA%B8%E8%A6%81%E7%AE%97%E9%9D%A2%E7%A7%AF-freecadcmd%E4%B8%80%E4%B8%AA%E8%84%9A%E6%9C%AC%E5%85%A8%E8%B7%91%E5%AE%8C/" title="一堆 DXF 图纸要算面积，freecadcmd 一个脚本全跑完"><img class="cover" src="/img/fc-dxf-area-flow.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-05</div><div class="info-item-2">一堆 DXF 图纸要算面积，freecadcmd 一个脚本全跑完</div></div><div class="info-2"><div class="info-item-1">干工程的总逃不掉一个动作：收方、算量，最后落到”这块多少平方”。图纸来了，要么是设计院丢过来的 DXF，要么是自己画的图，反正最后都得要个面积数。 日常画图我用 LibreCAD 为主，量面积要一个封闭对象点一次，点完还得自己拿笔记。几十个井盖、地块，图一多就烦。 后来想到：FreeCAD 不是一直装在机器上吗？它带一个命令行版 freecadcmd，...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/25/FreeCAD%E5%AF%BCDXF%E4%B8%A2%E6%96%87%E5%AD%97%E6%A0%87%E6%B3%A8-%E6%8D%A2%E6%97%A7%E7%89%88%E5%AF%BC%E5%87%BA%E5%99%A8%E5%B0%B1%E5%A5%BD%E4%BA%86/" title="FreeCAD 导 DXF 丢文字标注，换旧版导出器就好了"><img class="cover" src="/img/fc-dxf-exporters.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-25</div><div class="info-item-2">FreeCAD 导 DXF 丢文字标注，换旧版导出器就好了</div></div><div class="info-2"><div class="info-item-1">画施工图这行，FreeCAD 出图之后绕不开一步：导 DXF。我的流程是 FreeCAD 里画好，导 DXF 给做预算的或者施工队，对方用 LibreCAD 或者 CAD 打开接着干活。 上个月给一个村道项目的排水断面图收尾，画完导 DXF 发出去，隔天对方回一句：标注呢？我打开文件一看，线都在，尺寸标注全没了，图上的文字说明也一个不剩。图能看，但没尺...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/14/%E6%B8%85%E6%B7%A4%E9%87%8F%E8%A1%A8%E7%9A%84%E5%85%AC%E5%BC%8F%E4%BB%8EC3%E6%94%B9%E6%88%90%E5%90%8D%E5%AD%97%EF%BC%8CFreeCAD%E7%94%B5%E5%AD%90%E8%A1%A8%E6%A0%BC%E8%BF%99%E4%B9%88%E7%94%A8/" title="清淤量表的公式从 C3 改成名字，FreeCAD 电子表格这么用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-14</div><div class="info-item-2">清淤量表的公式从 C3 改成名字，FreeCAD 电子表格这么用</div></div><div class="info-2"><div class="info-item-1">新圩那个水毁修复的渠道清淤量，我原来是在 Excel 里做的，一条渠一块，公式写 =(C3-1*D3)*D3*B3。现场复量回来淤厚从 0.5 改成 0.6，我改完数值还得挨个格子点进去看公式有没有拖对；更要命的是给别人复核的时候，人家问「这个 3211.87 哪来的」，我得先把 C3、D3 翻译成上口宽、淤厚，说半天。 后来把这套表挪进了 FreeC...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">Levi的Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">127</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85-QGIS"><span class="toc-number">1.</span> <span class="toc-text">装 QGIS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%AE%9A%E6%8A%95%E5%BD%B1%E5%B8%A6%EF%BC%8C%E8%BF%99%E4%B8%80%E6%AD%A5%E9%94%99%E4%BA%86%E5%90%8E%E9%9D%A2%E5%85%A8%E7%99%BD%E5%B9%B2"><span class="toc-number">2.</span> <span class="toc-text">先定投影带，这一步错了后面全白干</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%82%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F"><span class="toc-number">3.</span> <span class="toc-text">挂卫星影像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%8A-DXF-%E5%AF%BC%E8%BF%9B%E6%9D%A5"><span class="toc-number">4.</span> <span class="toc-text">把 DXF 导进来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E4%BD%8D%EF%BC%8C%E5%92%8C%E5%BF%85%E8%A6%81%E7%9A%84%E4%BF%AE%E6%AD%A3"><span class="toc-number">5.</span> <span class="toc-text">对位，和必要的修正</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E7%AE%97%E5%92%8C%E5%87%BA%E5%9B%BE"><span class="toc-number">6.</span> <span class="toc-text">量算和出图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E5%AE%9E%E5%9C%A8%E8%AF%9D"><span class="toc-number">7.</span> <span class="toc-text">一句实在话</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/" title="pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python">pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python</a><time datetime="2026-09-19T14:29:00.000Z" title="发表于 2026-09-19 22:29:00">2026-09-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/18/ffmpeg%E6%8A%8A%E6%89%8B%E6%9C%BA%E8%A7%86%E9%A2%91%E8%BD%AC%E6%88%90%E5%9B%BA%E5%AE%9A%E5%B8%A7%E7%8E%87%EF%BC%8C%E5%89%AA%E8%BE%91%E6%97%B6%E9%9F%B3%E7%94%BB%E4%B8%8D%E5%86%8D%E9%94%99%E4%BD%8D/" title="ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位">ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位</a><time datetime="2026-09-18T14:35:00.000Z" title="发表于 2026-09-18 22:35:00">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/" title="QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选">QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选</a><time datetime="2026-09-17T14:40:00.000Z" title="发表于 2026-09-17 22:40:00">2026-09-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/16/%E7%B4%A0%E6%9D%90%E5%92%8C%E5%AF%86%E9%92%A5%E8%AF%AF%E6%8F%90%E4%BA%A4%E8%BF%9B%E4%BB%93%E5%BA%93%EF%BC%8C%E7%94%A8-git-filter-repo-%E4%BB%8E%E5%8E%86%E5%8F%B2%E9%87%8C%E5%88%A0%E5%B9%B2%E5%87%80/" title="素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净">素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净</a><time datetime="2026-09-16T14:34:00.000Z" title="发表于 2026-09-16 22:34:00">2026-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/15/%E7%94%A8qpdf%E5%90%88%E5%B9%B6%E6%89%AB%E6%8F%8F%E4%BB%B6%E4%BA%A4%E8%B5%84%E6%96%99%EF%BC%8C%E9%A1%BA%E6%89%8B%E8%A7%A3%E5%BC%80%E6%9D%83%E9%99%90%E9%94%81%E5%92%8C%E6%89%93%E5%BC%80%E5%AF%86%E7%A0%81/" title="用 qpdf 合并扫描件交资料，顺手解开权限锁和打开密码">用 qpdf 合并扫描件交资料，顺手解开权限锁和打开密码</a><time datetime="2026-09-15T14:38:00.000Z" title="发表于 2026-09-15 22:38:00">2026-09-15</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Lxp1986/Lxp1986.github.io',
+      'data-repo-id': 'R_kgDOMn0qqg',
+      'data-category-id': 'DIC_kwDOMn0qqs4DDgMy',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="530" viewBox="0 0 860 530" font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif">
+  <rect width="860" height="530" fill="#f7f9fb"/>
+  <text x="40" y="36" font-size="17" font-weight="bold" fill="#1f2b36">git filter-repo 清理误提交：本地能清干净，远端要再补两步</text>
+
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#4a5a68"/>
+    </marker>
+  </defs>
+
+  <!-- left column -->
+  <rect x="40" y="60" width="500" height="52" rx="8" fill="#ffffff" stroke="#8fa3b2" stroke-width="1.6"/>
+  <text x="60" y="83" font-size="15" fill="#1f2b36">误提交：3 MB 素材 + 一个 .env 密钥</text>
+  <text x="60" y="102" font-size="12.5" fill="#5c6b78">工作区里删掉、再 commit 一笔“删除文件”</text>
+
+  <line x1="290" y1="112" x2="290" y2="136" stroke="#4a5a68" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <rect x="40" y="138" width="500" height="52" rx="8" fill="#ffffff" stroke="#8fa3b2" stroke-width="1.6"/>
+  <text x="60" y="161" font-size="15" fill="#1f2b36">git rm 只删了最新那棵树</text>
+  <text x="60" y="180" font-size="12.5" fill="#5c6b78">谁 clone 都还得把那个 blob 拉回去</text>
+
+  <line x1="290" y1="190" x2="290" y2="214" stroke="#4a5a68" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <rect x="40" y="216" width="500" height="52" rx="8" fill="#fdf3f3" stroke="#c0705f" stroke-width="1.6"/>
+  <text x="60" y="239" font-size="15" fill="#8a3222">历史里的对象还在：size-pack 3,000,934 B</text>
+  <text x="60" y="258" font-size="12.5" fill="#8a5548">git count-objects -vH 看得到它</text>
+
+  <line x1="290" y1="268" x2="290" y2="292" stroke="#4a5a68" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <rect x="40" y="294" width="500" height="52" rx="8" fill="#ffffff" stroke="#2f6f8f" stroke-width="1.8"/>
+  <text x="60" y="317" font-size="15" fill="#1f2b36">① git filter-repo --analyze（只读）</text>
+  <text x="60" y="336" font-size="12.5" fill="#5c6b78">path-deleted-sizes.txt 里带日期的就是要挖的</text>
+
+  <line x1="290" y1="346" x2="290" y2="370" stroke="#4a5a68" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <rect x="40" y="372" width="500" height="62" rx="8" fill="#ffffff" stroke="#2f6f8f" stroke-width="1.8"/>
+  <text x="60" y="395" font-size="15" fill="#1f2b36">② 重写历史</text>
+  <text x="60" y="414" font-size="12.5" fill="#5c6b78">--path X --invert-paths ｜ --strip-blobs-bigger-than 10M</text>
+  <text x="60" y="430" font-size="12.5" fill="#5c6b78">--replace-text expressions.txt（文件保留，内容替换）</text>
+
+  <line x1="290" y1="434" x2="290" y2="458" stroke="#4a5a68" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <rect x="40" y="460" width="500" height="52" rx="8" fill="#eef6f0" stroke="#4e8a63" stroke-width="1.8"/>
+  <text x="60" y="483" font-size="15" fill="#1f2b36">③ 本地结果：size-pack 1.32 KiB</text>
+  <text x="60" y="502" font-size="12.5" fill="#4a6b55">旧 blob：cat-file 报 could not get object info</text>
+
+  <!-- right note -->
+  <rect x="570" y="60" width="250" height="452" rx="10" fill="#ffffff" stroke="#c9d4dc" stroke-width="1.4"/>
+  <text x="592" y="90" font-size="14.5" font-weight="bold" fill="#1f2b36">本地之外的部分</text>
+  <line x1="592" y1="102" x2="798" y2="102" stroke="#dde5ea" stroke-width="1.2"/>
+
+  <text x="592" y="132" font-size="13" fill="#8a3222">force push 之后</text>
+  <text x="592" y="152" font-size="13" fill="#8a3222">旧 commit 仍可按 SHA-1 访问</text>
+
+  <text x="592" y="192" font-size="13" fill="#5c6b78">已 fork / 已 clone 的副本</text>
+  <text x="592" y="212" font-size="13" fill="#5c6b78">你管不到，对方得 rebase 同步</text>
+
+  <text x="592" y="252" font-size="13" fill="#1f2b36">密钥的正确顺序：</text>
+  <text x="592" y="274" font-size="13" fill="#1f2b36">先去后台作废重签</text>
+  <text x="592" y="294" font-size="13" fill="#1f2b36">再考虑清历史</text>
+
+  <text x="592" y="336" font-size="13" fill="#5c6b78">重写会换掉全部 commit SHA，</text>
+  <text x="592" y="356" font-size="13" fill="#5c6b78">有人在用的仓库挑空闲时段做，</text>
+  <text x="592" y="376" font-size="13" fill="#5c6b78">推完让对方重新 clone。</text>
+
+  <text x="592" y="418" font-size="13" fill="#5c6b78">挡在门口比事后清省事：</text>
+  <text x="592" y="438" font-size="13" fill="#5c6b78">.gitignore 先写素材盘和大文件后缀，</text>
+  <text x="592" y="458" font-size="13" fill="#5c6b78">别用 git add -A 偷懒。</text>
+</svg>

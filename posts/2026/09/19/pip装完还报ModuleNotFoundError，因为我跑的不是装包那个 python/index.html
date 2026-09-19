@@ -1,0 +1,300 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f0e4"><meta name="description" content="包明明 Successfully installed，脚本还是 No module named。这篇用本机实测输出讲清 Mac 上多个 python 各自装各自的包，给出 python3 -m pip -V、sys.executable、python3 -m site 三步定位法，以及 PYTHONPATH 插队和用户目录污染的解除方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="包明明 Successfully installed，脚本还是 No module named。这篇用本机实测输出讲清 Mac 上多个 python 各自装各自的包，给出 python3 -m pip -V、sys.executable、python3 -m site 三步定位法，以及 PYTHONPATH 插队和用户目录污染的解除方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/og.jpg">
+<meta property="article:published_time" content="2026-09-19T14:29:00.000Z">
+<meta property="article:modified_time" content="2026-09-19T14:29:33.477Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="pip">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="venv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python",
+  "url": "https://www.lxpyll.top/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/",
+  "image": "https://www.lxpyll.top/img/og.jpg",
+  "datePublished": "2026-09-19T14:29:00.000Z",
+  "dateModified": "2026-09-19T14:29:33.477Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "包明明 Successfully installed，脚本还是 No module named。这篇用本机实测输出讲清 Mac 上多个 python 各自装各自的包，给出 python3 -m pip -V、sys.executable、python3 -m site 三步定位法，以及 PYTHONPATH 插队和用户目录污染的解除方法。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#231d17')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f0e4')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;family=Noto+Serif+SC:wght@400;500;600;700;900&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #f7f0e4;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">127</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-19T14:29:00.000Z" title="发表于 2026-09-19 22:29:00">2026-09-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T14:29:33.477Z" title="更新于 2026-09-19 22:29:33">2026-09-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4/">开发运维</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><p>给一个抓网页的小脚本装 beautifulsoup4，pip 打印了 <code>Successfully installed beautifulsoup4-4.14.3</code>，转头跑脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ModuleNotFoundError: No module named &#x27;bs4&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>装的时候没报错，跑的时候找不到。这不是 pip 抽风，是我装包用的 python 和跑脚本用的 python 不是一个——一个 3.9，一个 3.14。Mac 上这种事太容易发生，因为 <code>python3</code> 这个名字同时有好几个候选。</p>
+<h2 id="Mac-上为什么有好几个-python3"><a href="#Mac-上为什么有好几个-python3" class="headerlink" title="Mac 上为什么有好几个 python3"></a>Mac 上为什么有好几个 python3</h2><p>本机 <code>which -a python3</code> 的输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/python3</span><br><span class="line">/Users/levi/.hermes/hermes-agent/venv/bin/python3</span><br><span class="line">/opt/homebrew/bin/python3</span><br></pre></td></tr></table></figure>
+
+<p>三个。第一个其实是 Xcode 里带的 3.9.6（<code>/usr/bin/python3</code> 只是个壳子，真身在 <code>/Applications/Xcode.app/Contents/Developer/usr/bin/python3</code>）；第三个是 Homebrew 装的 3.14；中间那个是某个项目的 venv。<code>python3</code> 敲下去落到谁身上，只看 PATH 从上往下谁先命中。</p>
+<p>问题是每个解释器都有自己的一份 site-packages。3.9 装的包，3.14 一点都看不见，而且不会有任何提示。实测：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -c &quot;import bs4; print(bs4.__file__)&quot;</span><br><span class="line">/Users/levi/Library/Python/3.9/lib/python/site-packages/bs4/__init__.py</span><br><span class="line"></span><br><span class="line">$ /opt/homebrew/bin/python3 -c &quot;import bs4; print(bs4.__file__)&quot;</span><br><span class="line">ModuleNotFoundError: No module named &#x27;bs4&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>同一个包名，一个能 import 一个不能。所以报 ModuleNotFoundError 时，别急着重新装——先查清楚装到哪、谁在跑。</p>
+<p><img src="/img/py-import-path.svg" alt="import 时的目录搜索顺序"></p>
+<h2 id="三步定位"><a href="#三步定位" class="headerlink" title="三步定位"></a>三步定位</h2><p><strong>第一步，看 pip 会把包装到哪。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m pip -V</span><br><span class="line">pip 25.1 from /Users/levi/Library/Python/3.9/lib/python/site-packages/pip (python 3.9)</span><br></pre></td></tr></table></figure>
+
+<p>这一行把三件事一次说清：这个 pip 属于 python 3.9、包会进 <code>~/Library/Python/3.9/lib/python/site-packages</code>、这是用户级目录不是 venv。</p>
+<p>一定用 <code>python3 -m pip</code>，别用裸 <code>pip3</code>。<code>pip3</code> 是个带 shebang 的独立脚本，它写死的解释器可能跟你以为的那个不一样；<code>-m</code> 用的是你刚敲的那个解释器本身，跑不偏。</p>
+<p><strong>第二步，看脚本实际用的解释器，以及有没有在 venv 里。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -c &quot;import sys; print(sys.executable); print(&#x27;in_venv =&#x27;, sys.prefix != sys.base_prefix)&quot;</span><br><span class="line">/Applications/Xcode.app/Contents/Developer/usr/bin/python3</span><br><span class="line">in_venv = False</span><br></pre></td></tr></table></figure>
+
+<p><code>in_venv = False</code> 说明我没在虚拟环境里，装包会撒到系统或用户目录去，全机器共用。换成一个真 venv 跑，结果是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ .venv/bin/python -c &quot;import sys; print(sys.executable); print(&#x27;in_venv =&#x27;, sys.prefix != sys.base_prefix)&quot;</span><br><span class="line">/private/tmp/pydemo/.venv/bin/python</span><br><span class="line">in_venv = True</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三步，把搜索路径整个拿出来看。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m site</span><br><span class="line">sys.path = [</span><br><span class="line">    &#x27;/Users/levi&#x27;,</span><br><span class="line">    &#x27;/Applications/Xcode.app/.../lib/python39.zip&#x27;,</span><br><span class="line">    &#x27;/Applications/Xcode.app/.../lib/python3.9&#x27;,</span><br><span class="line">    &#x27;/Users/levi/Library/Python/3.9/lib/python/site-packages&#x27;,</span><br><span class="line">    &#x27;/Applications/Xcode.app/.../lib/python3.9/site-packages&#x27;,</span><br><span class="line">]</span><br><span class="line">USER_SITE: &#x27;/Users/levi/Library/Python/3.9/lib/python/site-packages&#x27; (exists)</span><br><span class="line">ENABLE_USER_SITE: True</span><br></pre></td></tr></table></figure>
+
+<p>四五行而已，比翻文档快。要找某个包到底从哪来的，直接问它：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -c &quot;import PIL; print(PIL.__file__)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>输出来的是哪个目录，就说明它归哪份 site-packages 管。</p>
+<h2 id="三种成因，对应三种改法"><a href="#三种成因，对应三种改法" class="headerlink" title="三种成因，对应三种改法"></a>三种成因，对应三种改法</h2><p><strong>一、装包和跑脚本的解释器不是同一个。</strong> 就是开头这个。改法是把事情收进项目 venv，并且别依赖 activate：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/opt/homebrew/bin/python3.14 -m venv .venv</span><br><span class="line">.venv/bin/python -m pip install beautifulsoup4</span><br><span class="line">.venv/bin/python script.py</span><br></pre></td></tr></table></figure>
+
+<p>直接把 venv 里解释器的路径写出来跑，比 <code>source activate</code> 之后再敲 <code>python</code> 稳，因为不存在「忘了 activate」和「activate 之后 PATH 又被别的工具改回去」这两种情况。</p>
+<p><strong>二、PATH 顺序决定了 <code>python3</code> 是谁。</strong> <code>which -a python3</code> 把同名的全列出来，从上往下第一个就是实际执行的那个。想让 Homebrew 的版本优先，就把它在 <code>~/.zshrc</code> 里的位置提到前面；但更省心的做法是脚本、shebang、launchd 的 plist 里统一写死解释器绝对路径，跟 PATH 脱钩。已经跑起来的服务想确认用的哪个解释器，看进程命令行就行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -Ao pid,command | grep 脚本名</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、PYTHONPATH 插队，遮蔽 venv 里的包。</strong> 这条最阴，因为环境看着完全正常。实测（3.14 的 venv，把 <code>/tmp/pydemo/fake</code> 塞进 PYTHONPATH）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ PYTHONPATH=/tmp/pydemo/fake .venv/bin/python -c &quot;import sys;[print(i,p) for i,p in enumerate(sys.path[:7])]&quot;</span><br><span class="line">0</span><br><span class="line">1 /tmp/pydemo/fake</span><br><span class="line">2 /opt/homebrew/Cellar/python@3.14/.../lib/python314.zip</span><br><span class="line">3 /opt/homebrew/Cellar/python@3.14/.../lib/python3.14</span><br><span class="line">4 /opt/homebrew/Cellar/python@3.14/.../lib/python3.14/lib-dynload</span><br><span class="line">5 /private/tmp/pydemo/.venv/lib/python3.14/site-packages</span><br></pre></td></tr></table></figure>
+
+<p>venv 的 site-packages 排在第 5 位，PYTHONPATH 那个目录排在第 1 位。也就是说 venv 里装的包，只要 PYTHONPATH 目录里有同名文件，赢的永远是那份插队的；同名文件不存在时也不报错，只是行为变得莫名其妙。这条通常是从 <code>~/.zshenv</code> 或某个装过的命令行工具的启动脚本里带进来的，查一行就够：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;PYTHONPATH=[$PYTHONPATH]&quot;</span><br><span class="line">unset PYTHONPATH</span><br></pre></td></tr></table></figure>
+
+<p>要长期解决，把那行 <code>export PYTHONPATH=...</code> 从 <code>~/.zshenv</code>、<code>~/.zshrc</code> 里删掉。临时跑一次性脚本可以加 <code>-I</code>，它会同时忽略 PYTHONPATH 和用户级目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ PYTHONPATH=/tmp/pydemo/fake python3 -I -c &quot;import sys;print(sys.path[:2])&quot;</span><br><span class="line">[&#x27;/Applications/Xcode.app/.../lib/python39.zip&#x27;, ...]</span><br></pre></td></tr></table></figure>
+
+<p>输出里 <code>/tmp/pydemo/fake</code> 已经不见了。</p>
+<p>顺带一个相关的：没有 venv 时 pip 会把包装进 <code>~/Library/Python/3.9/...</code>，这个目录对该版本所有项目都生效，属于隐性共享。想临时屏蔽它：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ PYTHONNOUSERSITE=1 python3 -c &quot;import sys;print([p for p in sys.path if &#x27;Python/3.9&#x27; in p])&quot;</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<h2 id="我现在的固定习惯"><a href="#我现在的固定习惯" class="headerlink" title="我现在的固定习惯"></a>我现在的固定习惯</h2><ul>
+<li>装包只用 <code>python3 -m pip install</code>，不敲裸 <code>pip</code>&#x2F;<code>pip3</code></li>
+<li>一个项目一个 venv，调用一律写解释器路径（<code>.venv/bin/python xxx.py</code>）</li>
+<li>脚本报 ModuleNotFoundError 时，先跑 <code>python3 -m pip -V</code> 和 <code>sys.executable</code> 两行，对不上就换解释器，而不是反复重装</li>
+<li>被 PYTHONPATH 折腾过之后，<code>~/.zshenv</code> 里再没放过 python 相关的 export</li>
+</ul>
+<p>ModuleNotFoundError 的字面意思只是「没找到」，不是「没装」。这两行命令十秒钟就能分清是哪种：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip -V</span><br><span class="line">python3 -c &quot;import sys; print(sys.executable, sys.prefix != sys.base_prefix)&quot;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/">https://www.lxpyll.top/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/macOS/">macOS</a><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/pip/">pip</a><a class="post-meta__tags" href="/tags/venv/">venv</a></div><div class="post-share"><div class="social-share" data-image="/img/og.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/posts/2026/09/18/ffmpeg%E6%8A%8A%E6%89%8B%E6%9C%BA%E8%A7%86%E9%A2%91%E8%BD%AC%E6%88%90%E5%9B%BA%E5%AE%9A%E5%B8%A7%E7%8E%87%EF%BC%8C%E5%89%AA%E8%BE%91%E6%97%B6%E9%9F%B3%E7%94%BB%E4%B8%8D%E5%86%8D%E9%94%99%E4%BD%8D/" title="ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位"><img class="cover" src="/img/video-cfr-flow.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位</div></div><div class="info-2"><div class="info-item-1">手机拍的视频丢进剪辑软件，前面几秒音画是齐的，往后拖就慢慢错位：中段差半秒，片尾能差一两秒。这种偏移和编码器、码率都无关，原因是手机录出来的是可变帧率文件——相机界面上的「30fps」「60fps」只是目标值，实际每两帧之间的间隔并不均匀。剪辑软件按固定帧率把时间摊开，误差就一帧一帧累积起来。 解法是剪辑前先把素材转成固定帧率（CFR）。下面这套流程我...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/08/30/macOS%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF-%E6%88%91%E6%9C%80%E5%90%8E%E9%83%BD%E4%BA%A4%E7%BB%99%E4%BA%86launchd/" title="macOS定时任务和开机自启，我最后都交给了launchd"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-30</div><div class="info-item-2">macOS定时任务和开机自启，我最后都交给了launchd</div></div><div class="info-2"><div class="info-item-1">我机器上有几个”到点就该干活”的东西：每 5 分钟同步一次多智能体的记忆文件、每 30 分钟重打一次补丁、开机自动把后台网关拉起来。以前用过登录项、用过 crontab，折腾一圈之后全换成了 launchd。理由很简单：launchd 是 macOS 亲生的调度器，开机就接管，不依赖你进不进桌面，还能做到进程挂了自动拉起。写起来不难，坑倒是不少，都记在...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/06/%E4%B8%8D%E7%94%A8%E8%A3%85%E5%8E%8B%E7%BC%A9%E8%BD%AF%E4%BB%B6%EF%BC%8CmacOS%20%E8%87%AA%E5%B8%A6%20sips%20%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E7%8E%B0%E5%9C%BA%E7%85%A7%E7%89%87/" title="不用装压缩软件，macOS 自带 sips 批量处理现场照片"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-06</div><div class="info-item-2">不用装压缩软件，macOS 自带 sips 批量处理现场照片</div></div><div class="info-2"><div class="info-item-1">干工程的天天要拍照：现场进度、签证、收方，一拍就是几十张。拍完往村委群、工作群里发，或者往系统里传资料，iPhone 原图动辄几 MB，传半天，有些上传系统对单张大小还有限制。 按我的习惯，这种批量图片活不想装第三方压缩软件，系统自带的 sips 就能干，一台 Mac 不用装任何东西。 sips 是 macOS 自带的图片处理命令sips 全名 scr...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/10/macOS%2026%20%E8%87%AA%E5%B8%A6%20rsync%20%E6%98%AF%20openrsync%EF%BC%8C%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%BF%AB%E7%85%A7%E5%A4%87%E4%BB%BD%E7%85%A7%E6%A0%B7%E8%83%BD%E8%B7%91/" title="macOS 26 自带 rsync 是 openrsync，硬链接快照备份照样能跑"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-10</div><div class="info-item-2">macOS 26 自带 rsync 是 openrsync，硬链接快照备份照样能跑</div></div><div class="info-2"><div class="info-item-1">工程资料现在两百多个 G：施工图、报价书、扫描件、甲方发来的 DXF、现场照片。硬盘上留了一份，但只有一份不够用。报价书改十遍是常事，某一版单价改错了想退回三天前看看，硬盘上只剩被覆盖之后的新文件。 Time Machine 能救，但它整盘一起备，翻单个文件夹的旧版本要进恢复界面一层层点。我想要的另一种做法是每天生成一个目录快照：每个快照就是个能直接打...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/24/python-docx%E7%94%9F%E6%88%90%E6%8A%A5%E4%BB%B7%E4%B9%A6-%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93%E5%92%8C%E8%A1%A8%E6%A0%BC%E8%BE%B9%E6%A1%86%E8%BF%99%E4%B9%88%E8%AE%BE%E7%BD%AE/" title="python-docx 生成报价书，中文字体和表格边框这么设置"><img class="cover" src="/img/rfonts-eastasia.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-24</div><div class="info-item-2">python-docx 生成报价书，中文字体和表格边框这么设置</div></div><div class="info-2"><div class="info-item-1">干工程劳务这行，报价书是高频产出。一个项目清单几十行，单价改来改去，每次都在 Word 里重新排版：字体字号、表格边框、表头底纹，烦得很。后来我把报价书改成脚本生成，改单价只改一个 Python 列表，几秒钟出一份新文档。 但第一个坑马上就来了：设置了 font.name = &#39;宋体&#39;，Word 里打开，中文还是默认字体。查了一圈才知道...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/18/ffmpeg%E6%8A%8A%E6%89%8B%E6%9C%BA%E8%A7%86%E9%A2%91%E8%BD%AC%E6%88%90%E5%9B%BA%E5%AE%9A%E5%B8%A7%E7%8E%87%EF%BC%8C%E5%89%AA%E8%BE%91%E6%97%B6%E9%9F%B3%E7%94%BB%E4%B8%8D%E5%86%8D%E9%94%99%E4%BD%8D/" title="ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位"><img class="cover" src="/img/video-cfr-flow.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位</div></div><div class="info-2"><div class="info-item-1">手机拍的视频丢进剪辑软件，前面几秒音画是齐的，往后拖就慢慢错位：中段差半秒，片尾能差一两秒。这种偏移和编码器、码率都无关，原因是手机录出来的是可变帧率文件——相机界面上的「30fps」「60fps」只是目标值，实际每两帧之间的间隔并不均匀。剪辑软件按固定帧率把时间摊开，误差就一帧一帧累积起来。 解法是剪辑前先把素材转成固定帧率（CFR）。下面这套流程我...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/09/Whisper%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%86%99-%E5%BD%95%E9%9F%B3%E5%87%BA%E6%96%87%E5%AD%97%E7%A8%BF-%E8%A7%86%E9%A2%91%E5%87%BASRT%E5%AD%97%E5%B9%95%E6%97%B6%E9%97%B4%E8%BD%B4/" title="Whisper 本地转写，录音出文字稿、视频出 SRT 字幕时间轴"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-09</div><div class="info-item-2">Whisper 本地转写，录音出文字稿、视频出 SRT 字幕时间轴</div></div><div class="info-2"><div class="info-item-1">做抖音那种 3 到 8 秒一条、字要跟口型走的短视频，最烦的不是写词，是字幕轴。最早我一句句对着波形卡时间，一分钟的素材能磨半小时。后来固定用 Whisper 在本地转写：它把音频切成带时间戳的句子，直接吐一份 SRT，我只要改错别字，时间轴基本不动。 另一个场景是工地会议、甲方口头交代，我习惯录个音，回头转成文字留底。这种内容我是不敢传网页转写工具的...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">Levi的Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">35</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">127</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mac-%E4%B8%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E5%A5%BD%E5%87%A0%E4%B8%AA-python3"><span class="toc-number">1.</span> <span class="toc-text">Mac 上为什么有好几个 python3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%AD%A5%E5%AE%9A%E4%BD%8D"><span class="toc-number">2.</span> <span class="toc-text">三步定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%88%90%E5%9B%A0%EF%BC%8C%E5%AF%B9%E5%BA%94%E4%B8%89%E7%A7%8D%E6%94%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">三种成因，对应三种改法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%8E%B0%E5%9C%A8%E7%9A%84%E5%9B%BA%E5%AE%9A%E4%B9%A0%E6%83%AF"><span class="toc-number">4.</span> <span class="toc-text">我现在的固定习惯</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/19/pip%E8%A3%85%E5%AE%8C%E8%BF%98%E6%8A%A5ModuleNotFoundError%EF%BC%8C%E5%9B%A0%E4%B8%BA%E6%88%91%E8%B7%91%E7%9A%84%E4%B8%8D%E6%98%AF%E8%A3%85%E5%8C%85%E9%82%A3%E4%B8%AA%20python/" title="pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python">pip 装完还报 ModuleNotFoundError，因为我跑的不是装包那个 python</a><time datetime="2026-09-19T14:29:00.000Z" title="发表于 2026-09-19 22:29:00">2026-09-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/18/ffmpeg%E6%8A%8A%E6%89%8B%E6%9C%BA%E8%A7%86%E9%A2%91%E8%BD%AC%E6%88%90%E5%9B%BA%E5%AE%9A%E5%B8%A7%E7%8E%87%EF%BC%8C%E5%89%AA%E8%BE%91%E6%97%B6%E9%9F%B3%E7%94%BB%E4%B8%8D%E5%86%8D%E9%94%99%E4%BD%8D/" title="ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位">ffmpeg把手机视频转成固定帧率，剪辑时音画不再错位</a><time datetime="2026-09-18T14:35:00.000Z" title="发表于 2026-09-18 22:35:00">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/17/QGIS%E9%87%8C%E6%8A%8ADXF%E6%B8%A0%E9%81%93%E5%9B%BE%E5%8F%A0%E4%B8%8A%E5%8D%AB%E6%98%9F%E5%BD%B1%E5%83%8F-%E6%8A%95%E5%BD%B1%E5%B8%A6%E6%8C%89%E4%B8%AD%E5%A4%AE%E5%AD%90%E5%8D%88%E7%BA%BF%E9%80%89/" title="QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选">QGIS 里把 DXF 渠道图叠上卫星影像，投影带按中央子午线选</a><time datetime="2026-09-17T14:40:00.000Z" title="发表于 2026-09-17 22:40:00">2026-09-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/16/%E7%B4%A0%E6%9D%90%E5%92%8C%E5%AF%86%E9%92%A5%E8%AF%AF%E6%8F%90%E4%BA%A4%E8%BF%9B%E4%BB%93%E5%BA%93%EF%BC%8C%E7%94%A8-git-filter-repo-%E4%BB%8E%E5%8E%86%E5%8F%B2%E9%87%8C%E5%88%A0%E5%B9%B2%E5%87%80/" title="素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净">素材和密钥误提交进仓库，用 git filter-repo 从历史里删干净</a><time datetime="2026-09-16T14:34:00.000Z" title="发表于 2026-09-16 22:34:00">2026-09-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/2026/09/15/%E7%94%A8qpdf%E5%90%88%E5%B9%B6%E6%89%AB%E6%8F%8F%E4%BB%B6%E4%BA%A4%E8%B5%84%E6%96%99%EF%BC%8C%E9%A1%BA%E6%89%8B%E8%A7%A3%E5%BC%80%E6%9D%83%E9%99%90%E9%94%81%E5%92%8C%E6%89%93%E5%BC%80%E5%AF%86%E7%A0%81/" title="用 qpdf 合并扫描件交资料，顺手解开权限锁和打开密码">用 qpdf 合并扫描件交资料，顺手解开权限锁和打开密码</a><time datetime="2026-09-15T14:38:00.000Z" title="发表于 2026-09-15 22:38:00">2026-09-15</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'Lxp1986/Lxp1986.github.io',
+      'data-repo-id': 'R_kgDOMn0qqg',
+      'data-category-id': 'DIC_kwDOMn0qqs4DDgMy',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
