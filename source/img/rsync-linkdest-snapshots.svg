@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="780" height="320" viewBox="0 0 780 320" role="img" aria-label="rsync 硬链接快照：三份快照共用一份数据">
   <style>
-    .bg{fill:#f7f8fa}
-    .ttl{font:bold 16px "PingFang SC",sans-serif;fill:#1f3a5f}
-    .box{fill:#fff;stroke:#1f3a5f;stroke-width:1.4}
-    .sn{font:bold 13px "PingFang SC",sans-serif;fill:#1f3a5f}
-    .fl{font:11px "PingFang SC",sans-serif;fill:#5a6b7d}
-    .blk{fill:#e8eef6;stroke:#1f3a5f;stroke-width:1.4}
-    .newblk{fill:#e6f4ea;stroke:#2e7d32;stroke-width:1.4}
-    .bt{font:12px "PingFang SC",sans-serif;fill:#22303f}
-    .ln{stroke:#1f3a5f;stroke-width:1.2;fill:none}
-    .lng{stroke:#2e7d32;stroke-width:1.6;fill:none}
-    .note{font:11px "PingFang SC",sans-serif;fill:#5a6b7d}
+    .bg{fill:rgba(98,138,218,0.20)}
+    .ttl{font:bold 16px "PingFang SC",sans-serif;fill:#93B2DC}
+    .box{fill:rgba(255,255,255,0.06);stroke:#93B2DC;stroke-width:1.4}
+    .sn{font:bold 13px "PingFang SC",sans-serif;fill:#93B2DC}
+    .fl{font:11px "PingFang SC",sans-serif;fill:#D6C7B2}
+    .blk{fill:rgba(98,149,218,0.20);stroke:#93B2DC;stroke-width:1.4}
+    .newblk{fill:rgba(98,218,132,0.20);stroke:#97D99A;stroke-width:1.4}
+    .bt{font:12px "PingFang SC",sans-serif;fill:#F5EDE2}
+    .ln{stroke:#93B2DC;stroke-width:1.2;fill:none}
+    .lng{stroke:#97D99A;stroke-width:1.6;fill:none}
+    .note{font:11px "PingFang SC",sans-serif;fill:#D6C7B2}
   </style>
-  <rect class="bg" width="780" height="320"/>
+  
 
   <text class="ttl" x="24" y="34">rsync --link-dest：三份快照，共用一份数据</text>
 

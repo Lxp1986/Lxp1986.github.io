@@ -1,39 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="380" viewBox="0 0 640 380" font-family="PingFang SC, Hiragino Sans GB, Helvetica, sans-serif">
-  <rect width="640" height="380" fill="#f6f8fb"/>
-  <text x="28" y="36" font-size="17" font-weight="600" fill="#1f2937">import 一个包时，Python 按这个顺序往下找</text>
-  <text x="28" y="58" font-size="12.5" fill="#6b7280">从上往下逐个目录搜，第一个命中就返回；一个都没有才报 ModuleNotFoundError</text>
+  
+  <text x="28" y="36" font-size="17" font-weight="600" fill="#DDC29C">import 一个包时，Python 按这个顺序往下找</text>
+  <text x="28" y="58" font-size="12.5" fill="#DFD3C3">从上往下逐个目录搜，第一个命中就返回；一个都没有才报 ModuleNotFoundError</text>
 
   <!-- 1 -->
-  <rect x="34" y="78" width="330" height="42" rx="6" fill="#e8eef7" stroke="#2f3b52" stroke-width="1.4"/>
-  <text x="50" y="104" font-size="14" fill="#1f2937">1. 脚本所在目录</text>
-  <text x="382" y="104" font-size="12" fill="#6b7280">随手放的 .py 也能被 import</text>
+  <rect x="34" y="78" width="330" height="42" rx="6" fill="rgba(98,146,218,0.20)" stroke="#DDCDB8" stroke-width="1.4"/>
+  <text x="50" y="104" font-size="14" fill="#DDC29C">1. 脚本所在目录</text>
+  <text x="382" y="104" font-size="12" fill="#DFD3C3">随手放的 .py 也能被 import</text>
 
   <!-- arrow -->
-  <path d="M199 120 L199 136" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#a)"/>
-  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#94a3b8"/></marker></defs>
+  <path d="M199 120 L199 136" stroke="#D6C7B2" stroke-width="1.4" marker-end="url(#a)"/>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#D6C7B2"/></marker></defs>
 
   <!-- 2 -->
-  <rect x="34" y="138" width="330" height="42" rx="6" fill="#fdecea" stroke="#c0392b" stroke-width="1.6"/>
-  <text x="50" y="164" font-size="14" fill="#8c2018">2. PYTHONPATH 里的目录</text>
-  <text x="382" y="158" font-size="12" fill="#c0392b">插队：排在 site-packages 前面</text>
-  <text x="382" y="174" font-size="12" fill="#c0392b">同名包会被它遮蔽</text>
+  <rect x="34" y="138" width="330" height="42" rx="6" fill="rgba(218,110,98,0.20)" stroke="#DF7C72" stroke-width="1.6"/>
+  <text x="50" y="164" font-size="14" fill="#F2B5B0">2. PYTHONPATH 里的目录</text>
+  <text x="382" y="158" font-size="12" fill="#EEB9B4">插队：排在 site-packages 前面</text>
+  <text x="382" y="174" font-size="12" fill="#EEB9B4">同名包会被它遮蔽</text>
 
-  <path d="M199 180 L199 196" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#a)"/>
+  <path d="M199 180 L199 196" stroke="#D6C7B2" stroke-width="1.4" marker-end="url(#a)"/>
 
   <!-- 3 -->
-  <rect x="34" y="198" width="330" height="42" rx="6" fill="#e8eef7" stroke="#2f3b52" stroke-width="1.4"/>
-  <text x="50" y="224" font-size="14" fill="#1f2937">3. 标准库目录</text>
-  <text x="382" y="224" font-size="12" fill="#6b7280">json、os 这些在内置目录里</text>
+  <rect x="34" y="198" width="330" height="42" rx="6" fill="rgba(98,146,218,0.20)" stroke="#DDCDB8" stroke-width="1.4"/>
+  <text x="50" y="224" font-size="14" fill="#DDC29C">3. 标准库目录</text>
+  <text x="382" y="224" font-size="12" fill="#DFD3C3">json、os 这些在内置目录里</text>
 
-  <path d="M199 240 L199 256" stroke="#94a3b8" stroke-width="1.4" marker-end="url(#a)"/>
+  <path d="M199 240 L199 256" stroke="#D6C7B2" stroke-width="1.4" marker-end="url(#a)"/>
 
   <!-- 4 -->
-  <rect x="34" y="258" width="330" height="42" rx="6" fill="#e6f4ea" stroke="#1e7a45" stroke-width="1.6"/>
-  <text x="50" y="284" font-size="14" fill="#14532d">4. site-packages（venv 或用户目录）</text>
-  <text x="382" y="278" font-size="12" fill="#1e7a45">pip 装包真正落地的位置</text>
-  <text x="382" y="294" font-size="12" fill="#1e7a45">解释器不同，这里就不同</text>
+  <rect x="34" y="258" width="330" height="42" rx="6" fill="rgba(98,218,132,0.20)" stroke="#95E5B7" stroke-width="1.6"/>
+  <text x="50" y="284" font-size="14" fill="#B5EDCB">4. site-packages（venv 或用户目录）</text>
+  <text x="382" y="278" font-size="12" fill="#B5EDCD">pip 装包真正落地的位置</text>
+  <text x="382" y="294" font-size="12" fill="#B5EDCD">解释器不同，这里就不同</text>
 
-  <line x1="28" y1="320" x2="612" y2="320" stroke="#cbd5e1" stroke-width="1"/>
-  <text x="28" y="344" font-size="13.5" fill="#1f2937" font-weight="600">装包的解释器 ≠ 跑脚本的解释器 → 装到第 4 行，脚本却在另一份第 4 行里翻</text>
-  <text x="28" y="366" font-size="12.5" fill="#6b7280">先看 python3 -m pip -V 说装到哪，再看 sys.executable 说是谁在跑，两边对不上就是这里的问题</text>
+  <line x1="28" y1="320" x2="612" y2="320" stroke="#BECBDA" stroke-width="1"/>
+  <text x="28" y="344" font-size="13.5" fill="#DDC29C" font-weight="600">装包的解释器 ≠ 跑脚本的解释器 → 装到第 4 行，脚本却在另一份第 4 行里翻</text>
+  <text x="28" y="366" font-size="12.5" fill="#DFD3C3">先看 python3 -m pip -V 说装到哪，再看 sys.executable 说是谁在跑，两边对不上就是这里的问题</text>
 </svg>
