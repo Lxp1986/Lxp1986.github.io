@@ -10,6 +10,7 @@ tags:
   - Loon
   - 排障
 description: yt-dlp 下载 YouTube 报 CERTIFICATE_VERIFY_FAILED，网上教的 SSL_CERT_FILE 办法都试了没用。排查到底发现是 Loon 的 HTTPS 解密在中间捣乱：macOS 自带工具认钥匙串，OpenSSL 3 只认 cert.pem 文件。把代理根证书导出来合并进 CA bundle 就解决了。
+cover: /img/yt-dlp-ssl-loon-flow.svg
 ---
 
 # yt-dlp 报 SSL 证书错误，是 Loon 的 HTTPS 解密在捣乱

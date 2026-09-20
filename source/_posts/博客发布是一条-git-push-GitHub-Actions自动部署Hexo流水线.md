@@ -9,6 +9,7 @@ tags:
   - 博客部署
   - 自动化
 description: 把 Hexo 博客部署从本地 hexo d 改成 GitHub Actions 自动流水线后，发布就只剩 git push 一件事。这篇拆解 deploy.yml 每个关键配置和踩过的坑。
+cover: /img/blog-deploy-flow.svg
 ---
 
 这篇博客现在是怎么发出去的？我在 `source/_posts/` 里放一个 md 文件，`git push origin main`，然后就没了——剩下的构建、部署全是 GitHub Actions 干的。

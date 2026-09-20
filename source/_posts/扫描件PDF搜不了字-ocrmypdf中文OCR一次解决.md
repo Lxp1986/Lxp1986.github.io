@@ -4,6 +4,7 @@ date: 2026-08-28 22:33:28
 categories: [数码工具]
 tags: [OCR, ocrmypdf, tesseract, 扫描件, PDF, 中文识别]
 description: 给扫描件 PDF 加中文文字层，让它能搜索、能复制。ocrmypdf 装完有三个坑：语言包缺失、brew 升级丢语言包、图片输入没 DPI。
+cover: /img/ocrmypdf-flow.svg
 ---
 
 做工程的，手上全是扫描件：图纸、报价单、合同、签证单，清一色"图片"。要找某句话只能一页页翻，要引用一段文字只能对着屏幕手敲。Spotlight 和阅读器都搜不到内容，因为 PDF 里根本没有文字层。

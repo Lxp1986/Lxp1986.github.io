@@ -4,6 +4,7 @@ date: 2026-08-21 22:30:46
 categories: [AI工具]
 tags: [vibe coding, AI, 效率工具, 教程]
 description: 用自然语言让 AI 写代码，自己只负责提需求和验收。这篇记录我实际在用的完整工作流：提示词模板、报错怎么处理、踩过的坑。
+cover: /img/vibe-coding-workflow.svg
 ---
 
 vibe coding 这个词最近在技术社区里出现的频率明显变高了，V2EX 上有个帖子统计大家现在都用什么方案，回复一百多条。简单说，vibe coding 就是**用自然语言描述需求，让 AI 把代码写出来**，人负责提要求和看结果，不自己一行行敲。

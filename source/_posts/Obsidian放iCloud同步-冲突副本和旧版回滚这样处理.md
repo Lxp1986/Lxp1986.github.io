@@ -4,6 +4,7 @@ date: 2026-08-31 22:28:22
 categories: [知识管理]
 tags: [Obsidian, iCloud, 同步, 知识库, macOS]
 description: Obsidian 库放 iCloud Drive 同步，会碰上冲突副本、旧版本回滚、.icloud 占位文件三个坑。排查命令、brctl 强制下载、哈希盯梢和治本习惯都在这。
+cover: /img/obsidian-icloud-conflict.svg
 ---
 
 我的 Obsidian 知识库直接放在 iCloud：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents`。MacBook、另一台机器、还有几个自动脚本都在读写这个库，好处是啥设备打开都是同一份，坏处是 iCloud 根本没有冲突处理机制——它不合并、不提示，出了冲突自己拿主意，拿错主意就是丢内容。

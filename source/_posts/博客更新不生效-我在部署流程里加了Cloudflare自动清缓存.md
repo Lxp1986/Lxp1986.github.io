@@ -4,6 +4,7 @@ date: 2026-08-26 22:30:00
 categories: [开发与运维]
 tags: [Cloudflare, CDN, GitHub Actions, Hexo, 缓存, 教程]
 description: 博客套 Cloudflare CDN 后发文章不生效的坑：默认不缓存 HTML，缓存了就得手动清。建一个最小权限 API Token，在 GitHub Actions 部署流程末尾加一步 purge_cache，以后 git push 完缓存自动清。
+cover: /img/cf-auto-purge-flow.svg
 ---
 
 博客是 Hexo 压 GitHub Pages，前面套了层 Cloudflare CDN。有段时间发完文章，手机刷半天还是旧页面，一度以为 Actions 部署挂了，打开日志一看，构建、部署都成功了，就是页面不更新。

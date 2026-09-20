@@ -6,7 +6,7 @@ block content
     if page.current === 1
       section.home-hero(aria-labelledby='home-hero-title')
         .home-hero__media
-          img.home-hero__image(
+          img.home-hero__image.home-hero__image--light(
             src=url_for('/img/og.jpg')
             alt='三色风：在热爱里，记录世界的不同温度'
             width='1200'
@@ -14,12 +14,17 @@ block content
             decoding='async'
             fetchpriority='high'
           )
+          img.home-hero__image.home-hero__image--dark(
+            src=url_for('/img/og-dark.png')
+            alt='三色风：在热爱里，记录世界的不同温度'
+            width='1200'
+            height='630'
+            decoding='async'
+          )
           .home-hero__veil(aria-hidden='true')
         .home-hero__content
           h1#home-hero-title.home-hero__title.sr-only 三色风
           p.home-hero__subtitle.sr-only 在热爱里，记录世界的不同温度
-          .home-hero__actions
-            a.home-hero__button.home-hero__button--primary(href=url_for('/archives/')) 开始阅读
 
     header.home-feed__header
       p.home-feed__eyebrow= page.current === 1 ? 'RECENT NOTES' : 'KEEP READING'

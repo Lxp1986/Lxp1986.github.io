@@ -9,6 +9,7 @@ tags:
   - venv
   - macOS
 description: 包明明 Successfully installed，脚本还是 No module named。这篇用本机实测输出讲清 Mac 上多个 python 各自装各自的包，给出 python3 -m pip -V、sys.executable、python3 -m site 三步定位法，以及 PYTHONPATH 插队和用户目录污染的解除方法。
+cover: /img/py-import-path.svg
 ---
 
 给一个抓网页的小脚本装 beautifulsoup4，pip 打印了 `Successfully installed beautifulsoup4-4.14.3`，转头跑脚本：

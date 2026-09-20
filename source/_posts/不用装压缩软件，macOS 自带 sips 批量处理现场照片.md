@@ -4,6 +4,7 @@ date: 2026-09-06 22:35:00
 categories: [数码工具]
 tags: [sips, 图片压缩, HEIC, JPG, 批处理, 命令行, 现场照片, iPhone, macOS]
 description: 现场照片几十张要发群、传系统，iPhone 的 HEIC 原图动辄几 MB。不想为这点事装第三方软件的话，macOS 自带的 sips 就能批量转 JPG、压尺寸、调质量，一条 for 循环跑完整个文件夹，附实测数字和竖拍方向的处理办法。
+cover: 'linear-gradient(135deg, #c9a227, #b85c38)'
 ---
 
 干工程的天天要拍照：现场进度、签证、收方，一拍就是几十张。拍完往村委群、工作群里发，或者往系统里传资料，iPhone 原图动辄几 MB，传半天，有些上传系统对单张大小还有限制。

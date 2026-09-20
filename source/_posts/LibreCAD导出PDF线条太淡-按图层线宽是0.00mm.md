@@ -9,6 +9,7 @@ tags:
   - 出图
   - 打印
 description: LibreCAD 里"按图层"线宽等于 0.00mm，导出 PDF 线条会淡到看不清。本文给出图层设线宽、全选批量改线宽、导出前先选纸张三个解决办法，附 ISO 线宽参考。
+cover: /img/librecad-linewidth-iso.svg
 ---
 
 前阵子画一条排洪沟的断面图，LibreCAD 里分好图层、线分粗细，屏幕上看得清清楚楚。导出 PDF 发给监理，对方回一句"线条太淡了，看不清，重新出"。

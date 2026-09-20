@@ -24,11 +24,11 @@ index_img: false
 default_top_img: false
 
 cover:
-  index_enable: false
-  aside_enable: false
-  archives_enable: false
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
 
-background: "#f7f0e4"
+background: "#fff4ea"
 
 subtitle:
   enable: true
@@ -72,14 +72,32 @@ reward:
       text: 支付宝
 
 comments:
-  use: giscus
+  use: waline
   text: true
   lazyload: false
-  count: false
-  card_post_count: false
+  count: true
+  card_post_count: true
 
-# 评论系统：giscus（基于 GitHub Discussions，数据存在本仓库，零成本零维护）
-# 使用前需先在 https://github.com/apps/giscus 授权安装 giscus App 到本仓库
+# 免登录评论：Waline 部署在 Vercel（comment-server/），数据在 Neon Postgres
+# 部署后把自定义域名指到 https://comment.lxpyll.top ，并在 /ui/register 注册管理员
+waline:
+  serverURL: https://comment.lxpyll.top
+  pageview: true
+  option:
+    lang: zh-CN
+    login: enable
+    search: false
+    imageUploader: false
+    requiredMeta:
+      - nick
+      - mail
+    wordLimit:
+      - 2
+      - 1000
+    pageSize: 10
+    locale:
+      placeholder: 不用登录，填昵称和邮箱就能发。邮箱不会公开。
+
 giscus:
   repo: Lxp1986/Lxp1986.github.io
   repo_id: R_kgDOMn0qqg
@@ -99,7 +117,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description: Levi的Blog
+    description: 三色风，记录生活与热爱
     button:
       enable: true
       icon: fab fa-github
@@ -158,8 +176,8 @@ theme_color:
   blockquote_padding_color: "#b85c38"
   blockquote_background_color: "rgba(201, 162, 39, .14)"
   scrollbar_color: "#8b7355"
-  meta_theme_color_light: "#f7f0e4"
-  meta_theme_color_dark: "#231d17"
+  meta_theme_color_light: "#fff4ea"
+  meta_theme_color_dark: "#1c1210"
 
 copy:
   enable: true
@@ -185,12 +203,15 @@ enter_transitions: false
 
 font:
   global_font_size: 16px
-  font_family: "Manrope, PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif"
+  font_family: "PingFang SC, Hiragino Sans GB, Microsoft YaHei, sans-serif"
   code_font_family: "JetBrains Mono, Menlo, Monaco, Consolas, monospace"
 
 blog_title_font:
-  font_link: https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap
-  font_family: "Noto Serif SC, serif"
+  font_link:
+  font_family: "Songti SC, STSong, Source Han Serif SC, Noto Serif SC, serif"
+
+hr_icon:
+  enable: false
 
 search:
   use: local_search
@@ -202,7 +223,11 @@ search:
 busuanzi:
   site_uv: true
   site_pv: true
-  page_pv: true
+  page_pv: false
+
+CDN:
+  option:
+    busuanzi: https://cn.vercount.one/js
 
 series:
   enable: true
@@ -214,10 +239,10 @@ inject:
   head:
     - <script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script>
     - <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script>
-    - <link rel="preconnect" href="https://fonts.googleapis.com">
-    - <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    - <link rel="stylesheet" href="/css/custom.css?v=20260728-hero-poster-3">
+    - <link rel="stylesheet" href="/css/custom.css?v=20260920-glass90">
     - <meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07">
+  bottom:
+    - <script src="/js/site-extras.js?v=20260920" defer></script>
 
 error_404:
   enable: true
