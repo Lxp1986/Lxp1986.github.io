@@ -5,7 +5,7 @@
   <!-- candidate bar -->
   <rect x="40" y="60" width="560" height="86" rx="5" fill="#545554"/>
   <rect x="120" y="70" width="130" height="66" rx="5" fill="#A6F2A6"/>
-  <text x="132" y="112" font-size="16" fill="#DDC29C">1. 工程</text>
+  <text x="132" y="112" font-size="16" fill="#1A1A1A">1. 工程</text>
   <text x="282" y="112" font-size="16" fill="#EFE6DA">2. 功课</text>
   <text x="386" y="112" font-size="16" fill="#EFE6DA">3. 公课</text>
 
