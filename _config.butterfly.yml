@@ -11,12 +11,12 @@ menu:
   留言板: /message/ || fas fa-message
   关于: /about/ || fas fa-user
 
-favicon: /img/levi-avatar.svg
+favicon: /img/levi-avatar.svg?v=smile-glass2
 
 social_preview: /img/og.jpg
 
 avatar:
-  img: /img/levi-avatar.svg
+  img: /img/levi-avatar.svg?v=smile-glass2
   effect: false
 
 disable_top_img: true
@@ -188,13 +188,15 @@ rightside_scroll_percent: true
 
 rightside_item_order:
   enable: true
-  hide: readmode,translate,hideAside
-  show: darkmode,toc,chat,comment
+  hide: readmode
+  show: toc,chat,comment
 
 darkmode:
-  enable: true
-  button: true
+  enable: false
+  button: false
   autoChangeMode: false
+
+display_mode: dark
 
 preloader:
   enable: false
@@ -239,10 +241,11 @@ inject:
   head:
     - <script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script>
     - <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script>
-    - <link rel="stylesheet" href="/css/custom.css?v=20260920-glass90">
+    - <script>document.documentElement.setAttribute('data-theme','dark')</script>
+    - <link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2">
     - <meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07">
   bottom:
-    - <script src="/js/site-extras.js?v=20260920" defer></script>
+    - <script src="/js/site-extras.js?v=20260921" defer></script>
 
 error_404:
   enable: true

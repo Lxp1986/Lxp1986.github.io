@@ -5,26 +5,24 @@ block content
   +indexPostUI
     if page.current === 1
       section.home-hero(aria-labelledby='home-hero-title')
-        .home-hero__media
-          img.home-hero__image.home-hero__image--light(
-            src=url_for('/img/og.jpg')
-            alt='三色风：在热爱里，记录世界的不同温度'
-            width='1200'
-            height='630'
-            decoding='async'
-            fetchpriority='high'
-          )
-          img.home-hero__image.home-hero__image--dark(
-            src=url_for('/img/og-dark.png')
-            alt='三色风：在热爱里，记录世界的不同温度'
-            width='1200'
-            height='630'
-            decoding='async'
-          )
-          .home-hero__veil(aria-hidden='true')
-        .home-hero__content
-          h1#home-hero-title.home-hero__title.sr-only 三色风
-          p.home-hero__subtitle.sr-only 在热爱里，记录世界的不同温度
+        .home-hero__inner
+          .home-hero__copy
+            h1#home-hero-title.home-hero__title
+              span.home-hero__char.home-hero__char--red 三
+              span.home-hero__char.home-hero__char--gold 色
+              span.home-hero__char.home-hero__char--green 风
+            p.home-hero__rule(aria-hidden='true')
+              span.home-hero__rule-line
+              span.home-hero__rule-dot
+              span.home-hero__rule-line
+            p.home-hero__subtitle 在热爱里，记录世界的不同温度
+            p.home-hero__topics
+              span 生活
+              span 思考
+              span 小说
+          .home-hero__mark
+            svg.home-hero__svg(viewBox='0 0 480 480' fill='none' aria-hidden='true')
+              image(href='/img/tri-wind-brush.png' x='0' y='0' width='480' height='480')
 
     header.home-feed__header
       p.home-feed__eyebrow= page.current === 1 ? 'RECENT NOTES' : 'KEEP READING'

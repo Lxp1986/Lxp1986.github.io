@@ -26,7 +26,11 @@
   }
 
   const start = () => setTimeout(settleCounters, 5000)
-  document.addEventListener('pjax:complete', start)
+  document.querySelectorAll('#darkmode, #rightside-config, #rightside-config-hide').forEach((el) => el.remove())
+  document.addEventListener('pjax:complete', () => {
+    document.querySelectorAll('#darkmode, #rightside-config, #rightside-config-hide').forEach((el) => el.remove())
+    start()
+  })
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start)
   } else {
