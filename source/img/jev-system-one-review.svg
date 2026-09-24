@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="jev-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 无全幅底色：外层透明 -->
+  <text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#A7B9D2">Jev／System One = 判断闸门</text>
+  <text x="600" y="78" text-anchor="middle" font-size="15" fill="#DFD3C3">有用，但不神奇 · 高置信 ≠ 拍板</text>
+
+  <!-- 三原语 -->
+  <rect x="70" y="110" width="320" height="200" rx="14" fill="rgba(98,126,218,0.18)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <circle cx="110" cy="148" r="18" fill="url(#jev-g)"/>
+  <text x="110" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">1</text>
+  <text x="140" y="154" font-size="20" font-weight="700" fill="#B7C3EB">choice</text>
+  <text x="90" y="196" font-size="15" fill="#E1D3C1">有限选项里挑一个</text>
+  <text x="90" y="226" font-size="14" fill="#A7B9D2">路由／分流／选题</text>
+  <text x="90" y="256" font-size="14" fill="#A7B9D2">离散集合，不自由发挥</text>
+  <text x="90" y="286" font-size="13" fill="#9EF1BD">窄任务上很干脆</text>
+
+  <rect x="440" y="110" width="320" height="200" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <circle cx="480" cy="148" r="18" fill="url(#jev-g)"/>
+  <text x="480" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">2</text>
+  <text x="510" y="154" font-size="20" font-weight="700" fill="#B7C3EB">noul</text>
+  <text x="460" y="196" font-size="15" fill="#E1D3C1">真／假判断</text>
+  <text x="460" y="226" font-size="14" fill="#A7B9D2">危险？合规？可放行？</text>
+  <text x="460" y="256" font-size="14" fill="#A7B9D2">不返回 confidence</text>
+  <text x="460" y="286" font-size="13" fill="#F2B0B0">宜与 score 双信号</text>
+
+  <rect x="810" y="110" width="320" height="200" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <circle cx="850" cy="148" r="18" fill="url(#jev-g)"/>
+  <text x="850" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">3</text>
+  <text x="880" y="154" font-size="20" font-weight="700" fill="#B7C3EB">score</text>
+  <text x="830" y="196" font-size="15" fill="#E1D3C1">档位／危险性打分</text>
+  <text x="830" y="226" font-size="14" fill="#A7B9D2">抬手提醒，升级审批</text>
+  <text x="830" y="256" font-size="14" fill="#A7B9D2">概率必然有误判</text>
+  <text x="830" y="286" font-size="13" fill="#F2B0B0">高分 ≠ 正确</text>
+
+  <!-- 定位条 -->
+  <rect x="70" y="340" width="1060" height="72" rx="12" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <text x="600" y="372" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">定位：辅判闸门，不是主脑</text>
+  <text x="600" y="398" text-anchor="middle" font-size="14" fill="#A7B9D2">挂在工具调用前面 · 人仍是最后一道 · 通了端点 ≠ 接进工作流</text>
+
+  <!-- 底部两栏 -->
+  <rect x="70" y="440" width="510" height="140" rx="12" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <text x="100" y="478" font-size="17" font-weight="700" fill="#9EF1BD">适合</text>
+  <text x="100" y="512" font-size="14" fill="#E1D3C1">已有助手／MCP，要离散闸门</text>
+  <text x="100" y="540" font-size="14" fill="#E1D3C1">能自己写 hooks／维护 criteria</text>
+  <text x="100" y="568" font-size="14" fill="#E1D3C1">明白它是辅判，不是自动接管</text>
+
+  <rect x="620" y="440" width="510" height="140" rx="12" fill="rgba(242,176,176,0.10)" stroke="#F2B0B0" stroke-width="1.5"/>
+  <text x="650" y="478" font-size="17" font-weight="700" fill="#F2B0B0">先别上</text>
+  <text x="650" y="512" font-size="14" fill="#E1D3C1">指望装技能日常就自动聪明</text>
+  <text x="650" y="540" font-size="14" fill="#E1D3C1">想把「高置信」当最终决策</text>
+  <text x="650" y="568" font-size="14" fill="#E1D3C1">无人值守 + fail-open 叠在一起</text>
+</svg>
