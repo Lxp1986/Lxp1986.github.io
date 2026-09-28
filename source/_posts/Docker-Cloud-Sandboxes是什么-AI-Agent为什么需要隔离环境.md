@@ -292,8 +292,8 @@ Cloud Sandbox 是一个合理的工程方向，但它不是安全许可证。最
 ## 参考资料
 
 - [Docker 官方公告：Docker Launches Cloud Sandboxes](https://www.docker.com/press-release/cloud-sandboxes-extending-secure-ai-agent-isolation-beyond-the-laptop/)
-- [Docker Sandboxes 产品页面](https://www.docker.com/products/sandboxes/)
-- [Docker Kits 官方资料](https://www.docker.com/products/sandboxes/)
+- [Docker Sandboxes 官方文档](https://docs.docker.com/ai/sandboxes/)
+- [Docker Kits 官方文档](https://docs.docker.com/ai/sandboxes/customize/)
 - [Paperclip：开源 AI Agent 组织与治理](https://www.lxpyll.top/posts/2026/09/27/paperclip-ai-agent-orchestration/)
 
 > 本文写于 2026-09-28。Cloud Sandboxes 的产品形态、定价和可用区域可能继续变化。本文引用的产品定位来自 Docker 官方公告；文中的安全判断是工程分析，不等于 Docker 对具体部署安全性的保证。
