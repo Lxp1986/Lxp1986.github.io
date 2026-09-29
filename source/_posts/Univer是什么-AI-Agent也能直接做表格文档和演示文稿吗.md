@@ -12,14 +12,14 @@ tags:
   - 办公自动化
   - 工程资料
 description: GitHub Trending 上的 Univer 把表格、文档、演示文稿和画布做成可嵌入的 Office SDK，并开始面向 AI Agent 提供工作环境。本文结合工程量表、报价书和 PDF 工作流，拆解它解决什么问题，以及 Agent 生成办公文件时如何保证结果可检查。
-cover: /img/univer-agent-office.svg
+cover: /img/univer-agent-office.svg?v=9805a7f
 ---
 
 先给结论：**Univer 不是一个“会替你打开 Excel 的聊天机器人”，而是一套可以嵌入应用、让人和 AI Agent 一起处理办公内容的 Office SDK。** 它的价值不只是生成一张表，而是试图把表格、文档、演示文稿、画布、数据表和 Agent 工作流放到同一个可编程环境里。
 
 我今天在 GitHub Trending 里看到 `dream-num/univer`，去看了官方仓库和生态页。这里先不把它写成已经在我电脑上跑通的实测：本文先按官方资料拆定位，再用我熟悉的工程量表、报价书和 PDF 交付场景，说明它真正值得验证的地方。
 
-![Univer 把 AI Agent、Office 内容和结果检查放进同一个工作环境的示意图](/img/univer-agent-office.svg)
+![Univer 把 AI Agent、Office 内容和结果检查放进同一个工作环境的示意图](/img/univer-agent-office.svg?v=9805a7f)
 
 ## 一、为什么 AI Agent 处理办公文件没有想象中简单
 
@@ -66,7 +66,7 @@ Univer 官方仓库把自己定位为面向 AI Agent 的 Office Harness，同时
 
 它的底层思路不是做一个封闭的办公软件，而是提供可以嵌入浏览器或 Node.js 的能力，通过插件架构、公式引擎和统一 Facade API，让其他应用把办公能力接进去。
 
-![Univer 的内容类型和统一 API 关系图](/img/univer-office-layers.svg)
+![Univer 的内容类型和统一 API 关系图](/img/univer-office-layers.svg?v=9805a7f)
 
 ## 三、它和 Excel、WPS、LibreOffice、Python 脚本有什么不同
 
@@ -156,7 +156,7 @@ Univer 生态页里提到的 CLI 和 Agent 集成方向，值得关注的正是�
 打印和导出是否正常
 ```
 
-![工程量数据经过 Agent 整理、校验和人工复核后形成可交付文件的流程](/img/univer-office-workflow.svg)
+![工程量数据经过 Agent 整理、校验和人工复核后形成可交付文件的流程](/img/univer-office-workflow.svg?v=9805a7f)
 
 如果它只能生成表格，不能帮助检查这些关系，那它和一个更复杂的文件生成脚本差别并没有宣传中那么大。
 

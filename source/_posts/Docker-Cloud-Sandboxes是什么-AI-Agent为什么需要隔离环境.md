@@ -12,14 +12,14 @@ tags:
   - 容器
   - 安全
 description: Docker 在 2026 年 9 月发布 Cloud Sandboxes，把 AI Agent、工具和权限规则放进云端隔离环境。本文从本机执行风险出发，解释它和普通 Docker、本地沙箱的区别，以及 Agent 接入生产工作流前应该检查什么。
-cover: /img/docker-cloud-sandbox.svg
+cover: /img/docker-cloud-sandbox.svg?v=9805a7f
 ---
 
 先给结论：**Docker Cloud Sandboxes 解决的不是“让 AI 更聪明”，而是让 Agent 执行任务时少碰一点不该碰的东西。** 当 Agent 需要读文件、装依赖、跑命令、改代码甚至访问网络时，把它直接放在自己的主机上并不理想；云端隔离环境至少把“执行地点、工具、权限和生命周期”单独拎了出来。
 
 Docker 在 2026 年 9 月 24 日的官方公告中，把 Cloud Sandboxes 定位为面向复杂 Agent 工作流的隔离执行环境，并同时介绍了新一代 Kits：把 Agent、工具和访问规则作为标准 OCI 镜像来打包。这个方向值得关注，但我先把边界说清楚：**本文是官方资料核对和工程角度的拆解，不把没有亲自跑过的部署过程写成实测。**
 
-![Docker Cloud Sandboxes 将 Agent、工具和权限规则放进隔离执行环境的示意图](/img/docker-cloud-sandbox.svg)
+![Docker Cloud Sandboxes 将 Agent、工具和权限规则放进隔离执行环境的示意图](/img/docker-cloud-sandbox.svg?v=9805a7f)
 
 ## 一、为什么 Agent 需要沙箱
 
@@ -67,7 +67,7 @@ Agent 不一样。一个能调用工具的 Agent，可能会经历这样的链�
 | Rules | 规定能访问什么、不能访问什么 |
 | Sandbox | 提供隔离的文件系统、进程和运行生命周期 |
 
-![Agent 沙箱的四层结构：模型、工具、权限规则和隔离环境](/img/docker-sandbox-layers.svg)
+![Agent 沙箱的四层结构：模型、工具、权限规则和隔离环境](/img/docker-sandbox-layers.svg?v=9805a7f)
 
 它的重点不是再提供一个远程 Linux 主机，而是把 Agent 执行时需要的东西一起封装，尽量避免“模型在云端，工具却偷偷连回你的电脑”这种边界不清的情况。
 
@@ -167,7 +167,7 @@ Docker Cloud Sandboxes
 计算、存储、网络和凭证
 ```
 
-![Paperclip、Agent 运行时和 Docker Cloud Sandbox 的层级关系](/img/docker-agent-stack.svg)
+![Paperclip、Agent 运行时和 Docker Cloud Sandbox 的层级关系](/img/docker-agent-stack.svg?v=9805a7f)
 
 这也是我认为这个话题比单纯介绍 Docker 新产品更有价值的原因：**Agent 组织层和 Agent 执行隔离层，迟早要同时考虑。**
 

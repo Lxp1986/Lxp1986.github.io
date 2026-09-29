@@ -12,14 +12,14 @@ tags:
   - 开源项目
   - 自动化
 description: Paperclip 最近登上 GitHub Trending。它不是又一个聊天机器人，而是把多个 AI Agent 放进组织架构、任务、目标、预算和审计流程里的开源控制台。本文先按官方仓库拆清楚它解决什么问题、适合谁，以及部署前要注意的风险。
-cover: /img/paperclip-agent-company.svg
+cover: /img/paperclip-agent-company.svg?v=9805a7f
 ---
 
 先给结论：**Paperclip 更像 AI Agent 团队的“公司控制台”，不是一个更会聊天的模型，也不是把几个脚本串起来的简单工作流。** 它试图解决的是另一层问题：当你同时跑多个 Claude Code、Codex 或其他 Agent 时，谁负责什么、任务为什么存在、预算花了多少、出了问题能不能追溯。
 
 我今天注意到它出现在 GitHub Trending，于是去看了官方仓库。这里先不假装已经完成部署：本文是第一轮资料核对和架构拆解，事实以官方仓库说明为准；本机安装、权限边界和实际成本，应该单独开一篇实测再下结论。
 
-![Paperclip 把多个 AI Agent 放进组织、目标、任务和预算体系的示意图](/img/paperclip-agent-company.svg)
+![Paperclip 把多个 AI Agent 放进组织、目标、任务和预算体系的示意图](/img/paperclip-agent-company.svg?v=9805a7f)
 
 ## 一、它为什么会在这个时候出现
 
@@ -54,7 +54,7 @@ Paperclip 的切入点，就是把这些原来散落在终端、聊天记录和�
 | Budget | 部门预算 | 控制模型调用和运行成本 |
 | Governance | 管理制度 | 约束权限、审批和执行边界 |
 
-![Paperclip 的对象关系：目标向下拆成任务，任务交给 Agent，预算和审计横向约束执行](/img/paperclip-agent-architecture.svg)
+![Paperclip 的对象关系：目标向下拆成任务，任务交给 Agent，预算和审计横向约束执行](/img/paperclip-agent-architecture.svg?v=9805a7f)
 
 所以它不是“Paperclip 自带一个更强的模型”。它更像一个组织层：Agent 可以来自不同的运行时，Paperclip 负责把它们放到同一套组织、目标、任务和预算关系里。
 
@@ -156,7 +156,7 @@ Agent 运行层：Codex、Claude Code、Hermes、其他 Agent
 工具与环境层：终端、浏览器、Git、文件、API
 ```
 
-![Paperclip 与 Codex、Hermes、Grok Bot 的层级定位对比](/img/paperclip-agent-stack.svg)
+![Paperclip 与 Codex、Hermes、Grok Bot 的层级定位对比](/img/paperclip-agent-stack.svg?v=9805a7f)
 
 ## 六、适合谁，不适合谁
 
