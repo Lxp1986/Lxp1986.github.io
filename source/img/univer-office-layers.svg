@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3b82f6"/><stop offset="1" stop-color="#14b8a6"/></linearGradient><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#3b82f6"/></marker></defs>
+<g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+<text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#3f566c">Univer 的内容与统一接口</text>
+<rect x="410" y="78" width="380" height="92" rx="22" fill="rgba(255,255,255,0.07)" stroke="url(#g)" stroke-width="5"/><text x="600" y="117" text-anchor="middle" font-size="25" fill="#0f766e">Facade API</text><text x="600" y="150" text-anchor="middle" font-size="19" fill="#5f7183">统一操作入口</text>
+<path d="M600 175 V220" stroke="#3b82f6" stroke-width="5" marker-end="url(#a)"/>
+<rect x="120" y="235" width="210" height="120" rx="20" fill="rgba(59,130,246,0.10)" stroke="#3b82f6" stroke-width="4"/><text x="225" y="280" text-anchor="middle" font-size="24" fill="#2563a8">Sheets</text><text x="225" y="318" text-anchor="middle" font-size="18" fill="#5f7183">表格与公式</text>
+<rect x="350" y="235" width="210" height="120" rx="20" fill="rgba(20,184,166,0.10)" stroke="#14b8a6" stroke-width="4"/><text x="455" y="280" text-anchor="middle" font-size="24" fill="#0f766e">Docs</text><text x="455" y="318" text-anchor="middle" font-size="18" fill="#5f7183">文档与内容</text>
+<rect x="590" y="235" width="210" height="120" rx="20" fill="rgba(111,75,155,0.10)" stroke="#6f4b9b" stroke-width="4"/><text x="695" y="280" text-anchor="middle" font-size="24" fill="#59427c">Slides</text><text x="695" y="318" text-anchor="middle" font-size="18" fill="#5f7183">演示文稿</text>
+<rect x="830" y="235" width="250" height="120" rx="20" fill="rgba(201,162,39,0.10)" stroke="#c9a227" stroke-width="4"/><text x="955" y="280" text-anchor="middle" font-size="24" fill="#8d6b18">Canvas / Data</text><text x="955" y="318" text-anchor="middle" font-size="18" fill="#5f7183">画布与关系数据</text>
+<path d="M225 365 V430 H975 V365 M455 365 V430 M695 365 V430" fill="none" stroke="#94d9d0" stroke-width="4" stroke-dasharray="8 9"/>
+<rect x="310" y="450" width="580" height="105" rx="23" fill="rgba(255,255,255,0.07)" stroke="#14b8a6" stroke-width="5"/><text x="600" y="492" text-anchor="middle" font-size="25" fill="#0f766e">Agent + 人的工作空间</text><text x="600" y="528" text-anchor="middle" font-size="19" fill="#5f7183">生成 · 编辑 · 检查 · 交付</text>
+<text x="600" y="615" text-anchor="middle" font-size="21" fill="#5f7183">不是替代 Office，而是把 Office 能力嵌进工作流</text>
+</g></svg>
