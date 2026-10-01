@@ -11,7 +11,7 @@ tags:
   - MCP
   - Agent Skills
 description: AMD Ross 面向嵌入式工程，把 AMD 工具、专业知识库、Agent Skills 和设计示例接进同一套工作流。本文按官方资料拆解它能做什么、和通用代码助手有什么不同，以及使用前要看清的边界。
-cover: /img/amd-ross-system.svg?v=20261001
+cover: /img/amd-ross-system.svg
 ---
 
 AMD 今天发布了 AMD Ross，一款面向嵌入式开发的 Agent。**它的重点不是再训练一个新模型，而是把 AMD 的开发工具、技术资料和工程流程接到工程师常用的 AI 助手旁边。**
@@ -24,7 +24,7 @@ AMD 今天发布了 AMD Ross，一款面向嵌入式开发的 Agent。**它的�
 
 Ross 是一层嵌入式开发 Agent 工作界面。AMD 的产品资料把它拆成四部分：MCP 服务连接工具，知识库提供技术上下文，Agent Skills 约束可复用的工作步骤，设计示例展示这些步骤如何落到真实项目中。
 
-![AMD Ross 的四个组成部分：MCP 工具连接、AMD 知识库、工程 Skills 和参考设计](/img/amd-ross-system.svg?v=20261001)
+![AMD Ross 的四个组成部分：MCP 工具连接、AMD 知识库、工程 Skills 和参考设计](/img/amd-ross-system.svg)
 
 | 组成部分 | 在流程中的作用 | 官方资料举例 |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ AMD 列出的工作范围覆盖硬件与软件协同设计、FPGA 开发、嵌�
 
 举个例子，工程师发现 Vitis HLS 的实现没有达到预期时，可以先让 Agent 查相关的 AMD 资料，再按团队已有的时序分析 Skill 检查设计和工具结果，最后由工程师决定是否调整流水线、循环结构或 pragma。Agent 做的是把资料、命令和步骤接起来，最终的设计取舍仍由工程师负责。
 
-![以时序优化为例：工程师提出目标，Agent 结合知识库、Skills 和 AMD 工具给出可核对的分析结果](/img/amd-ross-workflow.svg?v=20261001)
+![以时序优化为例：工程师提出目标，Agent 结合知识库、Skills 和 AMD 工具给出可核对的分析结果](/img/amd-ross-workflow.svg)
 
 ## 和普通代码助手有什么区别
 
