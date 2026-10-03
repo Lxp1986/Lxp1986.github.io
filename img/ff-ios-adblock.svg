@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="ff-top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A7B9D2"/>
+      <stop offset="1" stop-color="#DDCDB8"/>
+    </linearGradient>
+    <linearGradient id="ff-step" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+    <marker id="ff-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D6C7B2"/>
+    </marker>
+  </defs>
+
+  
+  <text x="600" y="52" text-anchor="middle" font-size="30" font-weight="700" fill="#C2CFE0">Firefox for iOS 内置广告拦截：三步开启</text>
+  <text x="600" y="82" text-anchor="middle" font-size="15" fill="#DFD3C3">experimental 功能 · 灰度推送 · 网络层过滤 · 规则基于 EasyList 广告黑名单</text>
+
+  <!-- step 1 -->
+  <rect x="90" y="110" width="300" height="180" rx="12" fill="url(#ff-step)"/>
+  <text x="240" y="150" text-anchor="middle" font-size="17" font-weight="700" fill="#EFE6DA">第 1 步 · 装 Firefox</text>
+  <text x="240" y="182" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">App Store 搜 Firefox 安装</text>
+  <text x="240" y="206" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">（国内商店直接下，不用翻墙）</text>
+  <text x="240" y="236" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">把版本更新到最新</text>
+  <text x="240" y="266" text-anchor="middle" font-size="12" fill="#BDAFF3">功能灰度推送，没出现就等几天</text>
+
+  <line x1="390" y1="200" x2="440" y2="200" stroke="#D6C7B2" stroke-width="3" marker-end="url(#ff-arrow)"/>
+
+  <!-- step 2 -->
+  <rect x="450" y="110" width="300" height="180" rx="12" fill="url(#ff-step)"/>
+  <text x="600" y="150" text-anchor="middle" font-size="17" font-weight="700" fill="#EFE6DA">第 2 步 · 打开任意网页</text>
+  <text x="600" y="182" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">点右上角菜单按钮</text>
+  <text x="600" y="206" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">进入 Site menu（站点菜单）</text>
+  <text x="600" y="236" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">中文版菜单名可能略不同</text>
+  <text x="600" y="266" text-anchor="middle" font-size="12" fill="#BDAFF3">菜单里有「Ad Blocker」一项</text>
+
+  <line x1="750" y1="200" x2="800" y2="200" stroke="#D6C7B2" stroke-width="3" marker-end="url(#ff-arrow)"/>
+
+  <!-- step 3 -->
+  <rect x="810" y="110" width="300" height="180" rx="12" fill="url(#ff-step)"/>
+  <text x="960" y="150" text-anchor="middle" font-size="17" font-weight="700" fill="#EFE6DA">第 3 步 · 打开开关</text>
+  <text x="960" y="182" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">点 Ad Blocker 进设置</text>
+  <text x="960" y="206" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">把开关拨到开</text>
+  <text x="960" y="236" text-anchor="middle" font-size="13" fill="rgba(120,98,218,0.20)">刷新一下当前页面</text>
+  <text x="960" y="266" text-anchor="middle" font-size="12" fill="#BDAFF3">广告立刻就少了</text>
+
+  <!-- bottom: what it blocks / not -->
+  <rect x="90" y="330" width="520" height="250" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <text x="350" y="368" text-anchor="middle" font-size="17" font-weight="700" fill="#AFF4E0">🟢 能拦：第三方广告和追踪</text>
+  <rect x="112" y="388" width="476" height="42" rx="8" fill="rgba(98,218,161,0.20)"/>
+  <text x="350" y="414" text-anchor="middle" font-size="13" fill="#AFF4E0">第三方广告网络和广告交易所的广告</text>
+  <rect x="112" y="438" width="476" height="42" rx="8" fill="rgba(98,218,161,0.20)"/>
+  <text x="350" y="464" text-anchor="middle" font-size="13" fill="#AFF4E0">广告相关追踪器（网站之间跟你的那种）</text>
+  <rect x="112" y="488" width="476" height="42" rx="8" fill="rgba(98,218,161,0.20)"/>
+  <text x="350" y="514" text-anchor="middle" font-size="13" fill="#AFF4E0">弹窗、遮罩层等强打扰形式</text>
+  <rect x="112" y="538" width="476" height="36" rx="8" fill="rgba(98,218,161,0.20)"/>
+  <text x="350" y="560" text-anchor="middle" font-size="13" fill="#AFF4E0">网络层拦截，页面加载前就过滤掉</text>
+
+  <rect x="630" y="330" width="480" height="250" rx="12" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <text x="870" y="368" text-anchor="middle" font-size="17" font-weight="700" fill="#F4AFC2">🔴 不拦：搜索页和自家广告</text>
+  <rect x="652" y="388" width="436" height="42" rx="8" fill="rgba(218,98,106,0.20)"/>
+  <text x="870" y="414" text-anchor="middle" font-size="13" fill="#F4AFC2">搜索引擎结果页的广告（Google / Bing /</text>
+  <text x="870" y="430" text-anchor="middle" font-size="13" fill="#F4AFC2">DuckDuckGo 的搜索结果推广位）</text>
+  <rect x="652" y="440" width="436" height="42" rx="8" fill="rgba(218,98,106,0.20)"/>
+  <text x="870" y="466" text-anchor="middle" font-size="13" fill="#F4AFC2">Firefox 新标签页的赞助内容</text>
+  <rect x="652" y="490" width="436" height="42" rx="8" fill="rgba(218,98,106,0.20)"/>
+  <text x="870" y="516" text-anchor="middle" font-size="13" fill="#F4AFC2">网站自身投放的第一方广告</text>
+  <rect x="652" y="540" width="436" height="36" rx="8" fill="rgba(218,98,106,0.20)"/>
+  <text x="870" y="562" text-anchor="middle" font-size="13" fill="#F4AFC2">原因：Mozilla 收入大头来自搜索分成</text>
+</svg>

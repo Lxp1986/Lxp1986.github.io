@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="280" viewBox="0 0 860 280" font-family="PingFang SC, Heiti SC, sans-serif">
+  
+  <text x="30" y="42" font-size="19" fill="#DDC29C" font-weight="bold">卷内目录页数统计：一条循环干完的活</text>
+
+  <rect x="30" y="80" width="180" height="92" rx="8" fill="rgba(255,255,255,0.07)" stroke="#DDCDB8" stroke-width="1.6"/>
+  <text x="120" y="108" font-size="14" fill="#DDC29C" text-anchor="middle">资料文件夹</text>
+  <text x="120" y="132" font-size="13" fill="#E1D3C1" text-anchor="middle">001-开工报告.pdf</text>
+  <text x="120" y="152" font-size="13" fill="#E1D3C1" text-anchor="middle">002-隐蔽验收.pdf ……</text>
+
+  <rect x="255" y="80" width="215" height="92" rx="8" fill="rgba(255,255,255,0.07)" stroke="#DDCDB8" stroke-width="1.6"/>
+  <text x="362" y="106" font-size="14" fill="#DDC29C" text-anchor="middle">qpdf --show-npages</text>
+  <text x="362" y="130" font-size="12.5" fill="#E1D3C1" text-anchor="middle">一次只吃一个文件，</text>
+  <text x="362" y="150" font-size="12.5" fill="#E1D3C1" text-anchor="middle">所以外面要套 while read 循环</text>
+
+  <rect x="515" y="80" width="150" height="92" rx="8" fill="rgba(255,255,255,0.07)" stroke="#DDCDB8" stroke-width="1.6"/>
+  <text x="590" y="106" font-size="14" fill="#DDC29C" text-anchor="middle">卷内目录.csv</text>
+  <text x="590" y="130" font-size="12.5" fill="#E1D3C1" text-anchor="middle">开头写 UTF-8 BOM，</text>
+  <text x="590" y="150" font-size="12.5" fill="#E1D3C1" text-anchor="middle">中文名不乱码</text>
+
+  <rect x="710" y="80" width="120" height="92" rx="8" fill="rgba(255,255,255,0.07)" stroke="#DDCDB8" stroke-width="1.6"/>
+  <text x="770" y="106" font-size="14" fill="#DDC29C" text-anchor="middle">Excel 打开</text>
+  <text x="770" y="130" font-size="12.5" fill="#E1D3C1" text-anchor="middle">贴进卷内</text>
+  <text x="770" y="150" font-size="12.5" fill="#E1D3C1" text-anchor="middle">目录模板</text>
+
+  <g stroke="#D6C7B2" stroke-width="2" fill="none" marker-end="url(#ar)">
+    <line x1="212" y1="126" x2="249" y2="126"/>
+    <line x1="472" y1="126" x2="509" y2="126"/>
+    <line x1="667" y1="126" x2="704" y2="126"/>
+  </g>
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L7,3.2 L0,6.4 z" fill="#D6C7B2"/>
+    </marker>
+  </defs>
+
+  <rect x="30" y="200" width="800" height="52" rx="8" fill="rgba(138,218,98,0.20)" stroke="#D6C7B2" stroke-width="1.2"/>
+  <text x="46" y="222" font-size="13" fill="#DDC29C">读取顺序用 ls *.pdf | sort -V：否则 10-图纸.pdf 会排到 2-说明.pdf 前面。</text>
+  <text x="46" y="242" font-size="13" fill="#DDC29C">循环里用 while IFS= read -r 而不是 for f in $(...)，文件名带空格也不会被拆开。</text>
+</svg>
