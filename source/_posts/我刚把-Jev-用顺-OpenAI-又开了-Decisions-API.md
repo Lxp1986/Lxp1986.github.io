@@ -11,7 +11,7 @@ tags:
   - Decisions API
   - System One
 description: OpenAI 新开的 Decisions API 和 Jev 都能做结构化判断，但“快 10 倍”不是两者的对比。我把接口、问题类型和价格摆在一起，也列出真正公平的实测方法。
-cover: /img/jev-decisions-cover.svg?v=20261009-v2
+cover: /img/jev-decisions-cover-v2.svg
 ---
 
 9 月我写过一篇 Jev 的使用感受。那篇里有个挺打脸的小事：让它替我挑选题，它给了 0.88 的高置信推荐，我还是没听。Jev 有用，但分数再漂亮，也不等于它替我做主。
@@ -20,7 +20,7 @@ cover: /img/jev-decisions-cover.svg?v=20261009-v2
 
 我先把两边的说明翻了一遍。结论先放前面：确实值得放在一起看，但我还没做同一批样本的对照测试，所以这里不报“谁准、谁快”的实测成绩。官方写的快 10 倍，也不是拿 Jev 当对手测出来的。
 
-![示意图：同一条问题分别交给 Jev 和 OpenAI Decisions API](/img/jev-decisions-cover.svg?v=20261009-v2)
+![示意图：同一条问题分别交给 Jev 和 OpenAI Decisions API](/img/jev-decisions-cover-v2.svg)
 
 ## “快 10 倍”比的是谁
 
