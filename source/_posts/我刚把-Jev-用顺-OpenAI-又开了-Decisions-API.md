@@ -11,7 +11,7 @@ tags:
   - Decisions API
   - System One
 description: OpenAI 新开的 Decisions API 和 Jev 都能做结构化判断，但“快 10 倍”不是两者的对比。我把接口、问题类型和价格摆在一起，也列出真正公平的实测方法。
-cover: /img/jev-decisions-cover.svg
+cover: /img/jev-decisions-cover.svg?v=746e2c5
 ---
 
 9 月我写过一篇 Jev 的使用感受。那篇里有个挺打脸的小事：让它替我挑选题，它给了 0.88 的高置信推荐，我还是没听。Jev 有用，但分数再漂亮，也不等于它替我做主。
@@ -20,7 +20,7 @@ cover: /img/jev-decisions-cover.svg
 
 我先把两边的说明翻了一遍。结论先放前面：确实值得放在一起看，但我还没做同一批样本的对照测试，所以这里不报“谁准、谁快”的实测成绩。官方写的快 10 倍，也不是拿 Jev 当对手测出来的。
 
-![两套判断接口面对同一组测试样本](/img/jev-decisions-cover.svg)
+![两套判断接口面对同一组测试样本](/img/jev-decisions-cover.svg?v=746e2c5)
 
 ## “快 10 倍”比的是谁
 
@@ -45,7 +45,7 @@ OpenAI 的文档说，Decisions API 对文本或图片返回结构化判断，�
 
 价格也值得看一眼。TypeSafe 公布 Jev 输入价是每百万 tokens $0.042；OpenAI 的 Decisions 文档列的是 $0.10。都按输入 tokens 计，厂商说明输出不收费。不过这只是标价，不等于每条任务的最终账单：提示长短、重复调用和缓存都会让总量变掉。([TypeSafe 公告](https://typesafe.ai/blog/introducing-system-one-models-and-jev) · [OpenAI Decisions 文档](https://developers.openai.com/api/docs/guides/decisions))
 
-![Jev 和 Decisions API 的问题类型与返回值对照](/img/jev-decisions-map.svg)
+![Jev 和 Decisions API 的问题类型与返回值对照](/img/jev-decisions-map.svg?v=746e2c5)
 
 ## 用一条留言走一遍 Decisions API
 
@@ -88,7 +88,7 @@ elif answer.type == "refusal":
 
 测试输入我会用虚构材料，不会把真实业主留言、签证信息或个人资料直接送去做对照。要测工具，没必要先拿敏感内容开刀。
 
-![一组冻结样本分别经过两种接口，再按人工标签核对](/img/jev-decisions-test.svg)
+![一组冻结样本分别经过两种接口，再按人工标签核对](/img/jev-decisions-test.svg?v=746e2c5)
 
 ## 现在就换吗？我还不急
 
