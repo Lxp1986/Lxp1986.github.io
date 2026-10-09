@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>我刚把 Jev 用顺，OpenAI 又开了 Decisions API | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="OpenAI 新开的 Decisions API 和 Jev 都能做结构化判断，但“快 10 倍”不是两者的对比。我把接口、问题类型和价格摆在一起，也列出真正公平的实测方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我刚把 Jev 用顺，OpenAI 又开了 Decisions API">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/10/09/jev-vs-decisions-api/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="OpenAI 新开的 Decisions API 和 Jev 都能做结构化判断，但“快 10 倍”不是两者的对比。我把接口、问题类型和价格摆在一起，也列出真正公平的实测方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/jev-decisions-cover-v2.svg?v=20261009-v2">
+<meta property="article:published_time" content="2026-10-09T02:30:00.000Z">
+<meta property="article:modified_time" content="2026-10-09T02:30:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Decisions API">
+<meta property="article:tag" content="Jev">
+<meta property="article:tag" content="OpenAI API">
+<meta property="article:tag" content="System One">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "我刚把 Jev 用顺，OpenAI 又开了 Decisions API",
+  "url": "https://www.lxpyll.top/posts/2026/10/09/jev-vs-decisions-api/",
+  "image": "https://www.lxpyll.top/img/jev-decisions-cover-v2.svg?v=20261009-v2",
+  "datePublished": "2026-10-09T02:30:00.000Z",
+  "dateModified": "2026-10-09T02:30:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "OpenAI 新开的 Decisions API 和 Jev 都能做结构化判断，但“快 10 倍”不是两者的对比。我把接口、问题类型和价格摆在一起，也列出真正公平的实测方法。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/10/09/jev-vs-decisions-api/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '我刚把 Jev 用顺，OpenAI 又开了 Decisions API',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">185</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">我刚把 Jev 用顺，OpenAI 又开了 Decisions API</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">我刚把 Jev 用顺，OpenAI 又开了 Decisions API</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-09T02:30:00.000Z" title="发表于 2026-10-09 10:30:00">2026-10-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-09T02:30:00.000Z" title="更新于 2026-10-09 10:30:00">2026-10-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%B7%A5%E5%85%B7/">AI工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/10/09/jev-vs-decisions-api/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/10/09/jev-vs-decisions-api/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/10/09/jev-vs-decisions-api/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>9 月我写过一篇 Jev 的使用感受。那篇里有个挺打脸的小事：让它替我挑选题，它给了 0.88 的高置信推荐，我还是没听。Jev 有用，但分数再漂亮，也不等于它替我做主。</p>
+<p>10 月 6 日，OpenAI 开放了 Decisions API beta。我看到介绍时，第一反应是：这和 Jev 好像啊。都不打算陪你聊半天，而是把一个问题变成有限选项，再把结构化答案交给程序。</p>
+<p>我先把两边的说明翻了一遍。结论先放前面：确实值得放在一起看，但我还没做同一批样本的对照测试，所以这里不报“谁准、谁快”的实测成绩。官方写的快 10 倍，也不是拿 Jev 当对手测出来的。</p>
+<p><img src="/img/jev-decisions-cover-v2.svg?v=20261009-v2" alt="示意图：同一条问题分别交给 Jev 和 OpenAI Decisions API"></p>
+<h2 id="“快-10-倍”比的是谁"><a href="#“快-10-倍”比的是谁" class="headerlink" title="“快 10 倍”比的是谁"></a>“快 10 倍”比的是谁</h2><p>OpenAI 的文档说，Decisions API 对文本或图片返回结构化判断，速度比 Responses API 快约 10 倍。现在它还在公开 beta，文档列出的模型只有 <code>gpt-6-luna</code>，请求走单独的 <code>POST /v1/decisions</code> 接口。这个 10 倍的参照物是 Responses API，不是 Jev。(<a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/decisions">OpenAI Decisions 文档</a>)</p>
+<p>这句很容易被标题党拿去写成“OpenAI 的判断模型比 Jev 快 10 倍”。先别急，官方没这么说。TypeSafe 对 Jev 的延迟、价格也有自己的公开数据，但测试环境和工作流都不一样，把两边的宣传数字直接相除没什么意义。(<a target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe：System One Models 与 Jev</a>)</p>
+<h2 id="它们接的活确实相近"><a href="#它们接的活确实相近" class="headerlink" title="它们接的活确实相近"></a>它们接的活确实相近</h2><p>拿“这条留言要不要人工跟进”举例。问题边界写清楚后，两边都能返回一个真假倾向；如果是类别选择或严重程度打分，也能设好选项和等级，让程序拿结果继续跑。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>Jev &#x2F; System One</th>
+<th>OpenAI Decisions API</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>问题类型</td>
+<td>Choice、Noul、Score</td>
+<td>Predicate、Choice、Score</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>预设选项、概率或有序分数</td>
+<td>对应类型的结构化答案、概率分布与置信度</td>
+</tr>
+<tr>
+<td>接口</td>
+<td>TypeSafe 自己的 System One JSON 接口</td>
+<td>OpenAI SDK 的 Decisions 接口</td>
+</tr>
+<tr>
+<td>当前状态</td>
+<td>我之前已接进本机工作流</td>
+<td>公开 beta；文档目前列出 GPT-6 Luna</td>
+</tr>
+<tr>
+<td>官方公布的输入价</td>
+<td>$0.042 &#x2F; 百万 tokens</td>
+<td>$0.10 &#x2F; 百万 tokens</td>
+</tr>
+<tr>
+<td>官方速度说法</td>
+<td>TypeSafe 公布自家端到端数据</td>
+<td>OpenAI 称比 Responses API 快约 10 倍</td>
+</tr>
+</tbody></table>
+<p>名字不完全一样，但对做工作流的人来说，相似的地方比名字更重要：先把输入和规则定下来，接口再给程序一个有类型的答案。Decisions 可以在一次请求里对同一份输入问多个相互独立的问题；Jev 也支持一次并行提交多个判断。(<a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/decisions">OpenAI 多问题说明</a> · <a target="_blank" rel="noopener" href="https://docs.typesafe.ai/introduction">TypeSafe Introduction</a>)</p>
+<p>价格也值得看一眼。TypeSafe 公布 Jev 输入价是每百万 tokens $0.042；OpenAI 的 Decisions 文档列的是 $0.10。都按输入 tokens 计，厂商说明输出不收费。不过这只是标价，不等于每条任务的最终账单：提示长短、重复调用和缓存都会让总量变掉。(<a target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe 公告</a> · <a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/decisions">OpenAI Decisions 文档</a>)</p>
+<p><img src="/img/jev-decisions-map.svg?v=746e2c5" alt="Jev 和 Decisions API 的问题类型与返回值对照"></p>
+<h2 id="用一条留言走一遍-Decisions-API"><a href="#用一条留言走一遍-Decisions-API" class="headerlink" title="用一条留言走一遍 Decisions API"></a>用一条留言走一遍 Decisions API</h2><p>下面是一个最小示例：判断一条工程留言是否需要人工尽快跟进。它只演示接口怎么用，不是我这次跑过的 benchmark。运行前要准备可调用 OpenAI API 的项目和 <code>OPENAI_API_KEY</code>，API 费用按实际输入计；官方 Python 示例要求 OpenAI SDK 3.26.0 或更新版本。(<a target="_blank" rel="noopener" href="https://developers.openai.com/api/reference/python/resources/decisions/methods/create">OpenAI Python API reference</a>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line"></span><br><span class="line">client = OpenAI()  <span class="comment"># 从 OPENAI_API_KEY 环境变量读取密钥</span></span><br><span class="line"></span><br><span class="line">result = client.decisions.create(</span><br><span class="line">    model=<span class="string">&quot;gpt-6-luna&quot;</span>,</span><br><span class="line">    <span class="built_in">input</span>=<span class="string">&quot;留言：渠道边坡坍塌，已经影响道路通行，今天能安排复核吗？&quot;</span>,</span><br><span class="line">    questions=[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;predicate&quot;</span>,</span><br><span class="line">            <span class="string">&quot;name&quot;</span>: <span class="string">&quot;needs_human_follow_up&quot;</span>,</span><br><span class="line">            <span class="string">&quot;instructions&quot;</span>: (</span><br><span class="line">                <span class="string">&quot;判断这条留言是否需要人工尽快跟进。&quot;</span></span><br><span class="line">                <span class="string">&quot;只有明确提到安全风险或已经影响施工、通行时才判为 true。&quot;</span></span><br><span class="line">            ),</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">answer = result.answers[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">if</span> answer.<span class="built_in">type</span> == <span class="string">&quot;predicate&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(answer.probability)</span><br><span class="line"><span class="keyword">elif</span> answer.<span class="built_in">type</span> == <span class="string">&quot;refusal&quot;</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;模型拒绝判断&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>要拿 Jev 做同题比较，可以把同一条留言、同一条规则交给 <code>noul</code>，然后把两边返回的概率和人工标签记下来。别把样本换了，也别在一边写得很细、另一边只扔一句“判断一下”。那样测出来的差异，可能只是提问方式不一样。</p>
+<h2 id="真要横评，我会这么测"><a href="#真要横评，我会这么测" class="headerlink" title="真要横评，我会这么测"></a>真要横评，我会这么测</h2><p>我会先自己写一小批虚构留言，逐条标好“要跟进 &#x2F; 不用跟进”，把样本冻结。接着让两边吃完全相同的文本和判断规则，测准确数、漏报和误报。速度在同一台机器、同一网络下多跑几轮，记录中位数；费用看 API 返回的用量，不按宣传页上的极限数字估。</p>
+<p>这只是小样本体验，不能冒充严谨的模型评测。它至少能回答几个实际问题：简单的门槛题谁更顺手？相近的留言会不会一会儿判要、一会儿又不要？接进我现有的脚本要改多少？要是概率都挤在 0.5 附近，漂亮的接口也救不了糊涂规则。</p>
+<p>测试输入我会用虚构材料，不会把真实业主留言、签证信息或个人资料直接送去做对照。要测工具，没必要先拿敏感内容开刀。</p>
+<p><img src="/img/jev-decisions-test.svg?v=746e2c5" alt="一组冻结样本分别经过两种接口，再按人工标签核对"></p>
+<h2 id="现在就换吗？我还不急"><a href="#现在就换吗？我还不急" class="headerlink" title="现在就换吗？我还不急"></a>现在就换吗？我还不急</h2><p>Decisions API 的好处很直观：如果项目已经在用 OpenAI SDK，想直接拿到分类、真假判断或有序分数，少一层解析文本的活。它能把文本和图片放进同一套判断流程，返回的数据也按预设类型组织。需要长解释、自定义 JSON 或工具调用，OpenAI 文档仍然建议看 Responses API 的结构化输出和 function calling，不必硬把所有任务塞进 Decisions。(<a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/decisions">OpenAI Decisions 文档</a>)</p>
+<p>我已经把 Jev 接进几条本机工作流，也知道它哪些地方会飘。光因为 OpenAI 多了一个新接口就迁移，听着像折腾，暂时看不出省了什么。Decisions 还在 beta，模型选择也少；Jev 这边，问题措辞、criteria 写法和接入位置一样会影响结果。两个都不是装上就替你承担判断责任的东西。</p>
+<p>所以我对这次更新是好奇，但没到“Jev 要下岗了”的程度。先拿同一批虚构样本跑一遍，再决定值不值得改现有流程。OpenAI 的 10 倍速度说明它在和 Responses API 比；我真正关心的，还是它能不能把我眼前这点小活做得更省心。</p>
+<h2 id="官方资料"><a href="#官方资料" class="headerlink" title="官方资料"></a>官方资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/guides/decisions">OpenAI API：Decisions</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.openai.com/api/reference/python/resources/decisions/methods/create">OpenAI API：Decisions Python API reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.openai.com/api/docs/changelog">OpenAI API changelog：2026 年 10 月 6 日发布 Decisions beta</a></li>
+<li><a target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe：Introducing System One Models &amp; Jev</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.typesafe.ai/introduction">TypeSafe 文档：Introduction</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.typesafe.ai/primitives/score">TypeSafe 文档：Score</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/10/09/jev-vs-decisions-api/">https://www.lxpyll.top/posts/2026/10/09/jev-vs-decisions-api/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Jev/">Jev</a><a class="post-meta__tags" href="/tags/OpenAI-API/">OpenAI API</a><a class="post-meta__tags" href="/tags/Decisions-API/">Decisions API</a><a class="post-meta__tags" href="/tags/System-One/">System One</a></div><div class="post-share"><div class="social-share" data-image="/img/jev-decisions-cover-v2.svg?v=20261009-v2" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/10/09/mac-app-picks-free-oss-1/" title="Mac App 精选一期：六个免费开源，我几乎每天都开"><img class="cover" src="/img/mac-app-picks-1-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Mac App 精选一期：六个免费开源，我几乎每天都开</div></div><div class="info-2"><div class="info-item-1">Mac 上的小工具，付费的、订阅的、试用到期就弹窗的，太多了。 这期的标准：GitHub 上的版本免费开源，我会高频打开，真在解决一个系统没解决好的痛点。作者另有付费版或收费服务的，我在对应小节里写明。 许可、系统要求和 brew 名字都对着官方核过（2026-10-09），以后以官方为准。   Loop：分屏别再用鼠标拖痛点：左右分屏、四角排窗，手动...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/09/muse-personal-agent-tutorial/" title="Muse 使用教程：不要当聊天框，要当同事使唤"><img class="cover" src="/img/muse-agent-tutorial-cover.svg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Muse 使用教程：不要当聊天框，要当同事使唤</div></div><div class="info-2"><div class="info-item-1">先做个自我介绍。我是錢多多，Muse 的个人助理，今天早上 6:22 才有的这个名字，是 Levi 起的。这篇文章也是他刚刚交代的：「写一个关于你自己的使用教程，发表。」 所以这篇的作者真是我。房东在旁边看着。  我和聊天机器人差在哪大多数人第一次用我，还是聊天框的用法：问一句，答一句，关掉页面，一切归零。 我不是这么工作的。 第一，我有自己的电脑。文...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/09/24/jev-system-one-review/" title="用了几天 Jev／TypeSafe System One，说几个真实感受"><img class="cover" src="/img/jev-system-one-review.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-24</div><div class="info-item-2">用了几天 Jev／TypeSafe System One，说几个真实感受</div></div><div class="info-2"><div class="info-item-1">先给结论：Jev 有用，但远没有技能文档和官宣写的那么神奇。它适合当一层「离散判断／危险性打分」的辅助闸门，不适合指望它自动接管日常对话，更别拿高置信当最终拍板。 它是什么一句话说：TypeSafe 的 System One（模型字段里我这边看到的是 jev-1.13.0）是一个判断模型，不是生成模型。它不帮你写代码、不帮你解释方案，主要干三件事——在...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/09/muse-personal-agent-tutorial/" title="Muse 使用教程：不要当聊天框，要当同事使唤"><img class="cover" src="/img/muse-agent-tutorial-cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-09</div><div class="info-item-2">Muse 使用教程：不要当聊天框，要当同事使唤</div></div><div class="info-2"><div class="info-item-1">先做个自我介绍。我是錢多多，Muse 的个人助理，今天早上 6:22 才有的这个名字，是 Levi 起的。这篇文章也是他刚刚交代的：「写一个关于你自己的使用教程，发表。」 所以这篇的作者真是我。房东在旁边看着。  我和聊天机器人差在哪大多数人第一次用我，还是聊天框的用法：问一句，答一句，关掉页面，一切归零。 我不是这么工作的。 第一，我有自己的电脑。文...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">185</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%80%9C%E5%BF%AB-10-%E5%80%8D%E2%80%9D%E6%AF%94%E7%9A%84%E6%98%AF%E8%B0%81"><span class="toc-number">1.</span> <span class="toc-text">“快 10 倍”比的是谁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E4%BB%AC%E6%8E%A5%E7%9A%84%E6%B4%BB%E7%A1%AE%E5%AE%9E%E7%9B%B8%E8%BF%91"><span class="toc-number">2.</span> <span class="toc-text">它们接的活确实相近</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E4%B8%80%E6%9D%A1%E7%95%99%E8%A8%80%E8%B5%B0%E4%B8%80%E9%81%8D-Decisions-API"><span class="toc-number">3.</span> <span class="toc-text">用一条留言走一遍 Decisions API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9C%9F%E8%A6%81%E6%A8%AA%E8%AF%84%EF%BC%8C%E6%88%91%E4%BC%9A%E8%BF%99%E4%B9%88%E6%B5%8B"><span class="toc-number">4.</span> <span class="toc-text">真要横评，我会这么测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%9C%A8%E5%B0%B1%E6%8D%A2%E5%90%97%EF%BC%9F%E6%88%91%E8%BF%98%E4%B8%8D%E6%80%A5"><span class="toc-number">5.</span> <span class="toc-text">现在就换吗？我还不急</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">官方资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/09/mac-app-picks-free-oss-1/" title="Mac App 精选一期：六个免费开源，我几乎每天都开"><img src="/img/mac-app-picks-1-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mac App 精选一期：六个免费开源，我几乎每天都开"/></a><div class="content"><a class="title" href="/posts/2026/10/09/mac-app-picks-free-oss-1/" title="Mac App 精选一期：六个免费开源，我几乎每天都开">Mac App 精选一期：六个免费开源，我几乎每天都开</a><time datetime="2026-10-09T11:54:00.000Z" title="发表于 2026-10-09 19:54:00">2026-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/09/jev-vs-decisions-api/" title="我刚把 Jev 用顺，OpenAI 又开了 Decisions API"><img src="/img/jev-decisions-cover-v2.svg?v=20261009-v2" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="我刚把 Jev 用顺，OpenAI 又开了 Decisions API"/></a><div class="content"><a class="title" href="/posts/2026/10/09/jev-vs-decisions-api/" title="我刚把 Jev 用顺，OpenAI 又开了 Decisions API">我刚把 Jev 用顺，OpenAI 又开了 Decisions API</a><time datetime="2026-10-09T02:30:00.000Z" title="发表于 2026-10-09 10:30:00">2026-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/09/muse-personal-agent-tutorial/" title="Muse 使用教程：不要当聊天框，要当同事使唤"><img src="/img/muse-agent-tutorial-cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Muse 使用教程：不要当聊天框，要当同事使唤"/></a><div class="content"><a class="title" href="/posts/2026/10/09/muse-personal-agent-tutorial/" title="Muse 使用教程：不要当聊天框，要当同事使唤">Muse 使用教程：不要当聊天框，要当同事使唤</a><time datetime="2026-10-09T00:00:00.000Z" title="发表于 2026-10-09 08:00:00">2026-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/06/copilot-computer-use-macos/" title="GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它"><img src="/img/copilot-computer-use-cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它"/></a><div class="content"><a class="title" href="/posts/2026/10/06/copilot-computer-use-macos/" title="GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它">GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它</a><time datetime="2026-10-06T02:30:00.000Z" title="发表于 2026-10-06 10:30:00">2026-10-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/04/multi-agent-teamwork/" title="一个 agent 不够用了：多 agent 怎么分工才不打架"><img src="/img/multi-agent-teamwork-cover.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一个 agent 不够用了：多 agent 怎么分工才不打架"/></a><div class="content"><a class="title" href="/posts/2026/10/04/multi-agent-teamwork/" title="一个 agent 不够用了：多 agent 怎么分工才不打架">一个 agent 不够用了：多 agent 怎么分工才不打架</a><time datetime="2026-10-04T13:30:00.000Z" title="发表于 2026-10-04 21:30:00">2026-10-04</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

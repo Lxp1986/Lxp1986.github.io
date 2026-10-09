@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="sk-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+    <linearGradient id="sk-g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9EF1BD"/>
+      <stop offset="1" stop-color="#7BD8F2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 无全幅底色：外层透明 -->
+  <text x="600" y="52" text-anchor="middle" font-size="34" font-weight="700" fill="#B7C3EB">从 0 写出第一个 AI Skill</text>
+  <text x="600" y="84" text-anchor="middle" font-size="15" fill="#DFD3C3">核对到 2026-10-02 · 今天 GitHub 热榜前十里六个跟 Skill 相关</text>
+
+  <!-- 卡片 1：写 -->
+  <rect x="40" y="116" width="360" height="330" rx="14" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <circle cx="80" cy="154" r="18" fill="url(#sk-g)"/>
+  <text x="80" y="161" text-anchor="middle" font-size="15" font-weight="700" fill="#1A2233">1</text>
+  <text x="110" y="162" font-size="22" font-weight="700" fill="#B7C3EB">写</text>
+  <text x="66" y="206" font-size="15" fill="#E1D3C1">一个 SKILL.md 就是全部</text>
+  <text x="66" y="238" font-size="14" fill="#A7B9D2">name + description 是身份证</text>
+  <text x="66" y="266" font-size="14" fill="#A7B9D2">正文四段：职责 / 工作流 /</text>
+  <text x="66" y="294" font-size="14" fill="#A7B9D2">已知坑 / 派单模板</text>
+  <text x="66" y="322" font-size="14" fill="#A7B9D2">15 分钟可写出最小可用版</text>
+  <text x="66" y="378" font-size="15" font-weight="700" fill="#9EF1BD">关键：description 写场景</text>
+  <text x="66" y="404" font-size="14" fill="#F2B0B0">反例："有用的工具 skill"</text>
+
+  <!-- 卡片 2：存 -->
+  <rect x="420" y="116" width="360" height="330" rx="14" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <circle cx="460" cy="154" r="18" fill="url(#sk-g2)"/>
+  <text x="460" y="161" text-anchor="middle" font-size="15" font-weight="700" fill="#1A2233">2</text>
+  <text x="490" y="162" font-size="22" font-weight="700" fill="#9EF1BD">存</text>
+  <text x="446" y="206" font-size="15" fill="#E1D3C1">本地是工作区，GitHub 是资产库</text>
+  <text x="446" y="238" font-size="14" fill="#A7B9D2">~/workspace/skills/ 改完就同步</text>
+  <text x="446" y="266" font-size="14" fill="#A7B9D2">公开仓库 + skills.json 索引</text>
+  <text x="446" y="294" font-size="14" fill="#A7B9D2">名字、描述、路径机器可读</text>
+  <text x="446" y="322" font-size="14" fill="#F2B0B0">secret 永远别写进 SKILL.md</text>
+  <text x="446" y="378" font-size="15" font-weight="700" fill="#9EF1BD">一个 skill 只干一件事</text>
+  <text x="446" y="404" font-size="14" fill="#A7B9D2">大而全的拆开后调用率更高</text>
+
+  <!-- 卡片 3：用 -->
+  <rect x="800" y="116" width="360" height="330" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+  <circle cx="840" cy="154" r="18" fill="url(#sk-g)"/>
+  <text x="840" y="161" text-anchor="middle" font-size="15" font-weight="700" fill="#1A2233">3</text>
+  <text x="870" y="162" font-size="22" font-weight="700" fill="#DFD3C3">用</text>
+  <text x="826" y="206" font-size="15" fill="#E1D3C1">载体是 Markdown，无私有格式</text>
+  <text x="826" y="238" font-size="14" fill="#A7B9D2">Muse 里攒的，Codex 照用</text>
+  <text x="826" y="266" font-size="14" fill="#A7B9D2">Hermes、Cursor 同样通吃</text>
+  <text x="826" y="294" font-size="14" fill="#A7B9D2">AI 按 description 自动想起你</text>
+  <text x="826" y="378" font-size="15" font-weight="700" fill="#9EF1BD">流通性最强的知识形态</text>
+  <text x="826" y="404" font-size="14" fill="#A7B9D2">经验沉淀 → 所有 agent 调用</text>
+
+  <text x="600" y="500" text-anchor="middle" font-size="16" fill="#A7B9D2">下一篇预告：《给 AI 省 token 的实战技巧》</text>
+  <text x="600" y="532" text-anchor="middle" font-size="14" fill="#DFD3C3">三色风 · www.lxpyll.top</text>
+</svg>

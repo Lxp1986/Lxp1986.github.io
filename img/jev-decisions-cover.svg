@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Jev 与 OpenAI Decisions API 对照</title>
+  <desc id="desc">同一条用户反馈分别交给 Jev 和 OpenAI Decisions API，并说明官方十倍速度对比的对象是 Responses API。</desc>
+  <defs>
+    <linearGradient id="teal" x1="120" y1="190" x2="570" y2="490" gradientUnits="userSpaceOnUse"><stop stop-color="#66DED4"/><stop offset="1" stop-color="#298EB8"/></linearGradient>
+    <linearGradient id="violet" x1="630" y1="190" x2="1080" y2="490" gradientUnits="userSpaceOnUse"><stop stop-color="#B5A0FF"/><stop offset="1" stop-color="#7261D1"/></linearGradient>
+    <linearGradient id="link" x1="580" y1="205" x2="620" y2="205" gradientUnits="userSpaceOnUse"><stop stop-color="#66DED4"/><stop offset="1" stop-color="#B5A0FF"/></linearGradient>
+  </defs>
+
+  <g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+    <text x="600" y="62" text-anchor="middle" fill="#F5EDE2" font-size="43" font-weight="700">同一条任务，交给两种判断接口</text>
+
+    <rect x="160" y="91" width="880" height="94" rx="24" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.26)" stroke-width="2"/>
+    <text x="600" y="125" text-anchor="middle" fill="#CFC1AF" font-size="21" font-weight="600" letter-spacing="2">共同输入</text>
+    <text x="600" y="162" text-anchor="middle" fill="#FFF8EE" font-size="29" font-weight="600">这条反馈需要人工跟进吗？</text>
+
+    <path d="M600 186V208M600 208H325V228M600 208H875V228" stroke="url(#link)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="600" cy="208" r="5" fill="#D9D1E7"/>
+
+    <rect x="90" y="228" width="470" height="254" rx="26" fill="rgba(65,210,199,0.075)" stroke="rgba(113,230,220,0.58)" stroke-width="2"/>
+    <rect x="640" y="228" width="470" height="254" rx="26" fill="rgba(158,133,255,0.075)" stroke="rgba(190,171,255,0.58)" stroke-width="2"/>
+
+    <text x="325" y="278" text-anchor="middle" fill="#C8F5EF" font-size="34" font-weight="700">Jev / System One</text>
+    <text x="325" y="316" text-anchor="middle" fill="#DCCFC0" font-size="23">按配置执行离散判断</text>
+    <rect x="130" y="343" width="112" height="45" rx="14" fill="rgba(75,218,208,0.15)" stroke="rgba(132,236,227,0.45)"/>
+    <rect x="269" y="343" width="112" height="45" rx="14" fill="rgba(75,218,208,0.15)" stroke="rgba(132,236,227,0.45)"/>
+    <rect x="408" y="343" width="112" height="45" rx="14" fill="rgba(75,218,208,0.15)" stroke="rgba(132,236,227,0.45)"/>
+    <text x="186" y="373" text-anchor="middle" fill="#E7FFFB" font-size="22" font-weight="600">Choice</text>
+    <text x="325" y="373" text-anchor="middle" fill="#E7FFFB" font-size="22" font-weight="600">Noul</text>
+    <text x="464" y="373" text-anchor="middle" fill="#E7FFFB" font-size="22" font-weight="600">Score</text>
+    <path d="M325 397V415" stroke="#8BE5DC" stroke-width="2.5"/>
+    <rect x="182" y="417" width="286" height="43" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/>
+    <text x="325" y="446" text-anchor="middle" fill="#F5EDE2" font-size="22">返回判断结果</text>
+
+    <text x="875" y="278" text-anchor="middle" fill="#E3DAFF" font-size="31" font-weight="700">OpenAI Decisions API</text>
+    <text x="875" y="316" text-anchor="middle" fill="#DCCFC0" font-size="23">面向文本或图片的结构化判断</text>
+    <rect x="681" y="343" width="128" height="45" rx="14" fill="rgba(174,151,255,0.15)" stroke="rgba(201,184,255,0.48)"/>
+    <rect x="823" y="343" width="112" height="45" rx="14" fill="rgba(174,151,255,0.15)" stroke="rgba(201,184,255,0.48)"/>
+    <rect x="949" y="343" width="112" height="45" rx="14" fill="rgba(174,151,255,0.15)" stroke="rgba(201,184,255,0.48)"/>
+    <text x="745" y="373" text-anchor="middle" fill="#F0ECFF" font-size="20" font-weight="600">Predicate</text>
+    <text x="879" y="373" text-anchor="middle" fill="#F0ECFF" font-size="22" font-weight="600">Choice</text>
+    <text x="1005" y="373" text-anchor="middle" fill="#F0ECFF" font-size="22" font-weight="600">Score</text>
+    <path d="M875 397V415" stroke="#C3B1FF" stroke-width="2.5"/>
+    <rect x="732" y="417" width="286" height="43" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)"/>
+    <text x="875" y="446" text-anchor="middle" fill="#F5EDE2" font-size="22">GPT-6 Luna · Beta</text>
+
+    <path d="M130 520H1070" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <circle cx="154" cy="560" r="7" fill="#F1B86A"/>
+    <text x="600" y="569" text-anchor="middle" fill="#F6E8D5" font-size="25" font-weight="600">“快 10 倍”比较的是 Responses API，不是 Jev</text>
+  </g>
+</svg>

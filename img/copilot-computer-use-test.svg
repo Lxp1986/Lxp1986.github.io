@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 390" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs><linearGradient id="step" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#68dfca"/><stop offset="1" stop-color="#829fff"/></linearGradient></defs>
+  <text x="500" y="45" text-anchor="middle" font-size="25" font-weight="700" fill="#eee9e1">我会这样给它第一次上手</text>
+  <path d="M165 172H835" stroke="#8ca0bd" stroke-opacity="0.5" stroke-width="3"/>
+  <g>
+    <circle cx="165" cy="172" r="39" fill="url(#step)"/><text x="165" y="181" text-anchor="middle" font-size="24" font-weight="700" fill="#172333">1</text>
+    <circle cx="388" cy="172" r="39" fill="url(#step)"/><text x="388" y="181" text-anchor="middle" font-size="24" font-weight="700" fill="#172333">2</text>
+    <circle cx="612" cy="172" r="39" fill="url(#step)"/><text x="612" y="181" text-anchor="middle" font-size="24" font-weight="700" fill="#172333">3</text>
+    <circle cx="835" cy="172" r="39" fill="url(#step)"/><text x="835" y="181" text-anchor="middle" font-size="24" font-weight="700" fill="#172333">4</text>
+  </g>
+  <text x="165" y="247" text-anchor="middle" font-size="19" font-weight="700" fill="#eee9e1">复制一份资料</text>
+  <text x="165" y="279" text-anchor="middle" font-size="15" fill="#aebdd0">公开 PDF / 空白表</text>
+  <text x="388" y="247" text-anchor="middle" font-size="19" font-weight="700" fill="#eee9e1">只开目标窗口</text>
+  <text x="388" y="279" text-anchor="middle" font-size="15" fill="#aebdd0">关掉聊天与账号页</text>
+  <text x="612" y="247" text-anchor="middle" font-size="19" font-weight="700" fill="#eee9e1">先做只读任务</text>
+  <text x="612" y="279" text-anchor="middle" font-size="15" fill="#aebdd0">找标题、报页码</text>
+  <text x="835" y="247" text-anchor="middle" font-size="19" font-weight="700" fill="#eee9e1">检查再继续</text>
+  <text x="835" y="279" text-anchor="middle" font-size="15" fill="#aebdd0">先别“始终允许”</text>
+  <text x="500" y="350" text-anchor="middle" font-size="17" fill="#e5c889">失败也要失败在一份不重要的副本上</text>
+</svg>

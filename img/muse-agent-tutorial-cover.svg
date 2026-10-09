@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Muse 使用教程封面</title>
+  <desc id="desc">透明背景。奶油色毛茸茸的 Muse 助理錢多多坐在工位前，周围是邮件、日历、代码和清单，标题是不要当聊天框，要当同事使唤。</desc>
+  <defs>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7D9A8"/>
+      <stop offset="1" stop-color="#EFA9A0"/>
+    </linearGradient>
+    <linearGradient id="cool" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9EF1BD"/>
+      <stop offset="1" stop-color="#7BD8F2"/>
+    </linearGradient>
+  </defs>
+  <g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+    <!-- 无全幅底色：外层透明 -->
+    <text x="600" y="70" text-anchor="middle" font-size="46" font-weight="700" fill="#F5EDE2">不要当聊天框，要当同事使唤</text>
+    <text x="600" y="108" text-anchor="middle" font-size="20" fill="#CFC1AF" letter-spacing="3">MUSE 使用教程 · 作者：錢多多（就是我）</text>
+
+    <!-- 工位桌面 -->
+    <rect x="330" y="470" width="540" height="18" rx="9" fill="rgba(255,255,255,0.18)"/>
+
+    <!-- 錢多多：奶油色毛茸茸角色 -->
+    <g>
+      <ellipse cx="600" cy="330" rx="118" ry="128" fill="url(#warm)"/>
+      <ellipse cx="600" cy="300" rx="88" ry="80" fill="#FFF3DF"/>
+      <circle cx="568" cy="292" r="10" fill="#26221F"/>
+      <circle cx="632" cy="292" r="10" fill="#26221F"/>
+      <circle cx="571" cy="289" r="3.5" fill="#FFFFFF"/>
+      <circle cx="635" cy="289" r="3.5" fill="#FFFFFF"/>
+      <path d="M585 322 Q600 334 615 322" stroke="#26221F" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="540" cy="318" rx="14" ry="9" fill="#F5A8A0" opacity="0.85"/>
+      <ellipse cx="660" cy="318" rx="14" ry="9" fill="#F5A8A0" opacity="0.85"/>
+      <ellipse cx="492" cy="392" rx="26" ry="44" fill="url(#warm)" transform="rotate(18 492 392)"/>
+      <ellipse cx="708" cy="392" rx="26" ry="44" fill="url(#warm)" transform="rotate(-18 708 392)"/>
+    </g>
+
+    <!-- 左：邮件 -->
+    <g>
+      <rect x="212" y="196" width="128" height="92" rx="14" fill="rgba(123,216,242,0.12)" stroke="rgba(123,216,242,0.65)" stroke-width="2"/>
+      <path d="M224 210 L276 252 L328 210" stroke="#7BD8F2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="276" y="322" text-anchor="middle" font-size="19" fill="#BFE9F7">邮箱</text>
+    </g>
+    <!-- 左下：日历与定时活 -->
+    <g>
+      <rect x="238" y="356" width="104" height="96" rx="14" fill="rgba(158,241,189,0.10)" stroke="rgba(158,241,189,0.6)" stroke-width="2"/>
+      <line x1="238" y1="384" x2="342" y2="384" stroke="rgba(158,241,189,0.6)" stroke-width="2"/>
+      <circle cx="264" cy="410" r="6" fill="#9EF1BD"/><circle cx="290" cy="410" r="6" fill="#9EF1BD" opacity="0.6"/><circle cx="316" cy="410" r="6" fill="#9EF1BD" opacity="0.35"/>
+      <circle cx="264" cy="432" r="6" fill="#9EF1BD" opacity="0.5"/><circle cx="290" cy="432" r="6" fill="#9EF1BD" opacity="0.9"/>
+      <text x="290" y="486" text-anchor="middle" font-size="19" fill="#CDEED9">定时活</text>
+    </g>
+    <!-- 右：代码 -->
+    <g>
+      <rect x="860" y="196" width="128" height="92" rx="14" fill="rgba(181,160,255,0.10)" stroke="rgba(181,160,255,0.6)" stroke-width="2"/>
+      <text x="924" y="256" text-anchor="middle" font-size="34" font-weight="700" fill="#C9B8FF">&lt;/&gt;</text>
+      <text x="924" y="322" text-anchor="middle" font-size="19" fill="#DDD2FA">代码仓库</text>
+    </g>
+    <!-- 右下：清单 -->
+    <g>
+      <rect x="872" y="356" width="104" height="96" rx="14" fill="rgba(247,217,168,0.10)" stroke="rgba(247,217,168,0.6)" stroke-width="2"/>
+      <path d="M892 386 L902 396 L920 376" stroke="#F7D9A8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M892 420 L902 430 L920 410" stroke="#F7D9A8" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+      <line x1="930" y1="388" x2="960" y2="388" stroke="#F7D9A8" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+      <line x1="930" y1="422" x2="960" y2="422" stroke="#F7D9A8" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
+      <text x="924" y="486" text-anchor="middle" font-size="19" fill="#F3E3C3">清单</text>
+    </g>
+
+    <!-- 连接线 -->
+    <path d="M340 250 C 420 250, 430 280, 486 296" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+    <path d="M860 250 C 780 250, 770 280, 714 296" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+
+    <text x="600" y="560" text-anchor="middle" font-size="21" fill="#E9DCC8">有自己的电脑 · 有记性 · 你下线了，活还在跑</text>
+    <text x="600" y="594" text-anchor="middle" font-size="15" fill="#A99B87">透明背景 SVG · 三色风</text>
+  </g>
+</svg>
