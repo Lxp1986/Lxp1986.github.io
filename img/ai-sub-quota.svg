@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="warm" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d98357"/>
+      <stop offset="100%" stop-color="#b85c38"/>
+    </linearGradient>
+    <linearGradient id="cold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6fb3a8"/>
+      <stop offset="100%" stop-color="#3f7d74"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#c9a227"/>
+    </marker>
+  </defs>
+
+  <text x="70" y="86" fill="#f3e7d8" font-size="38" font-weight="700">付的是月费，赌的是额度</text>
+  <text x="70" y="130" fill="#c0ac99" font-size="20">订阅制卖给你的是「准入」，不是「今天能干完多少活」</text>
+
+  <!-- left card -->
+  <rect x="70" y="176" width="500" height="330" rx="20" fill="rgba(184,92,56,0.10)" stroke="rgba(201,162,39,0.40)" stroke-width="2"/>
+  <text x="102" y="222" fill="#c9a227" font-size="22" font-weight="700">你付的：一条直线</text>
+  <text x="102" y="254" fill="#c0ac99" font-size="17">月费固定，月初扣款，风雨无阻</text>
+
+  <line x1="120" y1="440" x2="540" y2="440" stroke="rgba(201,162,39,0.35)" stroke-width="2"/>
+  <line x1="120" y1="440" x2="120" y2="300" stroke="rgba(201,162,39,0.35)" stroke-width="2"/>
+  <rect x="140" y="330" width="380" height="30" rx="8" fill="url(#warm)"/>
+  <text x="150" y="352" fill="#20120f" font-size="16" font-weight="700">每月固定支出</text>
+  <text x="140" y="404" fill="#c0ac99" font-size="16">可预期 · 可预算 · 不会变</text>
+
+  <!-- right card -->
+  <rect x="630" y="176" width="500" height="330" rx="20" fill="rgba(63,125,116,0.12)" stroke="rgba(111,179,168,0.45)" stroke-width="2"/>
+  <text x="662" y="222" fill="#6fb3a8" font-size="22" font-weight="700">你能用的：一条锯齿</text>
+  <text x="662" y="254" fill="#c0ac99" font-size="17">5 小时窗 / 周限额 / 共享池，随任务起伏</text>
+
+  <line x1="680" y1="440" x2="1100" y2="440" stroke="rgba(111,179,168,0.35)" stroke-width="2"/>
+  <line x1="680" y1="440" x2="680" y2="300" stroke="rgba(111,179,168,0.35)" stroke-width="2"/>
+  <rect x="706" y="300" width="52" height="140" rx="6" fill="url(#cold)"/>
+  <rect x="774" y="356" width="52" height="84" rx="6" fill="url(#cold)" opacity="0.85"/>
+  <rect x="842" y="392" width="52" height="48" rx="6" fill="url(#cold)" opacity="0.7"/>
+  <rect x="910" y="418" width="52" height="22" rx="6" fill="url(#cold)" opacity="0.5"/>
+  <rect x="978" y="428" width="52" height="12" rx="6" fill="#8b3a2f"/>
+  <text x="978" y="404" fill="#e2867a" font-size="17" font-weight="700">停</text>
+  <text x="706" y="470" fill="#c0ac99" font-size="16">同一份订阅，产出每天都不一样</text>
+
+  <!-- bottom bar -->
+  <rect x="70" y="546" width="1060" height="86" rx="18" fill="rgba(255,255,255,0.06)" stroke="rgba(201,162,39,0.32)" stroke-width="2"/>
+  <text x="102" y="584" fill="#f3e7d8" font-size="19">我不反对订阅。我反对的是：</text>
+  <text x="102" y="614" fill="#c9a227" font-size="19" font-weight="700">交了钱，还是没法确定今天能不能把活干完。</text>
+  <line x1="880" y1="589" x2="1090" y2="589" stroke="#c9a227" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

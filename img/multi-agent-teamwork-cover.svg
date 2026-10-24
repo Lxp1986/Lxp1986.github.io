@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0.92"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- title block -->
+  <g>
+    <rect x="80" y="60" width="1040" height="170" rx="14" fill="url(#cardBg)" stroke="#334155" stroke-width="1.5"/>
+    <text x="120" y="135" font-size="52" font-weight="700" fill="#f1f5f9">一个 agent 不够用了</text>
+    <text x="120" y="200" font-size="30" fill="url(#accent)" font-weight="600">多 agent 怎么分工才不打架</text>
+  </g>
+
+  <!-- three principle cards -->
+  <g font-size="30" font-weight="600">
+    <rect x="80" y="270" width="320" height="260" rx="14" fill="url(#cardBg)" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="120" y="340" fill="#38bdf8" font-size="44">①</text>
+    <text x="120" y="400" fill="#f1f5f9">分工</text>
+    <text x="120" y="450" font-size="22" font-weight="400" fill="#94a3b8">船长只下命令</text>
+    <text x="120" y="485" font-size="22" font-weight="400" fill="#94a3b8">水手各自执行</text>
+
+    <rect x="440" y="270" width="320" height="260" rx="14" fill="url(#cardBg)" stroke="#818cf8" stroke-width="1.5"/>
+    <text x="480" y="340" fill="#818cf8" font-size="44">②</text>
+    <text x="480" y="400" fill="#f1f5f9">隔离</text>
+    <text x="480" y="450" font-size="22" font-weight="400" fill="#94a3b8">每人独立工作区</text>
+    <text x="480" y="485" font-size="22" font-weight="400" fill="#94a3b8">互不覆盖</text>
+
+    <rect x="800" y="270" width="320" height="260" rx="14" fill="url(#cardBg)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="840" y="340" fill="#34d399" font-size="44">③</text>
+    <text x="840" y="400" fill="#f1f5f9">验收</text>
+    <text x="840" y="450" font-size="22" font-weight="400" fill="#94a3b8">完成标准先行</text>
+    <text x="840" y="485" font-size="22" font-weight="400" fill="#94a3b8">回来统一拍板</text>
+  </g>
+</svg>

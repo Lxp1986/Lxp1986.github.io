@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="dBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0.92"/>
+    </linearGradient>
+  </defs>
+
+  <!-- you -->
+  <rect x="370" y="20" width="160" height="70" rx="14" fill="url(#dBg)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="450" y="63" font-size="28" font-weight="600" fill="#f1f5f9" text-anchor="middle">你</text>
+
+  <!-- arrow down to captain -->
+  <line x1="450" y1="90" x2="450" y2="125" stroke="#475569" stroke-width="2"/>
+  <polygon points="450,135 442,121 458,121" fill="#475569"/>
+  <text x="465" y="118" font-size="18" fill="#94a3b8">只下命令</text>
+
+  <!-- captain -->
+  <rect x="350" y="140" width="200" height="70" rx="14" fill="url(#dBg)" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="450" y="183" font-size="28" font-weight="600" fill="#f1f5f9" text-anchor="middle">协调者</text>
+
+  <!-- fan out to three workers -->
+  <g stroke="#475569" stroke-width="2">
+    <line x1="450" y1="210" x2="180" y2="260"/>
+    <line x1="450" y1="210" x2="450" y2="260"/>
+    <line x1="450" y1="210" x2="720" y2="260"/>
+  </g>
+
+  <!-- workers with isolated worktrees -->
+  <g font-size="24" font-weight="600">
+    <rect x="80" y="270" width="200" height="120" rx="14" fill="url(#dBg)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="180" y="315" fill="#f1f5f9" text-anchor="middle">执行 A</text>
+    <text x="180" y="352" font-size="18" font-weight="400" fill="#94a3b8" text-anchor="middle">独立 worktree</text>
+
+    <rect x="350" y="270" width="200" height="120" rx="14" fill="url(#dBg)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="450" y="315" fill="#f1f5f9" text-anchor="middle">执行 B</text>
+    <text x="450" y="352" font-size="18" font-weight="400" fill="#94a3b8" text-anchor="middle">独立 worktree</text>
+
+    <rect x="620" y="270" width="200" height="120" rx="14" fill="url(#dBg)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="720" y="315" fill="#f1f5f9" text-anchor="middle">执行 C</text>
+    <text x="720" y="352" font-size="18" font-weight="400" fill="#94a3b8" text-anchor="middle">独立 worktree</text>
+  </g>
+
+  <!-- return arrows to acceptance -->
+  <g stroke="#475569" stroke-width="2">
+    <line x1="180" y1="390" x2="180" y2="430"/>
+    <line x1="450" y1="390" x2="450" y2="430"/>
+    <line x1="720" y1="390" x2="720" y2="430"/>
+  </g>
+  <text x="450" y="420" font-size="18" fill="#94a3b8" text-anchor="middle">带着"做了什么 / 怎么证明 / 有无副作用"回来</text>
+
+  <rect x="300" y="435" width="300" height="65" rx="14" fill="url(#dBg)" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="450" y="477" font-size="26" font-weight="600" fill="#f1f5f9" text-anchor="middle">统一验收，你拍板</text>
+</svg>
