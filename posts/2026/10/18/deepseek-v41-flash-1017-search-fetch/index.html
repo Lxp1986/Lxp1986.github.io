@@ -1,0 +1,279 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search / Fetch | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="DeepSeek 10 月 17 日把 deepseek-flash 换成 V4.1-Flash-1017，模型名和价格都没动，权重 MIT 开源。真正要记的是 Search &#x2F; Fetch：每千次 0.75 美元，经 Harness、Claude Code、Codex 调用的免费期到 11 月 1 日 0 点（北京时间）结束。数字对照 DeepSeek 官方文档核到 2026-10-18。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search &#x2F; Fetch">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="DeepSeek 10 月 17 日把 deepseek-flash 换成 V4.1-Flash-1017，模型名和价格都没动，权重 MIT 开源。真正要记的是 Search &#x2F; Fetch：每千次 0.75 美元，经 Harness、Claude Code、Codex 调用的免费期到 11 月 1 日 0 点（北京时间）结束。数字对照 DeepSeek 官方文档核到 2026-10-18。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/deepseek-1017-perf-cost.png">
+<meta property="article:published_time" content="2026-10-18T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-18T15:00:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="AI 模型">
+<meta property="article:tag" content="DeepSeek">
+<meta property="article:tag" content="开源模型">
+<meta property="article:tag" content="额度">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search / Fetch",
+  "url": "https://www.lxpyll.top/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/",
+  "image": "https://www.lxpyll.top/img/deepseek-1017-perf-cost.png",
+  "datePublished": "2026-10-18T15:00:00.000Z",
+  "dateModified": "2026-10-18T15:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "DeepSeek 10 月 17 日把 deepseek-flash 换成 V4.1-Flash-1017，模型名和价格都没动，权重 MIT 开源。真正要记的是 Search / Fetch：每千次 0.75 美元，经 Harness、Claude Code、Codex 调用的免费期到 11 月 1 日 0 点（北京时间）结束。数字对照 DeepSeek 官方文档核到 2026-10-18。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search / Fetch',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">231</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search / Fetch</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">DeepSeek 没涨价，只换了个 Flash：1017 版和要收费的 Search / Fetch</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-18T15:00:00.000Z" title="发表于 2026-10-18 23:00:00">2026-10-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-18T15:00:00.000Z" title="更新于 2026-10-18 23:00:00">2026-10-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%B7%A5%E5%85%B7/">AI工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>DeepSeek 昨天（10 月 17 日）发了 V4.1-Flash-1017。名字后面那四位数是日期，意思是 9 月 10 日那版 V4.1-Flash 的一次更新，不是新一代。</p>
+<p>我第一反应是看要不要改配置。答案是不用：API 模型名还是 <code>deepseek-flash</code>，价格表一个数没动，老名字 <code>deepseek-v4-flash</code> 也照样能用，后台已经全部指向 1017。这类更新本来没什么好写的，值得记一笔的是顺带上线的 Search &#x2F; Fetch API，因为它有一个明确的收费日期。</p>
+<h2 id="模型：分数全涨，输出变短"><a href="#模型：分数全涨，输出变短" class="headerlink" title="模型：分数全涨，输出变短"></a>模型：分数全涨，输出变短</h2><p>官方公告的原话是：跑分更高、完成任务更快、输出更短，「在性能和成本上都是帕累托改进」。Hugging Face 模型卡里和 9 月版的对比，挑几个我在意的：</p>
+<table>
+<thead>
+<tr>
+<th>基准</th>
+<th>1017</th>
+<th>9 月 V4.1-Flash</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Terminal-Bench 4.0</td>
+<td>42.3</td>
+<td>31.2</td>
+</tr>
+<tr>
+<td>DeepSWE v1.1</td>
+<td>77.0</td>
+<td>74.2</td>
+</tr>
+<tr>
+<td>ProgramBench</td>
+<td>29.1</td>
+<td>20.3</td>
+</tr>
+<tr>
+<td>HLE（不用工具）</td>
+<td>42.6</td>
+<td>36.8</td>
+</tr>
+</tbody></table>
+<p>Terminal-Bench 涨了 11 分，是这次最大的一块。不过同一张表里，Opus 5 的 Terminal-Bench 是 51.8、ProgramBench 是 37.0、HLE 是 56.3，都还在 1017 前面。说它追平最强闭源模型是夸大，说它是「便宜档里最能打的那个」比较贴切。</p>
+<p><img src="/img/deepseek-1017-perf-cost.png" alt="DeepSWE v1.1 Pass@1 与单任务成本对比图"><br><em>图片来源：DeepSeek API 文档 DeepSeek-V4.1-Flash-1017 发布公告。横轴是单任务平均成本（对数刻度），数据为 DeepSeek 自己整理的。</em></p>
+<p>这张图比跑分表更有用。1017 在 max 档拿到 77.0%，单任务成本约 0.2 美元，图上同等分数段的其他模型都在它右边好几格。图是厂商自己画的，横向比较的成本口径我没法复核，看个大概就好。</p>
+<p>权重当天上了 Hugging Face 和 ModelScope，许可证是 MIT。架构没变，还是 552B 总参数的 MoE，输入激活 8B、输出激活 16B，1M 上下文。家里那台机器肯定跑不动，这个开源主要是给要自己部署的公司用的。</p>
+<h2 id="价格：一分没动，但分高峰"><a href="#价格：一分没动，但分高峰" class="headerlink" title="价格：一分没动，但分高峰"></a>价格：一分没动，但分高峰</h2><p>现在的 <code>deepseek-flash</code> 价格（每百万 token，美元）：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>闲时</th>
+<th>高峰</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入（缓存命中）</td>
+<td>0.003</td>
+<td>0.006</td>
+</tr>
+<tr>
+<td>输入（缓存未命中）</td>
+<td>0.15</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>0.6</td>
+<td>1.2</td>
+</tr>
+</tbody></table>
+<p>高峰时段是周一到周五 UTC 01:00–04:00 和 06:00–10:00，换成北京时间就是 <strong>上午 9 点到 12 点、下午 2 点到 6 点</strong>，正好是上班时间。周末和国内法定节假日全天按闲时算，便宜一半。</p>
+<p>国内用户要注意：白天写代码，跑的基本都是高峰价。能挪的批量任务，比如整理资料、跑测试、批量改稿，放到晚上或周末，账单直接砍半。</p>
+<h2 id="Search-Fetch：真正要设提醒的是这个"><a href="#Search-Fetch：真正要设提醒的是这个" class="headerlink" title="Search &#x2F; Fetch：真正要设提醒的是这个"></a>Search &#x2F; Fetch：真正要设提醒的是这个</h2><p>这次顺带开放了两个独立 API：Search 搜网页，Fetch 抓网页正文，背后是 DeepSeek 自己的搜索引擎。</p>
+<ul>
+<li>价格：两个都是 <strong>每 1000 次成功请求 0.75 美元</strong>，按次计费，跟 token 分开算。</li>
+<li>免费期：通过 DeepSeek Harness、Claude Code、Codex 使用 DeepSeek API 时，服务端工具调用会走 Search &#x2F; Fetch，这部分目前免费。</li>
+<li>收费开始：<strong>2026 年 11 月 1 日 0 点（北京时间）</strong>，也就是 10 月 31 日 16:00 UTC。</li>
+</ul>
+<p>0.75 美元一千次听起来不多，但 agent 搜东西不是一次两次。一个调研任务搜十几轮、每轮再抓几个页面，一天跑下来几百次很正常。按每天 500 次算，一个月一万五千次左右，约 11 美元。Flash 的 token 这么便宜，搜索费很可能反过来成了大头。</p>
+<p>所以这笔钱要不要花，取决于你现在在 Claude Code、Codex 里接 DeepSeek 时开没开搜索。我的打算是：</p>
+<ol>
+<li>这两周照常用，顺便看看后台 Search &#x2F; Fetch 的调用次数，先摸清自己一天大概多少次。</li>
+<li>10 月底前决定要不要关掉服务端搜索，改用本地已有的搜索工具。</li>
+<li>如果用量不大，就留着，省得自己再维护一套。</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这次更新对日常使用几乎是白捡：模型名不改、价格不涨，分数和速度都上去了。要记的只有两件事：白天是高峰价；Search &#x2F; Fetch 11 月 1 日开始收费。现在就去日历上设个 10 月 31 日的提醒吧。</p>
+<p>参考：DeepSeek API 文档的 V4.1-Flash-1017 发布公告、Models &amp; Pricing 页面，以及 Hugging Face 上的 deepseek-ai&#x2F;DeepSeek-V4.1-Flash-1017 模型卡。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/">https://www.lxpyll.top/posts/2026/10/18/deepseek-v41-flash-1017-search-fetch/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/DeepSeek/">DeepSeek</a><a class="post-meta__tags" href="/tags/%E9%A2%9D%E5%BA%A6/">额度</a><a class="post-meta__tags" href="/tags/AI-%E6%A8%A1%E5%9E%8B/">AI 模型</a><a class="post-meta__tags" href="/tags/%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B/">开源模型</a></div><div class="post-share"><div class="social-share" data-image="/img/deepseek-1017-perf-cost.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/10/19/voicestudio-local-voice-cloning/" title="GitHub 周榜上的 VoiceStudio：本地版 ElevenLabs，先看清哪些能免费商用"><img class="cover" src="/img/voicestudio-cloning.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">GitHub 周榜上的 VoiceStudio：本地版 ElevenLabs，先看清哪些能免费商用</div></div><div class="info-2"><div class="info-item-1">这周翻 GitHub 周榜，前几名还是各种 agent 插件和 skill，看多了有点审美疲劳。夹在中间的 VoiceStudio 是个例外：它不是给 agent 用的，是给人用的桌面软件。README 第一句写的是「开源、完全本地的 ElevenLabs 替代」。 我截稿时看了一下：仓库总星数 76,945，这一周涨了 16,569。仓库是 2026...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/17/mac-app-picks-free-oss-3/" title="Mac App 精选三期：取色、开会、查更新、滚轮，四个免费开源小工具"><img class="cover" src="/img/mac-app-picks-3-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Mac App 精选三期：取色、开会、查更新、滚轮，四个免费开源小工具</div></div><div class="info-2"><div class="info-item-1">这期起因很简单：Pika 这周连发了 2.0 和 2.0.1。我本来只想写它一个，翻了一圈自己的菜单栏，又挑出三个常驻的小东西，凑成第三期。 规矩和前两期一样：免费、开源，作者名下没有收费版或付费产品。版本号、许可证都是 2026-10-17 对着 GitHub 仓库核的。本来想放 AltTab，查了官网发现它现在有 AltTab Pro（9.99 美...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/10/16/muse-spark-open-weights/" title="Muse Spark Open 放权重了：816B，Meta 说两台 Mac Studio 能跑"><img class="cover" src="/img/muse-spark-open-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-16</div><div class="info-item-2">Muse Spark Open 放权重了：816B，Meta 说两台 Mac Studio 能跑</div></div><div class="info-2"><div class="info-item-1"> Meta 昨天（美国时间 10 月 15 日）把 Muse Spark Open 的权重挂上了 Hugging Face。 Meta 给它的头衔是「美国最强开权重模型」。这话是他们自己说的，先不管，看看能拿来干嘛。 数字来自 Meta 官方博客、Hugging Face 模型卡和 OpenRouter 模型 API，2026-10-16 晚核对，会变...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/16/deepseek-harness-tutorial/" title="把 DeepSeek Harness 跑起来了，安装过程记录"><img class="cover" src="/img/dsh-tutorial.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-16</div><div class="info-item-2">把 DeepSeek Harness 跑起来了，安装过程记录</div></div><div class="info-2"><div class="info-item-1">Harness 开源那天我装了一个，Windows 和 Mac 都试了一遍。过程比想的简单，把记录放这里，给还没动手的人省点时间。 环境就一个 Node.js版本要 22.19 以上，或者 24。官网下 LTS 版装上，终端里跑 node -v 能出数字就行。 安装是一行命令1npx @deepseek-ai/dsh web  第一次跑会自己下载，等几...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/24/nvidia-nemotron-35-bolt-e4b/" title="NVIDIA 放出 Nemotron 3.5 Bolt E4B：冲着本地语音助手去的 4GB 小模型"><img class="cover" src="/img/nemotron-bolt-e4b-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-24</div><div class="info-item-2">NVIDIA 放出 Nemotron 3.5 Bolt E4B：冲着本地语音助手去的 4GB 小模型</div></div><div class="info-2"><div class="info-item-1">NVIDIA 10 月 23 日把 Nemotron 3.5 Bolt E4B 4GB 正式放出来了。底座 Google Gemma 4 E4B，NVIDIA 自己做后训练。官方写的目标场景挺直白：本地语音助手、设备控制、游戏 NPC、机器人接口，跑在 GeForce RTX、Jetson、RTX Spark、DGX Spark 上。 参数量写的是 8...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/25/nanbeige43-33b-oss/" title="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen"><img class="cover" src="/img/nanbeige43-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-25</div><div class="info-item-2">BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen</div></div><div class="info-2"><div class="info-item-1">说个事：BOSS 直聘下面的 Nanbeige LLM Lab，10 月 24 日在 Hugging Face 放了 Nanbeige4.3-33B。Apache 2.0，中英都有，上下文写到 524,288 token（512K）。组织页自己写的，实验室挂在 BOSS Zhipin 名下。 定位不绕弯——先当 ~30B 档教师模型，再往 Nanbei...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/16/deepseek-harness-review/" title="用了几天 DeepSeek Harness，说几个真实感受"><img class="cover" src="/img/dsh-review.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-16</div><div class="info-item-2">用了几天 DeepSeek Harness，说几个真实感受</div></div><div class="info-2"><div class="info-item-1">先给结论：这工具现在还不适合拿来干正事。想尝鲜、想学它架构的可以装，指望它稳定出活，再等几个月。 几个不错的地方官方出品，模型和框架是一套，配合比第三方拼出来的顺。MIT 开源，代码随便改。不绑死模型，DeepSeek、OpenAI、Claude 都能接。工具免费，API 也便宜，晚上还半价。 几个让我犹豫的地方还是预览版，官方自己都写了「会有破坏性变...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/23/tencent-wevisone-vl-4b/" title="腾讯微信视觉开源 WeVisOne-VL：4B 小模型一口气做检测、计数、OCR 和抠图"><img class="cover" src="/img/wevisone-vl-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-23</div><div class="info-item-2">腾讯微信视觉开源 WeVisOne-VL：4B 小模型一口气做检测、计数、OCR 和抠图</div></div><div class="info-2"><div class="info-item-1">腾讯微信视觉团队 10 月 22 日在 Hugging Face 放了两个模型：WeVisOne-VL-2B 和 WeVisOne-VL-4B，Apache 2.0 许可。卖点一句话就能说完：一个 4B 的视觉语言模型，把检测、指代定位、计数、指点、OCR、分割、抠图全包了，抠图还不用外挂 SAM。 我去，4B 干这么多活，第一反应是“又一个刷榜的”。...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">231</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%EF%BC%9A%E5%88%86%E6%95%B0%E5%85%A8%E6%B6%A8%EF%BC%8C%E8%BE%93%E5%87%BA%E5%8F%98%E7%9F%AD"><span class="toc-number">1.</span> <span class="toc-text">模型：分数全涨，输出变短</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E6%A0%BC%EF%BC%9A%E4%B8%80%E5%88%86%E6%B2%A1%E5%8A%A8%EF%BC%8C%E4%BD%86%E5%88%86%E9%AB%98%E5%B3%B0"><span class="toc-number">2.</span> <span class="toc-text">价格：一分没动，但分高峰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Search-Fetch%EF%BC%9A%E7%9C%9F%E6%AD%A3%E8%A6%81%E8%AE%BE%E6%8F%90%E9%86%92%E7%9A%84%E6%98%AF%E8%BF%99%E4%B8%AA"><span class="toc-number">3.</span> <span class="toc-text">Search &#x2F; Fetch：真正要设提醒的是这个</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/29/hatchzip-extract-in-place/" title="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;"><img src="/img/hatchzip-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;"/></a><div class="content"><a class="title" href="/posts/2026/10/29/hatchzip-extract-in-place/" title="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;">硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;</a><time datetime="2026-10-29T12:00:00.000Z" title="发表于 2026-10-29 20:00:00">2026-10-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/28/aa-intelligence-index-v5/" title="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分"><img src="/img/aa-index-v5-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分"/></a><div class="content"><a class="title" href="/posts/2026/10/28/aa-intelligence-index-v5/" title="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分">Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分</a><time datetime="2026-10-28T12:00:00.000Z" title="发表于 2026-10-28 20:00:00">2026-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/27/opera-webai-local-browser-ai/" title="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调"><img src="/img/opera-webai-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调"/></a><div class="content"><a class="title" href="/posts/2026/10/27/opera-webai-local-browser-ai/" title="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调">Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调</a><time datetime="2026-10-27T12:00:00.000Z" title="发表于 2026-10-27 20:00:00">2026-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"><img src="/img/anthropic-s1-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"/></a><div class="content"><a class="title" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到">Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到</a><time datetime="2026-10-26T12:00:00.000Z" title="发表于 2026-10-26 20:00:00">2026-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/25/nanbeige43-33b-oss/" title="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen"><img src="/img/nanbeige43-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen"/></a><div class="content"><a class="title" href="/posts/2026/10/25/nanbeige43-33b-oss/" title="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen">BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen</a><time datetime="2026-10-25T12:00:00.000Z" title="发表于 2026-10-25 20:00:00">2026-10-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

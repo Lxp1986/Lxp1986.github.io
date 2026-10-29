@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="Opera 10 月 27 日宣布 WebAI 以 early preview 进入 Opera One：拟议的 Web 标准，让网站和扩展调用浏览器里的本机模型。首发含 Google Gemma，Mac 上还可接 Apple 端侧基础模型；默认关闭，按站授权。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/10/27/opera-webai-local-browser-ai/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="Opera 10 月 27 日宣布 WebAI 以 early preview 进入 Opera One：拟议的 Web 标准，让网站和扩展调用浏览器里的本机模型。首发含 Google Gemma，Mac 上还可接 Apple 端侧基础模型；默认关闭，按站授权。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/opera-webai-cover.png">
+<meta property="article:published_time" content="2026-10-27T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-27T12:00:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Opera">
+<meta property="article:tag" content="WebAI">
+<meta property="article:tag" content="本地推理">
+<meta property="article:tag" content="浏览器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调",
+  "url": "https://www.lxpyll.top/posts/2026/10/27/opera-webai-local-browser-ai/",
+  "image": "https://www.lxpyll.top/img/opera-webai-cover.png",
+  "datePublished": "2026-10-27T12:00:00.000Z",
+  "dateModified": "2026-10-27T12:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "Opera 10 月 27 日宣布 WebAI 以 early preview 进入 Opera One：拟议的 Web 标准，让网站和扩展调用浏览器里的本机模型。首发含 Google Gemma，Mac 上还可接 Apple 端侧基础模型；默认关闭，按站授权。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/10/27/opera-webai-local-browser-ai/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">231</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-27T12:00:00.000Z" title="发表于 2026-10-27 20:00:00">2026-10-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-27T12:00:00.000Z" title="更新于 2026-10-27 20:00:00">2026-10-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%B7%A5%E5%85%B7/">AI工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/10/27/opera-webai-local-browser-ai/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/10/27/opera-webai-local-browser-ai/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/10/27/opera-webai-local-browser-ai/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>Opera 今天（10 月 27 日）把本地模型塞进浏览器了。第一枪叫 <strong>WebAI</strong>，early preview 进 Opera One；GX、Neon 后面跟。</p>
+<p>干啥用？网站和扩展可以调跑在<strong>你电脑上</strong>的模型，不必每条都打云、也不必再开一个 AI 订阅。官方举例：扩展整理标签页、标标题党、筛招聘帖——数据不出本机。</p>
+<p>我去，浏览器厂又来抢本地 AI 这一桌。</p>
+<p><img src="/img/opera-webai-cover.png" alt="Opera WebAI 侧栏：可选本机 Completions &#x2F; Embeddings 模型（来源：Opera 新闻稿配图）"></p>
+<h2 id="它是啥"><a href="#它是啥" class="headerlink" title="它是啥"></a>它是啥</h2><p>WebAI 是一份<strong>拟议 Web 标准</strong>，Opera 说有 Google、Microsoft backing。浏览器当主机，页面&#x2F;扩展走 API 用本地推理。</p>
+<p>开发者博文写了三套 API：Prompt、Decision、Semantic Embeddings——生成、分类、找内容关系。演示扩展能把文章句子画成星座图，界面写着 “on device - nothing uploaded”。</p>
+<p>首发可接 Google Gemma；Apple silicon Mac 还能用 Apple 端侧基础模型。官方说 model-agnostic，后面还要加更多按设备优化的开源权重。</p>
+<h2 id="容易踩坑的几处"><a href="#容易踩坑的几处" class="headerlink" title="容易踩坑的几处"></a>容易踩坑的几处</h2><p>默认关着。设置里不打开，什么都不下；站点还要单独授权。这点比一装就后台拉模型老实。</p>
+<p>平台：新闻稿写 64 位 Windows（Intel&#x2F;AMD）和 Apple silicon Mac。性能看机器——没给最低配置，弱本别指望丝滑。</p>
+<p>“标准”不等于已经进 Chrome。这是 proposed，Opera 先落地；别家何时跟，没时间表。</p>
+<p>还有个小不一致：新闻稿写 One 先上、GX&#x2F;Neon 随后；开发者博文有一处写成三款都在 early preview。我按新闻稿记：先当 One 能用。</p>
+<p><img src="/img/opera-webai-inline.png" alt="官方演示：文章句子做成星座可视化，标注 on device（来源：Opera 新闻稿配图）"></p>
+<p>开发者能加 AI 却不用自建机房、不用按 token 付——听着香。网页一旦能调本机模型，权限面板就得当回事；乱点“允许”，踩坑路径跟乱装扩展差不多。</p>
+<p>够试扩展、做不碰云的小工具。指望它替代云端大模型写长代码？本机那点算力，别指望。</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://press.opera.com/2026/10/27/opera-doubles-down-on-local-ai-shipping-models-directly-in-its-browsers/">Opera 新闻稿</a>（2026-10-27）</li>
+<li><a target="_blank" rel="noopener" href="https://next.opera.com/blog/web-ai-local-ai/">WebAI 开发者说明</a></li>
+<li><a target="_blank" rel="noopener" href="https://blogs.opera.com/desktop/2026/10/opera-139-stable/">Opera 139 Stable</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/10/27/opera-webai-local-browser-ai/">https://www.lxpyll.top/posts/2026/10/27/opera-webai-local-browser-ai/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%AC%E5%9C%B0%E6%8E%A8%E7%90%86/">本地推理</a><a class="post-meta__tags" href="/tags/Opera/">Opera</a><a class="post-meta__tags" href="/tags/WebAI/">WebAI</a><a class="post-meta__tags" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></div><div class="post-share"><div class="social-share" data-image="/img/opera-webai-cover.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/10/28/aa-intelligence-index-v5/" title="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分"><img class="cover" src="/img/aa-index-v5-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分</div></div><div class="info-2"><div class="info-item-1">Artificial Analysis 10 月 27 日把 Intelligence Index 升到了 v5。一句话：九项评测重组，六成权重第一次压在私有题集或留出答案上——他们自己说是为了减污染。 顺手还开了 Progress Index v1，用来跨年份比能力。日常选型他们仍让看 Intelligence Index。 我去，公开榜刷腻了，终于...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"><img class="cover" src="/img/anthropic-s1-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到</div></div><div class="info-2"><div class="info-item-1">Claude 家今天把 S-1 摊开了。10 月 26 日官宣：Anthropic, PBC 向 SEC 递交 Form S-1，拟挂纳斯达克 Global Select，代号 ANT。股数和定价还没写，登记声明也没生效。 我去。翻完官宣，又对了转载出来的合并利润表（百万美元；EDGAR 原文我这边打不开，被反爬拦了）。 H1 2026 营收 16,2...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/10/24/nvidia-nemotron-35-bolt-e4b/" title="NVIDIA 放出 Nemotron 3.5 Bolt E4B：冲着本地语音助手去的 4GB 小模型"><img class="cover" src="/img/nemotron-bolt-e4b-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-24</div><div class="info-item-2">NVIDIA 放出 Nemotron 3.5 Bolt E4B：冲着本地语音助手去的 4GB 小模型</div></div><div class="info-2"><div class="info-item-1">NVIDIA 10 月 23 日把 Nemotron 3.5 Bolt E4B 4GB 正式放出来了。底座 Google Gemma 4 E4B，NVIDIA 自己做后训练。官方写的目标场景挺直白：本地语音助手、设备控制、游戏 NPC、机器人接口，跑在 GeForce RTX、Jetson、RTX Spark、DGX Spark 上。 参数量写的是 8...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">73</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">231</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%83%E6%98%AF%E5%95%A5"><span class="toc-number">1.</span> <span class="toc-text">它是啥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E6%98%93%E8%B8%A9%E5%9D%91%E7%9A%84%E5%87%A0%E5%A4%84"><span class="toc-number">2.</span> <span class="toc-text">容易踩坑的几处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">3.</span> <span class="toc-text">链接</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/29/hatchzip-extract-in-place/" title="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;"><img src="/img/hatchzip-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;"/></a><div class="content"><a class="title" href="/posts/2026/10/29/hatchzip-extract-in-place/" title="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;">硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;</a><time datetime="2026-10-29T12:00:00.000Z" title="发表于 2026-10-29 20:00:00">2026-10-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/28/aa-intelligence-index-v5/" title="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分"><img src="/img/aa-index-v5-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分"/></a><div class="content"><a class="title" href="/posts/2026/10/28/aa-intelligence-index-v5/" title="Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分">Artificial Analysis 榜单换成 v5 了：六成私有题，开源权重被拉开 12 分</a><time datetime="2026-10-28T12:00:00.000Z" title="发表于 2026-10-28 20:00:00">2026-10-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/27/opera-webai-local-browser-ai/" title="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调"><img src="/img/opera-webai-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调"/></a><div class="content"><a class="title" href="/posts/2026/10/27/opera-webai-local-browser-ai/" title="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调">Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调</a><time datetime="2026-10-27T12:00:00.000Z" title="发表于 2026-10-27 20:00:00">2026-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"><img src="/img/anthropic-s1-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"/></a><div class="content"><a class="title" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到">Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到</a><time datetime="2026-10-26T12:00:00.000Z" title="发表于 2026-10-26 20:00:00">2026-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/10/25/nanbeige43-33b-oss/" title="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen"><img src="/img/nanbeige43-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen"/></a><div class="content"><a class="title" href="/posts/2026/10/25/nanbeige43-33b-oss/" title="BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen">BOSS 直聘团队开源 Nanbeige4.3-33B：DeepSWE 自报 65.5，SWE-Bench Pro 却没赢 Qwen</a><time datetime="2026-10-25T12:00:00.000Z" title="发表于 2026-10-25 20:00:00">2026-10-25</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

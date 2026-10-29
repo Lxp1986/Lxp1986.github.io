@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="340" viewBox="0 0 1000 340" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="wf-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+    <marker id="wf-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#A7B9D2"/>
+    </marker>
+  </defs>
+
+  <!-- 无全幅底色：外层透明 -->
+  <text x="500" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#B7C3EB">Skill 资产库工作流</text>
+
+  <!-- 节点 1 -->
+  <rect x="20" y="80" width="200" height="150" rx="14" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <text x="120" y="120" text-anchor="middle" font-size="17" font-weight="700" fill="#B7C3EB">本地工作区</text>
+  <text x="120" y="152" text-anchor="middle" font-size="13" fill="#A7B9D2">~/workspace/skills/</text>
+  <text x="120" y="178" text-anchor="middle" font-size="13" fill="#A7B9D2">新建 / 实质更新</text>
+  <text x="120" y="204" text-anchor="middle" font-size="13" fill="#A7B9D2">命名 + 写 SKILL.md</text>
+
+  <!-- 箭头 1 -->
+  <line x1="230" y1="155" x2="286" y2="155" stroke="#A7B9D2" stroke-width="2" marker-end="url(#wf-arrow)"/>
+  <text x="258" y="140" text-anchor="middle" font-size="12" fill="#DFD3C3">同步</text>
+
+  <!-- 节点 2 -->
+  <rect x="296" y="80" width="200" height="150" rx="14" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <text x="396" y="120" text-anchor="middle" font-size="17" font-weight="700" fill="#9EF1BD">GitHub 资产库</text>
+  <text x="396" y="152" text-anchor="middle" font-size="13" fill="#A7B9D2">Lxp1986/skills（公开）</text>
+  <text x="396" y="178" text-anchor="middle" font-size="13" fill="#A7B9D2">所有 AI 共用</text>
+  <text x="396" y="204" text-anchor="middle" font-size="13" fill="#A7B9D2">不只服务某一个客户端</text>
+
+  <!-- 箭头 2 -->
+  <line x1="506" y1="155" x2="562" y2="155" stroke="#A7B9D2" stroke-width="2" marker-end="url(#wf-arrow)"/>
+  <text x="534" y="140" text-anchor="middle" font-size="12" fill="#DFD3C3">索引</text>
+
+  <!-- 节点 3 -->
+  <rect x="572" y="80" width="170" height="150" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+  <text x="657" y="120" text-anchor="middle" font-size="17" font-weight="700" fill="#DFD3C3">skills.json</text>
+  <text x="657" y="152" text-anchor="middle" font-size="13" fill="#A7B9D2">机器可读索引</text>
+  <text x="657" y="178" text-anchor="middle" font-size="13" fill="#A7B9D2">名字 / 描述 / 路径</text>
+  <text x="657" y="204" text-anchor="middle" font-size="13" fill="#A7B9D2">不用读全文就能挑</text>
+
+  <!-- 箭头 3 -->
+  <line x1="752" y1="155" x2="808" y2="155" stroke="#A7B9D2" stroke-width="2" marker-end="url(#wf-arrow)"/>
+  <text x="780" y="140" text-anchor="middle" font-size="12" fill="#DFD3C3">调用</text>
+
+  <!-- 节点 4 -->
+  <rect x="818" y="80" width="162" height="150" rx="14" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <text x="899" y="118" text-anchor="middle" font-size="15" font-weight="700" fill="#B7C3EB">Muse</text>
+  <text x="899" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#B7C3EB">Codex</text>
+  <text x="899" y="174" text-anchor="middle" font-size="15" font-weight="700" fill="#B7C3EB">Hermes</text>
+  <text x="899" y="204" text-anchor="middle" font-size="13" fill="#A7B9D2">…照单全收</text>
+
+  <text x="500" y="280" text-anchor="middle" font-size="14" fill="#A7B9D2">每次新建或实质更新：命名 → 本地 → 同步仓库 → 更新 skills.json → 推送回验</text>
+  <text x="500" y="310" text-anchor="middle" font-size="14" fill="#9EF1BD">目前 11 个：一处攒，处处用</text>
+</svg>
