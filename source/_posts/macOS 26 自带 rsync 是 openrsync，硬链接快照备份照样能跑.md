@@ -1,7 +1,7 @@
 ---
 title: macOS 26 自带 rsync 是 openrsync，硬链接快照备份照样能跑
 date: 2026-09-10 22:45:00
-categories: [开发与运维]
+categories: [开发运维]
 tags: [rsync, 备份, openrsync, macOS, 外置硬盘, 命令行, launchd]
 description: macOS 从 15.4 起把系统自带的 rsync 换成了 openrsync，--info=progress2、--acls、--xattrs 直接报错，但 --link-dest 硬链接快照能用。实测 73 MB 的工程资料目录做三份每日快照只占 93 MB。附完整脚本、恢复命令、快照盘的文件系统要求和 launchd 定时配置。
 cover: /img/rsync-linkdest-snapshots.svg

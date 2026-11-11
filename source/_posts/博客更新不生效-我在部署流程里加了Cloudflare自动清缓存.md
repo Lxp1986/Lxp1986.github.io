@@ -1,7 +1,7 @@
 ---
 title: 博客更新不生效，我在部署流程里加了 Cloudflare 自动清缓存
 date: 2026-08-26 22:30:00
-categories: [开发与运维]
+categories: [开发运维]
 tags: [Cloudflare, CDN, GitHub Actions, Hexo, 缓存, 教程]
 description: 博客套 Cloudflare CDN 后发文章不生效的坑：默认不缓存 HTML，缓存了就得手动清。建一个最小权限 API Token，在 GitHub Actions 部署流程末尾加一步 purge_cache，以后 git push 完缓存自动清。
 cover: /img/cf-auto-purge-flow.svg

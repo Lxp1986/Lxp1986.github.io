@@ -4,7 +4,7 @@ date: 2026-11-06 20:00:00
 updated: 2026-11-06 20:00:00
 permalink: posts/2026/11/06/voxl-web-remote-desktop/
 categories:
-  - 开发与运维
+  - 开发运维
 tags:
   - 开源项目
   - Rust
