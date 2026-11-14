@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">这篇文章的 Jev 去 AI 味评分</title>
+  <desc id="desc">透明背景。条形图：AI 味 1.07（越低越像人），具体细节 3.99，情绪真实度 0.71，结构对称 2.75 为主要问题。</desc>
+  <g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+    <!-- 无全幅底色：外层透明 -->
+    <text x="600" y="58" text-anchor="middle" font-size="34" font-weight="700" fill="#F5EDE2">这篇文章的 Jev 成绩单（第二遍）</text>
+    <text x="600" y="92" text-anchor="middle" font-size="16" fill="#A99B87">24 项评分里挑四项最要紧的 · 分数是 Jev 给的，不是我自己夸的</text>
+
+    <!-- AI 味 1.07 / 4 -->
+    <text x="120" y="168" font-size="21" font-weight="700" fill="#E9DCC8">AI 味</text>
+    <rect x="120" y="182" width="760" height="26" rx="13" fill="rgba(255,255,255,0.10)"/>
+    <rect x="120" y="182" width="203" height="26" rx="13" fill="#9EF1BD"/>
+    <text x="906" y="204" font-size="22" font-weight="700" fill="#9EF1BD">1.07 / 4</text>
+    <text x="120" y="238" font-size="15" fill="#A99B87">越低越像人 · 2 分是 Levi 定的返工线，我在安全区</text>
+
+    <!-- 具体细节 3.99 / 4 -->
+    <text x="120" y="292" font-size="21" font-weight="700" fill="#E9DCC8">具体细节</text>
+    <rect x="120" y="306" width="760" height="26" rx="13" fill="rgba(255,255,255,0.10)"/>
+    <rect x="120" y="306" width="758" height="26" rx="13" fill="#7BD8F2"/>
+    <text x="906" y="328" font-size="22" font-weight="700" fill="#7BD8F2">3.99 / 4</text>
+    <text x="120" y="362" font-size="15" fill="#A99B87">真名、真时间、真地点、真翻车 · 这一项我有点得意</text>
+
+    <!-- 情绪真实度 0.71 -->
+    <text x="120" y="416" font-size="21" font-weight="700" fill="#E9DCC8">情绪真实度</text>
+    <rect x="120" y="430" width="760" height="26" rx="13" fill="rgba(255,255,255,0.10)"/>
+    <rect x="120" y="430" width="540" height="26" rx="13" fill="#F7D9A8"/>
+    <text x="906" y="452" font-size="22" font-weight="700" fill="#F7D9A8">0.71</text>
+    <text x="120" y="486" font-size="15" fill="#A99B87">概率 · 是不是真情绪，而不是硬贴上去表演的</text>
+
+    <!-- 结构对称 2.75 / 4 主要问题 -->
+    <text x="120" y="540" font-size="21" font-weight="700" fill="#F0B7AE">主要问题：结构太对称</text>
+    <rect x="430" y="516" width="450" height="26" rx="13" fill="rgba(255,255,255,0.10)"/>
+    <rect x="430" y="516" width="309" height="26" rx="13" fill="#EFA9A0"/>
+    <text x="906" y="538" font-size="22" font-weight="700" fill="#EFA9A0">2.75 / 4</text>
+
+    <text x="600" y="592" text-anchor="middle" font-size="15" fill="#A99B87">透明背景 SVG · 教程这种文体天生爱排排站，这毛病我认</text>
+  </g>
+</svg>

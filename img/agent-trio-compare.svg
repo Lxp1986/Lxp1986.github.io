@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="at-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 无全幅底色：外层透明 -->
+  <text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#A7B9D2">Codex · Hermes · Grok Bot 各自的位置</text>
+  <text x="600" y="78" text-anchor="middle" font-size="15" fill="#DFD3C3">核对到 2026-09-26 · 价格与功能以官方页面为准</text>
+
+  <!-- Codex -->
+  <rect x="40" y="106" width="360" height="300" rx="14" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <circle cx="78" cy="142" r="17" fill="url(#at-g)"/>
+  <text x="78" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">1</text>
+  <text x="106" y="149" font-size="21" font-weight="700" fill="#B7C3EB">Codex</text>
+  <text x="66" y="186" font-size="15" fill="#E1D3C1">含在 ChatGPT 套餐里</text>
+  <text x="66" y="214" font-size="14" fill="#A7B9D2">Plus 20 · Pro 起价 100 美元/月</text>
+  <text x="66" y="242" font-size="14" fill="#A7B9D2">5 小时窗 + 可能的周上限</text>
+  <text x="66" y="270" font-size="14" fill="#A7B9D2">超额：买 credits 或用 API Key</text>
+  <text x="66" y="298" font-size="14" fill="#A7B9D2">自定义 provider 需兼容 Responses API</text>
+  <text x="66" y="326" font-size="14" fill="#A7B9D2">codex resume 可带 --profile 续跑</text>
+  <text x="66" y="382" font-size="15" font-weight="700" fill="#9EF1BD">强项：写代码最顺手</text>
+
+  <!-- Hermes -->
+  <rect x="420" y="106" width="360" height="300" rx="14" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <circle cx="458" cy="142" r="17" fill="url(#at-g)"/>
+  <text x="458" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">2</text>
+  <text x="486" y="149" font-size="21" font-weight="700" fill="#9EF1BD">Hermes Agent</text>
+  <text x="446" y="186" font-size="15" fill="#E1D3C1">开源 MIT · 自己的机器上跑</text>
+  <text x="446" y="214" font-size="14" fill="#A7B9D2">成本 = 模型 API 费 + 电脑</text>
+  <text x="446" y="242" font-size="14" fill="#A7B9D2">模型随便接，hermes model 切换</text>
+  <text x="446" y="270" font-size="14" fill="#A7B9D2">Telegram 等多平台网关</text>
+  <text x="446" y="298" font-size="14" fill="#A7B9D2">自带记忆 · cron · 子 agent</text>
+  <text x="446" y="326" font-size="14" fill="#F2B0B0">升级、排障、授权都靠自己</text>
+  <text x="446" y="382" font-size="15" font-weight="700" fill="#9EF1BD">强项：最灵活、最透明</text>
+
+  <!-- Grok Bot -->
+  <rect x="800" y="106" width="360" height="300" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+  <circle cx="838" cy="142" r="17" fill="url(#at-g)"/>
+  <text x="838" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">3</text>
+  <text x="866" y="149" font-size="21" font-weight="700" fill="#DFD3C3">Grok Bot</text>
+  <text x="826" y="186" font-size="15" fill="#E1D3C1">无单独订阅 · 含在 Cursor／SuperGrok</text>
+  <text x="826" y="214" font-size="14" fill="#A7B9D2">常开云电脑 · 多 Bot 分工</text>
+  <text x="826" y="242" font-size="14" fill="#A7B9D2">记忆 · Routines · 事件触发</text>
+  <text x="826" y="270" font-size="14" fill="#A7B9D2">周额度用完：On-demand 或停</text>
+  <text x="826" y="298" font-size="14" fill="#F2B0B0">无自带模型 / API Key 选项</text>
+  <text x="826" y="326" font-size="14" fill="#F2B0B0">多 Bot 协作更费额度</text>
+  <text x="826" y="382" font-size="15" font-weight="700" fill="#9EF1BD">强项：免维护、现成</text>
+
+  <!-- 结论条 -->
+  <rect x="40" y="430" width="1120" height="72" rx="12" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <text x="600" y="462" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">没有谁全面更好：差在钱怎么算、模型能不能换、坏了谁修</text>
+  <text x="600" y="488" text-anchor="middle" font-size="14" fill="#A7B9D2">定时任务、手机远程控制三家都有，不是某一家独有</text>
+
+  <!-- 底部两栏 -->
+  <rect x="40" y="522" width="545" height="80" rx="12" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <text x="70" y="554" font-size="16" font-weight="700" fill="#9EF1BD">写代码 + 有常开电脑</text>
+  <text x="70" y="582" font-size="14" fill="#E1D3C1">Codex + Hermes：更便宜、更灵活，前提是愿意维护</text>
+
+  <rect x="615" y="522" width="545" height="80" rx="12" fill="rgba(242,176,176,0.10)" stroke="#F2B0B0" stroke-width="1.5"/>
+  <text x="645" y="554" font-size="16" font-weight="700" fill="#F2B0B0">不想维护 + 网页杂事多</text>
+  <text x="645" y="582" font-size="14" fill="#E1D3C1">Grok Bot：省心，但模型和超额规则不由你定</text>
+</svg>

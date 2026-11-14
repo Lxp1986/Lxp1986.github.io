@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="sol" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A7B9D2"/><stop offset="1" stop-color="#DDCDB8"/>
+    </linearGradient>
+    <linearGradient id="terra" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/><stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+    <linearGradient id="luna" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4DE6D5"/><stop offset="1" stop-color="#89F0E7"/>
+    </linearGradient>
+  </defs>
+  
+  <text x="600" y="50" text-anchor="middle" font-size="30" font-weight="700" fill="#C2CFE0">GPT-5.6 三档模型怎么选</text>
+  <text x="600" y="80" text-anchor="middle" font-size="15" fill="#DFD3C3">数字是代数，Sol / Terra / Luna 是档位 · 价格按每 1M token 计（API）</text>
+
+  <!-- Sol -->
+  <rect x="60" y="104" width="340" height="400" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="80" y="124" width="300" height="58" rx="8" fill="url(#sol)"/>
+  <text x="230" y="149" text-anchor="middle" font-size="20" font-weight="700" fill="#EFE6DA">Sol · 旗舰</text>
+  <text x="230" y="171" text-anchor="middle" font-size="12" fill="#C4D0DE">写代码 / 长任务 / 复杂分析</text>
+  <rect x="80" y="200" width="300" height="42" rx="8" fill="rgba(98,126,218,0.20)"/>
+  <text x="230" y="226" text-anchor="middle" font-size="14" fill="#B7C3EB">输入 $5 / 输出 $30（每 1M token）</text>
+  <text x="230" y="276" text-anchor="middle" font-size="14" fill="#E1D3C1">顶分都归它：编码、安全、科学</text>
+  <text x="230" y="304" text-anchor="middle" font-size="14" fill="#E1D3C1">支持 ultra：四个 AI 并行干活</text>
+  <rect x="80" y="404" width="300" height="80" rx="8" fill="rgba(98,158,218,0.20)"/>
+  <text x="230" y="430" text-anchor="middle" font-size="13" font-weight="700" fill="#C2CFE0">适合：程序员、重度用户</text>
+  <text x="230" y="452" text-anchor="middle" font-size="12" fill="#DFD3C3">要最优结果、任务耗时长才值得</text>
+  <text x="230" y="472" text-anchor="middle" font-size="12" fill="#DFD3C3">日常小活用它体会不到差距</text>
+
+  <!-- Terra -->
+  <rect x="430" y="104" width="340" height="400" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="450" y="124" width="300" height="58" rx="8" fill="url(#terra)"/>
+  <text x="600" y="149" text-anchor="middle" font-size="20" font-weight="700" fill="#EFE6DA">Terra · 均衡</text>
+  <text x="600" y="171" text-anchor="middle" font-size="12" fill="rgba(98,125,218,0.20)">日常写作 / 整理资料 / 做表格</text>
+  <rect x="450" y="200" width="300" height="42" rx="8" fill="rgba(98,126,218,0.20)"/>
+  <text x="600" y="226" text-anchor="middle" font-size="14" fill="#B7C3EB">输入 $2.5 / 输出 $15（每 1M token）</text>
+  <text x="600" y="276" text-anchor="middle" font-size="14" fill="#E1D3C1">性能约等于上一代旗舰 GPT-5.5</text>
+  <text x="600" y="304" text-anchor="middle" font-size="14" fill="#E1D3C1">价格只有 Sol 的一半</text>
+  <rect x="450" y="404" width="300" height="80" rx="8" fill="rgba(98,158,218,0.20)"/>
+  <text x="600" y="430" text-anchor="middle" font-size="13" font-weight="700" fill="#C2CFE0">适合：大多数人的主力档</text>
+  <text x="600" y="452" text-anchor="middle" font-size="12" fill="#DFD3C3">写文档、回邮件、会议纪要</text>
+  <text x="600" y="472" text-anchor="middle" font-size="12" fill="#DFD3C3">性能与价格最平衡的一档</text>
+
+  <!-- Luna -->
+  <rect x="800" y="104" width="340" height="400" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="820" y="124" width="300" height="58" rx="8" fill="url(#luna)"/>
+  <text x="970" y="149" text-anchor="middle" font-size="20" font-weight="700" fill="#EFE6DA">Luna · 实惠</text>
+  <text x="970" y="171" text-anchor="middle" font-size="12" fill="rgba(98,218,192,0.20)">翻译 / 摘要 / 批量处理</text>
+  <rect x="820" y="200" width="300" height="42" rx="8" fill="rgba(98,218,190,0.20)"/>
+  <text x="970" y="226" text-anchor="middle" font-size="14" fill="#AFF4EE">输入 $1 / 输出 $6（每 1M token）</text>
+  <text x="970" y="276" text-anchor="middle" font-size="14" fill="#E1D3C1">7 月刚降价 80%，原来卖 Sol 的价</text>
+  <text x="970" y="304" text-anchor="middle" font-size="14" fill="#E1D3C1">官方称性能压过 Claude Opus 4.8</text>
+  <rect x="820" y="404" width="300" height="80" rx="8" fill="rgba(98,158,218,0.20)"/>
+  <text x="970" y="430" text-anchor="middle" font-size="13" font-weight="700" fill="#C2CFE0">适合：预算敏感、量大管饱</text>
+  <text x="970" y="452" text-anchor="middle" font-size="12" fill="#DFD3C3">翻译、摘要、批量改写</text>
+  <text x="970" y="472" text-anchor="middle" font-size="12" fill="#DFD3C3">最快的档，日常够用</text>
+
+  <!-- bottom bar -->
+  <rect x="60" y="540" width="1080" height="120" rx="14" fill="url(#sol)"/>
+  <text x="600" y="578" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">怎么选：拿不准就先从 Luna 跑起，不够再升级</text>
+  <text x="600" y="608" text-anchor="middle" font-size="14" fill="#C4D0DE">日常写作 → Terra ｜ 量大求便宜 → Luna ｜ 写代码 / 长任务 → Sol</text>
+  <text x="600" y="636" text-anchor="middle" font-size="12" fill="#DFD3C3">ChatGPT 订阅用户：Plus 以上就能用 Sol，不用关心上面的 API 单价</text>
+</svg>

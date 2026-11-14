@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Vitis HLS 时序分析的 Agent 工作流</title>
+  <desc id="desc">从时序目标出发，Agent 检索 AMD 知识、调用受支持工具并套用工程 Skill，最后由工程师审核修改建议。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0 9 3 0 6Z" fill="#62DCCE"/></marker>
+    <linearGradient id="line" x1="0" x2="1"><stop stop-color="#5BCFC5"/><stop offset="1" stop-color="#7DB2F6"/></linearGradient>
+  </defs>
+  <g font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+    <text x="600" y="51" text-anchor="middle" font-size="18" letter-spacing="3" fill="#8FA8B8">EXAMPLE · VITIS HLS TIMING REVIEW</text>
+    <g transform="translate(46 236)">
+      <rect width="218" height="160" rx="25" fill="#102E45" stroke="#68849B" stroke-width="2"/>
+      <circle cx="51" cy="52" r="21" fill="#183F58" stroke="#F3B85C" stroke-width="3"/>
+      <path d="M51 39v15l11 7" fill="none" stroke="#FFE2AE" stroke-width="3" stroke-linecap="round"/>
+      <text x="109" y="57" font-size="20" font-weight="700" fill="#E8F1F7">工程目标</text>
+      <text x="109" y="88" font-size="15" fill="#AFC5D3">找出时序违例</text>
+      <text x="109" y="113" font-size="15" fill="#AFC5D3">给出可验证的优化</text>
+      <path d="M38 137h142" stroke="#40637C" stroke-width="2"/>
+    </g>
+    <path d="M265 316H326" stroke="url(#line)" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(334 169)">
+      <rect width="300" height="295" rx="32" fill="#0C2940" stroke="#52D1C5" stroke-width="3"/>
+      <circle cx="150" cy="71" r="39" fill="#153D55" stroke="#71A9F2" stroke-width="2"/>
+      <path d="M132 73h36m-18-18v36" stroke="#DDF5F0" stroke-width="4" stroke-linecap="round"/>
+      <text x="150" y="137" text-anchor="middle" font-size="26" font-weight="700" fill="#F1F7FA">AMD Ross</text>
+      <g font-size="16" text-anchor="middle">
+        <rect x="31" y="160" width="238" height="39" rx="14" fill="#12364D"/><text x="150" y="185" fill="#DCEAF2">检索 AMD 技术资料</text>
+        <rect x="31" y="210" width="238" height="39" rx="14" fill="#12364D"/><text x="150" y="235" fill="#DCEAF2">应用时序分析 Skill</text>
+        <rect x="31" y="260" width="238" height="24" rx="12" fill="#183F55"/><text x="150" y="278" font-size="13" fill="#8FE6DC">MCP → 受支持的开发工具</text>
+      </g>
+    </g>
+    <path d="M635 316H694" stroke="url(#line)" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(703 208)">
+      <rect width="212" height="216" rx="26" fill="#102E45" stroke="#75A9FF" stroke-width="2"/>
+      <rect x="32" y="34" width="148" height="84" rx="8" fill="#091F32" stroke="#456B89" stroke-width="2"/>
+      <path d="M46 52h87m-87 15h59m-59 15h99" stroke="#90BCEB" stroke-width="4" stroke-linecap="round"/>
+      <path d="M48 101h45" stroke="#F3B85C" stroke-width="4" stroke-linecap="round"/>
+      <text x="106" y="153" text-anchor="middle" font-size="18" font-weight="700" fill="#E7F1F7">分析与建议</text>
+      <text x="106" y="181" text-anchor="middle" font-size="14" fill="#AFC5D3">结果需回到工具验证</text>
+    </g>
+    <path d="M916 316H975" stroke="url(#line)" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(982 236)">
+      <rect width="172" height="160" rx="25" fill="#102E45" stroke="#F3B85C" stroke-width="2"/>
+      <path d="M55 54h62l-9 59H64z" fill="#153F55" stroke="#5CD8CB" stroke-width="2"/>
+      <path d="M70 80 81 91 103 66" fill="none" stroke="#DFFBF6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="86" y="139" text-anchor="middle" font-size="17" fill="#FFF1D8">工程师审核</text>
+    </g>
+    <path d="M336 528H912" stroke="#39586D" stroke-width="2"/>
+    <text x="624" y="567" text-anchor="middle" font-size="16" fill="#ADC1CE">Agent 负责串起资料、流程和工具；工程师决定设计改动并确认目标是否达成</text>
+  </g>
+</svg>

@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="OpenAI 帮助中心写明 12 月起 Plus&#x2F;Pro&#x2F;Business 的 ChatGPT 与 Codex 共用一个按 token 计的额度池，Instant 不扣；Anthropic 10 月 30 日把 Max 20x 改名 Ultra，验证账户去掉 5 小时限额，周限额不变。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/11/05/ai-quota-november-weekly-pool/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="OpenAI 帮助中心写明 12 月起 Plus&#x2F;Pro&#x2F;Business 的 ChatGPT 与 Codex 共用一个按 token 计的额度池，Instant 不扣；Anthropic 10 月 30 日把 Max 20x 改名 Ultra，验证账户去掉 5 小时限额，周限额不变。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/ai-quota-nov-cover.png">
+<meta property="article:published_time" content="2026-11-05T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-05T12:00:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="订阅">
+<meta property="article:tag" content="额度">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗",
+  "url": "https://www.lxpyll.top/posts/2026/11/05/ai-quota-november-weekly-pool/",
+  "image": "https://www.lxpyll.top/img/ai-quota-nov-cover.png",
+  "datePublished": "2026-11-05T12:00:00.000Z",
+  "dateModified": "2026-11-05T12:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "OpenAI 帮助中心写明 12 月起 Plus/Pro/Business 的 ChatGPT 与 Codex 共用一个按 token 计的额度池，Instant 不扣；Anthropic 10 月 30 日把 Max 20x 改名 Ultra，验证账户去掉 5 小时限额，周限额不变。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/11/05/ai-quota-november-weekly-pool/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">83</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">251</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">5 小时限额在退场，周额度在变紧：ChatGPT 12 月合池，Claude Ultra 拿掉 5 小时窗</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-05T12:00:00.000Z" title="发表于 2026-11-05 20:00:00">2026-11-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-05T12:00:00.000Z" title="更新于 2026-11-05 20:00:00">2026-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/AI%E5%B7%A5%E5%85%B7/">AI工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/11/05/ai-quota-november-weekly-pool/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/11/05/ai-quota-november-weekly-pool/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/11/05/ai-quota-november-weekly-pool/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>ChatGPT 和 Codex 要合池了。OpenAI 帮助中心那篇《Understanding ChatGPT and Codex usage limits》（11 月 2 日前后更新）写着：<strong>12 月起</strong>，Plus、Pro、Business 的用量在 ChatGPT 和 Codex 之间共享，按 token 计。</p>
+<p>晚上让 Codex 跑一个长任务，第二天白天聊天能用的就少了，反过来也一样。我去，白天聊、晚上丢给 agent 干活的人，这下两头都撞上。</p>
+<h2 id="OpenAI-写明了什么"><a href="#OpenAI-写明了什么" class="headerlink" title="OpenAI 写明了什么"></a>OpenAI 写明了什么</h2><ul>
+<li>模型越高级、任务越复杂，扣得越多。<strong>Instant 对话不扣</strong>这个池子。</li>
+<li>余量和重置时间看 Settings → Usage。用完了三条路：等重置、升级、买 credits。</li>
+<li>官方原话是预计”大多数用户”等重置的频率不会比现在更高。</li>
+<li>价格不变。</li>
+</ul>
+<p>没写的：每档池子<strong>有多大</strong>、<strong>多久重置</strong>、12 月<strong>哪一天</strong>切换、Free 和 Go 怎么算。所以”不会更频繁”这句，现在没法验证。</p>
+<p>时间线上，10 月 29 日 OpenAI 刚把 Pro 100 &#x2F; 500 的 Work 和 Codex 额度翻倍，Pro 200 原定的削减取消（这条来自 BleepingComputer 和 Sloane.ai 的整理，我没看到 OpenAI 单独公告）。前脚刚加，后脚合池，到底是加了还是减了，12 月才知道。</p>
+<p><img src="/img/ai-quota-nov-openai-pool.png" alt="示意图：ChatGPT 额度 12 月起的变化，按 OpenAI 帮助中心文字绘制，非官方图"></p>
+<h2 id="Anthropic-这边"><a href="#Anthropic-这边" class="headerlink" title="Anthropic 这边"></a>Anthropic 这边</h2><p>10 月 30 日（周五），Anthropic 把两个 Max 改名：$100 的 Max 5x 现在叫 <strong>Max</strong>，$200 的 Max 20x 叫 <strong>Ultra</strong>，老用户自动迁过去，价格没动。官方定价页现在这么写：</p>
+<ul>
+<li>Max：Pro 的 5 倍用量，<strong>每 5 小时和每周</strong>都按这个算；Fable 最多占周限额一半；每月 $100 API 额度。</li>
+<li>Ultra：<strong>每周</strong> Pro 的 10 倍；<strong>验证过的账户没有 5 小时限额</strong>；每月 $200 API 额度（Max 是 $100）。</li>
+<li>周限额超了，可以开 usage credits，按标准 API 价继续算。</li>
+</ul>
+<p>“验证”是自动的，看账户和付款记录，不能申请。新账户先有临时限额，解除了会发邮件（The Next Web 的报道）。</p>
+<p>封面就是定价页截图，Ultra 卡片第一行写着 “No 5-hour limit”，旁边那个小十字号指向”verified accounts”。</p>
+<h2 id="下面是我瞎猜的"><a href="#下面是我瞎猜的" class="headerlink" title="下面是我瞎猜的"></a>下面是我瞎猜的</h2><p>两家一起把 5 小时窗往外推，周额度却一个字没加。5 小时窗被骂得最多，拿掉它听着像发福利，可一周的总量还是那么多，跑得猛的人只是周三就见底，然后 usage credits 按 API 价接着扣。离谱的是这居然还挺合理。</p>
+<p>12 月切换那周我先不买 credits，盯两天 Settings → Usage，看 Codex 一晚上能把条吃掉多少再说降不降档。</p>
+<h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://help.openai.com/en/articles/20001625-understanding-chatgpt-and-codex-usage-limits">OpenAI：Understanding ChatGPT and Codex usage limits</a></li>
+<li><a target="_blank" rel="noopener" href="https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex">OpenAI：Managing usage with GPT-6 Astra in Work and Codex</a></li>
+<li><a target="_blank" rel="noopener" href="https://claude.com/pricing">Claude 定价页</a>（封面截图来源，2026-11-05 截取）</li>
+<li><a target="_blank" rel="noopener" href="https://thenextweb.com/news/claude-ultra-max-plan-rename-five-hour-limit">The Next Web：Claude Max 改名 Ultra</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-its-doubling-pro-usage-limits-and-bringing-work-features-to-chat/">BleepingComputer：Pro 额度翻倍与合池</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/11/05/ai-quota-november-weekly-pool/">https://www.lxpyll.top/posts/2026/11/05/ai-quota-november-weekly-pool/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Codex/">Codex</a><a class="post-meta__tags" href="/tags/Claude/">Claude</a><a class="post-meta__tags" href="/tags/ChatGPT/">ChatGPT</a><a class="post-meta__tags" href="/tags/%E9%A2%9D%E5%BA%A6/">额度</a><a class="post-meta__tags" href="/tags/%E8%AE%A2%E9%98%85/">订阅</a></div><div class="post-share"><div class="social-share" data-image="/img/ai-quota-nov-cover.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/11/06/voxl-web-remote-desktop/" title="浏览器里看远程桌面，延迟压到十几毫秒：Rust 开源项目 voxl"><img class="cover" src="/img/voxl-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">浏览器里看远程桌面，延迟压到十几毫秒：Rust 开源项目 voxl</div></div><div class="info-2"><div class="info-item-1">远程桌面打开网页就能看——听着普通，但大多数方案要么糊成幻灯片，要么得装客户端。 tembo&#x2F;voxl 换了条路：画面用 H.264，走 一条 WebSocket，浏览器端用 WebCodecs 解。Linux（X11 &#x2F; Xvfb）、macOS、Windows 都能当被控端。截至 11 月 6 日晚仓库约 1.3k star、67...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/29/hatchzip-extract-in-place/" title="硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包&quot;吃掉&quot;"><img class="cover" src="/img/hatchzip-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">硬盘快满了还要解 180 GB 压缩包？HatchZip 边解边把压缩包"吃掉"</div></div><div class="info-2"><div class="info-item-1">我去，解压这件事居然还能省硬盘。 HatchZip 是 10 月 21 日才建的开源解压工具，Rust 写的，MIT 或 Apache-2.0 二选一。截至 10 月 29 日晚约 2300 star、71 fork，v0.1.8 是 10 月 29 日凌晨 1 点（北京时间）发的，一周里发了好几个版本。Windows、macOS、Linux 都有安装...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/10/12/ai-quota-october-deadlines/" title="十月中旬该盯的三处 AI 额度变化"><img class="cover" src="/img/ai-quota-oct-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-12</div><div class="info-item-2">十月中旬该盯的三处 AI 额度变化</div></div><div class="info-2"><div class="info-item-1"> 额度这东西，平时不看。 用到一半突然卡住，最烦。 十月中旬正好撞上三处变化。下面数字都对着官方说明核过（2026-10-12）。以后以官方为准，会变。  Claude：Artifact 半价，15 号停Anthropic 帮助中心写的：在 Claude 或 Claude Cowork 里创建、编辑 Artifact 之后，后续一段工作对「五小时会话额...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/20/cursor-new-plans-weekly-pool/" title="Cursor 换了套餐：8 美元起，周池子，Claude 和 GPT 另按 API 价付"><img class="cover" src="/img/cursor-pricing-oct2026.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-20</div><div class="info-item-2">Cursor 换了套餐：8 美元起，周池子，Claude 和 GPT 另按 API 价付</div></div><div class="info-2"><div class="info-item-1">10 月 12 号那篇额度稿里，我写 Cursor「拆成两套用量池，按月重置」，还列了 Pro 20、Pro+ 60、Ultra 200。那是当时官方文档的写法。今天再去看，定价页已经整个换了：档位、价格、重置周期，连第三方模型怎么算钱都变了。 先把结论放前面：已经在用 Pro、Pro+、老 Ultra 的人，暂时什么都不用做。官方文档原话是，这些「旧...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/26/grokbot-codex-hermes/" title="Grok Bot、Codex、Hermes 三个 agent 我都在用，客观比一比"><img class="cover" src="/img/agent-trio-compare.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-26</div><div class="info-item-2">Grok Bot、Codex、Hermes 三个 agent 我都在用，客观比一比</div></div><div class="info-2"><div class="info-item-1">先给结论：写代码、跑生产任务，而且家里本来就有一台常开电脑的人，Codex 加 Hermes 这套组合更便宜也更灵活；不想自己维护、要在一堆网页应用里处理杂事的人，Grok Bot 更省心。 三个都不是”全面更好”，差别主要在三处：钱怎么算，模型能不能换，出了问题谁来修。 这三个我都在用：Codex 主要用来写代码、改脚本；Hermes 装在我自己的 ...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/21/openai-on-google-cloud-model-garden/" title="OpenAI 模型上了 Google Cloud：Astra &#x2F; Sol &#x2F; Luna，微软还是主云"><img class="cover" src="/img/openai-gcp-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-21</div><div class="info-item-2">OpenAI 模型上了 Google Cloud：Astra &#x2F; Sol &#x2F; Luna，微软还是主云</div></div><div class="info-2"><div class="info-item-1">OpenAI 今天（10 月 21 日）丢了条短通告：frontier 模型和 Codex 要进 Google Cloud 的 Model Garden。Google Cloud 那篇更啰嗦，直接点了三个型号——GPT-6 Astra、GPT-6.1 Sol、GPT-6 Luna。 我去，微软还是主云。OpenAI 通告末尾原句就那么写的：Micros...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/21/%E4%BB%98%E7%9A%84%E6%98%AF%E6%9C%88%E8%B4%B9%E8%B5%8C%E7%9A%84%E6%98%AF%E9%A2%9D%E5%BA%A6-%E5%90%90%E6%A7%BDCodex%E5%92%8CGrok%E7%9A%84%E8%AE%A2%E9%98%85%E9%99%90%E9%A2%9D/" title="按月付的钱，按周给的额度：Codex、Grok 和 Cursor 的限额我算不明白"><img class="cover" src="/img/ai-sub-quota.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-21</div><div class="info-item-2">按月付的钱，按周给的额度：Codex、Grok 和 Cursor 的限额我算不明白</div></div><div class="info-2"><div class="info-item-1">先把话说在前面：我不是嫌贵。 我一个月掏的那点钱，换来一个能读我仓库、能替我敲命令、还能帮我改脚本的东西，这笔账怎么算都不亏。我甚至愿意多花点。 我别扭的是这个：钱是按月收的，额度却是按 5 小时、按周给的。  一、模式上的错配：钱按月，额度按天订阅制听着像包月。真用起来，你手上其实是一叠周期券：一个 5 小时窗，一周的量，或者干脆全部产品共用一个周池...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/26/anthropic-s1-ipo-filing/" title="Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到"><img class="cover" src="/img/anthropic-s1-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-26</div><div class="info-item-2">Anthropic 把 S-1 摊开了：拟用 ANT 上市，H1 营收 163 亿，净亏损别被吓到</div></div><div class="info-2"><div class="info-item-1">Claude 家今天把 S-1 摊开了。10 月 26 日官宣：Anthropic, PBC 向 SEC 递交 Form S-1，拟挂纳斯达克 Global Select，代号 ANT。股数和定价还没写，登记声明也没生效。 我去。翻完官宣，又对了转载出来的合并利润表（百万美元；EDGAR 原文我这边打不开，被反爬拦了）。 H1 2026 营收 16,2...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">83</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">251</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenAI-%E5%86%99%E6%98%8E%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">OpenAI 写明了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Anthropic-%E8%BF%99%E8%BE%B9"><span class="toc-number">2.</span> <span class="toc-text">Anthropic 这边</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E6%98%AF%E6%88%91%E7%9E%8E%E7%8C%9C%E7%9A%84"><span class="toc-number">3.</span> <span class="toc-text">下面是我瞎猜的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E6%BA%90"><span class="toc-number">4.</span> <span class="toc-text">来源</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/14/linux-zdi-ksmbd-debian-dsa-6628/" title="VPS 先看开没开 ksmbd：ZDI 昨天写了远程 9.0，Debian 内核包今天凌晨也到了"><img src="/img/linux-zdi-dsa6628-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VPS 先看开没开 ksmbd：ZDI 昨天写了远程 9.0，Debian 内核包今天凌晨也到了"/></a><div class="content"><a class="title" href="/posts/2026/11/14/linux-zdi-ksmbd-debian-dsa-6628/" title="VPS 先看开没开 ksmbd：ZDI 昨天写了远程 9.0，Debian 内核包今天凌晨也到了">VPS 先看开没开 ksmbd：ZDI 昨天写了远程 9.0，Debian 内核包今天凌晨也到了</a><time datetime="2026-11-14T15:30:00.000Z" title="发表于 2026-11-14 23:30:00">2026-11-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/13/apple-homeview-27-2-launch/" title="HomeView 按官方日程今天开卖，设置时那次更新别划掉"><img src="/img/homeview-272-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HomeView 按官方日程今天开卖，设置时那次更新别划掉"/></a><div class="content"><a class="title" href="/posts/2026/11/13/apple-homeview-27-2-launch/" title="HomeView 按官方日程今天开卖，设置时那次更新别划掉">HomeView 按官方日程今天开卖，设置时那次更新别划掉</a><time datetime="2026-11-13T15:30:00.000Z" title="发表于 2026-11-13 23:30:00">2026-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/12/git-2-56-1-security-update/" title="Debian 的 Git 还是 2.47.3，我从官方源码装了 2.56.1"><img src="/img/git-2561-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Debian 的 Git 还是 2.47.3，我从官方源码装了 2.56.1"/></a><div class="content"><a class="title" href="/posts/2026/11/12/git-2-56-1-security-update/" title="Debian 的 Git 还是 2.47.3，我从官方源码装了 2.56.1">Debian 的 Git 还是 2.47.3，我从官方源码装了 2.56.1</a><time datetime="2026-11-12T15:40:00.000Z" title="发表于 2026-11-12 23:40:00">2026-11-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/11/apple-security-updates-27-2-1/" title="系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对"><img src="/img/apple-security-2721-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对"/></a><div class="content"><a class="title" href="/posts/2026/11/11/apple-security-updates-27-2-1/" title="系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对">系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对</a><time datetime="2026-11-11T15:10:00.000Z" title="发表于 2026-11-11 23:10:00">2026-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/10/kensaku-local-desktop-search/" title="文件名想不起来也行：开源本地搜索 Kensaku，能翻 PDF 和截图里的字"><img src="/img/kensaku-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文件名想不起来也行：开源本地搜索 Kensaku，能翻 PDF 和截图里的字"/></a><div class="content"><a class="title" href="/posts/2026/11/10/kensaku-local-desktop-search/" title="文件名想不起来也行：开源本地搜索 Kensaku，能翻 PDF 和截图里的字">文件名想不起来也行：开源本地搜索 Kensaku，能翻 PDF 和截图里的字</a><time datetime="2026-11-10T15:20:00.000Z" title="发表于 2026-11-10 23:20:00">2026-11-10</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

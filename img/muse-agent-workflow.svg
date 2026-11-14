@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Muse 的工作方式</title>
+  <desc id="desc">透明背景。三步：用户一句话交代结果，錢多多在自己的电脑上查证、动手、记住，结果回来时办好了会交付，翻车了也会说透。</desc>
+  <g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+    <!-- 无全幅底色：外层透明 -->
+    <text x="600" y="58" text-anchor="middle" font-size="34" font-weight="700" fill="#F5EDE2">交代一次，剩下的我来</text>
+
+    <!-- 面板 1 -->
+    <rect x="60" y="120" width="320" height="330" rx="24" fill="rgba(123,216,242,0.08)" stroke="rgba(123,216,242,0.55)" stroke-width="2"/>
+    <text x="220" y="172" text-anchor="middle" font-size="24" font-weight="700" fill="#BFE9F7">1 · 你只说结果</text>
+    <text x="220" y="222" text-anchor="middle" font-size="19" fill="#E9DCC8">「把这篇教程</text>
+    <text x="220" y="252" text-anchor="middle" font-size="19" fill="#E9DCC8">发到博客上」</text>
+    <text x="220" y="302" text-anchor="middle" font-size="16" fill="#A99B87">不用写剧本</text>
+    <text x="220" y="330" text-anchor="middle" font-size="16" fill="#A99B87">不用一步步指挥</text>
+    <text x="220" y="386" text-anchor="middle" font-size="16" fill="#7BD8F2">红线先讲清就行</text>
+
+    <!-- 箭头 1 -->
+    <path d="M392 285 H438" stroke="#CFC1AF" stroke-width="3" stroke-linecap="round"/>
+    <path d="M428 272 L442 285 L428 298" stroke="#CFC1AF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- 面板 2 -->
+    <rect x="452" y="120" width="320" height="330" rx="24" fill="rgba(247,217,168,0.08)" stroke="rgba(247,217,168,0.55)" stroke-width="2"/>
+    <text x="612" y="172" text-anchor="middle" font-size="24" font-weight="700" fill="#F3E3C3">2 · 我在自己的电脑上干活</text>
+    <text x="612" y="224" text-anchor="middle" font-size="19" fill="#E9DCC8">先查证，不背诵</text>
+    <text x="612" y="260" text-anchor="middle" font-size="19" fill="#E9DCC8">自己找路，动手执行</text>
+    <text x="612" y="296" text-anchor="middle" font-size="19" fill="#E9DCC8">重要的事记下来</text>
+    <text x="612" y="348" text-anchor="middle" font-size="16" fill="#A99B87">你下线了，活还在跑</text>
+    <text x="612" y="392" text-anchor="middle" font-size="16" fill="#F7D9A8">对外动作先等你点头</text>
+
+    <!-- 箭头 2 -->
+    <path d="M784 285 H830" stroke="#CFC1AF" stroke-width="3" stroke-linecap="round"/>
+    <path d="M820 272 L834 285 L820 298" stroke="#CFC1AF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- 面板 3 -->
+    <rect x="844" y="120" width="320" height="330" rx="24" fill="rgba(158,241,189,0.08)" stroke="rgba(158,241,189,0.55)" stroke-width="2"/>
+    <text x="1004" y="172" text-anchor="middle" font-size="24" font-weight="700" fill="#CDEED9">3 · 结果回来</text>
+    <path d="M946 214 L962 230 L992 198" stroke="#9EF1BD" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1024" y="222" text-anchor="middle" font-size="19" fill="#E9DCC8">办好了，交付</text>
+    <text x="1004" y="286" text-anchor="middle" font-size="19" fill="#E9DCC8">翻车了，说透</text>
+    <text x="1004" y="322" text-anchor="middle" font-size="16" fill="#A99B87">哪一步死的 · 死因是什么</text>
+    <text x="1004" y="350" text-anchor="middle" font-size="16" fill="#A99B87">没坏的部分是什么样</text>
+    <text x="1004" y="404" text-anchor="middle" font-size="16" fill="#9EF1BD">绝不编一个成功糊弄你</text>
+
+    <text x="600" y="520" text-anchor="middle" font-size="19" fill="#CFC1AF">批准分级：看、查、整理可以直办 · 发送、发布、付款、删除先确认</text>
+    <text x="600" y="556" text-anchor="middle" font-size="15" fill="#A99B87">透明背景 SVG</text>
+  </g>
+</svg>
