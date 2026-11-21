@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="Mozilla 于 2026-11-17 向正式通道提供 Firefox 160.0.1。官方发行说明列出 7 项修复，包括 Linux Wayland 上 WebGL 和 canvas 颜色不正确，以及部分站点标签页崩溃。这不是功能版本，功能变化仍以 11 月 10 日的 160.0 说明为准。我没有复现这些故障，下文只对照官方页面。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/11/17/firefox-160-0-1-release/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="Mozilla 于 2026-11-17 向正式通道提供 Firefox 160.0.1。官方发行说明列出 7 项修复，包括 Linux Wayland 上 WebGL 和 canvas 颜色不正确，以及部分站点标签页崩溃。这不是功能版本，功能变化仍以 11 月 10 日的 160.0 说明为准。我没有复现这些故障，下文只对照官方页面。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/firefox-16001-cover.png">
+<meta property="article:published_time" content="2026-11-17T15:10:00.000Z">
+<meta property="article:modified_time" content="2026-11-17T15:10:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Firefox">
+<meta property="article:tag" content="浏览器">
+<meta property="article:tag" content="软件">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里",
+  "url": "https://www.lxpyll.top/posts/2026/11/17/firefox-160-0-1-release/",
+  "image": "https://www.lxpyll.top/img/firefox-16001-cover.png",
+  "datePublished": "2026-11-17T15:10:00.000Z",
+  "dateModified": "2026-11-17T15:10:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "Mozilla 于 2026-11-17 向正式通道提供 Firefox 160.0.1。官方发行说明列出 7 项修复，包括 Linux Wayland 上 WebGL 和 canvas 颜色不正确，以及部分站点标签页崩溃。这不是功能版本，功能变化仍以 11 月 10 日的 160.0 说明为准。我没有复现这些故障，下文只对照官方页面。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/11/17/firefox-160-0-1-release/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">262</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-17T15:10:00.000Z" title="发表于 2026-11-17 23:10:00">2026-11-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-17T15:10:00.000Z" title="更新于 2026-11-17 23:10:00">2026-11-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E7%A0%81%E5%B7%A5%E5%85%B7/">数码工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/11/17/firefox-160-0-1-release/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/11/17/firefox-160-0-1-release/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/11/17/firefox-160-0-1-release/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>今天打开 Firefox 的发行说明，正式通道已经是 <strong>160.0.1</strong> 了。<a target="_blank" rel="noopener" href="https://www.firefox.com/en-US/firefox/160.0.1/releasenotes/">官方这一页</a> 写的是 160.0.1 Firefox Release，日期 <strong>2026-11-17</strong>，并写了 first offered to Release channel users on November 17, 2026。页面上没有更精确的钟点。</p>
+<p>别指望这里有新功能。整页几乎只有 Fixed，一共 7 条。新功能还在一周前、11 月 10 日进正式通道的 <a target="_blank" rel="noopener" href="https://www.firefox.com/en-US/firefox/160.0/releasenotes/">160.0 发行说明</a> 里。我没拿自己的浏览器去复现这些故障，也没记下这台机器有没有自动弹到 160.0.1，下面只按那一页转述。</p>
+<p><img src="/img/firefox-16001-cover.png" alt="示意图：Firefox 160.0.1 于 2026-11-17 进入正式通道"></p>
+<p><small>示意图，按官方发行说明整理，不是浏览器设置或更新弹窗截图。</small></p>
+<h2 id="说明里那-7-条"><a href="#说明里那-7-条" class="headerlink" title="说明里那 7 条"></a>说明里那 7 条</h2><p>我按原文意思转述，Bug 号也留着。</p>
+<p>Windows 那条挺具体：PDF 里的细线，在部分打印机上会打成又粗又黑的方块（Bug 2091728）。Mac 如果是 AMD 显卡，PDF、网页图形和 WebGL 可能直接空白或者花掉，官方举的例子是 Google 表格里出现黑格子（Bug 2091596）。Linux 则点名了 <strong>Wayland</strong>：部分系统上，游戏、Google Meet 背景这类 WebGL 和 canvas 颜色会不对（Bug 2089043）。</p>
+<p>站点那边写了两条。有的链接会转很久才打开，官方点名了 Google Store（Bug 2087787）。还有的标签页会崩，说明里写 most notably ChatGPT（Bug 2088486）。这是他们自己举的例子，不是我去点过哪个站。</p>
+<p>剩下两条更偏底层。网站要是短时间狂发数据报，WebTransport 连接可能后面就发不出去了（Bug 2092532）。网页已经禁止滚动时，触控板或鼠标滑动有时还是会把页面带走（Bug 2086786）。这条官方没写死是哪一个系统。</p>
+<p><img src="/img/firefox-16001-fixes.png" alt="示意图：160.0.1 官方发行说明里的 7 条修复"></p>
+<p><small>示意图，对照官方发行说明整理；不是完整变更清单，也不是我实测。</small></p>
+<h2 id="新功能还在-160-0-那页"><a href="#新功能还在-160-0-那页" class="headerlink" title="新功能还在 160.0 那页"></a>新功能还在 160.0 那页</h2><p>160.0 那篇才有 New。比较容易注意到的是：画中画多了 <strong>0.25x 到 2.0x</strong> 的速度，而且只在播放器窗口到中等或更大时才出现；还有 <strong>Mini Window</strong>，能把一个标签页或页面里选中的一块放到始终置顶的窗口。官方把 Mini Window 写成 early version，还说欢迎到 Mozilla Connect 反馈。别的新条目今天不展开，直接看 160.0 那页就行。</p>
+<p>同一篇说明末尾有一句 Various security fixes。对应的安全公告是 <a target="_blank" rel="noopener" href="https://www.mozilla.org/en-US/security/advisories/mfsa2026-125/">MFSA 2026-125</a>，日期 2026-11-10，针对的是 Firefox 160。160.0.1 这页里我没看到新的安全小节，所以没把今天这次当成又一轮安全公告。</p>
+<p>下载还是走官方发行说明页的各平台链接。已经装着的，也可以在软件里看更新。我没在这台机器上走完更新，也不把这篇写成安装步骤。</p>
+<p>我的理解（推断）：自己要是在 Linux 上用 Wayland，或者在 AMD 显卡的 Mac 上看表格、网页图形，这 7 条里至少有两条对得上平时会碰到的场景，我会先把版本跟上。至于你那台会不会踩中说明里的故障，官方没打包票，我也没条件逐条验证。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/11/17/firefox-160-0-1-release/">https://www.lxpyll.top/posts/2026/11/17/firefox-160-0-1-release/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Firefox/">Firefox</a><a class="post-meta__tags" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6/">软件</a></div><div class="post-share"><div class="social-share" data-image="/img/firefox-16001-cover.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/11/18/needrestart-cve-2026-124757-usn-9151/" title="VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装"><img class="cover" src="/img/needrestart-usn9151-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装</div></div><div class="info-2"><div class="info-item-1">Ubuntu 今天挂出了安全公告 USN-9151-1，标题是 needrestart vulnerability，发布日期写的是 2026-11-18。对应编号是 CVE-2026-124757。Ubuntu 这条 CVE 页的公布日期是 11 月 17 日，最后更新是 11 月 18 日。 公开说明更早出现在 oss-security。Armaan...</div></div></div></a><a class="pagination-related" href="/posts/2026/11/16/hugo-0-170-0-extended-edition-removed/" title="Hugo 0.170.0 把 extended 撤了，我在临时目录核对了官方包和 Sass 报错"><img class="cover" src="/img/hugo-01700-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Hugo 0.170.0 把 extended 撤了，我在临时目录核对了官方包和 Sass 报错</div></div><div class="info-2"><div class="info-item-1">Hugo 官方新闻页 把 v0.170.0 写在 2026-11-13 这一档。新闻 RSS 和 GitHub 发布页 的时间都是 2026-11-13 16:09:01 UTC，换到新加坡时区（UTC+8）是 2026-11-14 00:09:01。发布说明里最大的变化就一句：extended 这个版本没了，内嵌的 LibSass 也一起拿掉，现在只...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/08/17/firefox-ios-adblocker/" title="iPhone 上装了个 Firefox，网页广告终于能拦了"><img class="cover" src="/img/ff-ios-adblock.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-17</div><div class="info-item-2">iPhone 上装了个 Firefox，网页广告终于能拦了</div></div><div class="info-2"><div class="info-item-1">iPhone 上去广告这事，一直比安卓麻烦。Safari 要另装内容拦截器 app，Chrome、Edge 在 iOS 上又装不了扩展——苹果规定所有 iOS 浏览器都得用 WebKit 内核，拦截只能靠网络层过滤，这个功能之前没几个浏览器愿意做。 这周 Mozilla 开始给 Firefox for iOS 推内置广告拦截，官方标注 experime...</div></div></div></a><a class="pagination-related" href="/posts/2026/11/20/ios-27-3-public-beta-2/" title="苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了"><img class="cover" src="/img/ios-273-pb2-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-20</div><div class="info-item-2">苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了</div></div><div class="info-2"><div class="info-item-1">今天再打开 Apple 开发者发布列表，最上面两条还是昨天挂上去的：iOS 27.3 beta 2 v2，还有一条 iPadOS 27.3 beta 2 v2。构建号都是 24C5049f，日期写着 November 19, 2026。点进 iOS 那条 和 iPadOS 那条 看，页上几乎就这三样：标题、构建号、日期。功能说明没有。 我自己的 iPh...</div></div></div></a><a class="pagination-related" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"><img class="cover" src="/img/gpgme-dsa6646-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-21</div><div class="info-item-2">这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补</div></div><div class="info-2"><div class="info-item-1">先把两份官方时间换算清楚。GnuPG 的 gnupg-announce 公告 标的是 Fri Nov 20 19:01:51 CET 2026，换成新加坡时间是 2026-11-21 02:01。Debian 的 DSA-6646-1 邮件头是 Fri, 20 Nov 2026 21:36:59 +0000，换成新加坡时间是 2026-11-21 05...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/27/opera-webai-local-browser-ai/" title="Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调"><img class="cover" src="/img/opera-webai-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-27</div><div class="info-item-2">Opera 把 WebAI 塞进浏览器了：本机跑 Gemma，网站也能调</div></div><div class="info-2"><div class="info-item-1">Opera 今天（10 月 27 日）把本地模型塞进浏览器了。第一枪叫 WebAI，early preview 进 Opera One；GX、Neon 后面跟。 干啥用？网站和扩展可以调跑在你电脑上的模型，不必每条都打云、也不必再开一个 AI 订阅。官方举例：扩展整理标签页、标标题党、筛招聘帖——数据不出本机。 我去，浏览器厂又来抢本地 AI 这一桌。...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">90</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">262</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E%E9%87%8C%E9%82%A3-7-%E6%9D%A1"><span class="toc-number">1.</span> <span class="toc-text">说明里那 7 条</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%8A%9F%E8%83%BD%E8%BF%98%E5%9C%A8-160-0-%E9%82%A3%E9%A1%B5"><span class="toc-number">2.</span> <span class="toc-text">新功能还在 160.0 那页</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"><img src="/img/gpgme-dsa6646-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"/></a><div class="content"><a class="title" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补">这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补</a><time datetime="2026-11-21T15:30:00.000Z" title="发表于 2026-11-21 23:30:00">2026-11-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/20/ios-27-3-public-beta-2/" title="苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了"><img src="/img/ios-273-pb2-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了"/></a><div class="content"><a class="title" href="/posts/2026/11/20/ios-27-3-public-beta-2/" title="苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了">苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了</a><time datetime="2026-11-20T15:30:00.000Z" title="发表于 2026-11-20 23:30:00">2026-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/19/postgresql-19-0-official-release/" title="系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录"><img src="/img/postgresql-19-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录"/></a><div class="content"><a class="title" href="/posts/2026/11/19/postgresql-19-0-official-release/" title="系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录">系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录</a><time datetime="2026-11-19T15:30:00.000Z" title="发表于 2026-11-19 23:30:00">2026-11-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/18/needrestart-cve-2026-124757-usn-9151/" title="VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装"><img src="/img/needrestart-usn9151-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装"/></a><div class="content"><a class="title" href="/posts/2026/11/18/needrestart-cve-2026-124757-usn-9151/" title="VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装">VPS 先看装没装 needrestart：Ubuntu 今天发了补丁，这台 Debian 13 本身没装</a><time datetime="2026-11-18T15:30:00.000Z" title="发表于 2026-11-18 23:30:00">2026-11-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/17/firefox-160-0-1-release/" title="Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里"><img src="/img/firefox-16001-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里"/></a><div class="content"><a class="title" href="/posts/2026/11/17/firefox-160-0-1-release/" title="Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里">Firefox 160.0.1 今天进了正式通道，Wayland 配色和部分站点崩溃都在修复名单里</a><time datetime="2026-11-17T15:10:00.000Z" title="发表于 2026-11-17 23:10:00">2026-11-17</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

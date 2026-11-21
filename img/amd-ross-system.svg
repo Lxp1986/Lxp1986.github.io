@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">AMD Ross 的嵌入式 Agent 工作台</title>
+  <desc id="desc">MCP 工具、AMD 知识库、工程 Skills 和参考设计围绕开发任务协作。</desc>
+  <defs>
+    <linearGradient id="core" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#124F77"/><stop offset="1" stop-color="#09293F"/></linearGradient>
+    <linearGradient id="trace" x1="0" x2="1"><stop stop-color="#46D9CB"/><stop offset="1" stop-color="#75A9FF"/></linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <g font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+    <text x="600" y="63" text-anchor="middle" font-size="18" letter-spacing="4" fill="#91AFC4">AMD EMBEDDED · AGENT WORKBENCH</text>
+    <path d="M205 323 C310 323 334 255 429 255 M205 323 C310 323 334 405 429 405 M771 255 C875 255 881 323 995 323 M771 405 C875 405 881 323 995 323" fill="none" stroke="url(#trace)" stroke-width="4" opacity=".76"/>
+    <path d="M245 323H344 M856 323H955" stroke="#F3B85C" stroke-width="3" stroke-dasharray="5 11"/>
+    <g transform="translate(66 241)">
+      <rect width="185" height="164" rx="28" fill="#102E45" stroke="#54758E" stroke-width="2"/>
+      <path d="M48 48h89v55H48z" fill="#173D59" stroke="#75A9FF" stroke-width="2"/>
+      <path d="M61 65h61M61 78h43M61 91h55" stroke="#D5E7F4" stroke-width="4" stroke-linecap="round"/>
+      <path d="M78 113h29l12 15H66z" fill="#46D9CB" opacity=".9"/>
+      <text x="92" y="149" text-anchor="middle" font-size="17" fill="#E4F0F7">工程师目标</text>
+    </g>
+    <g transform="translate(429 166)">
+      <rect width="342" height="314" rx="44" fill="url(#core)" stroke="#58D8CE" stroke-width="3"/>
+      <circle cx="171" cy="123" r="73" fill="#0A2236" stroke="#75A9FF" stroke-width="3" filter="url(#glow)"/>
+      <path d="M171 64v-18m0 154v-18m-73-59H80m182 0h-18m-126-51-13-13m128 128-13-13m0-102 13-13m-128 128 13-13" stroke="#46D9CB" stroke-width="5" stroke-linecap="round"/>
+      <path d="M143 126h56m-46-20 20-20 20 20m-40 41 20 20 20-20" fill="none" stroke="#E8F5FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="171" y="236" text-anchor="middle" font-size="30" font-weight="700" fill="#F2F8FC">AMD Ross</text>
+      <text x="171" y="271" text-anchor="middle" font-size="17" fill="#A8C7D8">嵌入式开发 Agent</text>
+      <rect x="106" y="286" width="130" height="28" rx="14" fill="#153D53"/>
+      <text x="171" y="306" text-anchor="middle" font-size="13" letter-spacing="1" fill="#7DE5D9">MCP · RAG · SKILLS</text>
+    </g>
+    <g transform="translate(995 241)">
+      <rect width="185" height="164" rx="28" fill="#102E45" stroke="#54758E" stroke-width="2"/>
+      <rect x="45" y="39" width="96" height="76" rx="8" fill="#0A2236" stroke="#F3B85C" stroke-width="2"/>
+      <path d="M57 51h72v50H57z" fill="#102F49"/>
+      <path d="M73 62h39m-39 13h50m-50 13h29" stroke="#A9D8E6" stroke-width="4" stroke-linecap="round"/>
+      <path d="M85 120h18m-30 7h42" stroke="#F3B85C" stroke-width="4" stroke-linecap="round"/>
+      <text x="92" y="149" text-anchor="middle" font-size="17" fill="#E4F0F7">AMD 工具与设计</text>
+    </g>
+    <g transform="translate(441 530)">
+      <rect width="148" height="54" rx="18" fill="#102E45" stroke="#46D9CB" stroke-width="2"/><text x="74" y="34" text-anchor="middle" font-size="17" fill="#DDF8F4">AMD 知识库</text>
+      <rect x="166" width="148" height="54" rx="18" fill="#102E45" stroke="#75A9FF" stroke-width="2"/><text x="240" y="34" text-anchor="middle" font-size="17" fill="#E5ECFF">工程 Skills</text>
+      <rect x="332" width="148" height="54" rx="18" fill="#102E45" stroke="#F3B85C" stroke-width="2"/><text x="406" y="34" text-anchor="middle" font-size="17" fill="#FFF0D7">设计示例</text>
+    </g>
+    <text x="600" y="638" text-anchor="middle" font-size="15" fill="#8FA8B8">工具提供动作入口 · 知识和 Skills 提供领域上下文 · 工程师审核结果</text>
+  </g>
+</svg>
