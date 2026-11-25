@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <defs>
+    <linearGradient id="uc-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 无全幅底色：外层透明 -->
+  <text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#A7B9D2">2026 年大陆身份办 U 卡：官方页面怎么说</text>
+  <text x="600" y="78" text-anchor="middle" font-size="15" fill="#DFD3C3">核对到 2026-09-26 · 11 张卡 · 没有一张对大陆新用户正常开放</text>
+
+  <!-- 1 官方明确不支持 -->
+  <rect x="40" y="108" width="360" height="250" rx="14" fill="rgba(242,176,176,0.10)" stroke="#F2B0B0" stroke-width="1.5"/>
+  <circle cx="78" cy="144" r="17" fill="url(#uc-g)"/>
+  <text x="78" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">1</text>
+  <text x="106" y="151" font-size="19" font-weight="700" fill="#F2B0B0">官方名单明确排除大陆</text>
+  <text x="66" y="192" font-size="15" fill="#E1D3C1">RedotPay · KYC／发卡／访问全禁</text>
+  <text x="66" y="222" font-size="15" fill="#E1D3C1">Wirex · China 一行全 N/A</text>
+  <text x="66" y="252" font-size="15" fill="#E1D3C1">Crypto.com · App 受限含 China</text>
+  <text x="66" y="282" font-size="15" fill="#E1D3C1">Bybit · 排除 Chinese Mainland</text>
+  <text x="66" y="312" font-size="15" fill="#E1D3C1">UUPAY · 虚拟卡／实体卡禁发含 CN</text>
+  <text x="66" y="340" font-size="13" fill="#A7B9D2">UUPAY 9/7 起大陆证件不能单独过 KYC</text>
+
+  <!-- 2 支持地区不含大陆 -->
+  <rect x="420" y="108" width="360" height="250" rx="14" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <circle cx="458" cy="144" r="17" fill="url(#uc-g)"/>
+  <text x="458" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">2</text>
+  <text x="486" y="151" font-size="19" font-weight="700" fill="#B7C3EB">支持地区里没有大陆</text>
+  <text x="446" y="192" font-size="15" fill="#E1D3C1">OKX Card · EEA／澳洲／巴西等</text>
+  <text x="446" y="222" font-size="15" fill="#E1D3C1">MetaMask Card · 47 地区无大陆</text>
+  <text x="446" y="252" font-size="14" fill="#A7B9D2">　非托管，按授权额度扣款</text>
+  <text x="446" y="280" font-size="14" fill="#A7B9D2">　Linea／Solana／Base／Monad</text>
+  <text x="446" y="308" font-size="14" fill="#A7B9D2">　无以太坊主网 ERC20、无 TRC20</text>
+  <text x="446" y="340" font-size="13" fill="#9EF1BD">已有卡：只设小额授权</text>
+
+  <!-- 3 大陆通道关闭 / 停服 -->
+  <rect x="800" y="108" width="360" height="250" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+  <circle cx="838" cy="144" r="17" fill="url(#uc-g)"/>
+  <text x="838" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#EFE6DA">3</text>
+  <text x="866" y="151" font-size="19" font-weight="700" fill="#DFD3C3">通道已关或已停服</text>
+  <text x="826" y="192" font-size="15" fill="#E1D3C1">Bitget Wallet Card</text>
+  <text x="826" y="220" font-size="14" fill="#A7B9D2">　6/5 起 Fiat24 停大陆新户</text>
+  <text x="826" y="252" font-size="15" fill="#E1D3C1">OneKey Card · 2025-01-31 全停</text>
+  <text x="826" y="282" font-size="15" fill="#E1D3C1">Depay／Dupay · 官网已停服</text>
+  <text x="826" y="312" font-size="15" fill="#E1D3C1">币安旧卡 · 官方页面未能核实</text>
+  <text x="826" y="340" font-size="13" fill="#A7B9D2">存量用户「暂不受影响」≠ 承诺</text>
+
+  <!-- 结论条 -->
+  <rect x="40" y="384" width="1120" height="72" rx="12" fill="rgba(98,126,218,0.16)" stroke="#A6C0F2" stroke-width="1.5"/>
+  <text x="600" y="416" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">结论：大陆身份基本没有稳妥的 U 卡</text>
+  <text x="600" y="442" text-anchor="middle" font-size="14" fill="#A7B9D2">已有卡当零钱包用 · 政策变化快，以官方页面为准 · 本图不构成投资建议</text>
+
+  <!-- 底部两栏 -->
+  <rect x="40" y="480" width="545" height="120" rx="12" fill="rgba(158,241,189,0.10)" stroke="#9EF1BD" stroke-width="1.5"/>
+  <text x="70" y="516" font-size="17" font-weight="700" fill="#9EF1BD">可以做</text>
+  <text x="70" y="546" font-size="14" fill="#E1D3C1">卡里只放小钱，授权只开够用的额度</text>
+  <text x="70" y="574" font-size="14" fill="#E1D3C1">办卡前自己翻一遍官方支持地区和公告</text>
+
+  <rect x="615" y="480" width="545" height="120" rx="12" fill="rgba(242,176,176,0.10)" stroke="#F2B0B0" stroke-width="1.5"/>
+  <text x="645" y="516" font-size="17" font-weight="700" fill="#F2B0B0">别做</text>
+  <text x="645" y="546" font-size="14" fill="#E1D3C1">照教程谎报居住地或国籍（会被冻结）</text>
+  <text x="645" y="574" font-size="14" fill="#E1D3C1">把 U 卡当主力账户囤大额</text>
+</svg>

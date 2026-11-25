@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" fill="none">
+  <defs>
+    <linearGradient id="flow" x1="160" y1="100" x2="1040" y2="570" gradientUnits="userSpaceOnUse"><stop stop-color="#62DDD2"/><stop offset=".52" stop-color="#89B6F0"/><stop offset="1" stop-color="#B198FF"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M1 1L9 6 1 11" stroke="#A7DCD9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <g font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+    <text x="600" y="62" text-anchor="middle" fill="#F5EDE2" font-size="49" font-weight="700">小样本横评，先把规则定公平</text>
+    <rect x="130" y="96" width="940" height="106" rx="24" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.23)" stroke-width="3"/>
+    <circle cx="190" cy="149" r="24" fill="url(#flow)" fill-opacity=".8"/>
+    <text x="242" y="143" fill="#F5EDE2" font-size="39" font-weight="700">1. 冻结样本和人工标签</text>
+    <text x="242" y="184" fill="#DCCFC0" font-size="30">只用虚构留言，先写好“要跟进 / 不用跟进”</text>
+    <path d="M600 205V244" stroke="url(#flow)" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="130" y="256" width="940" height="144" rx="24" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.23)" stroke-width="3"/>
+    <circle cx="190" cy="328" r="24" fill="url(#flow)" fill-opacity=".8"/>
+    <text x="242" y="315" fill="#F5EDE2" font-size="39" font-weight="700">2. 两边收到同一问题和规则</text>
+    <rect x="242" y="337" width="282" height="43" rx="14" fill="rgba(62,210,200,0.14)" stroke="rgba(110,230,220,0.48)"/>
+    <rect x="544" y="337" width="328" height="43" rx="14" fill="rgba(156,132,255,0.14)" stroke="rgba(186,167,255,0.5)"/>
+    <text x="383" y="368" text-anchor="middle" fill="#C6F3EF" font-size="28">Jev · Noul</text>
+    <text x="708" y="368" text-anchor="middle" fill="#DDD5FF" font-size="28">Decisions · Predicate</text>
+    <path d="M600 402V441" stroke="url(#flow)" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="130" y="453" width="940" height="106" rx="24" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.23)" stroke-width="3"/>
+    <circle cx="190" cy="506" r="24" fill="url(#flow)" fill-opacity=".8"/>
+    <text x="242" y="500" fill="#F5EDE2" font-size="39" font-weight="700">3. 对照人工标签和多轮结果</text>
+    <text x="242" y="541" fill="#DCCFC0" font-size="29">准确数 · 漏报 / 误报 · 中位延迟 · 实际用量</text>
+    <text x="600" y="625" text-anchor="middle" fill="#E3D8C8" font-size="30">样本小，只能回答“对我这点活好不好用”</text>
+  </g>
+</svg>

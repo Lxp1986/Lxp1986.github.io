@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 450" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#62ddca"/><stop offset="1" stop-color="#8aa9ff"/></linearGradient>
+  </defs>
+  <text x="500" y="44" text-anchor="middle" font-size="25" font-weight="700" fill="#eee9e1">桌面操作不是单纯“看屏幕”</text>
+  <rect x="35" y="82" width="270" height="292" rx="20" fill="#73dcca" fill-opacity="0.09" stroke="#73dcca" stroke-opacity="0.65"/>
+  <text x="70" y="130" font-size="22" font-weight="700" fill="#88ead7">它能读到</text>
+  <text x="70" y="181" font-size="18" fill="#e4e0d9">辅助功能树里的控件文字</text>
+  <text x="70" y="222" font-size="18" fill="#e4e0d9">需要时读取窗口画面</text>
+  <text x="70" y="281" font-size="16" fill="#aebdd0">窗口里显示什么，都会成为</text>
+  <text x="70" y="308" font-size="16" fill="#aebdd0">任务上下文的一部分</text>
+  <path d="M318 228h56" stroke="url(#line)" stroke-width="4"/><path d="M362 216l14 12-14 12" fill="none" stroke="#8aa9ff" stroke-width="4"/>
+  <rect x="386" y="82" width="270" height="292" rx="20" fill="#8aa9ff" fill-opacity="0.09" stroke="#8aa9ff" stroke-opacity="0.65"/>
+  <text x="421" y="130" font-size="22" font-weight="700" fill="#a9bdff">它能操作</text>
+  <text x="421" y="181" font-size="18" fill="#e4e0d9">点击、输入、编辑</text>
+  <text x="421" y="222" font-size="18" fill="#e4e0d9">按键、滚动、拖动</text>
+  <text x="421" y="281" font-size="16" fill="#aebdd0">也能跨应用跑多个步骤，</text>
+  <text x="421" y="308" font-size="16" fill="#aebdd0">点错时影响可能已经发生</text>
+  <path d="M669 228h56" stroke="url(#line)" stroke-width="4"/><path d="M713 216l14 12-14 12" fill="none" stroke="#8aa9ff" stroke-width="4"/>
+  <rect x="738" y="82" width="227" height="292" rx="20" fill="#efbd6c" fill-opacity="0.08" stroke="#efbd6c" stroke-opacity="0.65"/>
+  <text x="772" y="130" font-size="22" font-weight="700" fill="#f0ca88">你要管住</text>
+  <text x="772" y="181" font-size="18" fill="#e4e0d9">系统权限</text>
+  <text x="772" y="222" font-size="18" fill="#e4e0d9">会话审批</text>
+  <text x="772" y="263" font-size="18" fill="#e4e0d9">操作后的检查</text>
+  <text x="772" y="320" font-size="16" fill="#aebdd0">先用副本练手</text>
+</svg>

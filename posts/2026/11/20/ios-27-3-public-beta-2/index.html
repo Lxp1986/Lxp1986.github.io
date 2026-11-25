@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了 | 三色风</title><meta name="author" content="Levi"><meta name="copyright" content="Levi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#1c1210"><meta name="description" content="Apple 开发者发布列表于 2026-11-19 挂出 iOS &#x2F; iPadOS 27.3 beta 2 v2，构建号 24C5049f。9to5Mac、MacRumors、iClarified 同日报道免费公众测试计划的第二轮已开始推送。Safari 垂直标签和 Adaptive Dark Mode 属于 27.3 更早的测试内容，不是这一构建才出现。12 月正式版仍是报道里的预期，官方页没有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了">
+<meta property="og:url" content="https://www.lxpyll.top/posts/2026/11/20/ios-27-3-public-beta-2/">
+<meta property="og:site_name" content="三色风">
+<meta property="og:description" content="Apple 开发者发布列表于 2026-11-19 挂出 iOS &#x2F; iPadOS 27.3 beta 2 v2，构建号 24C5049f。9to5Mac、MacRumors、iClarified 同日报道免费公众测试计划的第二轮已开始推送。Safari 垂直标签和 Adaptive Dark Mode 属于 27.3 更早的测试内容，不是这一构建才出现。12 月正式版仍是报道里的预期，官方页没有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.lxpyll.top/img/ios-273-pb2-cover.png">
+<meta property="article:published_time" content="2026-11-20T15:30:00.000Z">
+<meta property="article:modified_time" content="2026-11-20T15:30:00.000Z">
+<meta property="article:author" content="Levi">
+<meta property="article:tag" content="Apple">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="iPadOS">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="软件">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.lxpyll.top/img/og.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了",
+  "url": "https://www.lxpyll.top/posts/2026/11/20/ios-27-3-public-beta-2/",
+  "image": "https://www.lxpyll.top/img/ios-273-pb2-cover.png",
+  "datePublished": "2026-11-20T15:30:00.000Z",
+  "dateModified": "2026-11-20T15:30:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Levi",
+      "url": "https://www.lxpyll.top"
+    }
+  ],
+  "description": "Apple 开发者发布列表于 2026-11-19 挂出 iOS / iPadOS 27.3 beta 2 v2，构建号 24C5049f。9to5Mac、MacRumors、iClarified 同日报道免费公众测试计划的第二轮已开始推送。Safari 垂直标签和 Adaptive Dark Mode 属于 27.3 更早的测试内容，不是这一构建才出现。12 月正式版仍是报道里的预期，官方页没有给出日期。我没有装这些测试版，下文只对照公开页面。"
+}</script><link rel="shortcut icon" href="/img/levi-avatar.svg?v=smile-glass2"><link rel="canonical" href="https://www.lxpyll.top/posts/2026/11/20/ios-27-3-public-beta-2/"><link rel="alternate" type="application/atom+xml" title="三色风 RSS" href="https://www.lxpyll.top/atom.xml"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":2,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-78CVHQTCM7"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-78CVHQTCM7')</script><script>document.documentElement.setAttribute('data-theme','dark')</script><link rel="stylesheet" href="/css/custom.css?v=20260921-avatar-glass2"><meta name="msvalidate.01" content="C77AD03ECD54E088B341BF1F23909B07"><meta name="generator" content="Hexo 8.1.2"></head><body><a class="skip-link" href="#content-inner">跳到主要内容</a><div class="bg-animation" id="web_bg" style="background-color: #fff4ea;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus" aria-hidden="true" inert="inert"><div class="avatar-img text-center"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">273</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">三色风</span></a><a class="nav-page-title" href="/"><span class="site-name">苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><button class="site-page social-icon search" type="button" aria-label="搜索"><i class="fas fa-search fa-fw"></i><span> 搜索</span></button></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-house"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-box-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-tree"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-message"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><button id="toggle-menu" type="button" aria-label="打开导航菜单" aria-controls="sidebar-menus" aria-expanded="false"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></button></div></nav></header><main class="layout" id="content-inner" tabindex="-1"><div id="post"><div id="post-info"><h1 class="post-title">苹果昨天把 iOS 27.3 测试版换成了 24C5049f，公众测试第二轮也到了</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-20T15:30:00.000Z" title="发表于 2026-11-20 23:30:00">2026-11-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-20T15:30:00.000Z" title="更新于 2026-11-20 23:30:00">2026-11-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E8%BF%90%E7%BB%B4/">开发运维</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span class="waline-pageview-count" data-path="/posts/2026/11/20/ios-27-3-public-beta-2/"><i class="fa-solid fa-spinner fa-spin"></i></span></span><span class="post-meta-separator">|</span><span class="post-meta-commentcount"><i class="far fa-comments fa-fw post-meta-icon"></i><span class="post-meta-label">评论数:</span><a href="/posts/2026/11/20/ios-27-3-public-beta-2/#post-comment"><span class="waline-comment-count" data-path="/posts/2026/11/20/ios-27-3-public-beta-2/"><i class="fa-solid fa-spinner fa-spin"></i></span></a></span></div></div></div><article class="container post-content" id="article-container"><p>今天再打开 <a target="_blank" rel="noopener" href="https://developer.apple.com/news/releases/">Apple 开发者发布列表</a>，最上面两条还是昨天挂上去的：<strong>iOS 27.3 beta 2 v2</strong>，还有一条 <strong>iPadOS 27.3 beta 2 v2</strong>。构建号都是 <strong>24C5049f</strong>，日期写着 <strong>November 19, 2026</strong>。点进 <a target="_blank" rel="noopener" href="https://developer.apple.com/news/releases/?id=11192026a">iOS 那条</a> 和 <a target="_blank" rel="noopener" href="https://developer.apple.com/news/releases/?id=11192026b">iPadOS 那条</a> 看，页上几乎就这三样：标题、构建号、日期。功能说明没有。</p>
+<p>我自己的 iPhone 和 iPad 都没装这些测试版。下面只对照官方页面，再加几篇 19 日发出的报道。</p>
+<p><img src="/img/ios-273-pb2-cover.png" alt="示意图：iOS &#x2F; iPadOS 27.3 beta 2 v2 官方构建号 24C5049f，日期 2026-11-19"></p>
+<p><small>示意图，按 <a target="_blank" rel="noopener" href="https://developer.apple.com/news/releases/">Apple 开发者发布列表</a> 与公开报道整理，不是系统设置或更新弹窗截图。</small></p>
+<h2 id="官方页昨天新挂的，和-16-日那批要分开看"><a href="#官方页昨天新挂的，和-16-日那批要分开看" class="headerlink" title="官方页昨天新挂的，和 16 日那批要分开看"></a>官方页昨天新挂的，和 16 日那批要分开看</h2><p>11 月 19 日的列表上，新出来的开发者构建其实就这两个，都是 beta 2 v2。同一页再往下翻，还能看到 16 日那一组，构建号没动：</p>
+<ul>
+<li>macOS 27.3 beta 2：<strong>26C5047e</strong></li>
+<li>watchOS 27.3 beta 2：<strong>24S5296d</strong></li>
+<li>tvOS 27.3 beta 2：<strong>24K5298d</strong></li>
+<li>visionOS 27.3 beta 2：<strong>24N5298d</strong></li>
+</ul>
+<p>Xcode 27.3 beta 2 也是 16 日那条。它们的日期仍写 November 16, 2026，19 日的列表里没有再给这些系统发新构建。iOS &#x2F; iPadOS 更早的 beta 2 构建号是 <strong>24C5049d</strong>，同样挂在 16 日，昨天才换成 24C5049f。</p>
+<h2 id="公众测试第二轮：报道写了，官方-Releases-页没单独列"><a href="#公众测试第二轮：报道写了，官方-Releases-页没单独列" class="headerlink" title="公众测试第二轮：报道写了，官方 Releases 页没单独列"></a>公众测试第二轮：报道写了，官方 Releases 页没单独列</h2><p>公众测试第二轮，我在这份 Releases 页上没找到单独条目，是报道在写。</p>
+<p><a target="_blank" rel="noopener" href="https://9to5mac.com/2026/11/19/apple-releases-ios-27-3-public-beta-2-heres-whats-new/">9to5Mac</a> 那篇标注 Nov 19 2026，1:37 pm PT，换成新加坡时间是 <strong>2026-11-20 05:37</strong>。它说 iOS 27.3 的公众测试第二轮已经放出，开发者那边同时换了 beta 2 的新构建。同一家还另写了一篇 <a target="_blank" rel="noopener" href="https://9to5mac.com/2026/11/19/ipados-27-3-watchos-27-3-more-get-public-beta-2-heres-whats-new/">iPadOS、watchOS 这些平台的说明</a>，时间是 1:42 pm PT。</p>
+<p><a target="_blank" rel="noopener" href="https://www.macrumors.com/2026/11/19/ios-27-3-public-beta-2/">MacRumors</a> 标的是同一天 1:43 pm PST，换算是 05:43。它写 Apple 把 iOS、iPadOS、macOS Golden Gate、tvOS、watchOS 的 27.3 第二轮测试版推给了公众测试计划，开发者则拿到修订后的 iOS &#x2F; iPadOS 构建。</p>
+<p><a target="_blank" rel="noopener" href="https://www.iclarified.com/103695/apple-releases-second-public-betas-of-ios-273-macos-273-and-more">iClarified</a> 把当前公众测试构建写成：iOS &#x2F; iPadOS 27.3 为 <strong>24C5049f</strong>，macOS 27.3 为 <strong>26C5047e</strong>，watchOS 27.3 为 <strong>24S5296d</strong>，tvOS 27.3 为 <strong>24K5298d</strong>。后三个跟官方 16 日的开发者构建号对得上；iPhone 和 iPad 对上的是昨天新换的 24C5049f。visionOS 有没有进公众测试，这几篇没写清楚，我不猜。</p>
+<p>要参加的话，报道指向免费的 <a target="_blank" rel="noopener" href="https://beta.apple.com/">Apple Beta Software Program</a>。已经报过名的，9to5Mac 和 iClarified 都写了 iPhone &#x2F; iPad 走「设置 → 通用 → 软件更新 → Beta 更新」，Mac 在系统设置里有对应入口。这些步骤我没在自己机器上走过，这篇也不当安装教程写。测试版往往不能随便降级，要装先备份——这句报道里有，常识也是这个。</p>
+<h2 id="这一轮报道新写的，和-27-3-里早就有的别混"><a href="#这一轮报道新写的，和-27-3-里早就有的别混" class="headerlink" title="这一轮报道新写的，和 27.3 里早就有的别混"></a>这一轮报道新写的，和 27.3 里早就有的别混</h2><p>官方那两页没有功能清单，功能都是报道在列。有些是这一轮新写进去的，有些是 27.3 周期里更早就有的，别混在一起。</p>
+<p>9to5Mac 把下面这些当成这一轮值得先看的变化，iClarified 也写到了其中几条。MacRumors 则把 Duo 的面部解锁和合盖锁定，写成第二轮开发者测试里才引入：</p>
+<ul>
+<li><strong>iPhone Duo</strong>：可以用封面外侧的前置摄像头解锁，但只在折叠状态下可用；支付、密码和应用验证仍要 Touch ID 或密码。45 分钟没解锁的话，也还得再用一次。另外有一个合上就锁定的选项。Duo 还有 Attention Aware：看着外屏时可以保持点亮，并压低部分提示音，不必先开面部解锁。</li>
+<li><strong>日历</strong>：搜索和新建事件的控件移到了下部。</li>
+<li><strong>Siri</strong>：可以询问健康数据，报道举了步数、心率和活动圆环。它也可以把一整页 Safari 内容当作上下文，包括还没滚到的部分。</li>
+<li><strong>Apple TV</strong> 增加视频播客，以及 Apple Originals 的竖向片段信息流。<strong>Apple News+</strong> 的谜题扩展到澳大利亚、加拿大法语区和英国，具体题库按地区不同。</li>
+<li>高级 Apple Intelligence &#x2F; Siri 功能开始测试每日用量上限；报道写 200GB 及以上的 iCloud+ 方案会加量，50GB 方案维持标准限额。</li>
+</ul>
+<p>Safari 的<strong>垂直标签</strong>和 <strong>Adaptive Dark Mode</strong>，别当成这一构建才出的东西。9to5Mac 把它们放在「More iOS 27.3 features」里，还写第一轮公众测试是 11 月 5 日；iClarified 也说这两项是第一轮就引入的。改版后的健康 App（Insights、Longevity &#x2F; Health Age）也在这组，9to5Mac 说是第一轮公众测试里、在 27.2 预览之后重新出现的。Duo 的 Reachability，还有待机显示里更多的表盘选项，一并算在「更早就有」。</p>
+<p><img src="/img/ios-273-pb2-builds.png" alt="示意图：官方 11 月 19 日与 16 日构建号，以及报道中的功能归属"></p>
+<p><small>示意图，对照上述官方页面与报道整理；不是完整功能清单，也不是我实测。</small></p>
+<h2 id="12-月正式版，官方页还没有日期"><a href="#12-月正式版，官方页还没有日期" class="headerlink" title="12 月正式版，官方页还没有日期"></a>12 月正式版，官方页还没有日期</h2><p>MacRumors 写：We’re expecting all of Apple’s updates to launch in December。9to5Mac 那篇平台说明写的是 mid-December。这是报道里的预期，不是 Apple 官方 Releases 页给出的日期。我按原样记下，不把它写成已经排定的上市日。</p>
+<p>我的理解（推断）：已经在测公众测试的人，昨天官方列表上真正换新的，是 iOS &#x2F; iPadOS 构建号到了 24C5049f。要是冲着 Safari 垂直标签去的，那是 27.3 这轮更早就在测的，不必理解成昨天刚有。这仍是测试版。我没装，也不拿这篇当日常机升级建议。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top">Levi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.lxpyll.top/posts/2026/11/20/ios-27-3-public-beta-2/">https://www.lxpyll.top/posts/2026/11/20/ios-27-3-public-beta-2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.lxpyll.top" target="_blank">三色风</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a><a class="post-meta__tags" href="/tags/macOS/">macOS</a><a class="post-meta__tags" href="/tags/Apple/">Apple</a><a class="post-meta__tags" href="/tags/%E8%BD%AF%E4%BB%B6/">软件</a><a class="post-meta__tags" href="/tags/iPadOS/">iPadOS</a></div><div class="post-share"><div class="social-share" data-image="/img/ios-273-pb2-cover.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat-reward-qr.jpg" alt="微信支付"/></a><div class="post-qr-code-desc">微信支付</div></li><li class="reward-item"><a href="/img/alipay-reward-qr.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay-reward-qr.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"><img class="cover" src="/img/gpgme-dsa6646-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补</div></div><div class="info-2"><div class="info-item-1">先把两份官方时间换算清楚。GnuPG 的 gnupg-announce 公告 标的是 Fri Nov 20 19:01:51 CET 2026，换成新加坡时间是 2026-11-21 02:01。Debian 的 DSA-6646-1 邮件头是 Fri, 20 Nov 2026 21:36:59 +0000，换成新加坡时间是 2026-11-21 05...</div></div></div></a><a class="pagination-related" href="/posts/2026/11/19/postgresql-19-0-official-release/" title="系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录"><img class="cover" src="/img/postgresql-19-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">系统里的 psql 还是 17.12，我把官方 PostgreSQL 19.0 解到了用户目录</div></div><div class="info-2"><div class="info-item-1">PostgreSQL 官方新闻 写明：2026-11-19，PostgreSQL Global Development Group 发布了 PostgreSQL 19。19 的发行说明 第一行也是 Release date: 2026-11-19。页面上没有更精确的钟点。 这台 Debian 13 上，系统里的 /usr/bin/psql --vers...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/2026/11/11/apple-security-updates-27-2-1/" title="系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对"><img class="cover" src="/img/apple-security-2721-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-11</div><div class="info-item-2">系统更新先别划掉：Apple 11 月 9 日补了 iMessage 群聊和蓝牙配对</div></div><div class="info-2"><div class="info-item-1">Apple 在 2026-11-09 又推了一轮小版本更新。清单在官方的 Apple 安全更新列表里，这份列表页的发布日期是 2026-11-10。当前大版本写成：iOS &#x2F; iPadOS 27.2.1、macOS 27.2.1（Golden Gate），同一天还给没升上去的系统补了 iOS &#x2F; iPadOS 26.7.3、iOS ...</div></div></div></a><a class="pagination-related" href="/posts/2026/08/31/Obsidian%E6%94%BEiCloud%E5%90%8C%E6%AD%A5-%E5%86%B2%E7%AA%81%E5%89%AF%E6%9C%AC%E5%92%8C%E6%97%A7%E7%89%88%E5%9B%9E%E6%BB%9A%E8%BF%99%E6%A0%B7%E5%A4%84%E7%90%86/" title="Obsidian 放 iCloud 同步，冲突副本和旧版回滚这样处理"><img class="cover" src="/img/obsidian-icloud-conflict.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-08-31</div><div class="info-item-2">Obsidian 放 iCloud 同步，冲突副本和旧版回滚这样处理</div></div><div class="info-2"><div class="info-item-1">我的 Obsidian 知识库直接放在 iCloud：~/Library/Mobile Documents/iCloud~md~obsidian/Documents。MacBook、另一台机器、还有几个自动脚本都在读写这个库，好处是啥设备打开都是同一份，坏处是 iCloud 根本没有冲突处理机制——它不合并、不提示，出了冲突自己拿主意，拿错主意就是丢内...</div></div></div></a><a class="pagination-related" href="/posts/2026/11/22/duckdb-2-0-1-lts-behavior-checks/" title="官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500"><img class="cover" src="/img/duckdb-201-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-22</div><div class="info-item-2">官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500</div></div><div class="info-2"><div class="info-item-1">DuckDB 官方公告 写明：发布 DuckDB 2.0.1，这是 2.0 LTS（Cyanoptera）线的第一个补丁。页面结构化数据里的 datePublished 是 2026-11-20。GitHub 的 v2.0.1 发布页 标的是 2026-11-20T13:34:16Z，换成新加坡时间是 2026-11-20 21:34。 这台机器原先没...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/09/Whisper%E6%9C%AC%E5%9C%B0%E8%BD%AC%E5%86%99-%E5%BD%95%E9%9F%B3%E5%87%BA%E6%96%87%E5%AD%97%E7%A8%BF-%E8%A7%86%E9%A2%91%E5%87%BASRT%E5%AD%97%E5%B9%95%E6%97%B6%E9%97%B4%E8%BD%B4/" title="Whisper 本地转写，录音出文字稿、视频出 SRT 字幕时间轴"><div class="cover" style="background: linear-gradient(135deg, #b85c38, #c9a227)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-09</div><div class="info-item-2">Whisper 本地转写，录音出文字稿、视频出 SRT 字幕时间轴</div></div><div class="info-2"><div class="info-item-1">做抖音那种 3 到 8 秒一条、字要跟口型走的短视频，最烦的不是写词，是字幕轴。最早我一句句对着波形卡时间，一分钟的素材能磨半小时。后来固定用 Whisper 在本地转写：它把音频切成带时间戳的句子，直接吐一份 SRT，我只要改错别字，时间轴基本不动。 另一个场景是工地会议、甲方口头交代，我习惯录个音，回头转成文字留底。这种内容我是不敢传网页转写工具的...</div></div></div></a><a class="pagination-related" href="/posts/2026/10/06/copilot-computer-use-macos/" title="GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它"><img class="cover" src="/img/copilot-computer-use-cover.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-10-06</div><div class="info-item-2">GitHub Copilot 会点 macOS 桌面了，我先不敢把工程资料交给它</div></div><div class="info-2"><div class="info-item-1">看到 GitHub 说 Copilot 现在能操作桌面，我第一反应是：这下连鼠标都不用我动了。第二反应紧跟着就来了：我桌面上开着的那些 PDF、报价表和聊天窗口，它是不是也看得见？ 这个念头让我有点兴奋，也有点发怵。要是它能替我在预览里找页码、把资料从一个窗口挪到另一个窗口，确实省手；可窗口切错、按钮点歪，最后要解释的人还是我。Copilot 不会替我...</div></div></div></a><a class="pagination-related" href="/posts/2026/09/20/%E4%BA%A4%E8%B5%84%E6%96%99%E5%81%9A%E5%8D%B7%E5%86%85%E7%9B%AE%E5%BD%95%EF%BC%8CPDF%E9%A1%B5%E6%95%B0%E7%94%A8qpdf%E4%B8%80%E6%9D%A1%E5%BE%AA%E7%8E%AF%E8%B7%91%E5%AE%8C/" title="交资料做卷内目录，PDF页数用qpdf一条循环跑完"><img class="cover" src="/img/pdftoc-flow.svg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">交资料做卷内目录，PDF页数用qpdf一条循环跑完</div></div><div class="info-2"><div class="info-item-1">上个月交一批水毁修复的施工资料，业主给的卷内目录模板上要填页数和页次。资料拆成一百多份 PDF，我点开前七八份看页数就开始烦了 —— 文件名和题名对不上、看完还要记数字再誊到表格里，这种活纯粹是耗人。后面那批我改成用命令跑，几秒钟出表。 一句话原理qpdf 有个参数 --show-npages，读一份 PDF 的页数，直接打印一个数字。它一次只能吃一个...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/levi-avatar.svg?v=smile-glass2" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Levi</div><div class="author-info-description">三色风，记录生活与热爱</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">94</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">273</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lxp1986"><i class="fab fa-github"></i><span>访问 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Lxp1986" target="_blank" title="GitHub"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss" style="color: #b85c38;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，持续更新中。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E9%A1%B5%E6%98%A8%E5%A4%A9%E6%96%B0%E6%8C%82%E7%9A%84%EF%BC%8C%E5%92%8C-16-%E6%97%A5%E9%82%A3%E6%89%B9%E8%A6%81%E5%88%86%E5%BC%80%E7%9C%8B"><span class="toc-number">1.</span> <span class="toc-text">官方页昨天新挂的，和 16 日那批要分开看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E4%BC%97%E6%B5%8B%E8%AF%95%E7%AC%AC%E4%BA%8C%E8%BD%AE%EF%BC%9A%E6%8A%A5%E9%81%93%E5%86%99%E4%BA%86%EF%BC%8C%E5%AE%98%E6%96%B9-Releases-%E9%A1%B5%E6%B2%A1%E5%8D%95%E7%8B%AC%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">公众测试第二轮：报道写了，官方 Releases 页没单独列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E4%B8%80%E8%BD%AE%E6%8A%A5%E9%81%93%E6%96%B0%E5%86%99%E7%9A%84%EF%BC%8C%E5%92%8C-27-3-%E9%87%8C%E6%97%A9%E5%B0%B1%E6%9C%89%E7%9A%84%E5%88%AB%E6%B7%B7"><span class="toc-number">3.</span> <span class="toc-text">这一轮报道新写的，和 27.3 里早就有的别混</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9C%88%E6%AD%A3%E5%BC%8F%E7%89%88%EF%BC%8C%E5%AE%98%E6%96%B9%E9%A1%B5%E8%BF%98%E6%B2%A1%E6%9C%89%E6%97%A5%E6%9C%9F"><span class="toc-number">4.</span> <span class="toc-text">12 月正式版，官方页还没有日期</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/25/uv-0-13-10-lock-validation/" title="官方 uv 0.13.10 会写出锁文件为什么过期，我拿 0.13.9 对着跑了一遍"><img src="/img/uv-01310-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="官方 uv 0.13.10 会写出锁文件为什么过期，我拿 0.13.9 对着跑了一遍"/></a><div class="content"><a class="title" href="/posts/2026/11/25/uv-0-13-10-lock-validation/" title="官方 uv 0.13.10 会写出锁文件为什么过期，我拿 0.13.9 对着跑了一遍">官方 uv 0.13.10 会写出锁文件为什么过期，我拿 0.13.9 对着跑了一遍</a><time datetime="2026-11-25T15:30:00.000Z" title="发表于 2026-11-25 23:30:00">2026-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/24/deel-card-dlusd-stripe-issuing/" title="Stripe 和 Deel 今天都发了新 Deel Card 公告，虚拟卡先到，实体卡还要再等几周"><img src="/img/deel-card-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Stripe 和 Deel 今天都发了新 Deel Card 公告，虚拟卡先到，实体卡还要再等几周"/></a><div class="content"><a class="title" href="/posts/2026/11/24/deel-card-dlusd-stripe-issuing/" title="Stripe 和 Deel 今天都发了新 Deel Card 公告，虚拟卡先到，实体卡还要再等几周">Stripe 和 Deel 今天都发了新 Deel Card 公告，虚拟卡先到，实体卡还要再等几周</a><time datetime="2026-11-24T15:30:00.000Z" title="发表于 2026-11-24 23:30:00">2026-11-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/23/contabo-vps-plus-2-black-friday-2026/" title="Contabo 今天把 VPS Plus 2 写进官方 Performance 页，窗口只到 11 月 30 日"><img src="/img/contabo-plus2-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Contabo 今天把 VPS Plus 2 写进官方 Performance 页，窗口只到 11 月 30 日"/></a><div class="content"><a class="title" href="/posts/2026/11/23/contabo-vps-plus-2-black-friday-2026/" title="Contabo 今天把 VPS Plus 2 写进官方 Performance 页，窗口只到 11 月 30 日">Contabo 今天把 VPS Plus 2 写进官方 Performance 页，窗口只到 11 月 30 日</a><time datetime="2026-11-23T15:30:00.000Z" title="发表于 2026-11-23 23:30:00">2026-11-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/22/duckdb-2-0-1-lts-behavior-checks/" title="官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500"><img src="/img/duckdb-201-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500"/></a><div class="content"><a class="title" href="/posts/2026/11/22/duckdb-2-0-1-lts-behavior-checks/" title="官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500">官方 DuckDB 2.0.1 收紧了 SECRET 前缀匹配，这台机器默认扩展源走 HTTP 碰到了 500</a><time datetime="2026-11-22T15:30:00.000Z" title="发表于 2026-11-22 23:30:00">2026-11-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"><img src="/img/gpgme-dsa6646-cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补"/></a><div class="content"><a class="title" href="/posts/2026/11/21/gpgme-cve-2026-129975-dsa-6646/" title="这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补">这台 Debian 的 libgpgme 还是 1.24.2-3，DSA-6646-1 今天凌晨已经放出修补</a><time datetime="2026-11-21T15:30:00.000Z" title="发表于 2026-11-21 23:30:00">2026-11-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Levi</span></div><div class="footer_custom_text">三色风 | Levi</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  let initFn = window.walineFn || null
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"lang":"zh-CN","login":"enable","search":false,"imageUploader":false,"requiredMeta":["nick","mail"],"wordLimit":[2,1000],"pageSize":10,"locale":{"placeholder":"不用登录，填昵称和邮箱就能发。邮箱不会公开。"}}
+
+  const destroyWaline = ele => ele.destroy()
+
+  const initWaline = (Fn, el = document, path = window.location.pathname) => {
+    const waline = Fn({
+      el: el.querySelector('#waline-wrap'),
+      serverURL: 'https://comment.lxpyll.top',
+      pageview: true,
+      dark: 'html[data-theme="dark"]',
+      comment: true,
+      ...option,
+      path: isShuoshuo ? path : (option && option.path) || path
+    })
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyWaline = () => {
+        destroyWaline(waline)
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const loadWaline = (el, path) => {
+    if (initFn) initWaline(initFn, el, path)
+    else {
+      btf.getCSS('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.css')
+        .then(() => import('https://cdn.jsdelivr.net/npm/@waline/client@3.8.0/dist/waline.min.js'))
+        .then(({ init }) => {
+          initFn = init || Waline.init
+          initWaline(initFn, el, path)
+          window.walineFn = initFn
+        })
+    }
+  }
+
+  if (isShuoshuo) {
+    'Waline' === 'Waline'
+      ? window.shuoshuoComment = { loadComment: loadWaline } 
+      : window.loadOtherComment = loadWaline
+    return
+  }
+
+  if ('Waline' === 'Waline' || !false) {
+    if (false) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+    else setTimeout(loadWaline, 0)
+  } else {
+    window.loadOtherComment = loadWaline
+  }
+})()</script></div><script src="/js/site-extras.js?v=20260921" defer></script><script async data-pjax src="https://cn.vercount.one/js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="输入关键词搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

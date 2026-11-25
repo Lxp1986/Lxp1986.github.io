@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">GitHub Actions 运行时与 Hexo 构建 Node 的区别</title>
+  <desc id="desc">透明背景信息图：GitHub runner 使用 Node 24 启动 JavaScript Actions，setup-node 仍可为 Hexo 准备 Node 20。</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9bb8ff"/>
+      <stop offset="1" stop-color="#80e1d0"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9a7ff"/>
+      <stop offset="1" stop-color="#8eaaff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#10182f" flood-opacity=".22"/>
+    </filter>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#9bb8ff"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#80e1d0"/>
+    </marker>
+  </defs>
+
+  <text x="700" y="56" text-anchor="middle" fill="#dbe5ff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="34" font-weight="750">Node 20 没了？先看它在哪一层</text>
+  <text x="700" y="91" text-anchor="middle" fill="#aebbd8" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="17">GitHub Actions 运行时 ≠ Hexo 构建工具链</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="145" width="1260" height="226" rx="28" fill="#6e8cff" fill-opacity=".10" stroke="#9bb8ff" stroke-width="2"/>
+    <circle cx="124" cy="202" r="28" fill="url(#blue)"/>
+    <path d="M109 202h30M124 187v30" stroke="#17203d" stroke-width="5" stroke-linecap="round"/>
+    <text x="172" y="207" fill="#e1e8ff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="25" font-weight="700">GitHub runner：JavaScript Action 运行时</text>
+    <text x="172" y="242" fill="#aebbd8" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16">checkout / setup-node / deploy 这些 uses 调进来的动作</text>
+    <rect x="172" y="274" width="250" height="60" rx="16" fill="#9bb8ff" fill-opacity=".16" stroke="#9bb8ff" stroke-width="2"/>
+    <text x="297" y="313" text-anchor="middle" fill="#e9f0ff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="27" font-weight="750">Node 20 → 24</text>
+    <path d="M454 304 H1176" stroke="#9bb8ff" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-blue)"/>
+    <text x="813" y="286" text-anchor="middle" fill="#b8c9ff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="15">GitHub 公告调整的是这一层</text>
+    <rect x="1192" y="269" width="104" height="70" rx="18" fill="#9bb8ff" fill-opacity=".13" stroke="#9bb8ff" stroke-width="2"/>
+    <text x="1244" y="313" text-anchor="middle" fill="#e9f0ff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="20" font-weight="700">Action</text>
+  </g>
+
+  <line x1="700" y1="398" x2="700" y2="442" stroke="#7785a8" stroke-width="2" stroke-dasharray="8 10"/>
+  <text x="718" y="426" fill="#8f9bb8" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14">两层之间不是同一个配置</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="468" width="1260" height="264" rx="28" fill="#7be2c5" fill-opacity=".09" stroke="#80e1d0" stroke-width="2"/>
+    <circle cx="124" cy="526" r="28" fill="url(#violet)"/>
+    <path d="M111 526h26M124 513v26" stroke="#1b2241" stroke-width="5" stroke-linecap="round"/>
+    <text x="172" y="531" fill="#e2fff7" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="25" font-weight="700">Hexo 构建工具链：工作流可以继续选择 Node 20</text>
+    <text x="172" y="566" fill="#a9cfc7" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="16">setup-node 准备的 Node 给后续 shell 命令使用</text>
+
+    <rect x="172" y="606" width="210" height="70" rx="18" fill="#c9a7ff" fill-opacity=".14" stroke="#c9a7ff" stroke-width="2"/>
+    <text x="277" y="649" text-anchor="middle" fill="#f0eaff" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="24" font-weight="750">Node 20</text>
+    <path d="M402 641 H530" stroke="#80e1d0" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-green)"/>
+    <rect x="550" y="606" width="214" height="70" rx="18" fill="#80e1d0" fill-opacity=".13" stroke="#80e1d0" stroke-width="2"/>
+    <text x="657" y="649" text-anchor="middle" fill="#e2fff7" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="23" font-weight="700">npm ci</text>
+    <path d="M784 641 H912" stroke="#80e1d0" stroke-width="4" stroke-linecap="round" marker-end="url(#arrow-green)"/>
+    <rect x="932" y="606" width="214" height="70" rx="18" fill="#80e1d0" fill-opacity=".13" stroke="#80e1d0" stroke-width="2"/>
+    <text x="1039" y="649" text-anchor="middle" fill="#e2fff7" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="23" font-weight="700">Hexo → gh-pages</text>
+    <text x="1207" y="650" text-anchor="middle" fill="#9fcbc0" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="14">构建层</text>
+  </g>
+
+  <text x="700" y="790" text-anchor="middle" fill="#c8d3ec" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif" font-size="21" font-weight="700">所以：Action 运行时升级，不等于 Hexo 的 node-version 自动失效</text>
+</svg>

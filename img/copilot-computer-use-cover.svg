@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="window" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#25354b" stop-opacity="0.90"/>
+      <stop offset="1" stop-color="#171d2b" stop-opacity="0.88"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#68e0cf"/>
+      <stop offset="1" stop-color="#86a9ff"/>
+    </linearGradient>
+  </defs>
+  <text x="600" y="68" text-anchor="middle" font-size="23" fill="#b9c8df">三色风 · macOS 桌面自动化观察</text>
+  <rect x="90" y="112" width="1020" height="410" rx="28" fill="url(#window)" stroke="#7384a6" stroke-opacity="0.55" stroke-width="2"/>
+  <path d="M90 164h1020" stroke="#7384a6" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="132" cy="139" r="8" fill="#f08d8d"/><circle cx="160" cy="139" r="8" fill="#e8c477"/><circle cx="188" cy="139" r="8" fill="#81d6a1"/>
+  <text x="600" y="145" text-anchor="middle" font-size="18" fill="#a9bad2">预览 · 测试用 PDF 副本</text>
+  <rect x="142" y="194" width="500" height="264" rx="18" fill="#ffffff" fill-opacity="0.045" stroke="#ffffff" stroke-opacity="0.16"/>
+  <text x="184" y="245" font-size="28" font-weight="700" fill="#f2eee7">安全注意事项</text>
+  <path d="M184 274h390M184 302h350M184 330h370M184 358h300" stroke="#aab8cc" stroke-opacity="0.50" stroke-width="8" stroke-linecap="round"/>
+  <rect x="696" y="194" width="350" height="264" rx="18" fill="#ffffff" fill-opacity="0.055" stroke="#ffffff" stroke-opacity="0.18"/>
+  <circle cx="748" cy="248" r="20" fill="url(#glow)"/>
+  <path d="M741 248l5 5 10-12" fill="none" stroke="#172535" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="784" y="255" font-size="23" font-weight="700" fill="#f2eee7">允许操作这个窗口？</text>
+  <text x="730" y="302" font-size="18" fill="#b8c6d8">只查页码，不修改文件</text>
+  <rect x="730" y="344" width="134" height="52" rx="12" fill="#7edccb" fill-opacity="0.18" stroke="#7edccb" stroke-opacity="0.75"/>
+  <text x="797" y="377" text-anchor="middle" font-size="18" font-weight="700" fill="#aaf1df">允许一次</text>
+  <text x="910" y="377" font-size="18" fill="#c8d1df">拒绝</text>
+  <path d="M590 456l28 64-18-5-10 19-11-6 10-19-17 1z" fill="url(#glow)" stroke="#152338" stroke-width="3" stroke-linejoin="round"/>
+  <text x="600" y="572" text-anchor="middle" font-size="25" font-weight="700" fill="#f0ece5">它会点鼠标了，我先给它一份副本</text>
+</svg>

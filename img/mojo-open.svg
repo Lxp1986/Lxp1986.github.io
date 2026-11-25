@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif">
+  <defs>
+    <linearGradient id="mhead" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A6C0F2"/>
+      <stop offset="1" stop-color="#BEADEB"/>
+    </linearGradient>
+    <marker id="marrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D6C7B2"/>
+    </marker>
+  </defs>
+
+  
+  <text x="600" y="52" text-anchor="middle" font-size="28" font-weight="700" fill="#A7B9D2">Mojo 开源了：是什么 · 怎么装 · 能干什么</text>
+  <text x="600" y="80" text-anchor="middle" font-size="15" fill="#DFD3C3">Python 语法 + 原生速度，2026-08-19 源码正式开源</text>
+
+  <!-- 卡片 1：它是什么 -->
+  <rect x="60" y="110" width="320" height="306" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="60" y="110" width="320" height="52" rx="14" fill="url(#mhead)"/>
+  <text x="220" y="143" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">① 它是什么</text>
+  <text x="220" y="196" text-anchor="middle" font-size="15" fill="#E1D3C1">Python 的超集语言</text>
+  <text x="220" y="226" text-anchor="middle" font-size="13" fill="#DFD3C3">大部分 Python 代码直接能跑</text>
+  <text x="220" y="256" text-anchor="middle" font-size="13" fill="#DFD3C3">面向 AI 与高性能计算</text>
+  <text x="220" y="286" text-anchor="middle" font-size="13" fill="#DFD3C3">作者 Chris Lattner（LLVM / Swift）</text>
+  <text x="220" y="316" text-anchor="middle" font-size="13" fill="#DFD3C3">以前只开 SDK，今天源码全开</text>
+  <text x="220" y="360" text-anchor="middle" font-size="13" font-weight="600" fill="#C4B5ED">不用换语言，想快的部分重写就行</text>
+
+  <!-- 箭头 1 -->
+  <line x1="384" y1="260" x2="436" y2="260" stroke="#D6C7B2" stroke-width="2.5" marker-end="url(#marrow)"/>
+
+  <!-- 卡片 2：怎么装 -->
+  <rect x="440" y="110" width="320" height="306" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="440" y="110" width="320" height="52" rx="14" fill="url(#mhead)"/>
+  <text x="600" y="143" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">② 怎么装</text>
+  <text x="600" y="196" text-anchor="middle" font-size="15" fill="#E1D3C1">macOS / Linux 一条命令</text>
+  <text x="600" y="224" text-anchor="middle" font-size="13" font-family="Menlo,Consolas,monospace" fill="#B7C3EB">curl -sSf https://sh.modular.com | sh</text>
+  <text x="600" y="262" text-anchor="middle" font-size="13" fill="#DFD3C3">Windows 用 WSL2 再装</text>
+  <text x="600" y="292" text-anchor="middle" font-size="13" fill="#DFD3C3">验证：mojo --version</text>
+  <text x="600" y="322" text-anchor="middle" font-size="13" fill="#DFD3C3">国内下载慢就挂代理</text>
+  <text x="600" y="360" text-anchor="middle" font-size="13" font-weight="600" fill="#C4B5ED">不想装：网页 playground 直接玩</text>
+
+  <!-- 箭头 2 -->
+  <line x1="764" y1="260" x2="816" y2="260" stroke="#D6C7B2" stroke-width="2.5" marker-end="url(#marrow)"/>
+
+  <!-- 卡片 3：能干什么 -->
+  <rect x="820" y="110" width="320" height="306" rx="14" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+  <rect x="820" y="110" width="320" height="52" rx="14" fill="url(#mhead)"/>
+  <text x="980" y="143" text-anchor="middle" font-size="18" font-weight="700" fill="#EFE6DA">③ 能干什么</text>
+  <text x="980" y="196" text-anchor="middle" font-size="15" fill="#E1D3C1">跑第一个 hello.mojo</text>
+  <text x="980" y="226" text-anchor="middle" font-size="13" fill="#DFD3C3">快的地方用 fn + 类型标注</text>
+  <text x="980" y="256" text-anchor="middle" font-size="13" fill="#DFD3C3">也能 import Python 的库</text>
+  <text x="980" y="286" text-anchor="middle" font-size="13" fill="#DFD3C3">适合尝鲜、感受原生速度</text>
+  <text x="980" y="316" text-anchor="middle" font-size="13" fill="#DFD3C3">生态还不全，生产要慎重</text>
+  <text x="980" y="360" text-anchor="middle" font-size="13" font-weight="600" fill="#C4B5ED">一句话：Python 快车道，尝鲜正当时</text>
+
+  <!-- 底部命令行 -->
+  <rect x="150" y="440" width="900" height="52" rx="12" fill="#1E2A3B"/>
+  <text x="600" y="472" text-anchor="middle" font-size="16" font-family="Menlo,Consolas,monospace" fill="#C4D0DE">curl -sSf https://sh.modular.com | sh   →   mojo hello.mojo</text>
+</svg>
